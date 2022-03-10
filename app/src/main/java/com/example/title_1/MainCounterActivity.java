@@ -35,15 +35,13 @@ import java.util.List;
 
 public class MainCounterActivity extends AppCompatActivity {
 
-    //テスト１
-    //テスト２
-
-
     //ゲーム数関係
     static EditText total; static EditText start; static EditText individual;
 
     // 機種名選択
     Spinner juggler;
+
+    EditText a;
 
     //カウンター関係
     static EditText aB; static EditText cB; static EditText BB;

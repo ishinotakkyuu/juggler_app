@@ -2,10 +2,13 @@ package com.example.title_1;
 
 import android.app.Application;
 import android.content.Context;
+import android.widget.EditText;
 
 import org.w3c.dom.Document;
 
 public class MainApplication extends Application {
+
+    EditText b;
 
     private Context context;
     private Document document;
