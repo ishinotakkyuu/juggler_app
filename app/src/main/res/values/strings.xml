@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ジャグラー成績管理アプリ</string>
+    <string name="alone_big">単独BIG</string>
+    <string name="cherry_big">ﾁｪﾘｰBIG</string>
+    <string name="big_bonus">BIG</string>
+    <string name="alone_reg">単独REG</string>
+    <string name="cherry_reg">ﾁｪﾘｰREG</string>
+    <string name="reg_bonus">REG</string>
+    <string name="cherry">非重複ﾁｪﾘｰ</string>
+    <string name="grapes">ぶどう</string>
+    <string name="total_bonus">合算</string>
+</resources>

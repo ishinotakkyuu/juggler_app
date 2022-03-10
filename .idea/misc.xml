@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/nobuk/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/nobuk/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main_counter.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/nobuk/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_splash.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/a_1_select_button.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/a_2_list.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/a_2_string_color.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/a_3_smallrole_edit.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/a_4_default.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_1_alone_big_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_1_big_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_1_cherr_big_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_2_cherry_big_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_4_alone_reg_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_5_cherry_reg_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_6_cherry_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_7_grapes_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_8_select_spinner.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_8_switch.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/baseline_schedule_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_twotone_access_time_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/main_button.xml" value="1.2" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/select_button.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main_counter.xml" value="0.3866877971473851" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_tenpo_kanri.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_tenpo_kanri2.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_dailog.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_spinner.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_sppiner.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/list_layout.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/store_name.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/tenpolist_item.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_and_animation/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_and_animation/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.264" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
