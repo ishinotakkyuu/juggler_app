@@ -8,8 +8,6 @@ import org.w3c.dom.Document;
 
 public class MainApplication extends Application {
 
-    EditText b;
-
     private Context context;
     private Document document;
 
