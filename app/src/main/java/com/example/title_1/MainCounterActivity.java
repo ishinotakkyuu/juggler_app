@@ -12,9 +12,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,20 +25,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class MainCounterActivity extends AppCompatActivity {
+
 
     //ゲーム数関係
     static EditText total; static EditText start; static EditText individual;
 
     // 機種名選択
     Spinner juggler;
-
-    EditText a;
 
     //カウンター関係
     static EditText aB; static EditText cB; static EditText BB;
@@ -65,7 +63,6 @@ public class MainCounterActivity extends AppCompatActivity {
     // 共有データ
     static MainApplication mainApplication = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,25 +77,21 @@ public class MainCounterActivity extends AppCompatActivity {
         }
 
         // 各viewをfindViewByIdで紐づけるメソッド
-         setID();
+        setID();
         // 機種名選択のスピナー登録
-         setJuggler();
+        setJuggler();
         // ゲーム数・カウント回数を表示するEditTextにテクストウォッチャーを設定するメソッド
-         setTextWatcher();
+        setTextWatcher();
         // 画面起動時には各EditTextを操作できないようにするメソッド
-         setEditTextFocusFalse();
+        setEditTextFocusFalse();
         // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になるメソッド
-         actionListenerFocusOut();
+        actionListenerFocusOut();
         // 各EditTextを操作できるようにするためのメソッドをトグルボタンに設定
-         toggleCounterEdit();
+        toggleCounterEdit();
         // カウンターボタンを押すとプラス/マイナスを切り替えられるメソッド
-         togglePlusMinus();
+        togglePlusMinus();
         // 内部ストレージ関係
-         setValue();
-
-        //0頭だった場合、次の入力値で上書きされる仕様になったため使用しない
-        //単純に0頭の後ろに数値を入力させない仕様にするときはこれを使用する
-        //setInputFilter();
+        setValue();
     }
 
     public void setID(){
@@ -125,24 +118,24 @@ public class MainCounterActivity extends AppCompatActivity {
     }
 
     public void setTextWatcher(){
-        total.addTextChangedListener(new gamesCounterWatcher(total,mainApplication));
-        start.addTextChangedListener(new gamesCounterWatcher(start,mainApplication));
-        individual.addTextChangedListener(new gamesCounterWatcher(individual,mainApplication));
-        aB.addTextChangedListener(new gamesCounterWatcher(aB,mainApplication));
-        cB.addTextChangedListener(new gamesCounterWatcher(cB,mainApplication));
-        BB.addTextChangedListener(new gamesCounterWatcher(BB,mainApplication));
-        aR.addTextChangedListener(new gamesCounterWatcher(aR,mainApplication));
-        cR.addTextChangedListener(new gamesCounterWatcher(cR,mainApplication));
-        RB.addTextChangedListener(new gamesCounterWatcher(RB,mainApplication));
-        ch.addTextChangedListener(new gamesCounterWatcher(ch,mainApplication));
-        gr.addTextChangedListener(new gamesCounterWatcher(gr,mainApplication));
+        total.addTextChangedListener(new GamesCounterWatcher(total,mainApplication));
+        start.addTextChangedListener(new GamesCounterWatcher(start,mainApplication));
+        individual.addTextChangedListener(new GamesCounterWatcher(individual,mainApplication));
+        aB.addTextChangedListener(new GamesCounterWatcher(aB,mainApplication));
+        cB.addTextChangedListener(new GamesCounterWatcher(cB,mainApplication));
+        BB.addTextChangedListener(new GamesCounterWatcher(BB,mainApplication));
+        aR.addTextChangedListener(new GamesCounterWatcher(aR,mainApplication));
+        cR.addTextChangedListener(new GamesCounterWatcher(cR,mainApplication));
+        RB.addTextChangedListener(new GamesCounterWatcher(RB,mainApplication));
+        ch.addTextChangedListener(new GamesCounterWatcher(ch,mainApplication));
+        gr.addTextChangedListener(new GamesCounterWatcher(gr,mainApplication));
     }
 
     public void setJuggler(){
         List<String> jugglerList = new ArrayList<>();
-            jugglerList.add("SアイムジャグラーEX");
-            jugglerList.add("Sファンキージャグラー2");
-            jugglerList.add("Sマイジャグラー5");
+        jugglerList.add("SアイムジャグラーEX");
+        jugglerList.add("Sファンキージャグラー2");
+        jugglerList.add("Sマイジャグラー5");
         ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.custom_spinner,jugglerList);
         jugglerAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
         juggler.setAdapter(jugglerAdapter);
@@ -244,8 +237,8 @@ public class MainCounterActivity extends AppCompatActivity {
 
     public void storeRegister(){
         // 登録店舗名を表示するためのプルダウン(スピナー)を設定
-            final Spinner storeSpinner = new Spinner(this);
-            List<String> storeNames = new ArrayList<String>();
+        final Spinner storeSpinner = new Spinner(this);
+        List<String> storeNames = new ArrayList<String>();
 
         //----------------------------------------------------------------------------------------------------------
         // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
@@ -399,166 +392,56 @@ public class MainCounterActivity extends AppCompatActivity {
     //-----------------------------------------------------------------------------------------------
 
     public void aloneBigButton(View view) {
-        View v = findViewById(R.id.counter);
-        ColorButton colorButton = new ColorButton();
-        if (Plus_Minus_Counter == 0) {
-            if (!aB.getText().toString().isEmpty()) {
-                int inAB = Integer.parseInt(aB.getText().toString());
-                if (inAB < 9999) {
-                    inAB++;
-                    colorButton.aloneBig(v);
-                    aB.setText(String.valueOf(inAB));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            } else {
-                colorButton.aloneBig(v);
-                aB.setText(String.valueOf(1));
-            }
-        } else {
-            if (!aB.getText().toString().isEmpty()) {
-                int inAB = Integer.parseInt(aB.getText().toString());
-                if (inAB > 0) {
-                    inAB--;
-                    colorButton.aloneBig(v);
-                    aB.setText(String.valueOf(inAB));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-        }
-        focusOut();
+        pushButton(aB,R.id.aB,9999);
     }
-
     public void cherryBigButton(View view) {
-        View v = findViewById(R.id.counter);
-        ColorButton colorButton = new ColorButton();
-        if (Plus_Minus_Counter == 0) {
-            if (!cB.getText().toString().isEmpty()) {
-                int inCB = Integer.parseInt(cB.getText().toString());
-                if (inCB < 9999) {
-                    inCB++;
-                    colorButton.cherryBig(v);
-                    cB.setText(String.valueOf(inCB));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            } else {
-                colorButton.cherryBig(v);
-                cB.setText(String.valueOf(1));
-            }
-        } else {
-            if (!cB.getText().toString().isEmpty()) {
-                int inCB = Integer.parseInt(cB.getText().toString());
-                if (inCB > 0) {
-                    inCB--;
-                    colorButton.cherryBig(v);
-                    cB.setText(String.valueOf(inCB));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-        }
-        focusOut();
+        pushButton(cB,R.id.cB,9999);
     }
-
     public void aloneRegButton(View view){
-        View v = findViewById(R.id.counter);
-        ColorButton colorButton = new ColorButton();
-        if (Plus_Minus_Counter == 0) {
-            if (!aR.getText().toString().isEmpty()) {
-                int inAR = Integer.parseInt(aR.getText().toString());
-                if (inAR < 9999) {
-                    inAR++;
-                    colorButton.aloneReg(v);
-                    aR.setText(String.valueOf(inAR));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            } else {
-                colorButton.aloneReg(v);
-                aR.setText(String.valueOf(1));
-            }
-        } else {
-            if (!aR.getText().toString().isEmpty()) {
-                int inAR = Integer.parseInt(aR.getText().toString());
-                if (inAR > 0) {
-                    inAR--;
-                    colorButton.aloneReg(v);
-                    aR.setText(String.valueOf(inAR));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-        }
-        focusOut();
+        pushButton(aR,R.id.aR,9999);
     }
-
     public void cherryRegButton(View view){
-        View v = findViewById(R.id.counter);
-        ColorButton colorButton = new ColorButton();
-        if (Plus_Minus_Counter == 0) {
-            if (!cR.getText().toString().isEmpty()) {
-                int inCR = Integer.parseInt(cR.getText().toString());
-                if (inCR < 9999) {
-                    inCR++;
-                    colorButton.cherryReg(v);
-                    cR.setText(String.valueOf(inCR));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            } else {
-                colorButton.cherryReg(v);
-                cR.setText(String.valueOf(1));
-            }
-        } else {
-            if (!cR.getText().toString().isEmpty()) {
-                int inCR = Integer.parseInt(cR.getText().toString());
-                if (inCR > 0) {
-                    inCR--;
-                    colorButton.cherryReg(v);
-                    cR.setText(String.valueOf(inCR));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-        }
-        focusOut();
+        pushButton(cR,R.id.cR,9999);
     }
-
     public void cherryButton(View view){
+        pushButton(ch,R.id.ch,99999);
+    }
+    public void grapesButton(View view){
+        pushButton(gr,R.id.gr,999999);
+    }
+
+
+    public void pushButton(EditText editText, int id, int limit) {
+
         View v = findViewById(R.id.counter);
         ColorButton colorButton = new ColorButton();
+        String text =editText.getText().toString();
+        int textValue = Integer.parseInt(text);
+
         if (Plus_Minus_Counter == 0) {
-            if (!ch.getText().toString().isEmpty()) {
-                int inCH = Integer.parseInt(ch.getText().toString());
-                if (inCH < 99999) {
-                    inCH++;
-                    colorButton.cherry(v);
-                    ch.setText(String.valueOf(inCH));
+
+            if (StringUtils.isNotEmpty(text)) {
+
+                if (textValue < limit) {
+                    textValue++;
+                    colorButton.setFlash(v,id);
+                    editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } else {
-                colorButton.cherry(v);
-                ch.setText(String.valueOf(1));
+                colorButton.setFlash(v,id);
+                editText.setText(String.valueOf(1));
             }
+
         } else {
-            if (!ch.getText().toString().isEmpty()) {
-                int inCH = Integer.parseInt(ch.getText().toString());
-                if (inCH > 0) {
-                    inCH--;
-                    colorButton.cherry(v);
-                    ch.setText(String.valueOf(inCH));
+
+            if (StringUtils.isNotEmpty(text)) {
+                if (textValue > 0) {
+                    textValue--;
+                    colorButton.setFlash(v,id);
+                    editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
                     toast.show();
@@ -566,49 +449,6 @@ public class MainCounterActivity extends AppCompatActivity {
             }
         }
         focusOut();
-    }
-
-    public void grapesButton(View view){
-        View v = findViewById(R.id.counter);
-        ColorButton colorButton = new ColorButton();
-        if (Plus_Minus_Counter == 0) {
-            if (!gr.getText().toString().isEmpty()) {
-                int inGR = Integer.parseInt(gr.getText().toString());
-                if (inGR < 999999) {
-                    inGR++;
-                    colorButton.grapes(v);
-                    gr.setText(String.valueOf(inGR));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            } else {
-                colorButton.grapes(v);
-                gr.setText(String.valueOf(1));
-            }
-        } else {
-            if (!gr.getText().toString().isEmpty()) {
-                int inGR = Integer.parseInt(gr.getText().toString());
-                if (inGR > 0) {
-                    inGR--;
-                    colorButton.grapes(v);
-                    gr.setText(String.valueOf(inGR));
-                } else {
-                    lowerLimit();
-                }
-            }
-        }
-        focusOut();
-    }
-
-    public void upperLimit(){
-        Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
-    public void lowerLimit(){
-        Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
-        toast.show();
     }
 }
 

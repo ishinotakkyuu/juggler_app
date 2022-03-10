@@ -9,7 +9,7 @@ import android.widget.TextView;
 //-----------------------------------------------------------------------------------------------
 //カウンター機能の制御【メイン処理】
 //-----------------------------------------------------------------------------------------------
-public class gamesCounterWatcher implements TextWatcher {
+public class GamesCounterWatcher implements TextWatcher {
 
     //ゲーム数関係
     EditText total = MainCounterActivity.total;
@@ -43,7 +43,7 @@ public class gamesCounterWatcher implements TextWatcher {
 
     private TextView view;
 
-    public gamesCounterWatcher(TextView view,MainApplication mainApplication){
+    public GamesCounterWatcher(TextView view, MainApplication mainApplication){
         this.view = view;
         this.mainApplication = mainApplication;
     }
