@@ -36,7 +36,7 @@ import java.util.List;
 public class MainCounterActivity extends AppCompatActivity {
 
     //テスト１
-
+    //テスト２
 
 
     //ゲーム数関係
