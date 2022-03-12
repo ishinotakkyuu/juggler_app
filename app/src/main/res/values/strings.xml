@@ -9,4 +9,9 @@
     <string name="cherry">非重複ﾁｪﾘｰ</string>
     <string name="grapes">ぶどう</string>
     <string name="total_bonus">合算</string>
+    <string name="store_management">店 舗 管 理</string>
+    <string name="Grade_Inquiry">成 績 照 会</string>
+    <string name="counter">小 役 カ ウ ン ター</string>
+    <string name="setting">設 定 ・ 使 い 方</string>
+    <string name="tittle">ジャグラーデータ管理</string>
 </resources>

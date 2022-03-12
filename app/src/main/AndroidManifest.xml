@@ -15,7 +15,7 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
-            android:name=".TenpoKanriActivity"
+            android:name=".StoreManagement"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity

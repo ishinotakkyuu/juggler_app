@@ -24,10 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class TenpoKanriActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class StoreManagement extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     ArrayList<SampleListItem> listItems = new ArrayList<>();
     SampleListAdapter adapter;
@@ -179,7 +178,7 @@ public class TenpoKanriActivity extends AppCompatActivity implements AdapterView
                         item.setmTitle(newStoreName);
                         adapter.notifyDataSetChanged();
                         setMainApplication(listItems);
-                        Toast toast = Toast.makeText(TenpoKanriActivity.this, beforeName + "を" + newStoreName + "に変更しました", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(StoreManagement.this, beforeName + "を" + newStoreName + "に変更しました", Toast.LENGTH_LONG);
                         toast.show();
 
                     }
@@ -204,7 +203,7 @@ public class TenpoKanriActivity extends AppCompatActivity implements AdapterView
                         setMainApplication(listItems);
                         TextView tourokuten = findViewById(R.id.tourokuten_text);
                         tourokuten.setText("登録店舗数：" + getStoreCount() + "件");
-                        Toast toast = Toast.makeText(TenpoKanriActivity.this, "削除しました", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(StoreManagement.this, "削除しました", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 })
