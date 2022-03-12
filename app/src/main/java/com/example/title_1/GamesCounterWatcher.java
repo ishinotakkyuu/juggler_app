@@ -381,11 +381,20 @@ public class GamesCounterWatcher implements TextWatcher {
         String tv1Value = INIT_VALUE;
         String tv2Value = INIT_VALUE;
         String tv3Value = INIT_VALUE;
+        int aloneValue = 0;
+        int cherryValue = 0;
+
+        if(StringUtils.isNotEmpty(alone)) {
+            aloneValue = Integer.parseInt(alone);
+        }
+        if(StringUtils.isNotEmpty(cherry)){
+            cherryValue = Integer.parseInt(cherry);
+        }
 
             //単独カウンターが空、かつ、チェリー重複カウンターが０
-        if(alone.isEmpty() && Integer.parseInt(cherry) > 0){
+        if(alone.isEmpty() && cherryValue > 0){
             double ind = Integer.parseInt(individual.getText().toString());
-            double cnt = Integer.parseInt(cherry);
+            double cnt = cherryValue;
             double probability = ind / cnt;
 
             bonusValue = Integer.valueOf(cherry).toString();
@@ -393,7 +402,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０、かつ、チェリー重複カウンターが０より大きい
-        } else if(alone.equals("0") && Integer.parseInt(cherry) > 0){
+        } else if(alone.equals("0") && cherryValue > 0){
             bonusValue = Integer.valueOf(cherry).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(cherry);
@@ -402,7 +411,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv2Value = setFormat(probability);
             tv3Value = setFormat(probability);
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが空
-        } else if(Integer.parseInt(alone) > 0 && cherry.isEmpty()){
+        } else if(aloneValue > 0 && cherry.isEmpty()){
             bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
@@ -411,7 +420,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０
-        } else if(Integer.parseInt(alone) > 0 && cherry.equals("0")){
+        } else if(aloneValue > 0 && cherry.equals("0")){
             bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
@@ -420,7 +429,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０より大きい
-        } else if(Integer.parseInt(alone) > 0 && Integer.parseInt(cherry) > 0) {
+        } else if(aloneValue > 0 && cherryValue > 0) {
             double ind = Integer.parseInt(individual.getText().toString());
             int aloneBonus = Integer.parseInt(alone);
             int cherryBonus = Integer.parseInt(cherry);
