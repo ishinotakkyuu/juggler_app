@@ -58,7 +58,7 @@ public class MainCounterActivity extends AppCompatActivity {
     //オプション関係
     ToggleButton counterEdit;
     ToggleButton PlusMinus;
-    int Plus_Minus_Counter = 0;
+    int PMCounter = 0;
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -335,7 +335,7 @@ public class MainCounterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    Plus_Minus_Counter++;
+                    PMCounter++;
                     aB.setTextColor(Color.RED); aB.setTypeface(Typeface.DEFAULT_BOLD);
                     cB.setTextColor(Color.RED); cB.setTypeface(Typeface.DEFAULT_BOLD);
                     aR.setTextColor(Color.RED); aR.setTypeface(Typeface.DEFAULT_BOLD);
@@ -343,7 +343,7 @@ public class MainCounterActivity extends AppCompatActivity {
                     ch.setTextColor(Color.RED); ch.setTypeface(Typeface.DEFAULT_BOLD);
                     gr.setTextColor(Color.RED); gr.setTypeface(Typeface.DEFAULT_BOLD);
                 } else {
-                    Plus_Minus_Counter--;
+                    PMCounter--;
                     aB.setTextColor(Color.WHITE); aB.setTypeface(Typeface.DEFAULT);
                     cB.setTextColor(Color.WHITE); cB.setTypeface(Typeface.DEFAULT);
                     aR.setTextColor(Color.WHITE); aR.setTypeface(Typeface.DEFAULT);
@@ -409,7 +409,6 @@ public class MainCounterActivity extends AppCompatActivity {
         pushButton(gr,R.id.gr,999999);
     }
 
-
     public void pushButton(EditText editText, int id, int limit) {
 
         View v = findViewById(R.id.counter);
@@ -420,7 +419,7 @@ public class MainCounterActivity extends AppCompatActivity {
             textValue = Integer.parseInt(text);
          }
 
-        if (Plus_Minus_Counter == 0) {
+        if (PMCounter == 0) {
 
             if (StringUtils.isNotEmpty(text)) {
 

@@ -14,4 +14,13 @@
     <string name="counter">小 役 カ ウ ン ター</string>
     <string name="setting">設 定 ・ 使 い 方</string>
     <string name="tittle">ジャグラーデータ管理</string>
+    <string name="edit">編集ON</string>
+    <string name="edit_off">編集OFF</string>
+    <string name="minus">マイナス\nモード</string>
+    <string name="plus">プラス\nモード</string>
+    <string name="start_game">開始ゲーム数</string>
+    <string name="total_game">総ゲーム数</string>
+    <string name="ind_game">個人ゲーム数</string>
+    <string name="init_game">0</string>
+    <string name="init_pro">1/0.00</string>
 </resources>
