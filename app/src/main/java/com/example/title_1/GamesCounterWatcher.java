@@ -394,8 +394,7 @@ public class GamesCounterWatcher implements TextWatcher {
             //単独カウンターが空、かつ、チェリー重複カウンターが０
         if(alone.isEmpty() && cherryValue > 0){
             double ind = Integer.parseInt(individual.getText().toString());
-            double cnt = cherryValue;
-            double probability = ind / cnt;
+            double probability = ind / cherryValue;
 
             bonusValue = Integer.valueOf(cherry).toString();
             tv2Value = setFormat(probability);
