@@ -299,7 +299,6 @@ public class MainCounterActivity extends AppCompatActivity {
                         aB.setText("0"); cB.setText("0");
                         aR.setText("0"); cR.setText("0");
                         ch.setText("0"); gr.setText("0");
-                        addition_Probability.setText("1/0.00");
 
                         mainApplication.init();
                         CreateXML.updateText(mainApplication,"total","");

@@ -1,15 +1,19 @@
 package com.example.title_1;
 
+import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.apache.commons.lang3.StringUtils;
 
 //-----------------------------------------------------------------------------------------------
 //カウンター機能の制御【メイン処理】
 //-----------------------------------------------------------------------------------------------
 public class GamesCounterWatcher implements TextWatcher {
+
+    final String INIT_VALUE = "1/0.00";
 
     //ゲーム数関係
     EditText total = MainCounterActivity.total;
@@ -39,9 +43,9 @@ public class GamesCounterWatcher implements TextWatcher {
     TextView addition_Probability = MainCounterActivity.addition_Probability;
 
     // 共有データ
-    static MainApplication mainApplication;
+    MainApplication mainApplication;
 
-    private TextView view;
+    TextView view;
 
     public GamesCounterWatcher(TextView view, MainApplication mainApplication){
         this.view = view;
@@ -55,8 +59,35 @@ public class GamesCounterWatcher implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void afterTextChanged(Editable s) {
+
+        //入力値
+        String textString = s.toString();
+
+        String strTotal = total.getText().toString();
+        String strStart = start.getText().toString();
+        int totalGame;
+        int startGame;
+
+        //ビッグ
+        String strAloneBig = aB.getText().toString();
+        String strCherryBig = cB.getText().toString();
+        String strTotalBig = BB.getText().toString();
+
+        //レギュラー
+        String strAloneReg = aR.getText().toString();
+        String strCherryReg = cR.getText().toString();
+        String strTotalReg = RB.getText().toString();
+
+        //小役
+        String strCherry;
+        String strGr;
+
+        //差分ゲーム数
+        double ind = Integer.parseInt(individual.getText().toString());
+        String individualValue = "0";
 
         //TextWatcherを設定したどのViewが操作されたのか、switchを使って振り分ける
         switch (view.getId()){
@@ -66,43 +97,38 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 //無限ループを回避するために、テキストウォッチャーを解除する
                 total.removeTextChangedListener(this);
+                //入力値を更新
+                strTotal = textString;
 
-                //総ゲーム数が空だったら個人ゲーム数に０をセット
-                //空の状態でsetText(Integer.valueOf(s.toString()).toString())をやるとクラッシュしちゃう
-                if (s.toString().isEmpty()) {
-                    individual.setText("0");
-                }
-
-                //総ゲーム数が空ではなかった場合
-                if (!s.toString().isEmpty()) {
+                if (StringUtils.isNotEmpty(strTotal)) {
+                    //総ゲーム数が空ではなかった場合
                     //数値変換して文字型に再変換することで０頭を回避
-                    total.setText(Integer.valueOf(s.toString()).toString());
-                    total.setSelection(total.getText().length());
+                    strTotal = Integer.valueOf(strTotal).toString();
+                    totalGame = Integer.parseInt(strTotal);
                     //打ち始めゲーム数が空だった場合
-                    if (start.getText().toString().isEmpty()) {
+                    if (strStart.isEmpty()) {
                         //０が入力されていたら、次に入力された数値で上書きする
                         //個人ゲーム数に総ゲーム数をセット
-                        int TotalGame = Integer.parseInt(s.toString());
-                        individual.setText(String.valueOf(TotalGame));
+                        individualValue = String.valueOf(totalGame);
                         //打ち始めゲーム数に数値が入力されていたら、総ゲーム数-打ち始めゲーム数を算出
                     } else {
-                        int totalGame = Integer.parseInt(s.toString());
-                        int startGame = Integer.parseInt(start.getText().toString());
+                        startGame = Integer.parseInt(strStart);
                         int individualGame = totalGame - startGame;
-                        //差がマイナスだったら０をセット
+                        //差がプラスだったら差分をセット
                         if (individualGame >= 0) {
-                            individual.setText(String.valueOf(individualGame));
-                        } else {
-                            individual.setText("0");
+                            individualValue = String.valueOf(individualGame);
                         }
                     }
+                    // 値のセット
+                    total.setText(strTotal);
+                    total.setSelection(strTotal.length());
                 }
+                individual.setText(individualValue);
 
-                String totalValue = total.getText().toString();
-                if(!totalValue.isEmpty()) {
+                if(StringUtils.isNotEmpty(strTotal)) {
                     // 保存処理
-                    mainApplication.setTotal(totalValue);
-                    CreateXML.updateText(mainApplication,"total",totalValue);
+                    mainApplication.setTotal(strTotal);
+                    CreateXML.updateText(mainApplication,"total",strTotal);
                 }
 
                 //テキストウォッチャーを元に戻す
@@ -112,40 +138,37 @@ public class GamesCounterWatcher implements TextWatcher {
             //打ち始めゲーム数の場合
             case R.id.start_game:
                 start.removeTextChangedListener(this);
-                //打ち始めゲーム数が空の場合
-                if(s.toString().isEmpty()){
-                    //総ゲーム数が空なら個人ゲーム数に０をセット
-                    if(total.getText().toString().isEmpty()){
-                        individual.setText("0");
-                        //総ゲーム数に数値が入っていたら、個人ゲーム数に総ゲーム数をセット
+                //入力値を更新
+                strStart = textString;
+
+                //総ゲーム数に値が入っていた場合値の計算を行う
+                if(StringUtils.isNotEmpty(strTotal)){
+
+                    totalGame = Integer.parseInt(strTotal);
+                    //打ち始めゲーム数が空の場合
+                    if(StringUtils.isEmpty(strStart)){
+                        //個人ゲーム数に総ゲーム数を格納
+                        individualValue = String.valueOf(totalGame);
                     } else {
-                        int totalGame = Integer.parseInt(total.getText().toString());
-                        individual.setText(String.valueOf(totalGame));
-                    }
-                }
-                //打ち始めゲーム数が空ではない場合
-                if( ! s.toString().isEmpty()){
-                    start.setText(Integer.valueOf(s.toString()).toString());
-                    start.setSelection(start.getText().length());
-                    //総ゲーム数が空だった場合
-                    if(total.getText().toString().isEmpty()){
-                        individual.setText("0");
-                    } else {
-                        int totalGame = Integer.parseInt(total.getText().toString());
-                        int startGame = Integer.parseInt(s.toString());
+                        //打ち始めゲーム数に値が入っていた場合
+                        strStart = Integer.valueOf(strStart).toString();
+                        startGame = Integer.parseInt(strStart);
                         int individualGame = totalGame - startGame;
+
                         if(individualGame >= 0){
-                            individual.setText(String.valueOf(individualGame));
-                        } else {
-                            individual.setText("0");
+                            individualValue = String.valueOf(individualGame);
                         }
                     }
+                    // 値のセット
+                    start.setText(strStart);
+                    start.setSelection(strStart.length());
+                    individual.setText(individualValue);
+
                 }
-                String startValue = start.getText().toString();
-                if(!startValue.isEmpty()) {
+                if(StringUtils.isNotEmpty(strStart)) {
                     // 保存処理
-                    mainApplication.setStart(startValue);
-                    CreateXML.updateText(mainApplication,"start",startValue);
+                    mainApplication.setStart(strStart);
+                    CreateXML.updateText(mainApplication,"start",strStart);
                 }
 
                 start.addTextChangedListener(this);
@@ -153,7 +176,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
             //個人ゲーム数が変更されたら各役物の確率も変更
             case R.id.individual_game:
-                if (s.toString().equals("0")) {
+                if (textString.equals("0")) {
                     setProbabilityZero();
                 } else {
                     setCounterBlankProbabilityZero(aB,aB_Probability);
@@ -173,256 +196,254 @@ public class GamesCounterWatcher implements TextWatcher {
             //--------------------------------------------------------------------------------------------------------------------
 
             case R.id.aB: //単独ビッグ
-                view.removeTextChangedListener(this);
-                String strAloneBig = s.toString();
-                String strCherryBig = view.getText().toString();
+                aB.removeTextChangedListener(this);
+                //入力値を更新
+                strAloneBig = textString;
+
                 setProbability(strAloneBig,strCherryBig,BB,aB_Probability,cB_Probability,BB_Probability);
 
-                //空の状態でsetText(Integer.valueOf(s.toString()).toString())をやるとクラッシュしちゃう
-                if (!s.toString().isEmpty()) {
-                    aB.setText(Integer.valueOf(s.toString()).toString());
-                    aB.setSelection(aB.getText().length());
+                //空の状態でsetText(Integer.valueOf(textString).toString())をやるとクラッシュしちゃう
+                if (StringUtils.isNotEmpty(strAloneBig)) {
+                    strAloneBig = Integer.valueOf(strAloneBig).toString();
+                    aB.setText(strAloneBig);
+                    aB.setSelection(strAloneBig.length());
                 }
-                String aBValue = aB.getText().toString();
+
                 // 保存処理
-                mainApplication.setaB(aBValue);
-                CreateXML.updateText(mainApplication,"aB",aBValue);
+                mainApplication.setaB(strAloneBig);
+                CreateXML.updateText(mainApplication,"aB",strAloneBig);
 
                 aB.addTextChangedListener(this);
                 break;
 
             case R.id.cB: //チェリービッグ
                 cB.removeTextChangedListener(this);
-                strAloneBig = aB.getText().toString();
-                strCherryBig = s.toString();
+                //入力値を更新
+                strCherryBig = textString;
                 setProbability(strAloneBig,strCherryBig,BB,aB_Probability,cB_Probability,BB_Probability);
-                if (!s.toString().isEmpty()) {
-                    cB.setText(Integer.valueOf(s.toString()).toString());
-                    cB.setSelection(cB.getText().length());
+                if (StringUtils.isNotEmpty(strCherryBig)) {
+                    strCherryBig = Integer.valueOf(strCherryBig).toString();
+                    cB.setText(strCherryBig);
+                    cB.setSelection(strCherryBig.length());
                 }
-                String cBValue = cB.getText().toString();
+
                 // 保存処理
-                mainApplication.setcB(cBValue);
-                CreateXML.updateText(mainApplication,"cB",cBValue);
+                mainApplication.setcB(strCherryBig);
+                CreateXML.updateText(mainApplication,"cB",strCherryBig);
 
                 cB.addTextChangedListener(this);
                 break;
 
             case R.id.BB: //ビッグボーナス
-                String totalBig = s.toString();
-                String totalReg = RB.getText().toString();
-                int additionCount = Integer.parseInt(totalBig) + Integer.parseInt(totalReg);
+                //入力値を更新
+                strTotalBig = textString;
+                int additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
                 addition.setText(String.valueOf(additionCount));
-                if( ! total.getText().toString().equals("0")){
-                    double ind = Integer.parseInt(individual.getText().toString());
-                    if((double) additionCount > 0) {
-                        double AdditionProbability = ind / (double) additionCount;
-                        addition_Probability.setText(String.valueOf("1/" + String.format("%.2f", AdditionProbability)));
-                    } else {
-                        addition_Probability.setText("1/0.00");
-                    }
-                } else {
-                    addition_Probability.setText("1/0.00");
+
+                //総ゲーム数が0以外 かつ ボーナスが0以上だった場合
+                if( ! strTotal.equals("0") && additionCount > 0){
+                    double AdditionProbability = ind / additionCount;
+                    addition_Probability.setText(aaa(AdditionProbability));
                 }
                 break;
 
             case R.id.aR: //単独レギュラー
                 aR.removeTextChangedListener(this);
-                String strAloneReg = s.toString();
-                String strCherryReg = cR.getText().toString();
+                //入力値を更新
+                strAloneReg = textString;
+
                 setProbability(strAloneReg,strCherryReg,RB,aR_Probability,cR_Probability,RB_Probability);
-                if (!s.toString().isEmpty()) {
-                    aR.setText(Integer.valueOf(s.toString()).toString());
-                    aR.setSelection(aR.getText().length());
+
+                if (StringUtils.isNotEmpty(strAloneReg)) {
+                    strAloneReg = Integer.valueOf(strAloneReg).toString();
+                    aR.setText(strAloneReg);
+                    aR.setSelection(strAloneReg.length());
                 }
-                String aRValue = aR.getText().toString();
+
                 // 保存処理
-                mainApplication.setaR(aRValue);
-                CreateXML.updateText(mainApplication,"aR",aRValue);
+                mainApplication.setaR(strAloneReg);
+                CreateXML.updateText(mainApplication,"aR",strAloneReg);
 
                 aR.addTextChangedListener(this);
                 break;
 
             case R.id.cR: //チェリービッグ
                 cR.removeTextChangedListener(this);
-                strAloneReg = aR.getText().toString();
-                strCherryReg = s.toString();
+                //入力値を更新
+                strCherryReg = textString;
+
                 setProbability(strAloneReg,strCherryReg,RB,aR_Probability,cR_Probability,RB_Probability);
-                if (!s.toString().isEmpty()) {
-                    cR.setText(Integer.valueOf(s.toString()).toString());
-                    cR.setSelection(cR.getText().length());
+
+                if (StringUtils.isNotEmpty(strCherryReg)) {
+                    strCherryReg = Integer.valueOf(strCherryReg).toString();
+                    cR.setText(strCherryReg);
+                    cR.setSelection(strCherryReg.length());
                 }
-                String cRValue = cR.getText().toString();
+
                 // 保存処理
-                mainApplication.setcR(cRValue);
-                CreateXML.updateText(mainApplication,"cR",cRValue);
+                mainApplication.setcR(strCherryReg);
+                CreateXML.updateText(mainApplication,"cR",strCherryReg);
 
                 cR.addTextChangedListener(this);
                 break;
 
             case R.id.RB: //レギュラーボーナス
-                totalBig = MainCounterActivity.BB.getText().toString();
-                totalReg = s.toString();
-                additionCount = Integer.parseInt(totalBig) + Integer.parseInt(totalReg);
+                //入力値を更新
+                strTotalReg = textString;
+                additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
                 addition.setText(String.valueOf(additionCount));
-                if( ! total.getText().toString().equals("0")){
-                    double ind = Integer.parseInt(individual.getText().toString());
-                    if(additionCount > 0) {
-                        double AdditionProbability = ind / additionCount;
-                        addition_Probability.setText(String.valueOf("1/" + String.format("%.2f", AdditionProbability)));
-                    } else {
-                        addition_Probability.setText("1/0.00");
-                    }
-                } else {
-                    addition_Probability.setText("1/0.00");
+                if( ! strTotal.equals("0") && additionCount > 0){
+                    double AdditionProbability = ind / additionCount;
+                    addition_Probability.setText(aaa(AdditionProbability));
                 }
                 break;
 
-
             case R.id.ch: //非重複チェリー
                 ch.removeTextChangedListener(this);
-                String strCherry = s.toString();
+                //入力値を更新
+                strCherry = textString;
+
                 setProbability_ch_gr(strCherry,ch_Probability);
-                if (!s.toString().isEmpty()) {
-                    ch.setText(Integer.valueOf(s.toString()).toString());
-                    ch.setSelection(ch.getText().length());
+
+                if (StringUtils.isNotEmpty(strCherry)) {
+                    strCherry = Integer.valueOf(strCherry).toString();
+                    ch.setText(strCherry);
+                    ch.setSelection(strCherry.length());
                 }
-                String chValue = ch.getText().toString();
+
                 // 保存処理
-                mainApplication.setCh(chValue);
-                CreateXML.updateText(mainApplication,"ch",chValue);
+                mainApplication.setCh(strCherry);
+                CreateXML.updateText(mainApplication,"ch",strCherry);
 
                 ch.addTextChangedListener(this);
                 break;
 
             case R.id.gr:
                 gr.removeTextChangedListener(this);
-                String strGr = s.toString();
+                //入力値を更新
+                strGr = textString;
+
                 setProbability_ch_gr(strGr,gr_Probability);
-                if (!s.toString().isEmpty()) {
-                    gr.setText(Integer.valueOf(s.toString()).toString());
-                    gr.setSelection(gr.getText().length());
+
+                if (StringUtils.isNotEmpty(strGr)) {
+                    strGr = Integer.valueOf(strGr).toString();
+                    gr.setText(strGr);
+                    gr.setSelection(strGr.length());
                 }
-                String grValue = gr.getText().toString();
+
                 // 保存処理
-                mainApplication.setGr(grValue);
-                CreateXML.updateText(mainApplication,"gr",grValue);
+                mainApplication.setGr(strGr);
+                CreateXML.updateText(mainApplication,"gr",strGr);
 
                 gr.addTextChangedListener(this);
                 break;
+
         }
     }
 
     public void setProbability_ch_gr(String smallRole,TextView tv){
-        if(smallRole.isEmpty()) {
-            tv.setText("1/0.00");
-        } else if(smallRole.equals("0")) {
-            tv.setText("1/0.00");
+
+        if(StringUtils.isEmpty(smallRole) || smallRole.equals("0")){
+            tv.setText(INIT_VALUE);
         } else {
-            double ind = Integer.parseInt(individual.getText().toString());
-            double sr = Integer.parseInt(smallRole);
+            double ind = Double.parseDouble(individual.getText().toString());
+            double sr = Double.parseDouble(smallRole);
             double sr_Probability = ind / sr;
-            tv.setText(String.valueOf("1/" + String.format("%.2f", sr_Probability)));
+            tv.setText(aaa(sr_Probability));
         }
     }
 
     public void setCounterBlankProbabilityZero(EditText ed,TextView tv){
-        if( ! ed.getText().toString().isEmpty() && ! ed.getText().toString().equals("0")){
-            double ind = Integer.parseInt(individual.getText().toString());
-            double cnt = Integer.parseInt(ed.getText().toString());
-            double probability = ind / cnt;
-            tv.setText("1/" + String.format("%.2f", probability));
+
+        String edString = ed.getText().toString();
+        String individualString = individual.getText().toString();
+
+        // テキストが空もしくは0だった場合は初期値を格納
+        if(StringUtils.isEmpty(edString) || edString.equals("0")){
+            tv.setText(INIT_VALUE);
         } else {
-            tv.setText("1/0.00");
+            double ind = Double.parseDouble(individualString);
+            double cnt = Double.parseDouble(edString);
+            double probability = ind / cnt;
+            tv.setText(aaa(probability));
         }
     }
 
     public void setProbabilityZero(){
-        aB_Probability.setText("1/0.00"); cB_Probability.setText("1/0.00"); BB_Probability.setText("1/0.00");
-        aR_Probability.setText("1/0.00"); cR_Probability.setText("1/0.00"); RB_Probability.setText("1/0.00");
-        ch_Probability.setText("1/0.00"); gr_Probability.setText("1/0.00"); addition_Probability.setText("1/0.00");
+        aB_Probability.setText(INIT_VALUE); cB_Probability.setText(INIT_VALUE); BB_Probability.setText(INIT_VALUE);
+        aR_Probability.setText(INIT_VALUE); cR_Probability.setText(INIT_VALUE); RB_Probability.setText(INIT_VALUE);
+        ch_Probability.setText(INIT_VALUE); gr_Probability.setText(INIT_VALUE); addition_Probability.setText(INIT_VALUE);
     }
 
     public void setProbability(String alone,String cherry,EditText bonus,TextView tv1,TextView tv2,TextView tv3){
-        //単独カウンターが空、かつ、チェリー重複カウンターが空
-        if(alone.isEmpty() && cherry.isEmpty()){
-            bonus.setText("0");
-            tv1.setText("1/0.00"); tv2.setText("1/0.00"); tv3.setText("1/0.00");
+
+        String bonusValue = "0";
+        String tv1Value = INIT_VALUE;
+        String tv2Value = INIT_VALUE;
+        String tv3Value = INIT_VALUE;
 
             //単独カウンターが空、かつ、チェリー重複カウンターが０
-        } else if(alone.isEmpty() && cherry.equals("0")){
-            bonus.setText("0");
-            tv1.setText("1/0.00"); tv2.setText("1/0.00"); tv3.setText("1/0.00");
-
-            //単独カウンターが０、かつ、チェリー重複カウンターが空
-        } else if(alone.equals("0") && cherry.isEmpty()){
-            bonus.setText("0");
-            tv1.setText("1/0.00"); tv2.setText("1/0.00"); tv3.setText("1/0.00");
-
-            //単独カウンターが０、かつ、チェリー重複カウンターが０
-        } else if(alone.equals("0") && cherry.equals("0")){
-            bonus.setText("0");
-            tv1.setText("1/0.00"); tv2.setText("1/0.00"); tv3.setText("1/0.00");
-
-            //単独カウンターが空、かつ、チェリー重複カウンターが０より大きい
-        } else if(alone.isEmpty() && Integer.parseInt(cherry) > 0){
-            bonus.setText(Integer.valueOf(cherry).toString());
-            tv1.setText("1/0.00");
+        if(alone.isEmpty() && Integer.parseInt(cherry) > 0){
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(cherry);
             double probability = ind / cnt;
-            tv2.setText(String.valueOf("1/" + String.format("%.2f", probability)));
-            tv3.setText(tv2.getText().toString());
+
+            bonusValue = Integer.valueOf(cherry).toString();
+            tv2Value = aaa(probability);
+            tv3Value = aaa(probability);
 
             //単独カウンターが０、かつ、チェリー重複カウンターが０より大きい
         } else if(alone.equals("0") && Integer.parseInt(cherry) > 0){
-            bonus.setText(Integer.valueOf(cherry).toString());
-            tv1.setText("1/0.00");
+            bonusValue = Integer.valueOf(cherry).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(cherry);
             double probability = ind / cnt;
-            tv2.setText(String.valueOf("1/" + String.format("%.2f", probability)));
-            tv3.setText(tv2.getText().toString());
 
+            tv2Value = aaa(probability);
+            tv3Value = aaa(probability);
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが空
         } else if(Integer.parseInt(alone) > 0 && cherry.isEmpty()){
-            bonus.setText(Integer.valueOf(alone).toString());
-            tv2.setText("1/0.00");
+            bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
             double probability = ind / cnt;
-            tv1.setText(String.valueOf("1/" + String.format("%.2f", probability)));
-            tv3.setText(tv1.getText().toString());
+            tv1Value = aaa(probability);
+            tv3Value = aaa(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０
         } else if(Integer.parseInt(alone) > 0 && cherry.equals("0")){
-            bonus.setText(Integer.valueOf(alone).toString());
-            tv2.setText("1/0.00");
+            bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
             double probability = ind / cnt;
-            tv1.setText(String.valueOf("1/" + String.format("%.2f", probability)));
-            tv3.setText(tv1.getText().toString());
+            tv1Value = aaa(probability);
+            tv3Value = aaa(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０より大きい
-        } else {
+        } else if(Integer.parseInt(alone) > 0 && Integer.parseInt(cherry) > 0) {
             double ind = Integer.parseInt(individual.getText().toString());
             int aloneBonus = Integer.parseInt(alone);
             int cherryBonus = Integer.parseInt(cherry);
             int total_Bonus = aloneBonus + cherryBonus;
-            bonus.setText(String.valueOf(total_Bonus));
+            bonusValue = String.valueOf(total_Bonus);
 
-            double cnt_alone = aloneBonus;
-            double alone_Probability = ind / cnt_alone;
-            tv1.setText(String.valueOf("1/" + String.format("%.2f", alone_Probability)));
+            double alone_Probability = ind / aloneBonus;
+            tv1Value = aaa(alone_Probability);
 
-            double cnt_cherry = cherryBonus;
-            double cherry_Probability = ind / cnt_cherry;
-            tv2.setText(String.valueOf("1/" + String.format("%.2f", cherry_Probability)));
+            double cherry_Probability = ind / cherryBonus;
+            tv2Value = aaa(cherry_Probability);
 
-            double cnt_totalBonus = total_Bonus;
-            double total_Probability = ind / cnt_totalBonus;
-            tv3.setText(String.valueOf("1/" + String.format("%.2f", total_Probability)));
+            double total_Probability = ind / total_Bonus;
+            tv3Value = aaa(total_Probability);
         }
+        bonus.setText(bonusValue);
+        tv1.setText(tv1Value);
+        tv2.setText(tv2Value);
+        tv3.setText(tv3Value);
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String aaa(double probability){
+        return "1/" + String.format("%.2f", probability);
     }
 }
