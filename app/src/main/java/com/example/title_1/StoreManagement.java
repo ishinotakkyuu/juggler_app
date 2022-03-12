@@ -43,7 +43,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tenpo_kanri);
+        setContentView(R.layout.activity_store_management);
 
         this.mainApplication = (MainApplication) this.getApplication();
         setSampleListItem();
@@ -63,7 +63,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
         editText = findViewById(R.id.editText);
 
         //出力結果をリストビューに表示
-        adapter = new SampleListAdapter(this, R.layout.tenpolist_item, listItems);
+        adapter = new SampleListAdapter(this, R.layout.store_list_item, listItems);
         listView.setAdapter(adapter);
 
         setStoreCount();
@@ -125,7 +125,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
                 setMainApplication(listItems);
 
                 //出力結果をリストビューに表示
-                adapter = new SampleListAdapter(this, R.layout.tenpolist_item, listItems);
+                adapter = new SampleListAdapter(this, R.layout.store_list_item, listItems);
                 listView.setAdapter(adapter);
 
                 // 登録店舗数の値を更新して、最後にトーストを表示

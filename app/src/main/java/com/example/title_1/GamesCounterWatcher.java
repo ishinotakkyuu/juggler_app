@@ -243,7 +243,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 //総ゲーム数が0以外 かつ ボーナスが0以上だった場合
                 if( ! strTotal.equals("0") && additionCount > 0){
                     double AdditionProbability = ind / additionCount;
-                    addition_Probability.setText(aaa(AdditionProbability));
+                    addition_Probability.setText(setFormat(AdditionProbability));
                 }
                 break;
 
@@ -294,7 +294,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 addition.setText(String.valueOf(additionCount));
                 if( ! strTotal.equals("0") && additionCount > 0){
                     double AdditionProbability = ind / additionCount;
-                    addition_Probability.setText(aaa(AdditionProbability));
+                    addition_Probability.setText(setFormat(AdditionProbability));
                 }
                 break;
 
@@ -349,7 +349,7 @@ public class GamesCounterWatcher implements TextWatcher {
             double ind = Double.parseDouble(individual.getText().toString());
             double sr = Double.parseDouble(smallRole);
             double sr_Probability = ind / sr;
-            tv.setText(aaa(sr_Probability));
+            tv.setText(setFormat(sr_Probability));
         }
     }
 
@@ -365,7 +365,7 @@ public class GamesCounterWatcher implements TextWatcher {
             double ind = Double.parseDouble(individualString);
             double cnt = Double.parseDouble(edString);
             double probability = ind / cnt;
-            tv.setText(aaa(probability));
+            tv.setText(setFormat(probability));
         }
     }
 
@@ -389,8 +389,8 @@ public class GamesCounterWatcher implements TextWatcher {
             double probability = ind / cnt;
 
             bonusValue = Integer.valueOf(cherry).toString();
-            tv2Value = aaa(probability);
-            tv3Value = aaa(probability);
+            tv2Value = setFormat(probability);
+            tv3Value = setFormat(probability);
 
             //単独カウンターが０、かつ、チェリー重複カウンターが０より大きい
         } else if(alone.equals("0") && Integer.parseInt(cherry) > 0){
@@ -399,16 +399,16 @@ public class GamesCounterWatcher implements TextWatcher {
             double cnt = Integer.parseInt(cherry);
             double probability = ind / cnt;
 
-            tv2Value = aaa(probability);
-            tv3Value = aaa(probability);
+            tv2Value = setFormat(probability);
+            tv3Value = setFormat(probability);
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが空
         } else if(Integer.parseInt(alone) > 0 && cherry.isEmpty()){
             bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
             double probability = ind / cnt;
-            tv1Value = aaa(probability);
-            tv3Value = aaa(probability);
+            tv1Value = setFormat(probability);
+            tv3Value = setFormat(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０
         } else if(Integer.parseInt(alone) > 0 && cherry.equals("0")){
@@ -416,8 +416,8 @@ public class GamesCounterWatcher implements TextWatcher {
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
             double probability = ind / cnt;
-            tv1Value = aaa(probability);
-            tv3Value = aaa(probability);
+            tv1Value = setFormat(probability);
+            tv3Value = setFormat(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０より大きい
         } else if(Integer.parseInt(alone) > 0 && Integer.parseInt(cherry) > 0) {
@@ -428,13 +428,13 @@ public class GamesCounterWatcher implements TextWatcher {
             bonusValue = String.valueOf(total_Bonus);
 
             double alone_Probability = ind / aloneBonus;
-            tv1Value = aaa(alone_Probability);
+            tv1Value = setFormat(alone_Probability);
 
             double cherry_Probability = ind / cherryBonus;
-            tv2Value = aaa(cherry_Probability);
+            tv2Value = setFormat(cherry_Probability);
 
             double total_Probability = ind / total_Bonus;
-            tv3Value = aaa(total_Probability);
+            tv3Value = setFormat(total_Probability);
         }
         bonus.setText(bonusValue);
         tv1.setText(tv1Value);
@@ -443,7 +443,7 @@ public class GamesCounterWatcher implements TextWatcher {
     }
 
     @SuppressLint("DefaultLocale")
-    private String aaa(double probability){
+    private String setFormat(double probability){
         return "1/" + String.format("%.2f", probability);
     }
 }
