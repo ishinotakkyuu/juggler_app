@@ -414,8 +414,11 @@ public class MainCounterActivity extends AppCompatActivity {
 
         View v = findViewById(R.id.counter);
         ColorButton colorButton = new ColorButton();
-        String text =editText.getText().toString();
-        int textValue = Integer.parseInt(text);
+        String text = editText.getText().toString();
+        int textValue = 0;
+        if (StringUtils.isNotEmpty(text)){
+            textValue = Integer.parseInt(text);
+         }
 
         if (Plus_Minus_Counter == 0) {
 
