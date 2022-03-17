@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">ジャグラー成績管理アプリ</string>
+    <string name="app_name">ジャグラーデータ管理</string>
+    <string name="counter_name">ジャグラー小役カウンター</string>
     <string name="alone_big">単独BIG</string>
     <string name="cherry_big">ﾁｪﾘｰBIG</string>
     <string name="big_bonus">BIG</string>
@@ -23,4 +24,17 @@
     <string name="ind_game">個人ゲーム数</string>
     <string name="init_game">0</string>
     <string name="init_pro">1/0.00</string>
+
+    <string name="menu_item01">編集モード切り替え</string>
+    <string name="menu_item02">加減算切り替え</string>
+    <string name="menu_item03">カウンター非表示</string>
+    <string name="menu_item04">リセット</string>
+    <string name="menu_item05">データ保存</string>
+
+
+
+
+
+
+
 </resources>

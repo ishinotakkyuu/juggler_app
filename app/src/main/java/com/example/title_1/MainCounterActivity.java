@@ -1,6 +1,5 @@
 package com.example.title_1;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -13,6 +12,9 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -56,9 +58,9 @@ public class MainCounterActivity extends AppCompatActivity {
     InputMethodManager inputMethodManager;
 
     //オプション関係
-    ToggleButton counterEdit;
-    ToggleButton PlusMinus;
-    int PMCounter = 0;
+    int PlusMinusCounter = 0;
+    int editorModeCounter = 0;
+
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -70,11 +72,6 @@ public class MainCounterActivity extends AppCompatActivity {
         this.mainApplication = (MainApplication) this.getApplication();
 
         setContentView(R.layout.activity_main_counter);
-        //アクションバーの非表示
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
 
         // 各viewをfindViewByIdで紐づけるメソッド
         setID();
@@ -82,16 +79,91 @@ public class MainCounterActivity extends AppCompatActivity {
         setJuggler();
         // ゲーム数・カウント回数を表示するEditTextにテクストウォッチャーを設定するメソッド
         setTextWatcher();
-        // 画面起動時には各EditTextを操作できないようにするメソッド
+        // 画面起動時には各EditTextを操作できないようにする
         setEditTextFocusFalse();
         // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になるメソッド
         actionListenerFocusOut();
-        // 各EditTextを操作できるようにするためのメソッドをトグルボタンに設定
-        toggleCounterEdit();
-        // カウンターボタンを押すとプラス/マイナスを切り替えられるメソッド
-        togglePlusMinus();
         // 内部ストレージ関係
         setValue();
+    }
+
+    // オプションメニューを表示するメソッド
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_list, menu);
+        return true;
+    }
+
+    // オプションメニューのアイテムが選択されたときに呼び出されるメソッド
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item1: // 編集モード
+                if(editorModeCounter == 0){
+                    setEditTextFocusTrue();
+                } else {
+                    setEditTextFocusFalse();
+                }
+                return true;
+
+            case R.id.item2: // 加減算切り替えモード
+                if(PlusMinusCounter == 0){
+                    aB.setTextColor(Color.RED); aB.setTypeface(Typeface.DEFAULT_BOLD);
+                    cB.setTextColor(Color.RED); cB.setTypeface(Typeface.DEFAULT_BOLD);
+                    aR.setTextColor(Color.RED); aR.setTypeface(Typeface.DEFAULT_BOLD);
+                    cR.setTextColor(Color.RED); cR.setTypeface(Typeface.DEFAULT_BOLD);
+                    ch.setTextColor(Color.RED); ch.setTypeface(Typeface.DEFAULT_BOLD);
+                    gr.setTextColor(Color.RED); gr.setTypeface(Typeface.DEFAULT_BOLD);
+                    PlusMinusCounter = 1;
+                } else {
+                    reset();
+                }
+                return true;
+
+            case R.id.item3:
+
+                // ココにカウンター非表示処理を記述すること
+
+                return true;
+
+            case R.id.item4:
+                new AlertDialog.Builder(this)
+                        .setTitle("カウンター初期化")
+                        .setMessage("カウンターを全てリセットしますか？")
+                        .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                start.setText(""); total.setText("");
+                                aB.setText("0"); cB.setText("0");
+                                aR.setText("0"); cR.setText("0");
+                                ch.setText("0"); gr.setText("0");
+
+                                mainApplication.init();
+                                CreateXML.updateText(mainApplication,"total","");
+                                CreateXML.updateText(mainApplication,"start","");
+
+                                reset();
+                                setEditTextFocusFalse();
+
+                                Toast toast = Toast.makeText(MainCounterActivity.this, "リセットしました", Toast.LENGTH_SHORT);
+                                toast.show();
+
+                            }
+                        })
+                        .setNegativeButton("いいえ",null)
+                        .show();
+                return true;
+
+            case R.id.item5:
+                if(!mainApplication.getStore001().equals("null")){
+                    storeRegister();
+                } else {
+                    notStore();
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setID(){
@@ -100,8 +172,6 @@ public class MainCounterActivity extends AppCompatActivity {
         start = findViewById(R.id.start_game);
         juggler = findViewById(R.id.juggler);
         individual = findViewById(R.id.individual_game);
-        counterEdit = findViewById(R.id.togglecounteredit);
-        PlusMinus = findViewById(R.id.toggleplusminus);
         aB = findViewById(R.id.aB); cB = findViewById(R.id.cB); BB = findViewById(R.id.BB);
         aR = findViewById(R.id.aR); cR = findViewById(R.id.cR); RB = findViewById(R.id.RB);
         ch = findViewById(R.id.ch); gr = findViewById(R.id.gr); addition = findViewById(R.id.addition);
@@ -140,26 +210,6 @@ public class MainCounterActivity extends AppCompatActivity {
         jugglerAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
         juggler.setAdapter(jugglerAdapter);
         juggler.setSelection(mainApplication.getMachineName());
-    }
-
-    public void setEditTextFocusFalse(){
-        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_4_default, null);
-        aB.setFocusable(false); aB.setFocusableInTouchMode(false); aB.setBackground(background);
-        cB.setFocusable(false); cB.setFocusableInTouchMode(false); cB.setBackground(background);
-        aR.setFocusable(false); aR.setFocusableInTouchMode(false); aR.setBackground(background);
-        cR.setFocusable(false); cR.setFocusableInTouchMode(false); cR.setBackground(background);
-        ch.setFocusable(false); ch.setFocusableInTouchMode(false); ch.setBackground(background);
-        gr.setFocusable(false); gr.setFocusableInTouchMode(false); gr.setBackground(background);
-    }
-
-    public void setEditTextFocusTrue(){
-        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_3_smallrole_edit, null);
-        aB.setFocusable(true); aB.setFocusableInTouchMode(true); aB.setBackground(background);
-        cB.setFocusable(true); cB.setFocusableInTouchMode(true); cB.setBackground(background);
-        aR.setFocusable(true); aR.setFocusableInTouchMode(true); aR.setBackground(background);
-        cR.setFocusable(true); cR.setFocusableInTouchMode(true); cR.setBackground(background);
-        ch.setFocusable(true); ch.setFocusableInTouchMode(true); ch.setBackground(background);
-        gr.setFocusable(true); gr.setFocusableInTouchMode(true); gr.setBackground(background);
     }
 
     public void actionListenerFocusOut(){
@@ -227,14 +277,6 @@ public class MainCounterActivity extends AppCompatActivity {
         });
     }
 
-    public void storeRegister(View view){
-        if(!mainApplication.getStore001().equals("null")){
-            storeRegister();
-        } else {
-            noStore();
-        }
-    }
-
     public void storeRegister(){
         // 登録店舗名を表示するためのプルダウン(スピナー)を設定
         final Spinner storeSpinner = new Spinner(this);
@@ -273,7 +315,7 @@ public class MainCounterActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void noStore(){
+    public void notStore(){
         new AlertDialog.Builder(this)
                 .setTitle("店舗登録のお願い")
                 .setMessage("データを残したい場合は店舗登録を行ってください")
@@ -288,71 +330,36 @@ public class MainCounterActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void resetButton(View view){
-        new AlertDialog.Builder(this)
-                .setTitle("カウンター初期化")
-                .setMessage("カウンターを全てリセットしますか？")
-                .setPositiveButton("はい", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        start.setText(""); total.setText("");
-                        aB.setText("0"); cB.setText("0");
-                        aR.setText("0"); cR.setText("0");
-                        ch.setText("0"); gr.setText("0");
-
-                        mainApplication.init();
-                        CreateXML.updateText(mainApplication,"total","");
-                        CreateXML.updateText(mainApplication,"start","");
-
-                        counterEdit.setChecked(false);
-                        PlusMinus.setChecked(false);
-
-                        Toast toast = Toast.makeText(MainCounterActivity.this, "リセットしました", Toast.LENGTH_SHORT);
-                        toast.show();
-
-                    }
-                })
-                .setNegativeButton("いいえ",null)
-                .show();
+    public void reset(){
+        aB.setTextColor(Color.WHITE); aB.setTypeface(Typeface.DEFAULT);
+        cB.setTextColor(Color.WHITE); cB.setTypeface(Typeface.DEFAULT);
+        aR.setTextColor(Color.WHITE); aR.setTypeface(Typeface.DEFAULT);
+        cR.setTextColor(Color.WHITE); cR.setTypeface(Typeface.DEFAULT);
+        ch.setTextColor(Color.WHITE); ch.setTypeface(Typeface.DEFAULT);
+        gr.setTextColor(Color.WHITE); gr.setTypeface(Typeface.DEFAULT);
+        PlusMinusCounter = 0;
     }
 
-    public void toggleCounterEdit(){
-        counterEdit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    setEditTextFocusTrue();
-                } else {
-                    setEditTextFocusFalse();
-                    inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(),0);
-                }
-            }
-        });
+    public void setEditTextFocusTrue(){
+        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_3_smallrole_edit, null);
+        aB.setFocusable(true); aB.setFocusableInTouchMode(true); aB.setBackground(background);
+        cB.setFocusable(true); cB.setFocusableInTouchMode(true); cB.setBackground(background);
+        aR.setFocusable(true); aR.setFocusableInTouchMode(true); aR.setBackground(background);
+        cR.setFocusable(true); cR.setFocusableInTouchMode(true); cR.setBackground(background);
+        ch.setFocusable(true); ch.setFocusableInTouchMode(true); ch.setBackground(background);
+        gr.setFocusable(true); gr.setFocusableInTouchMode(true); gr.setBackground(background);
+        editorModeCounter = 1;
     }
 
-    public void togglePlusMinus(){
-        PlusMinus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    PMCounter++;
-                    aB.setTextColor(Color.RED); aB.setTypeface(Typeface.DEFAULT_BOLD);
-                    cB.setTextColor(Color.RED); cB.setTypeface(Typeface.DEFAULT_BOLD);
-                    aR.setTextColor(Color.RED); aR.setTypeface(Typeface.DEFAULT_BOLD);
-                    cR.setTextColor(Color.RED); cR.setTypeface(Typeface.DEFAULT_BOLD);
-                    ch.setTextColor(Color.RED); ch.setTypeface(Typeface.DEFAULT_BOLD);
-                    gr.setTextColor(Color.RED); gr.setTypeface(Typeface.DEFAULT_BOLD);
-                } else {
-                    PMCounter--;
-                    aB.setTextColor(Color.WHITE); aB.setTypeface(Typeface.DEFAULT);
-                    cB.setTextColor(Color.WHITE); cB.setTypeface(Typeface.DEFAULT);
-                    aR.setTextColor(Color.WHITE); aR.setTypeface(Typeface.DEFAULT);
-                    cR.setTextColor(Color.WHITE); cR.setTypeface(Typeface.DEFAULT);
-                    ch.setTextColor(Color.WHITE); ch.setTypeface(Typeface.DEFAULT);
-                    gr.setTextColor(Color.WHITE); gr.setTypeface(Typeface.DEFAULT);
-                }
-            }
-        });
+    public void setEditTextFocusFalse(){
+        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_4_default, null);
+        aB.setFocusable(false); aB.setFocusableInTouchMode(false); aB.setBackground(background);
+        cB.setFocusable(false); cB.setFocusableInTouchMode(false); cB.setBackground(background);
+        aR.setFocusable(false); aR.setFocusableInTouchMode(false); aR.setBackground(background);
+        cR.setFocusable(false); cR.setFocusableInTouchMode(false); cR.setBackground(background);
+        ch.setFocusable(false); ch.setFocusableInTouchMode(false); ch.setBackground(background);
+        gr.setFocusable(false); gr.setFocusableInTouchMode(false); gr.setBackground(background);
+        editorModeCounter = 0;
     }
 
     private void setValue() {
@@ -419,7 +426,7 @@ public class MainCounterActivity extends AppCompatActivity {
             textValue = Integer.parseInt(text);
          }
 
-        if (PMCounter == 0) {
+        if (PlusMinusCounter == 0) {
 
             if (StringUtils.isNotEmpty(text)) {
 

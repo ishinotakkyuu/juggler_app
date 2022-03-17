@@ -12,6 +12,7 @@
         android:name=".MainApplication">
         <activity
             android:name=".MainCounterActivity"
+            android:label="@string/counter_name"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
