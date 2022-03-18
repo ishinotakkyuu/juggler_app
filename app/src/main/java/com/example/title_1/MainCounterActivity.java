@@ -21,12 +21,10 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -60,6 +58,7 @@ public class MainCounterActivity extends AppCompatActivity {
     //オプション関係
     int PlusMinusCounter = 0;
     int editorModeCounter = 0;
+    int skeletonCounter = 0;
 
 
     // 共有データ
@@ -109,22 +108,68 @@ public class MainCounterActivity extends AppCompatActivity {
 
             case R.id.item2: // 加減算切り替えモード
                 if(PlusMinusCounter == 0){
-                    aB.setTextColor(Color.RED); aB.setTypeface(Typeface.DEFAULT_BOLD);
-                    cB.setTextColor(Color.RED); cB.setTypeface(Typeface.DEFAULT_BOLD);
-                    aR.setTextColor(Color.RED); aR.setTypeface(Typeface.DEFAULT_BOLD);
-                    cR.setTextColor(Color.RED); cR.setTypeface(Typeface.DEFAULT_BOLD);
-                    ch.setTextColor(Color.RED); ch.setTypeface(Typeface.DEFAULT_BOLD);
-                    gr.setTextColor(Color.RED); gr.setTypeface(Typeface.DEFAULT_BOLD);
-                    PlusMinusCounter = 1;
+                    if(skeletonCounter == 0){
+                        setTextRed();
+                        PlusMinusCounter = 1;
+                    } else {
+                        new AlertDialog.Builder(this)
+                                .setTitle("ステルス機能の解除について")
+                                .setMessage("減算モードを利用する場合はステルス機能を解除する必要があります")
+                                .setPositiveButton("解除", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        setTextRed();
+                                        skeletonCounter = 0;
+                                        PlusMinusCounter = 1;
+                                        Toast toast = Toast.makeText(MainCounterActivity.this, "ステルス機能が解除されました", Toast.LENGTH_LONG);
+                                        toast.show();
+                                    }
+                                })
+                                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        PlusMinusCounter = 0;
+                                    }
+                                })
+                                .show();
+                    }
                 } else {
-                    reset();
+                    setTextWhite();
+                    PlusMinusCounter = 0;
                 }
                 return true;
 
-            case R.id.item3:
-
-                // ココにカウンター非表示処理を記述すること
-
+            case R.id.item3: // カウンター非表示モード
+                if(skeletonCounter == 0){
+                    if(PlusMinusCounter == 0){
+                        setTextSkeleton();
+                        skeletonCounter = 1;
+                    } else {
+                        new AlertDialog.Builder(this)
+                                .setTitle("減算状態の解除について")
+                                .setMessage("ステルス機能を利用する場合は減算状態を解除する必要があります")
+                                .setPositiveButton("解除", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        setTextSkeleton();
+                                        skeletonCounter = 1;
+                                        PlusMinusCounter = 0;
+                                        Toast toast = Toast.makeText(MainCounterActivity.this, "カウンターは加算されます", Toast.LENGTH_LONG);
+                                        toast.show();
+                                    }
+                                })
+                                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        skeletonCounter = 0;
+                                    }
+                                })
+                                .show();
+                    }
+                } else {
+                    setTextWhite();
+                    skeletonCounter = 0;
+                }
                 return true;
 
             case R.id.item4:
@@ -143,8 +188,12 @@ public class MainCounterActivity extends AppCompatActivity {
                                 CreateXML.updateText(mainApplication,"total","");
                                 CreateXML.updateText(mainApplication,"start","");
 
-                                reset();
+                                setTextWhite();
                                 setEditTextFocusFalse();
+
+                                PlusMinusCounter = 0;
+                                editorModeCounter = 0;
+                                skeletonCounter = 0;
 
                                 Toast toast = Toast.makeText(MainCounterActivity.this, "リセットしました", Toast.LENGTH_SHORT);
                                 toast.show();
@@ -214,54 +263,12 @@ public class MainCounterActivity extends AppCompatActivity {
 
     public void actionListenerFocusOut(){
         // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になる
-        start.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
-        total.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
-        aB.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
-        cB.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
-        aR.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
-        cR.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
-        ch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
-        gr.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;}});
+
+        setImeActionDone(start); setImeActionDone(total);
+        setImeActionDone(aB); setImeActionDone(cB);
+        setImeActionDone(aR); setImeActionDone(cR);
+        setImeActionDone(ch); setImeActionDone(gr);
+
         juggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
             @Override
@@ -275,6 +282,15 @@ public class MainCounterActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
+
+    public void setImeActionDone(EditText editText){
+        start.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i== EditorInfo.IME_ACTION_DONE){
+                    focusOut();}
+                return false;}});
     }
 
     public void storeRegister(){
@@ -330,14 +346,68 @@ public class MainCounterActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void reset(){
+    public void setTextWhite(){
         aB.setTextColor(Color.WHITE); aB.setTypeface(Typeface.DEFAULT);
         cB.setTextColor(Color.WHITE); cB.setTypeface(Typeface.DEFAULT);
+        BB.setTextColor(Color.WHITE); BB.setTypeface(Typeface.DEFAULT);
         aR.setTextColor(Color.WHITE); aR.setTypeface(Typeface.DEFAULT);
         cR.setTextColor(Color.WHITE); cR.setTypeface(Typeface.DEFAULT);
+        RB.setTextColor(Color.WHITE); RB.setTypeface(Typeface.DEFAULT);
         ch.setTextColor(Color.WHITE); ch.setTypeface(Typeface.DEFAULT);
         gr.setTextColor(Color.WHITE); gr.setTypeface(Typeface.DEFAULT);
-        PlusMinusCounter = 0;
+        addition.setTextColor(Color.WHITE); addition.setTypeface(Typeface.DEFAULT);
+        aB_Probability.setTextColor(Color.WHITE); aB_Probability.setTypeface(Typeface.DEFAULT);
+        cB_Probability.setTextColor(Color.WHITE); cB_Probability.setTypeface(Typeface.DEFAULT);
+        BB_Probability.setTextColor(Color.WHITE); BB_Probability.setTypeface(Typeface.DEFAULT);
+        aR_Probability.setTextColor(Color.WHITE); aR_Probability.setTypeface(Typeface.DEFAULT);
+        cR_Probability.setTextColor(Color.WHITE); cR_Probability.setTypeface(Typeface.DEFAULT);
+        RB_Probability.setTextColor(Color.WHITE); RB_Probability.setTypeface(Typeface.DEFAULT);
+        ch_Probability.setTextColor(Color.WHITE); ch_Probability.setTypeface(Typeface.DEFAULT);
+        gr_Probability.setTextColor(Color.WHITE); gr_Probability.setTypeface(Typeface.DEFAULT);
+        addition_Probability.setTextColor(Color.WHITE); addition_Probability.setTypeface(Typeface.DEFAULT);
+    }
+
+    public void setTextRed(){
+        aB.setTextColor(Color.RED); aB.setTypeface(Typeface.DEFAULT_BOLD);
+        cB.setTextColor(Color.RED); cB.setTypeface(Typeface.DEFAULT_BOLD);
+        BB.setTextColor(Color.RED); BB.setTypeface(Typeface.DEFAULT_BOLD);
+        aR.setTextColor(Color.RED); aR.setTypeface(Typeface.DEFAULT_BOLD);
+        cR.setTextColor(Color.RED); cR.setTypeface(Typeface.DEFAULT_BOLD);
+        RB.setTextColor(Color.RED); RB.setTypeface(Typeface.DEFAULT_BOLD);
+        ch.setTextColor(Color.RED); ch.setTypeface(Typeface.DEFAULT_BOLD);
+        gr.setTextColor(Color.RED); gr.setTypeface(Typeface.DEFAULT_BOLD);
+        addition.setTextColor(Color.RED); addition.setTypeface(Typeface.DEFAULT_BOLD);
+        aB_Probability.setTextColor(Color.RED);
+        cB_Probability.setTextColor(Color.RED);
+        BB_Probability.setTextColor(Color.RED);
+        aR_Probability.setTextColor(Color.RED);
+        cR_Probability.setTextColor(Color.RED);
+        RB_Probability.setTextColor(Color.RED);
+        ch_Probability.setTextColor(Color.RED);
+        gr_Probability.setTextColor(Color.RED);
+        addition_Probability.setTextColor(Color.RED);
+    }
+
+    public void setTextSkeleton(){
+        aB.setTextColor(getResources().getColor(R.color.skeleton));
+        cB.setTextColor(getResources().getColor(R.color.skeleton));
+        BB.setTextColor(getResources().getColor(R.color.skeleton));
+        aR.setTextColor(getResources().getColor(R.color.skeleton));
+        cR.setTextColor(getResources().getColor(R.color.skeleton));
+        RB.setTextColor(getResources().getColor(R.color.skeleton));
+        ch.setTextColor(getResources().getColor(R.color.skeleton));
+        gr.setTextColor(getResources().getColor(R.color.skeleton));
+        addition.setTextColor(getResources().getColor(R.color.skeleton));
+        aB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        cB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        BB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        aR_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        cR_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        RB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        ch_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        gr_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+        addition_Probability.setTextColor(getResources().getColor(R.color.skeleton));
+
     }
 
     public void setEditTextFocusTrue(){
@@ -379,19 +449,17 @@ public class MainCounterActivity extends AppCompatActivity {
         gr.setText(mainApplication.getGr());
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        // onTouchEventではアクテビティにしか反応せず、リストビュー上をタッチしても意味がない
-        // そこでリストビューをタッチしてもフォーカスが外れるようにするには、dispatchTouchEventを使う
-        inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(), 0);
-        layout.requestFocus();
-        return super.dispatchTouchEvent(event);
-    }
-
     public void focusOut(){
         inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(),0);
         layout.requestFocus();
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        focusOut();
+        return super.dispatchTouchEvent(event);
+    }
+
 
     //-----------------------------------------------------------------------------------------------
     //ここからボタンの制御
@@ -417,7 +485,6 @@ public class MainCounterActivity extends AppCompatActivity {
     }
 
     public void pushButton(EditText editText, int id, int limit) {
-
         View v = findViewById(R.id.counter);
         ColorButton colorButton = new ColorButton();
         String text = editText.getText().toString();
@@ -458,5 +525,6 @@ public class MainCounterActivity extends AppCompatActivity {
         }
         focusOut();
     }
+
 }
 

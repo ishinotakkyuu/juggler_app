@@ -25,10 +25,10 @@
     <string name="init_game">0</string>
     <string name="init_pro">1/0.00</string>
 
-    <string name="menu_item01">編集モード切り替え</string>
-    <string name="menu_item02">加減算切り替え</string>
-    <string name="menu_item03">カウンター非表示</string>
-    <string name="menu_item04">リセット</string>
+    <string name="menu_item01">編集モード</string>
+    <string name="menu_item02">加減算モード</string>
+    <string name="menu_item03">ステルス機能</string>
+    <string name="menu_item04">カウンター初期化</string>
     <string name="menu_item05">データ保存</string>
 
 
