@@ -1,7 +1,5 @@
 package com.example.title_1;
 
-import java.util.ArrayList;
-
 public class CommonFeature {
 
     public static String[] getStoreItems(MainApplication mainApplication){
@@ -27,7 +25,6 @@ public class CommonFeature {
                 mainApplication.getStore018(),
                 mainApplication.getStore019(),
                 mainApplication.getStore020()};
-
         return storeItems;
     }
 }

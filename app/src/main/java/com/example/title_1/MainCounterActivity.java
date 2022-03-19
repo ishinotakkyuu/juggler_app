@@ -34,12 +34,14 @@ import java.util.List;
 
 public class MainCounterActivity extends AppCompatActivity {
 
-
-    //ゲーム数関係
-    static EditText total; static EditText start; static EditText individual;
+    // レイアウト定義
+    ConstraintLayout layout;
 
     // 機種名選択
     Spinner juggler;
+
+    //ゲーム数関係
+    static EditText total; static EditText start; static EditText individual;
 
     //カウンター関係
     static EditText aB; static EditText cB; static EditText BB;
@@ -51,24 +53,21 @@ public class MainCounterActivity extends AppCompatActivity {
     static TextView aR_Probability; static TextView cR_Probability; static TextView RB_Probability;
     static TextView ch_Probability; static TextView gr_Probability; static TextView addition_Probability;
 
-    // フォーカス関係
-    ConstraintLayout layout;    // オプション関係の一部でも使用
-    InputMethodManager inputMethodManager;
-
     //オプション関係
     int PlusMinusCounter = 0;
     int editorModeCounter = 0;
     int skeletonCounter = 0;
 
-
     // 共有データ
     static MainApplication mainApplication = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.mainApplication = (MainApplication) this.getApplication();
+        mainApplication = (MainApplication) this.getApplication();
 
         setContentView(R.layout.activity_main_counter);
 
@@ -101,8 +100,10 @@ public class MainCounterActivity extends AppCompatActivity {
             case R.id.item1: // 編集モード
                 if(editorModeCounter == 0){
                     setEditTextFocusTrue();
+                    editorModeCounter = 1;
                 } else {
                     setEditTextFocusFalse();
+                    editorModeCounter = 0;
                 }
                 return true;
 
@@ -216,10 +217,8 @@ public class MainCounterActivity extends AppCompatActivity {
     }
 
     public void setID(){
-        layout = findViewById(R.id.counter);
         total = findViewById(R.id.total_game);
         start = findViewById(R.id.start_game);
-        juggler = findViewById(R.id.juggler);
         individual = findViewById(R.id.individual_game);
         aB = findViewById(R.id.aB); cB = findViewById(R.id.cB); BB = findViewById(R.id.BB);
         aR = findViewById(R.id.aR); cR = findViewById(R.id.cR); RB = findViewById(R.id.RB);
@@ -233,7 +232,8 @@ public class MainCounterActivity extends AppCompatActivity {
         ch_Probability = findViewById(R.id.ch_Probability);
         gr_Probability = findViewById(R.id.gr_Probability);
         addition_Probability = findViewById(R.id.addition_Probability);
-        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        layout = findViewById(R.id.counter);
+        juggler = findViewById(R.id.juggler);
     }
 
     public void setTextWatcher(){
@@ -285,7 +285,7 @@ public class MainCounterActivity extends AppCompatActivity {
     }
 
     public void setImeActionDone(EditText editText){
-        start.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if(i== EditorInfo.IME_ACTION_DONE){
@@ -300,7 +300,7 @@ public class MainCounterActivity extends AppCompatActivity {
 
         //----------------------------------------------------------------------------------------------------------
         // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
-        String storeItems[] = CommonFeature.getStoreItems(mainApplication);
+        String[] storeItems = CommonFeature.getStoreItems(mainApplication);
         for(String Item:storeItems){
             if(!Item.equals("null")){
                 storeNames.add(Item);
@@ -407,7 +407,6 @@ public class MainCounterActivity extends AppCompatActivity {
         ch_Probability.setTextColor(getResources().getColor(R.color.skeleton));
         gr_Probability.setTextColor(getResources().getColor(R.color.skeleton));
         addition_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-
     }
 
     public void setEditTextFocusTrue(){
@@ -418,7 +417,6 @@ public class MainCounterActivity extends AppCompatActivity {
         cR.setFocusable(true); cR.setFocusableInTouchMode(true); cR.setBackground(background);
         ch.setFocusable(true); ch.setFocusableInTouchMode(true); ch.setBackground(background);
         gr.setFocusable(true); gr.setFocusableInTouchMode(true); gr.setBackground(background);
-        editorModeCounter = 1;
     }
 
     public void setEditTextFocusFalse(){
@@ -429,7 +427,6 @@ public class MainCounterActivity extends AppCompatActivity {
         cR.setFocusable(false); cR.setFocusableInTouchMode(false); cR.setBackground(background);
         ch.setFocusable(false); ch.setFocusableInTouchMode(false); ch.setBackground(background);
         gr.setFocusable(false); gr.setFocusableInTouchMode(false); gr.setBackground(background);
-        editorModeCounter = 0;
     }
 
     private void setValue() {
@@ -450,14 +447,15 @@ public class MainCounterActivity extends AppCompatActivity {
     }
 
     public void focusOut(){
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(),0);
         layout.requestFocus();
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         focusOut();
-        return super.dispatchTouchEvent(event);
+        return true;
     }
 
 

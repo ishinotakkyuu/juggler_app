@@ -10,6 +10,6 @@
         android:color="#FAFAFA"
         />
 
-    <solid android:color="#5E5E6E"/>
+    <solid android:color="#333232"/>
 
 </shape>
