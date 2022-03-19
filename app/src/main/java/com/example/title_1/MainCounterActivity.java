@@ -54,9 +54,9 @@ public class MainCounterActivity extends AppCompatActivity {
     static TextView ch_Probability; static TextView gr_Probability; static TextView addition_Probability;
 
     //オプション関係
-    int PlusMinusCounter = 0;
-    int editorModeCounter = 0;
-    int skeletonCounter = 0;
+    boolean plusMinusCounter = false;
+    boolean editorModeCounter = false;
+    boolean skeletonCounter = false;
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -98,30 +98,34 @@ public class MainCounterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1: // 編集モード
-                if(editorModeCounter == 0){
-                    setEditTextFocusTrue();
-                    editorModeCounter = 1;
-                } else {
+
+                if(editorModeCounter){
                     setEditTextFocusFalse();
-                    editorModeCounter = 0;
+                    editorModeCounter = false;
+                } else {
+                    setEditTextFocusTrue();
+                    editorModeCounter = true;
                 }
                 return true;
 
             case R.id.item2: // 加減算切り替えモード
-                if(PlusMinusCounter == 0){
-                    if(skeletonCounter == 0){
-                        setTextRed();
-                        PlusMinusCounter = 1;
-                    } else {
+
+                if(plusMinusCounter) {
+                    ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    plusMinusCounter = false;
+                } else {
+                    if(skeletonCounter) {
                         new AlertDialog.Builder(this)
                                 .setTitle("ステルス機能の解除について")
                                 .setMessage("減算モードを利用する場合はステルス機能を解除する必要があります")
                                 .setPositiveButton("解除", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        setTextRed();
-                                        skeletonCounter = 0;
-                                        PlusMinusCounter = 1;
+                                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                                        skeletonCounter = false;
+                                        plusMinusCounter = true;
                                         Toast toast = Toast.makeText(MainCounterActivity.this, "ステルス機能が解除されました", Toast.LENGTH_LONG);
                                         toast.show();
                                     }
@@ -129,32 +133,37 @@ public class MainCounterActivity extends AppCompatActivity {
                                 .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        PlusMinusCounter = 0;
+                                        plusMinusCounter = false;
                                     }
                                 })
                                 .show();
+                    } else{
+                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                        plusMinusCounter = true;
                     }
-                } else {
-                    setTextWhite();
-                    PlusMinusCounter = 0;
                 }
                 return true;
 
             case R.id.item3: // カウンター非表示モード
-                if(skeletonCounter == 0){
-                    if(PlusMinusCounter == 0){
-                        setTextSkeleton();
-                        skeletonCounter = 1;
-                    } else {
+
+                if(skeletonCounter) {
+                    ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    skeletonCounter = false;
+                } else {
+                    if(plusMinusCounter) {
                         new AlertDialog.Builder(this)
                                 .setTitle("減算状態の解除について")
                                 .setMessage("ステルス機能を利用する場合は減算状態を解除する必要があります")
                                 .setPositiveButton("解除", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        setTextSkeleton();
-                                        skeletonCounter = 1;
-                                        PlusMinusCounter = 0;
+                                        int skeleton = getResources().getColor(R.color.skeleton);
+                                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
+                                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
+                                        skeletonCounter = true;
+                                        plusMinusCounter = false;
                                         Toast toast = Toast.makeText(MainCounterActivity.this, "カウンターは加算されます", Toast.LENGTH_LONG);
                                         toast.show();
                                     }
@@ -162,14 +171,16 @@ public class MainCounterActivity extends AppCompatActivity {
                                 .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        skeletonCounter = 0;
+                                        skeletonCounter = false;
                                     }
                                 })
                                 .show();
+                    } else {
+                        int skeleton = getResources().getColor(R.color.skeleton);
+                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
+                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
+                        skeletonCounter = true;
                     }
-                } else {
-                    setTextWhite();
-                    skeletonCounter = 0;
                 }
                 return true;
 
@@ -189,12 +200,13 @@ public class MainCounterActivity extends AppCompatActivity {
                                 CreateXML.updateText(mainApplication,"total","");
                                 CreateXML.updateText(mainApplication,"start","");
 
-                                setTextWhite();
+                                ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
+                                ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
                                 setEditTextFocusFalse();
 
-                                PlusMinusCounter = 0;
-                                editorModeCounter = 0;
-                                skeletonCounter = 0;
+                                plusMinusCounter = false;
+                                editorModeCounter = false;
+                                skeletonCounter = false;
 
                                 Toast toast = Toast.makeText(MainCounterActivity.this, "リセットしました", Toast.LENGTH_SHORT);
                                 toast.show();
@@ -237,17 +249,11 @@ public class MainCounterActivity extends AppCompatActivity {
     }
 
     public void setTextWatcher(){
-        total.addTextChangedListener(new GamesCounterWatcher(total,mainApplication));
-        start.addTextChangedListener(new GamesCounterWatcher(start,mainApplication));
-        individual.addTextChangedListener(new GamesCounterWatcher(individual,mainApplication));
-        aB.addTextChangedListener(new GamesCounterWatcher(aB,mainApplication));
-        cB.addTextChangedListener(new GamesCounterWatcher(cB,mainApplication));
-        BB.addTextChangedListener(new GamesCounterWatcher(BB,mainApplication));
-        aR.addTextChangedListener(new GamesCounterWatcher(aR,mainApplication));
-        cR.addTextChangedListener(new GamesCounterWatcher(cR,mainApplication));
-        RB.addTextChangedListener(new GamesCounterWatcher(RB,mainApplication));
-        ch.addTextChangedListener(new GamesCounterWatcher(ch,mainApplication));
-        gr.addTextChangedListener(new GamesCounterWatcher(gr,mainApplication));
+        //ゲーム数関係とカウンター関係へGamesCounterWatcherを設定
+        EditText[] items = ViewItems.joinEditTexts(ViewItems.getGameTextItems(),ViewItems.getCounterTextItems());
+        for (EditText item: items){
+            item.addTextChangedListener(new GamesCounterWatcher(item,mainApplication));
+        }
     }
 
     public void setJuggler(){
@@ -346,87 +352,14 @@ public class MainCounterActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void setTextWhite(){
-        aB.setTextColor(Color.WHITE); aB.setTypeface(Typeface.DEFAULT);
-        cB.setTextColor(Color.WHITE); cB.setTypeface(Typeface.DEFAULT);
-        BB.setTextColor(Color.WHITE); BB.setTypeface(Typeface.DEFAULT);
-        aR.setTextColor(Color.WHITE); aR.setTypeface(Typeface.DEFAULT);
-        cR.setTextColor(Color.WHITE); cR.setTypeface(Typeface.DEFAULT);
-        RB.setTextColor(Color.WHITE); RB.setTypeface(Typeface.DEFAULT);
-        ch.setTextColor(Color.WHITE); ch.setTypeface(Typeface.DEFAULT);
-        gr.setTextColor(Color.WHITE); gr.setTypeface(Typeface.DEFAULT);
-        addition.setTextColor(Color.WHITE); addition.setTypeface(Typeface.DEFAULT);
-        aB_Probability.setTextColor(Color.WHITE); aB_Probability.setTypeface(Typeface.DEFAULT);
-        cB_Probability.setTextColor(Color.WHITE); cB_Probability.setTypeface(Typeface.DEFAULT);
-        BB_Probability.setTextColor(Color.WHITE); BB_Probability.setTypeface(Typeface.DEFAULT);
-        aR_Probability.setTextColor(Color.WHITE); aR_Probability.setTypeface(Typeface.DEFAULT);
-        cR_Probability.setTextColor(Color.WHITE); cR_Probability.setTypeface(Typeface.DEFAULT);
-        RB_Probability.setTextColor(Color.WHITE); RB_Probability.setTypeface(Typeface.DEFAULT);
-        ch_Probability.setTextColor(Color.WHITE); ch_Probability.setTypeface(Typeface.DEFAULT);
-        gr_Probability.setTextColor(Color.WHITE); gr_Probability.setTypeface(Typeface.DEFAULT);
-        addition_Probability.setTextColor(Color.WHITE); addition_Probability.setTypeface(Typeface.DEFAULT);
-    }
-
-    public void setTextRed(){
-        aB.setTextColor(Color.RED); aB.setTypeface(Typeface.DEFAULT_BOLD);
-        cB.setTextColor(Color.RED); cB.setTypeface(Typeface.DEFAULT_BOLD);
-        BB.setTextColor(Color.RED); BB.setTypeface(Typeface.DEFAULT_BOLD);
-        aR.setTextColor(Color.RED); aR.setTypeface(Typeface.DEFAULT_BOLD);
-        cR.setTextColor(Color.RED); cR.setTypeface(Typeface.DEFAULT_BOLD);
-        RB.setTextColor(Color.RED); RB.setTypeface(Typeface.DEFAULT_BOLD);
-        ch.setTextColor(Color.RED); ch.setTypeface(Typeface.DEFAULT_BOLD);
-        gr.setTextColor(Color.RED); gr.setTypeface(Typeface.DEFAULT_BOLD);
-        addition.setTextColor(Color.RED); addition.setTypeface(Typeface.DEFAULT_BOLD);
-        aB_Probability.setTextColor(Color.RED);
-        cB_Probability.setTextColor(Color.RED);
-        BB_Probability.setTextColor(Color.RED);
-        aR_Probability.setTextColor(Color.RED);
-        cR_Probability.setTextColor(Color.RED);
-        RB_Probability.setTextColor(Color.RED);
-        ch_Probability.setTextColor(Color.RED);
-        gr_Probability.setTextColor(Color.RED);
-        addition_Probability.setTextColor(Color.RED);
-    }
-
-    public void setTextSkeleton(){
-        aB.setTextColor(getResources().getColor(R.color.skeleton));
-        cB.setTextColor(getResources().getColor(R.color.skeleton));
-        BB.setTextColor(getResources().getColor(R.color.skeleton));
-        aR.setTextColor(getResources().getColor(R.color.skeleton));
-        cR.setTextColor(getResources().getColor(R.color.skeleton));
-        RB.setTextColor(getResources().getColor(R.color.skeleton));
-        ch.setTextColor(getResources().getColor(R.color.skeleton));
-        gr.setTextColor(getResources().getColor(R.color.skeleton));
-        addition.setTextColor(getResources().getColor(R.color.skeleton));
-        aB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        cB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        BB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        aR_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        cR_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        RB_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        ch_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        gr_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-        addition_Probability.setTextColor(getResources().getColor(R.color.skeleton));
-    }
-
     public void setEditTextFocusTrue(){
         Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_3_smallrole_edit, null);
-        aB.setFocusable(true); aB.setFocusableInTouchMode(true); aB.setBackground(background);
-        cB.setFocusable(true); cB.setFocusableInTouchMode(true); cB.setBackground(background);
-        aR.setFocusable(true); aR.setFocusableInTouchMode(true); aR.setBackground(background);
-        cR.setFocusable(true); cR.setFocusableInTouchMode(true); cR.setBackground(background);
-        ch.setFocusable(true); ch.setFocusableInTouchMode(true); ch.setBackground(background);
-        gr.setFocusable(true); gr.setFocusableInTouchMode(true); gr.setBackground(background);
+        ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(),true,true,background);
     }
 
     public void setEditTextFocusFalse(){
         Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_4_default, null);
-        aB.setFocusable(false); aB.setFocusableInTouchMode(false); aB.setBackground(background);
-        cB.setFocusable(false); cB.setFocusableInTouchMode(false); cB.setBackground(background);
-        aR.setFocusable(false); aR.setFocusableInTouchMode(false); aR.setBackground(background);
-        cR.setFocusable(false); cR.setFocusableInTouchMode(false); cR.setBackground(background);
-        ch.setFocusable(false); ch.setFocusableInTouchMode(false); ch.setBackground(background);
-        gr.setFocusable(false); gr.setFocusableInTouchMode(false); gr.setBackground(background);
+        ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(),false,false,background);
     }
 
     private void setValue() {
@@ -491,7 +424,20 @@ public class MainCounterActivity extends AppCompatActivity {
             textValue = Integer.parseInt(text);
          }
 
-        if (PlusMinusCounter == 0) {
+        if (plusMinusCounter) {
+
+            if (StringUtils.isNotEmpty(text)) {
+                if (textValue > 0) {
+                    textValue--;
+                    colorButton.setFlash(v,id);
+                    editText.setText(String.valueOf(textValue));
+                } else {
+                    Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+
+        } else {
 
             if (StringUtils.isNotEmpty(text)) {
 
@@ -506,19 +452,6 @@ public class MainCounterActivity extends AppCompatActivity {
             } else {
                 colorButton.setFlash(v,id);
                 editText.setText(String.valueOf(1));
-            }
-
-        } else {
-
-            if (StringUtils.isNotEmpty(text)) {
-                if (textValue > 0) {
-                    textValue--;
-                    colorButton.setFlash(v,id);
-                    editText.setText(String.valueOf(textValue));
-                } else {
-                    Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
             }
         }
         focusOut();
