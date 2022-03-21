@@ -64,7 +64,7 @@ public class ViewItems {
         return newItems;
     }
     //カラー設定(EditText型)
-    public static void setEditTextColer(EditText[] items, int textColor, Typeface typeface) {
+    public static void setEditTextColor(EditText[] items, int textColor, Typeface typeface) {
 
         for (EditText item: items){
             item.setTextColor(textColor);
@@ -72,7 +72,7 @@ public class ViewItems {
         }
     }
     //カラー設定(TextView型)
-    public static void setTextViewColer(TextView[] items, int textColor, Typeface typeface) {
+    public static void setTextViewColor(TextView[] items, int textColor, Typeface typeface) {
 
         for (TextView item: items){
             item.setTextColor(textColor);

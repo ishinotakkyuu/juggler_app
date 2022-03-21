@@ -17,6 +17,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_1_big_bottun.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_1_cherr_big_bottun.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_2_cherry_big_bottun.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_3_big_bottun.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_4_alone_reg_bottun.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_5_cherry_reg_bottun.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_6_cherry_bottun.xml" value="0.26614583333333336" />
@@ -29,6 +30,8 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_twotone_access_time_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/main_button.xml" value="1.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/select_button.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-land/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-land/activity_main_counter.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main_counter.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_splash.xml" value="0.25" />
@@ -37,6 +40,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_dailog.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_spinner.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_sppiner.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/fragment_page1.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/list_layout.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/store_name.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/tenpolist_item.xml" value="0.264" />

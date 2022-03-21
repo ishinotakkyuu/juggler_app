@@ -111,8 +111,8 @@ public class MainCounterActivity extends AppCompatActivity {
             case R.id.item2: // 加減算切り替えモード
 
                 if(plusMinusCounter) {
-                    ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
-                    ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
                     plusMinusCounter = false;
                 } else {
                     if(skeletonCounter) {
@@ -122,8 +122,8 @@ public class MainCounterActivity extends AppCompatActivity {
                                 .setPositiveButton("解除", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
-                                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
                                         skeletonCounter = false;
                                         plusMinusCounter = true;
                                         Toast toast = Toast.makeText(MainCounterActivity.this, "ステルス機能が解除されました", Toast.LENGTH_LONG);
@@ -138,8 +138,8 @@ public class MainCounterActivity extends AppCompatActivity {
                                 })
                                 .show();
                     } else{
-                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
-                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
                         plusMinusCounter = true;
                     }
                 }
@@ -148,8 +148,8 @@ public class MainCounterActivity extends AppCompatActivity {
             case R.id.item3: // カウンター非表示モード
 
                 if(skeletonCounter) {
-                    ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
-                    ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
+                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
                     skeletonCounter = false;
                 } else {
                     if(plusMinusCounter) {
@@ -160,8 +160,8 @@ public class MainCounterActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         int skeleton = getResources().getColor(R.color.skeleton);
-                                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
-                                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
+                                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
+                                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
                                         skeletonCounter = true;
                                         plusMinusCounter = false;
                                         Toast toast = Toast.makeText(MainCounterActivity.this, "カウンターは加算されます", Toast.LENGTH_LONG);
@@ -177,8 +177,8 @@ public class MainCounterActivity extends AppCompatActivity {
                                 .show();
                     } else {
                         int skeleton = getResources().getColor(R.color.skeleton);
-                        ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
-                        ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
+                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
+                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
                         skeletonCounter = true;
                     }
                 }
@@ -200,8 +200,8 @@ public class MainCounterActivity extends AppCompatActivity {
                                 CreateXML.updateText(mainApplication,"total","");
                                 CreateXML.updateText(mainApplication,"start","");
 
-                                ViewItems.setEditTextColer(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
-                                ViewItems.setTextViewColer(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                                ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
+                                ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
                                 setEditTextFocusFalse();
 
                                 plusMinusCounter = false;
