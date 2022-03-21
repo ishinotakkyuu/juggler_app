@@ -549,11 +549,14 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/b_7_grapes_bottun"
         android:onClick="grapesButton"
         android:text="@string/grapes"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/gr_Probability"
+        app:layout_constraintEnd_toStartOf="@+id/bonus_addition"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cherry"
         app:layout_constraintTop_toBottomOf="@+id/gr" />
 
@@ -591,10 +594,27 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/bonus_addition"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/gr"
         app:layout_constraintTop_toBottomOf="@+id/RB_Probability" />
+
+    <Button
+        android:id="@+id/bonus_addition"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/b_3_big_bottun"
+        android:text="@string/total_bonus"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/addition_Probability"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/grapes"
+        app:layout_constraintTop_toBottomOf="@+id/addition"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/addition_Probability"
@@ -610,5 +630,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/gr_Probability" />
+        app:layout_constraintStart_toEndOf="@+id/gr_Probability"
+        app:layout_constraintTop_toBottomOf="@+id/bonus_addition" />
 </androidx.constraintlayout.widget.ConstraintLayout>
