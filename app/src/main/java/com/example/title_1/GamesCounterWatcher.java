@@ -140,30 +140,35 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strStart = textString;
 
-                //総ゲーム数に値が入っていた場合値の計算を行う
-                if(StringUtils.isNotEmpty(strTotal)){
-
-                    totalGame = Integer.parseInt(strTotal);
-                    //打ち始めゲーム数が空の場合
-                    if(StringUtils.isEmpty(strStart)){
+                if(StringUtils.isEmpty(strStart)){
+                    //打ち始めゲーム数が空、総ゲーム数に値が入っていた場合
+                    if(StringUtils.isNotEmpty(strTotal)){
+                        totalGame = Integer.parseInt(strTotal);
                         //個人ゲーム数に総ゲーム数を格納
                         individualValue = String.valueOf(totalGame);
-                    } else {
-                        //打ち始めゲーム数に値が入っていた場合
+                    }
+                } else {
+                    //打ち始めゲーム数、総ゲーム数に値が入っていた場合
+                    if(StringUtils.isNotEmpty(strTotal)){
+                        totalGame = Integer.parseInt(strTotal);
                         strStart = Integer.valueOf(strStart).toString();
                         startGame = Integer.parseInt(strStart);
                         int individualGame = totalGame - startGame;
 
-                        if(individualGame >= 0){
+                        if(individualGame >= 0) {
                             individualValue = String.valueOf(individualGame);
                         }
-
+                    } else {
+                        //総ゲーム数が空、打ち始めゲーム数に値が入っていた場合
+                        strStart = Integer.valueOf(strStart).toString();
                     }
-                    // 値のセット
-                    start.setText(strStart);
-                    start.setSelection(strStart.length());
-                    individual.setText(individualValue);
                 }
+
+                // 値のセット
+                start.setText(strStart);
+                start.setSelection(strStart.length());
+                individual.setText(individualValue);
+
 
                 if(StringUtils.isNotEmpty(strStart)) {
                     // 保存処理
