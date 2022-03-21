@@ -157,13 +157,14 @@ public class GamesCounterWatcher implements TextWatcher {
                         if(individualGame >= 0){
                             individualValue = String.valueOf(individualGame);
                         }
+
                     }
                     // 値のセット
                     start.setText(strStart);
                     start.setSelection(strStart.length());
                     individual.setText(individualValue);
-
                 }
+
                 if(StringUtils.isNotEmpty(strStart)) {
                     // 保存処理
                     mainApplication.setStart(strStart);

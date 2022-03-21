@@ -106,6 +106,7 @@ public class MainCounterActivity extends AppCompatActivity {
                     setEditTextFocusTrue();
                     editorModeCounter = true;
                 }
+                focusOut();
                 return true;
 
             case R.id.item2: // 加減算切り替えモード
@@ -143,6 +144,7 @@ public class MainCounterActivity extends AppCompatActivity {
                         plusMinusCounter = true;
                     }
                 }
+                focusOut();
                 return true;
 
             case R.id.item3: // カウンター非表示モード
@@ -182,6 +184,7 @@ public class MainCounterActivity extends AppCompatActivity {
                         skeletonCounter = true;
                     }
                 }
+                focusOut();
                 return true;
 
             case R.id.item4:
@@ -210,11 +213,11 @@ public class MainCounterActivity extends AppCompatActivity {
 
                                 Toast toast = Toast.makeText(MainCounterActivity.this, "リセットしました", Toast.LENGTH_SHORT);
                                 toast.show();
-
                             }
                         })
                         .setNegativeButton("いいえ",null)
                         .show();
+                focusOut();
                 return true;
 
             case R.id.item5:
@@ -223,6 +226,7 @@ public class MainCounterActivity extends AppCompatActivity {
                 } else {
                     notStore();
                 }
+                focusOut();
                 return true;
         }
         return super.onOptionsItemSelected(item);
