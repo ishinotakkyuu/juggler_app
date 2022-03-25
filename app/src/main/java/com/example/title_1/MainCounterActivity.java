@@ -1,15 +1,21 @@
 package com.example.title_1;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+
+import android.app.DatePickerDialog;
+import android.icu.util.Calendar;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,6 +27,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -57,6 +64,7 @@ public class MainCounterActivity extends AppCompatActivity {
     boolean plusMinusCounter = false;
     boolean editorModeCounter = false;
     boolean skeletonCounter = false;
+
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -222,7 +230,7 @@ public class MainCounterActivity extends AppCompatActivity {
 
             case R.id.item5:
                 if(!mainApplication.getStore001().equals("null")){
-                    storeRegister();
+                    registerDialog();
                 } else {
                     notStore();
                 }
@@ -303,42 +311,78 @@ public class MainCounterActivity extends AppCompatActivity {
                 return false;}});
     }
 
-    public void storeRegister(){
-        // 登録店舗名を表示するためのプルダウン(スピナー)を設定
-        final Spinner storeSpinner = new Spinner(this);
-        List<String> storeNames = new ArrayList<String>();
+    public void registerDialog(){
 
-        //----------------------------------------------------------------------------------------------------------
+        // ダイアログを定義
+        Dialog registerDialog = new Dialog(this);
+        // カスタム用のレイアウトをセット
+        registerDialog.setContentView(R.layout.custom_dialog);
+
+        // 日付表示用のEditTextにリスナーを登録
+        registerDialog.findViewById(R.id.DateEditText).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View view) {
+                // Calendarインスタンスを取得
+                final Calendar date = Calendar.getInstance();
+
+                // DatePickerDialogインスタンスを取得
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        MainCounterActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                // 選択した日付を取得して日付表示用のEditTextにセット
+                                EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+                                showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                            }
+                        },
+                        date.get(Calendar.YEAR),
+                        date.get(Calendar.MONTH),
+                        date.get(Calendar.DATE)
+                );
+                //dialogを表示
+                datePickerDialog.show();
+            }
+        });
+
+        // 店舗表示用のスピナーと店舗名のリストを準備
+        Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
+        List<String> storeNames = new ArrayList<>();
+
         // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
         String[] storeItems = CommonFeature.getStoreItems(mainApplication);
-        for(String Item:storeItems){
-            if(!Item.equals("null")){
-                storeNames.add(Item);
-            }
-        }
-        //----------------------------------------------------------------------------------------------------------
+        for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
 
         // アダプターを介して登録店舗一覧リストをセット
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,storeNames);
-        storeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_dialog,storeNames);
+        storeAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_dialog);
         storeSpinner.setAdapter(storeAdapter);
 
-        new AlertDialog.Builder(this)
-                .setTitle("データ登録")
-                .setMessage("カウンターデータを登録します")
-                .setView(storeSpinner)
-                .setPositiveButton("登録", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        // 登録ボタンにリスナー登録
+        registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                        // ここにデータベースへの保存処理を記述する
 
-                        Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                })
-                .setNegativeButton("キャンセル", null)
-                .show();
+                //　データベースへの登録処理をここに記述
+
+                Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);
+                toast.show();
+                registerDialog.dismiss();
+            }
+        });
+
+        // 戻るボタンにリスナー登録
+        registerDialog.findViewById(R.id.ReturnButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerDialog.dismiss();
+            }
+        });
+
+        // ダイアログを表示
+        registerDialog.show();
     }
 
     public void notStore(){
@@ -394,7 +438,6 @@ public class MainCounterActivity extends AppCompatActivity {
         focusOut();
         return true;
     }
-
 
     //-----------------------------------------------------------------------------------------------
     //ここからボタンの制御

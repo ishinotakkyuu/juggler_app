@@ -59,8 +59,8 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         layout = findViewById(R.id.main_layout);
 
-        ListView listView = findViewById(R.id.listview);
-        editText = findViewById(R.id.editText);
+        ListView listView = findViewById(R.id.StoreList);
+        editText = findViewById(R.id.EditStoreName);
 
         //出力結果をリストビューに表示
         adapter = new SampleListAdapter(this, R.layout.store_list_item, listItems);
@@ -80,7 +80,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
 
         //EditTextに入力された文字列を取得
         String store = getEditText();
-        ListView listView = findViewById(R.id.listview);
+        ListView listView = findViewById(R.id.StoreList);
         boolean errorFlag = true;
 
         // EditTextに文字が入力されていない状態で「追加」ボタンを押しても何も処理されない。
@@ -189,7 +189,6 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
 
     public void deleteList(SampleListItem item, ListView listView) {
         new AlertDialog.Builder(this)
-                .setIcon(R.drawable.main_gogo)
                 .setTitle("登録店舗削除")
 
                 .setMessage("「" + item.getTitle() + "」をリストから削除してよろしいですか？")
@@ -201,8 +200,8 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
                         adapter.remove(item);
                         listItems.remove(item);
                         setMainApplication(listItems);
-                        TextView tourokuten = findViewById(R.id.tourokuten_text);
-                        tourokuten.setText("登録店舗数：" + getStoreCount() + "件");
+                        TextView storeRegister = findViewById(R.id.StoreCount);
+                        storeRegister.setText("登録店舗数：" + getStoreCount() + "件");
                         Toast toast = Toast.makeText(StoreManagement.this, "削除しました", Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -331,7 +330,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
 
     private void setStoreCount() {
         //登録店舗数の件数をセット
-        TextView storeCount = findViewById(R.id.tourokuten_text);
+        TextView storeCount = findViewById(R.id.StoreCount);
         storeCount.setText("登録店舗数：" + getStoreCount() + "件");
     }
 
