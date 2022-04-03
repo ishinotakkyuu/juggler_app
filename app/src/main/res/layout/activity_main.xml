@@ -63,6 +63,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/a_1_select_button"
+        android:onClick="gradeInquiry"
         android:text="@string/grade_Inquiry"
         android:textColor="@color/white"
         android:textSize="30sp"

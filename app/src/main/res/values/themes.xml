@@ -41,4 +41,13 @@
     <style name="titleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
+    <style name="Theme.Title_and_animation.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Title_and_animation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Title_and_animation.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

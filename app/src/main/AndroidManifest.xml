@@ -3,39 +3,43 @@
     package="com.example.title_1">
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Title_and_animation"
-        android:name=".MainApplication">
+        android:theme="@style/Theme.Title_and_animation">
+        <activity
+            android:name=".MainGradeInquiry"
+            android:exported="false"
+            android:label="@string/title_activity_main_grade_inquiry"
+            android:theme="@style/Theme.Title_and_animation.NoActionBar" />
         <activity
             android:name=".MainCounterActivity"
-            android:screenOrientation="portrait"
+            android:exported="false"
             android:label="@string/counter_name"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".StoreManagement"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

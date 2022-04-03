@@ -61,5 +61,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void gradeInquiry(View view){
+        Intent intent = new Intent(getApplication(), MainGradeInquiry.class);
+        startActivity(intent);
+    }
+
+
 
 }

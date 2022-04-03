@@ -270,6 +270,7 @@ public class MainCounterActivity extends AppCompatActivity {
 
     public void setJuggler(){
         List<String> jugglerList = new ArrayList<>();
+        // FlagStatisticsクラスも変更必要
         jugglerList.add("SアイムジャグラーEX");
         jugglerList.add("Sファンキージャグラー2");
         jugglerList.add("Sマイジャグラー5");

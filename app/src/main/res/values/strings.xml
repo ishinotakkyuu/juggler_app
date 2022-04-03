@@ -34,11 +34,11 @@
     <string name="menu_item03">ステルス機能</string>
     <string name="menu_item04">カウンター初期化</string>
     <string name="menu_item05">データ保存</string>
+    <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
 
-
-
-
-
+    <!--成績照会のメニュー関係-->
+    <string name="tab_text_1">個別成績</string>
+    <string name="tab_text_2">統計データ</string>
 
 
 </resources>
