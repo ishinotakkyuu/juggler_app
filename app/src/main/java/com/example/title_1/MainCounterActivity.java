@@ -7,6 +7,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.icu.util.Calendar;
 import android.app.Dialog;
 import android.content.Context;
@@ -17,6 +19,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +30,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -64,6 +68,20 @@ public class MainCounterActivity extends AppCompatActivity {
     boolean plusMinusCounter = false;
     boolean editorModeCounter = false;
     boolean skeletonCounter = false;
+
+    //日付
+    String operationDate = "";
+    String operationYear;
+    String operationMonth;
+    String operationDay;
+    String operationDayDigit;
+    String weekId;
+
+    //店舗名
+    String storeName = "";
+
+    // 差枚数
+    Integer differenceNumber;
 
 
     // 共有データ
@@ -336,6 +354,15 @@ public class MainCounterActivity extends AppCompatActivity {
                                 // 選択した日付を取得して日付表示用のEditTextにセット
                                 EditText showDate = registerDialog.findViewById(R.id.DateEditText);
                                 showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                //DB登録用
+                                operationDate = String.format("%d-%02d-%02d", year, month+1, dayOfMonth);
+                                operationYear = Integer.toString(year);
+                                operationMonth = Integer.toString(month+1);
+                                operationDay = Integer.toString(dayOfMonth);
+                                //operationDayDigit = ;
+                                date.set(year, month, dayOfMonth);
+                                weekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
+
                             }
                         },
                         date.get(Calendar.YEAR),
@@ -365,8 +392,57 @@ public class MainCounterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                storeName = (String)storeSpinner.getSelectedItem();
+                EditText editText = registerDialog.findViewById(R.id.DifferenceNumber);
+                String differenceNumberStr = editText.getText().toString();
+
+                if (StringUtils.isNotEmpty(differenceNumberStr)){
+                    differenceNumber = Integer.parseInt(differenceNumberStr);
+                }
+
+                if(!(differenceNumber == null || differenceNumber == 0)){
+                    CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
+                    if(checkBox.isChecked() == true) {
+                        differenceNumber = -differenceNumber;
+                    }
+                }
+
 
                 //　データベースへの登録処理をここに記述
+                Context context = getApplicationContext();
+                DatabaseHelper helper = new DatabaseHelper(context);
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                try {
+                    String sql =
+                            "insert into TEST (" +
+                                    "OPERATION_DATE," +
+                                    "STORE_NAME," +
+                                    "OPERATION_YEAR," +
+                                    "OPERATION_MONTH," +
+                                    "OPERATION_DAY," +
+                                    "OPERATION_DAY_DIGIT," +
+                                    "WEEK_ID," +
+                                    "DIFFERENCE_NUMBER" +
+                                    ") " +
+                                    "values(" +
+                                    "'" + operationDate + "'," +
+                                    "'" + storeName + "'," +
+                                    "'" + operationYear + "'," +
+                                    "'" + operationMonth + "'," +
+                                    "'" + operationDay + "'," +
+                                    "'" + "1" + "'," +
+                                    "'" + weekId + "'," +
+                                    "'" + differenceNumber + "'" +
+                                    ")";
+                    SQLiteStatement stmt = db.compileStatement(sql);
+                    stmt.executeInsert();
+
+                } catch(Exception ex) {
+                    Log.e("MemoPad", ex.toString());
+                } finally {
+                    db.close();
+                }
 
                 Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);
                 toast.show();
