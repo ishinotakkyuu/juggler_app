@@ -30,8 +30,9 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
 
     ArrayList<SampleListItem> listItems = new ArrayList<>();
     SampleListAdapter adapter;
-    int count;
     EditText editText;
+    int count;
+    int tappedPosition = 0;
 
     // フォーカス関係
     ConstraintLayout layout;
@@ -51,7 +52,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
         //アクションバーの表示
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            //    actionBar.setTitle("店 舗 管 理");
+            //actionBar.setTitle("店 舗 管 理");
             actionBar.hide();
         }
 
@@ -141,21 +142,71 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         ListView listView = (ListView) parent;  //タップされたリストビューを取得
-        SampleListItem item = (SampleListItem) listView.getItemAtPosition(position);
+        setPosition(position); //タップされた位置を保持
+        SampleListItem item = (SampleListItem)listView.getItemAtPosition(position);
         String beforeName = item.getTitle();
 
-        String[] selectList = {"店舗名編集", "削除", "キャンセル"};
+        String[] selectList = {"上に移動","下に移動","店舗名編集", "削除", "キャンセル"};
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setItems(selectList, (dialog, idx) -> {
-            if (idx == 0) {  //店舗名編集
+            if (idx == 0) {  //上に移動
+                if (getPosition() > 0){
+                    moveAbove(listView,(SampleListItem)listView.getItemAtPosition(getPosition() - 1),item);
+                } else {
+                    Toast toast = Toast.makeText(this, "一番上のアイテムのため移動できません", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+            } else if (idx == 1) { //下に移動
+                if (getPosition() < listItems.size() - 1){
+                    moveBelow(listView,item,(SampleListItem)listView.getItemAtPosition(getPosition() + 1));
+                } else {
+                    Toast toast = Toast.makeText(this, "一番下のアイテムのため移動できません", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+            } else if (idx == 2) {  //店舗名編集
                 storeReName(beforeName, listView, position);
-            } else if (idx == 1) {   //削除
+
+            } else if (idx == 3) {   //削除
                 deleteList(item, listView);
-            } //キャンセルを押したら何もしない
+            }
+            //キャンセルが押されたら何もしない
         });
         alert.show();
         focusOut();
     }
+
+    public void setPosition(int position){
+        tappedPosition = position;
+    }
+
+    public int getPosition(){
+        return tappedPosition;
+    }
+
+    public void moveAbove(ListView listView,SampleListItem beforeUpItem,SampleListItem parentItem){
+        ArrayAdapter<SampleListItem> adapter = (ArrayAdapter<SampleListItem>)listView.getAdapter();
+        String upName = beforeUpItem.getTitle();
+        beforeUpItem.setmTitle(parentItem.getTitle());
+        parentItem.setmTitle(upName);
+        adapter.notifyDataSetChanged();
+        setMainApplication(listItems);
+        Toast toast = Toast.makeText(this, "上に移動しました", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void moveBelow(ListView listView,SampleListItem parentItem,SampleListItem beforeDownItem){
+        ArrayAdapter<SampleListItem> adapter = (ArrayAdapter<SampleListItem>)listView.getAdapter();
+        String downName = parentItem.getTitle();
+        parentItem.setmTitle(beforeDownItem.getTitle());
+        beforeDownItem.setmTitle(downName);
+        adapter.notifyDataSetChanged();
+        setMainApplication(listItems);
+        Toast toast = Toast.makeText(this, "下に移動しました", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 
     public void storeReName(String beforeName, ListView listView, int position) {
         final EditText editText = new EditText(this);
