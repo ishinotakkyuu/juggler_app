@@ -6,8 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import com.ibm.icu.text.Transliterator;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -28,15 +27,23 @@ import java.util.ArrayList;
 
 public class StoreManagement extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    ArrayList<SampleListItem> listItems = new ArrayList<>();
-    SampleListAdapter adapter;
-    EditText editText;
-    int count;
-    int tappedPosition = 0;
+    // 登録店舗名を入力するEditText
+    EditText storeRegister;
 
-    // フォーカス関係
+    // 店舗数を表示するTextView
+    TextView storeCounter;
+
+    // 登録店舗を表示させるListView,登録店舗名を格納するArrayList,ListViewに登録店舗名をセットする時に使用するadapter
+    ListView storeListView;
+    ArrayList<String> items = new ArrayList<>();
+    ListItemAdapter adapter;
+
+    // フォーカス関係で使用
     ConstraintLayout layout;
     InputMethodManager inputMethodManager;
+
+    // ListViewのどの要素がタップされたかを格納する変数
+    int tappedPosition = 0;
 
     // 共有データ
     MainApplication mainApplication = null;
@@ -46,62 +53,62 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_management);
 
-        this.mainApplication = (MainApplication) this.getApplication();
-        setSampleListItem();
-
         //アクションバーの表示
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            //actionBar.setTitle("店 舗 管 理");
             actionBar.hide();
         }
 
-        // フォーカス関係
+        // フォーカス関係　他、レイアウトの各オブジェクトのfindViewById
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         layout = findViewById(R.id.main_layout);
+        storeCounter = findViewById(R.id.StoreCount);
+        storeListView = findViewById(R.id.StoreList);
+        storeRegister = findViewById(R.id.EditStoreName);
 
-        ListView listView = findViewById(R.id.StoreList);
-        editText = findViewById(R.id.EditStoreName);
+        // 共有データに保存している店舗名を取得 ⇒ itemsに店舗名を格納 ⇒ adapterを介してListViewにセット
+        this.mainApplication = (MainApplication) this.getApplication();
+        setStorageListItem();
+        adapter = new ListItemAdapter(this, R.layout.store_list_item, items);
+        storeListView.setAdapter(adapter);
 
-        //出力結果をリストビューに表示
-        adapter = new SampleListAdapter(this, R.layout.store_list_item, listItems);
-        listView.setAdapter(adapter);
+        //登録店舗数の件数をセット
+        storeCounter.setText("登録店舗数：" + adapter.getCount() + "件");
 
-        setStoreCount();
+        // ListViewにリスナーを登録
+        storeListView.setOnItemClickListener(this);
 
-        listView.setOnItemClickListener(this);
-
+        // 登録店舗名を入力するEditTextにフォーカスを外すための機能をセット
         actionListenerFocusOut();
 
     }
 
+    //「追加」ボタンに設定
     public void addText(View view) {
-        //「追加」ボタンに設定
-        // 店舗名入力 ⇒ 追加ボタン押下 ⇒ アクティビティ下部のリストビューに追加した店舗名のセルがセットされる。
 
-        //EditTextに入力された文字列を取得
-        String store = getEditText();
-        ListView listView = findViewById(R.id.StoreList);
         boolean errorFlag = true;
 
-        // EditTextに文字が入力されていない状態で「追加」ボタンを押しても何も処理されない。
-        if (!store.isEmpty()) {
+        // 入力された店舗名を取得
+        String newStoreName = storeRegister.getText().toString();
+        // 店舗名取得後、EditText内の入力文字列をクリア
+        storeRegister.getEditableText().clear();
 
-            // 文字列前後の空白は削除した新たな文字列を全て半角にしたものをnewStoreに入れる。
+        // EditTextに文字が入力されていない状態で「追加」ボタンを押しても何も処理されない。
+        if (!newStoreName.isEmpty()) {
+
+            // 文字列前後の空白を削除した新たな文字列を全て半角にしたものをnewStoreに入れる。
             Transliterator fullToHalf = Transliterator.getInstance("Fullwidth-Halfwidth");
-            String newStore = fullToHalf.transliterate(store.replaceFirst("^[\\h]+", "").replaceFirst("[\\h]+$", ""));
+            String newStore = fullToHalf.transliterate(newStoreName.replaceFirst("^[\\h]+", "").replaceFirst("[\\h]+$", ""));
 
             // 20店舗対応
-            if (listItems.size() >= 20) {
+            if (items.size() >= 20) {
                 //トーストを表示
                 Toast toast = Toast.makeText(this, "店舗数が上限に達しました", Toast.LENGTH_SHORT);
                 toast.show();
                 return;
             }
 
-            //R4.1.31現在、画像(bmp)は使用していない
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.seven);
-            SampleListItem item = new SampleListItem(bmp, newStore);
+            String item = newStore;
 
             //空白チェック
             if(StringUtils.isBlank(newStore)){
@@ -111,8 +118,8 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
             }
 
             // 重複チェック
-            for(int i = 0; i < listItems.size(); i++){
-                if((listItems.get(i).getTitle()).equals(item.getTitle())){
+            for(int i = 0; i < items.size(); i++){
+                if((items.get(i)).equals(item)){
                     errorFlag = false;
                     Toast toast = Toast.makeText(this, "すでに登録されている店舗名です", Toast.LENGTH_LONG);
                     toast.show();
@@ -122,15 +129,15 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
 
             if(errorFlag){
                 // 店舗名の重複がなければ配列に項目をセットし、内部ストレージにも保存
-                listItems.add(item);
-                setMainApplication(listItems);
+                items.add(item);
+                setMainApplication(items);
 
                 //出力結果をリストビューに表示
-                adapter = new SampleListAdapter(this, R.layout.store_list_item, listItems);
-                listView.setAdapter(adapter);
+                adapter = new ListItemAdapter(this, R.layout.store_list_item, items);
+                storeListView.setAdapter(adapter);
 
                 // 登録店舗数の値を更新して、最後にトーストを表示
-                setStoreCount();
+                storeCounter.setText("登録店舗数：" + adapter.getCount() + "件");
                 Toast toast = Toast.makeText(this, newStore + "が追加されました", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -141,76 +148,103 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
     //リストビュー内の項目をタップした時のイベント処理
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        ListView listView = (ListView) parent;  //タップされたリストビューを取得
-        setPosition(position); //タップされた位置を保持
-        SampleListItem item = (SampleListItem)listView.getItemAtPosition(position);
-        String beforeName = item.getTitle();
 
+        //タップされたリストビューを取得 ⇒ タップされた位置をtappedPositionに保持 ⇒ タップされた店舗名を取得
+        ListView listView = (ListView) parent;
+        tappedPosition = position;
+        String tappedStoreName = (String)listView.getItemAtPosition(position);
+
+        // selectListをセット
         String[] selectList = {"上に移動","下に移動","店舗名編集", "削除", "キャンセル"};
+
+        // アラートダイアグラムの表示 ⇒ 各選択項目ごとの処理を行う
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setItems(selectList, (dialog, idx) -> {
-            if (idx == 0) {  //上に移動
-                if (getPosition() > 0){
-                    moveAbove(listView,(SampleListItem)listView.getItemAtPosition(getPosition() - 1),item);
-                } else {
-                    Toast toast = Toast.makeText(this, "一番上のアイテムのため移動できません", Toast.LENGTH_LONG);
-                    toast.show();
-                }
+            switch (idx){
 
-            } else if (idx == 1) { //下に移動
-                if (getPosition() < listItems.size() - 1){
-                    moveBelow(listView,item,(SampleListItem)listView.getItemAtPosition(getPosition() + 1));
-                } else {
-                    Toast toast = Toast.makeText(this, "一番下のアイテムのため移動できません", Toast.LENGTH_LONG);
-                    toast.show();
-                }
+                // 上に移動
+                case 0:
+                    if (tappedPosition > 0){
+                        moveAbove(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition - 1),tappedStoreName);
+                    } else {
+                        Toast toast = Toast.makeText(this, "一番上のアイテムのため移動できません", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                    break;
 
-            } else if (idx == 2) {  //店舗名編集
-                storeReName(beforeName, listView, position);
+                // 下に移動
+                case 1:
+                    if (tappedPosition < items.size() - 1){
+                        moveBelow(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition + 1),tappedStoreName);
+                    } else {
+                        Toast toast = Toast.makeText(this, "一番下のアイテムのため移動できません", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                    break;
 
-            } else if (idx == 3) {   //削除
-                deleteList(item, listView);
+                // 店舗名編集
+                case 2:
+                    storeReName(tappedStoreName, listView, position);
+                    break;
+
+                // 削除
+                case 3:
+                    deleteList(tappedStoreName, listView);
+                    break;
+
+                // キャンセル
+                case 4:
+                    break;
             }
-            //キャンセルが押されたら何もしない
         });
         alert.show();
         focusOut();
     }
 
-    public void setPosition(int position){
-        tappedPosition = position;
-    }
+    public void moveAbove(ListView listView,int parentPosition,String upStoreName,String tappedStoreName){
 
-    public int getPosition(){
-        return tappedPosition;
-    }
+        // 更新前のadapterを取得
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
 
-    public void moveAbove(ListView listView,SampleListItem beforeUpItem,SampleListItem parentItem){
-        ArrayAdapter<SampleListItem> adapter = (ArrayAdapter<SampleListItem>)listView.getAdapter();
-        String upName = beforeUpItem.getTitle();
-        beforeUpItem.setmTitle(parentItem.getTitle());
-        parentItem.setmTitle(upName);
+        // 入れ替えを行う
+        items.set(parentPosition - 1,tappedStoreName);
+        items.set(parentPosition,upStoreName);
+
+        // adapterの更新
         adapter.notifyDataSetChanged();
-        setMainApplication(listItems);
+
+        // 共有データの更新
+        setMainApplication(items);
+
+        // トーストの表示
         Toast toast = Toast.makeText(this, "上に移動しました", Toast.LENGTH_SHORT);
         toast.show();
     }
 
-    public void moveBelow(ListView listView,SampleListItem parentItem,SampleListItem beforeDownItem){
-        ArrayAdapter<SampleListItem> adapter = (ArrayAdapter<SampleListItem>)listView.getAdapter();
-        String downName = parentItem.getTitle();
-        parentItem.setmTitle(beforeDownItem.getTitle());
-        beforeDownItem.setmTitle(downName);
+    public void moveBelow(ListView listView,int parentPosition,String downStoreName, String tappedStoreName){
+
+        // 更新前のadapterを取得
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
+
+        // 入れ替えを行う
+        items.set(parentPosition + 1,tappedStoreName);
+        items.set(parentPosition,downStoreName);
+
+        // adapterの更新
         adapter.notifyDataSetChanged();
-        setMainApplication(listItems);
+
+        // 共有データの更新
+        setMainApplication(items);
+
+        // トーストの表示
         Toast toast = Toast.makeText(this, "下に移動しました", Toast.LENGTH_SHORT);
         toast.show();
     }
 
 
     public void storeReName(String beforeName, ListView listView, int position) {
-        final EditText editText = new EditText(this);
 
+        final EditText editText = new EditText(this);
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(15);
         editText.setFilters(filters);
@@ -224,35 +258,33 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String newStoreName = editText.getText().toString();
-                        ArrayAdapter<SampleListItem> adapter = (ArrayAdapter<SampleListItem>) listView.getAdapter();
-                        SampleListItem item = (SampleListItem) listView.getItemAtPosition(position);
-                        item.setmTitle(newStoreName);
+                        ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
+                        items.set(position,newStoreName);
                         adapter.notifyDataSetChanged();
-                        setMainApplication(listItems);
+                        setMainApplication(items);
                         Toast toast = Toast.makeText(StoreManagement.this, beforeName + "を" + newStoreName + "に変更しました", Toast.LENGTH_LONG);
                         toast.show();
-
                     }
                 })
                 .setNegativeButton("キャンセル", null)
                 .show();
     }
 
-    public void deleteList(SampleListItem item, ListView listView) {
+    public void deleteList(String tappedStoreName, ListView listView) {
         new AlertDialog.Builder(this)
                 .setTitle("登録店舗削除")
 
-                .setMessage("「" + item.getTitle() + "」をリストから削除してよろしいですか？")
+                .setMessage("「" + tappedStoreName + "」をリストから削除してよろしいですか？")
 
                 .setPositiveButton("削除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ArrayAdapter<SampleListItem> adapter = (ArrayAdapter<SampleListItem>) listView.getAdapter();
-                        adapter.remove(item);
-                        listItems.remove(item);
-                        setMainApplication(listItems);
+                        ArrayAdapter<String> adapter = (ArrayAdapter<String>) listView.getAdapter();
+                        adapter.remove(tappedStoreName);
+                        items.remove(tappedStoreName);
+                        setMainApplication(items);
                         TextView storeRegister = findViewById(R.id.StoreCount);
-                        storeRegister.setText("登録店舗数：" + getStoreCount() + "件");
+                        storeRegister.setText("登録店舗数：" + adapter.getCount() + "件");
                         Toast toast = Toast.makeText(StoreManagement.this, "削除しました", Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -261,7 +293,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
                 .show();
     }
 
-    private void setSampleListItem() {
+    private void setStorageListItem() {
 
         // 20店舗対応
         String storeItems[] = CommonFeature.getStoreItems(mainApplication);
@@ -269,27 +301,23 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
         for (int i = 0; i < storeItems.length; i++) {
 
             if (!storeItems[i].equals("null")) {
-                // わからないがbmpをいれる
-                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.seven);
                 // xmlの上から順に店舗名を入れる
-                SampleListItem item = new SampleListItem(bmp, storeItems[i]);
-                listItems.add(item);
+                String item = storeItems[i];
+                this.items.add(item);
             }
         }
     }
 
-    private void setMainApplication(ArrayList<SampleListItem> listItems) {
+    private void setMainApplication(ArrayList<String> items) {
 
         String storeName;
-        SampleListItem item;
         // 20店舗対応
         int storeLimit = 20;
 
         for (int i = 0; i < storeLimit; i++) {
 
-            if (i < listItems.size()) {
-                item = listItems.get(i);
-                storeName = item.getTitle();
+            if (i < items.size()) {
+                storeName = items.get(i);
             } else {
                 storeName = "null";
             }
@@ -379,25 +407,8 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    private void setStoreCount() {
-        //登録店舗数の件数をセット
-        TextView storeCount = findViewById(R.id.StoreCount);
-        storeCount.setText("登録店舗数：" + getStoreCount() + "件");
-    }
-
-    public String getEditText() {    //EditTextに入力された文字列を取得用メソッド
-        String newStore = editText.getText().toString();    //EditTextの文字列取得
-        editText.getEditableText().clear();     //EditTextの入力文字列をクリア
-        return newStore;
-    }
-
-    public int getStoreCount() {     //リストビューにセットされた項目(店舗)数を取得して返す
-        count = adapter.getCount();
-        return count;
-    }
-
     // onTouchEventではアクテビティにしか反応せず、リストビュー上をタッチしても意味がない
-    // そこでリストビューをタッチしてもフォーカスが外れるようにするには、dispatchTouchEventを使う
+    // そこでリストビューをタッチしてもフォーカスが外れるようにするdispatchTouchEventを使う
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(), 0);
@@ -411,7 +422,7 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
     }
 
     public void actionListenerFocusOut() {
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        storeRegister.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
@@ -421,14 +432,4 @@ public class StoreManagement extends AppCompatActivity implements AdapterView.On
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
 }
