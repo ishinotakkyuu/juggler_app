@@ -128,6 +128,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     // 保存処理
                     mainApplication.setTotal(strTotal);
                     CreateXML.updateText(mainApplication,"total",strTotal);
+                } else {
+                    mainApplication.setTotal("0");
+                    CreateXML.updateText(mainApplication,"total","0");
                 }
 
                 //テキストウォッチャーを元に戻す
@@ -174,6 +177,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     // 保存処理
                     mainApplication.setStart(strStart);
                     CreateXML.updateText(mainApplication,"start",strStart);
+                } else {
+                    mainApplication.setStart("0");
+                    CreateXML.updateText(mainApplication,"start","0");
                 }
 
                 start.addTextChangedListener(this);
@@ -212,6 +218,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     strAloneBig = Integer.valueOf(strAloneBig).toString();
                     aB.setText(strAloneBig);
                     aB.setSelection(strAloneBig.length());
+                } else {
+                    aB.setText("0");
+                    aB.setSelection(1);
                 }
 
                 // 保存処理
@@ -230,6 +239,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     strCherryBig = Integer.valueOf(strCherryBig).toString();
                     cB.setText(strCherryBig);
                     cB.setSelection(strCherryBig.length());
+                } else {
+                    cB.setText("0");
+                    cB.setSelection(1);
                 }
 
                 // 保存処理
@@ -263,6 +275,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     strAloneReg = Integer.valueOf(strAloneReg).toString();
                     aR.setText(strAloneReg);
                     aR.setSelection(strAloneReg.length());
+                } else {
+                    aR.setText("0");
+                    aR.setSelection(1);
                 }
 
                 // 保存処理
@@ -283,6 +298,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     strCherryReg = Integer.valueOf(strCherryReg).toString();
                     cR.setText(strCherryReg);
                     cR.setSelection(strCherryReg.length());
+                } else {
+                    cR.setText("0");
+                    cR.setSelection(1);
                 }
 
                 // 保存処理
@@ -314,6 +332,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     strCherry = Integer.valueOf(strCherry).toString();
                     ch.setText(strCherry);
                     ch.setSelection(strCherry.length());
+                } else {
+                    ch.setText("0");
+                    ch.setSelection(1);
                 }
 
                 // 保存処理
@@ -334,6 +355,9 @@ public class GamesCounterWatcher implements TextWatcher {
                     strGr = Integer.valueOf(strGr).toString();
                     gr.setText(strGr);
                     gr.setSelection(strGr.length());
+                } else {
+                    gr.setText("0");
+                    gr.setSelection(1);
                 }
 
                 // 保存処理

@@ -176,7 +176,7 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
     }
 
 
-    @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
+    @SuppressLint({"SetTextI18n", "NonConstantResourceId", "DefaultLocale"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
