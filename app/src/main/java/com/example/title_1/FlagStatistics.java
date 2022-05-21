@@ -52,15 +52,34 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
              totalAloneRegProbability, totalCherryReg, totalCherryRegProbability,totalReg,totalRegProbability,
              totalBonus,totalBonusProbability,totalGrape,totalGrapeProbability,totalCherry,totalCherryProbability;
 
-    double totalGameValue = 0;
-    double totalMedalValue = 0;
+    int totalGameValue = 0;
+    int totalMedalValue = 0;
     double discountValue = 0;
-    double totalSingleBigValue;
-    double totalCherryBigValue;
-    double totalSingleRegValue;
-    double totalCherryRegValue;
-    double totalCherryValue;
-    double totalgrapeValue;
+    //BIG
+    int totalSingleBigValue= 0;
+    double totalSingleBigProbabilityValue = 0;
+    int totalCherryBigValue = 0;
+    double totalCherryBigProbabilityValue = 0;
+    int totalBigValue = 0;
+    double totalBigProbabilityValue = 0;
+
+    // REG
+    int totalSingleRegValue = 0;
+    double totalSingleRegProbabilityValue = 0;
+    int totalCherryRegValue = 0;
+    double totalCherryRegProbabilityValue = 0;
+    int totalRegValue = 0;
+    double totalRegProbabilityValue = 0;
+
+    // 合算
+    int totalBonusValue = 0;
+    double totalBonusProbabilityValue = 0;
+
+    // 子役
+    int totalCherryValue = 0;
+    double totalCherryProbabilityValue = 0;
+    int totalGrapeValue = 0;
+    double totalGrapeProbabilityValue = 0;
 
 
     @Nullable
@@ -236,26 +255,33 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
 
                         index = cursor.getColumnIndex("TOTAL_GAME");
 
-                        totalGameValue = totalGameValue + cursor.getDouble(index);
+                        totalGameValue = totalGameValue + cursor.getInt(index);
 
                         index = cursor.getColumnIndex("DIFFERENCE_NUMBER");
-                        totalMedalValue = totalMedalValue + cursor.getDouble(index);
+                        totalMedalValue = totalMedalValue + cursor.getInt(index);
 
                         index = cursor.getColumnIndex("SINGLE_BIG");
-                        totalSingleBigValue = totalSingleBigValue + cursor.getDouble(index);
+                        totalSingleBigValue = totalSingleBigValue + cursor.getInt(index);
 
+                        index = cursor.getColumnIndex("CHERRY_BIG");
+                        totalCherryBigValue = totalCherryBigValue + cursor.getInt(index);
 
-                        double totalSingleBigValue;
-                        double totalCherryBigValue;
-                        double totalSingleRegValue;
-                        double totalCherryRegValue;
-                        double totalCherryValue;
-                        double totalgrapeValue;
+                        index = cursor.getColumnIndex("SINGLE_REG");
+                        totalSingleRegValue = totalSingleRegValue + cursor.getInt(index);
+
+                        index = cursor.getColumnIndex("CHERRY_REG");
+                        totalCherryRegValue = totalCherryRegValue + cursor.getInt(index);
+
+                        index = cursor.getColumnIndex("CHERRY");
+                        totalCherryValue = totalCherryValue + cursor.getInt(index);
+
+                        index = cursor.getColumnIndex("GRAPE");
+                        totalGrapeValue = totalGrapeValue + cursor.getInt(index);
+
                         // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
                         Log.i("SQLITE", "_id : " + id + " " +
                                 "OPERATION_DATE : " + operationDate + " " +
-                                "STORE_NAME : "+ storeName + " " +
-                                "TOTAL_GAME : " + cursor.getInt(index) + " ");
+                                "STORE_NAME : "+ storeName + " ");
                     }
                 }finally{
                     if(db != null) {
@@ -264,35 +290,49 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
 
                 }
 
-                discountValue = ((totalGameValue*3) + totalMedalValue) / (totalGameValue*3)*100;
+                totalBigValue = totalSingleBigValue + totalCherryBigValue;
+                totalRegValue = totalSingleRegValue + totalCherryRegValue;
+                totalBonusValue = totalBigValue + totalRegValue;
+
+                if(totalGameValue > 0) {
+                    discountValue = (((double)totalGameValue * 3) + (double)totalMedalValue) / ((double)totalGameValue * 3) * 100;
+                    totalSingleBigProbabilityValue = (double)totalGameValue / (double)totalSingleBigValue;
+                    totalCherryBigProbabilityValue = (double)totalGameValue / (double)totalSingleBigValue;
+                    totalBigProbabilityValue = (double)totalGameValue / (double)totalBigValue;
+                    totalSingleRegProbabilityValue = (double)totalGameValue / (double)totalSingleRegValue;
+                    totalCherryRegProbabilityValue = (double)totalGameValue / (double)totalCherryRegValue;
+                    totalRegProbabilityValue = (double)totalGameValue / (double)totalRegValue;
+                    totalBonusProbabilityValue = (double)totalGameValue / (double)totalBonusValue;
+                    totalCherryProbabilityValue = (double)totalGameValue / (double)totalCherryValue;
+                    totalGrapeProbabilityValue = (double)totalGameValue / (double)totalGrapeValue;
+                }
+                NumberFormat nfNum = NumberFormat.getNumberInstance();
+                nfNum.setMaximumFractionDigits(1);
 
                 // ここにDBデータを記述
-                totalGame.setText(String.valueOf(totalGameValue));
-                totalMedal.setText(String.valueOf(totalMedalValue));
+                totalGame.setText(String.valueOf(Math.round(totalGameValue)) + "回転");
+                totalMedal.setText(String.valueOf(Math.round(totalMedalValue))+ "枚");
                 discount.setText(String.format("%.2f",discountValue) + "%");
-                totalAloneBig.setText("12345678回");
-                totalAloneBigProbability.setText("1/250000.00");
-                totalCherryBig.setText("12345678回");
-                totalCherryBigProbability.setText("1/250000.00");
-                totalBig.setText("12345678回");
-                totalBigProbability.setText("1/250000.00");
-                totalAloneReg.setText("12345678回");
-                totalAloneRegProbability.setText("1/250000.00");
-                totalCherryReg.setText("12345678回");
-                totalCherryRegProbability.setText("1/250000.00");
-                totalReg.setText("12345678回");
-                totalRegProbability.setText("1/250000.00");
-                totalBonus.setText("12345678回");
-                totalBonusProbability.setText("1/250000.00");
-                totalGrape.setText("12345678回");
-                totalGrapeProbability.setText("1/250000.00");
-                totalCherry.setText("12345678回");
-                totalCherryProbability.setText("1/250000.00");
+                totalAloneBig.setText(String.valueOf(totalSingleBigValue) + "回");
+                totalAloneBigProbability.setText("1/" + String.format("%.2f",totalSingleBigProbabilityValue));
+                totalCherryBig.setText(String.valueOf(totalCherryBigValue) + "回");
+                totalCherryBigProbability.setText("1/" + String.format("%.2f",totalCherryBigProbabilityValue));
+                totalBig.setText(String.valueOf(totalBigValue) + "回");
+                totalBigProbability.setText("1/" + String.format("%.2f",totalBigProbabilityValue));
+                totalAloneReg.setText(String.valueOf(totalSingleRegValue) + "回");
+                totalAloneRegProbability.setText("1/" + String.format("%.2f",totalSingleRegProbabilityValue));
+                totalCherryReg.setText(String.valueOf(totalCherryRegValue) + "回");
+                totalCherryRegProbability.setText("1/" + String.format("%.2f",totalCherryRegProbabilityValue));
+                totalReg.setText(String.valueOf(totalRegValue) + "回");
+                totalRegProbability.setText("1/" + String.format("%.2f",totalRegProbabilityValue));
+                totalBonus.setText(String.valueOf(totalBonusValue) + "回");
+                totalBonusProbability.setText("1/" + String.format("%.2f",totalBonusProbabilityValue));
+                totalGrape.setText(String.valueOf(totalGrapeValue) + "回");
+                totalGrapeProbability.setText("1/" + String.format("%.2f",totalGrapeProbabilityValue));
+                totalCherry.setText(String.valueOf(totalCherryValue) + "回");
+                totalCherryProbability.setText("1/" + String.format("%.2f",totalCherryProbabilityValue));
 
                 break;
-
-
-
 
         }
     }
