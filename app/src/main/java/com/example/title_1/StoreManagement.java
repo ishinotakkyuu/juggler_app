@@ -4,7 +4,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.emoji2.widget.EmojiEditText;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
