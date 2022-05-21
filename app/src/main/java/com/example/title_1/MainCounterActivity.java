@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainCounterActivity extends AppCompatActivity {
+public final class MainCounterActivity extends AppCompatActivity {
 
     // レイアウト定義
     ConstraintLayout layout;

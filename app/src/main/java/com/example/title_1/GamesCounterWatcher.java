@@ -372,7 +372,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
     public void setProbability_ch_gr(String smallRole,TextView tv){
 
-        if(StringUtils.isEmpty(smallRole) || smallRole.equals("0")){
+        if(StringUtils.isEmpty(smallRole) || smallRole.equals("0") || smallRole.equals("00")){
             tv.setText(INIT_VALUE);
         } else {
             double ind = Double.parseDouble(individual.getText().toString());
@@ -430,7 +430,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０、かつ、チェリー重複カウンターが０より大きい
-        } else if(alone.equals("0") && cherryValue > 0){
+        } else if(aloneValue == 0 && cherryValue > 0){
             bonusValue = Integer.valueOf(cherry).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(cherry);
@@ -448,7 +448,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０
-        } else if(aloneValue > 0 && cherry.equals("0")){
+        } else if(aloneValue > 0 && cherryValue == 0){
             bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
