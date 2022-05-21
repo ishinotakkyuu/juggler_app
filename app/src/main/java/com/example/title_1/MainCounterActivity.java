@@ -83,6 +83,18 @@ public class MainCounterActivity extends AppCompatActivity {
     // 差枚数
     Integer differenceNumber;
 
+    // 機種
+    int machineNameValue;
+    String machineName = "";
+
+    int startGame;
+    int totalGame;
+    int singleBig;
+    int cherryBig;
+    int singleReg;
+    int cherryReg;
+    int cherry;
+    int grape;
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -359,7 +371,11 @@ public class MainCounterActivity extends AppCompatActivity {
                                 operationYear = Integer.toString(year);
                                 operationMonth = Integer.toString(month+1);
                                 operationDay = Integer.toString(dayOfMonth);
-                                //operationDayDigit = ;
+                                if(dayOfMonth > 9) {
+                                    operationDayDigit = operationDay.substring(1);
+                                } else {
+                                    operationDayDigit = operationDay;
+                                }
                                 date.set(year, month, dayOfMonth);
                                 weekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
 
@@ -407,6 +423,26 @@ public class MainCounterActivity extends AppCompatActivity {
                     }
                 }
 
+                machineNameValue = mainApplication.getMachineName();
+                switch (machineNameValue) {
+                    case 0:
+                        machineName = "SアイムジャグラーEX";
+                        break;
+                    case 1:
+                        machineName = "Sファンキージャグラー2";
+                        break;
+                    case 2:
+                        machineName = "Sマイジャグラー5";
+                        break;
+                }
+                startGame = Integer.parseInt(mainApplication.getStart());
+                totalGame = Integer.parseInt(mainApplication.getTotal());
+                singleBig = Integer.parseInt(mainApplication.getaB());
+                cherryBig = Integer.parseInt(mainApplication.getcB());
+                singleReg = Integer.parseInt(mainApplication.getaR());
+                cherryReg = Integer.parseInt(mainApplication.getcR());
+                cherry = Integer.parseInt(mainApplication.getCh());
+                grape = Integer.parseInt(mainApplication.getGr());
 
                 //　データベースへの登録処理をここに記述
                 Context context = getApplicationContext();
@@ -423,7 +459,16 @@ public class MainCounterActivity extends AppCompatActivity {
                                     "OPERATION_DAY," +
                                     "OPERATION_DAY_DIGIT," +
                                     "WEEK_ID," +
-                                    "DIFFERENCE_NUMBER" +
+                                    "DIFFERENCE_NUMBER," +
+                                    "MACHINE_NAME," +
+                                    "START_GAME," +
+                                    "TOTAL_GAME," +
+                                    "SINGLE_BIG," +
+                                    "CHERRY_BIG," +
+                                    "SINGLE_REG," +
+                                    "CHERRY_REG," +
+                                    "CHERRY," +
+                                    "GRAPE" +
                                     ") " +
                                     "values(" +
                                     "'" + operationDate + "'," +
@@ -431,9 +476,18 @@ public class MainCounterActivity extends AppCompatActivity {
                                     "'" + operationYear + "'," +
                                     "'" + operationMonth + "'," +
                                     "'" + operationDay + "'," +
-                                    "'" + "1" + "'," +
+                                    "'" + operationDayDigit + "'," +
                                     "'" + weekId + "'," +
-                                    "'" + differenceNumber + "'" +
+                                    "'" + differenceNumber + "'," +
+                                    "'" + machineName + "'," +
+                                    "'" + startGame + "'," +
+                                    "'" + totalGame + "'," +
+                                    "'" + singleBig + "'," +
+                                    "'" + cherryBig + "'," +
+                                    "'" + singleReg + "'," +
+                                    "'" + cherryReg + "'," +
+                                    "'" + cherry + "'," +
+                                    "'" + grape + "'" +
                                     ")";
                     SQLiteStatement stmt = db.compileStatement(sql);
                     stmt.executeInsert();

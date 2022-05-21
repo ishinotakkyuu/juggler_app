@@ -1,9 +1,15 @@
 package com.example.title_1;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +25,8 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import org.jetbrains.annotations.Nullable;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +50,17 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
              totalCherryBig, totalCherryBigProbability,totalBig,totalBigProbability,totalAloneReg,
              totalAloneRegProbability, totalCherryReg, totalCherryRegProbability,totalReg,totalRegProbability,
              totalBonus,totalBonusProbability,totalGrape,totalGrapeProbability,totalCherry,totalCherryProbability;
+
+    double totalGameValue = 0;
+    double totalMedalValue = 0;
+    double discountValue = 0;
+    double totalSingleBigValue;
+    double totalCherryBigValue;
+    double totalSingleRegValue;
+    double totalCherryRegValue;
+    double totalCherryValue;
+    double totalgrapeValue;
+
 
     @Nullable
     @Override
@@ -192,10 +211,64 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
                 tittle11.setText("ぶどう");
                 tittle12.setText("非重複チェリー");
 
+
+                Context context = getActivity().getApplicationContext();
+                DatabaseHelper helper = new DatabaseHelper(context);
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                String sql = "select * from " + "TEST" + ";";
+
+                try {
+
+                    Cursor cursor = db.rawQuery("SELECT * FROM test;",null);
+
+                    while(cursor.moveToNext()){
+
+                        int index = cursor.getColumnIndex("ID");
+                        String id = String.valueOf(cursor.getLong(index));
+
+                        index = cursor.getColumnIndex("OPERATION_DATE");
+                        String operationDate = cursor.getString(index);
+
+                        index = cursor.getColumnIndex("STORE_NAME");
+                        String storeName = cursor.getString(index);
+
+                        index = cursor.getColumnIndex("TOTAL_GAME");
+
+                        totalGameValue = totalGameValue + cursor.getDouble(index);
+
+                        index = cursor.getColumnIndex("DIFFERENCE_NUMBER");
+                        totalMedalValue = totalMedalValue + cursor.getDouble(index);
+
+                        index = cursor.getColumnIndex("SINGLE_BIG");
+                        totalSingleBigValue = totalSingleBigValue + cursor.getDouble(index);
+
+
+                        double totalSingleBigValue;
+                        double totalCherryBigValue;
+                        double totalSingleRegValue;
+                        double totalCherryRegValue;
+                        double totalCherryValue;
+                        double totalgrapeValue;
+                        // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
+                        Log.i("SQLITE", "_id : " + id + " " +
+                                "OPERATION_DATE : " + operationDate + " " +
+                                "STORE_NAME : "+ storeName + " " +
+                                "TOTAL_GAME : " + cursor.getInt(index) + " ");
+                    }
+                }finally{
+                    if(db != null) {
+                        db.close();
+                    }
+
+                }
+
+                discountValue = ((totalGameValue*3) + totalMedalValue) / (totalGameValue*3)*100;
+
                 // ここにDBデータを記述
-                totalGame.setText("1234567890123456回転");
-                totalMedal.setText("10000000000000枚");
-                discount.setText("100.00%");
+                totalGame.setText(String.valueOf(totalGameValue));
+                totalMedal.setText(String.valueOf(totalMedalValue));
+                discount.setText(String.format("%.2f",discountValue) + "%");
                 totalAloneBig.setText("12345678回");
                 totalAloneBigProbability.setText("1/250000.00");
                 totalCherryBig.setText("12345678回");
