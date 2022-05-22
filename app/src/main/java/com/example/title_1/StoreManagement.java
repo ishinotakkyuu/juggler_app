@@ -257,7 +257,7 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
 
         final EditText editText = new EditText(this);
         InputFilter[] filters = new InputFilter[1];
-        filters[0] = new InputFilter.LengthFilter(15);
+        filters[0] = new InputFilter.LengthFilter(20);
         editText.setFilters(filters);
 
         editText.setHint("編集前：" + beforeName);
