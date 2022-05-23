@@ -13,17 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import org.jetbrains.annotations.Nullable;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,12 +33,18 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
     // 共有データ
     static MainApplication mainApplication = null;
 
+    // レイアウト
+    ConstraintLayout statisticsLayout;
+
     // 日付表示用のEditText
     EditText date_01,date_02;
 
     // 各種スピナー
     Spinner storeSpinner,machineSpinner,
             specialSpinner_01,specialSpinner_02,specialSpinner_03,specialSpinner_04,specialSpinner_05,specialSpinner_06;
+
+    // 各種チェックボックス
+    CheckBox checkBox_01,checkBox_02,checkBox_03,checkBox_04,checkBox_05,checkBox_06;
 
     // データを表示するためのボタン
     Button display;
@@ -95,25 +100,9 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
 
         mainApplication = (MainApplication) getActivity().getApplication();
 
-        // findViewByIdする対象のレイアウトを指定
-        ConstraintLayout statisticsLayout = view.findViewById(R.id.StatisticsLayout);
-
-        // 日付
-        // 具体的な処理内容はonClickメソッド内に記述
-        date_01 = statisticsLayout.findViewById(R.id.Date_01);
-        date_01.setOnClickListener(this);
-        date_02 = statisticsLayout.findViewById(R.id.Date_02);
-        date_02.setOnClickListener(this);
-
-        // スピナー関係
-        storeSpinner = statisticsLayout.findViewById(R.id.StoreSelect);
-        machineSpinner = statisticsLayout.findViewById(R.id.MachineSelect);
-        specialSpinner_01 = statisticsLayout.findViewById(R.id.SpecialSpinner_01);
-        specialSpinner_02 = statisticsLayout.findViewById(R.id.SpecialSpinner_02);
-        specialSpinner_03 = statisticsLayout.findViewById(R.id.SpecialSpinner_03);
-        specialSpinner_04 = statisticsLayout.findViewById(R.id.SpecialSpinner_04);
-        specialSpinner_05 = statisticsLayout.findViewById(R.id.SpecialSpinner_05);
-        specialSpinner_06 = statisticsLayout.findViewById(R.id.SpecialSpinner_06);
+        // 各種findViewByIdの設定とクリックリスナーの登録
+        setId(view);
+        setClickListener();
 
         // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
         List<String> storeNames = new ArrayList<>();
@@ -126,10 +115,7 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
 
         // 機種名一覧リストをセット
         List<String> machineNames = new ArrayList<>();
-        machineNames.add("未選択");
-        machineNames.add("SアイムジャグラーEX");
-        machineNames.add("Sファンキージャグラー2");
-        machineNames.add("Sマイジャグラー5");
+        machineNames.addAll(Arrays.asList("未選択","SアイムジャグラーEX","Sファンキージャグラー2","Sマイジャグラー5"));
         ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,machineNames);
         machineAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
         machineSpinner.setAdapter(machineAdapter);
@@ -185,50 +171,8 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
         specialItems06_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
         specialSpinner_06.setAdapter(specialItems06_Adapter);
 
-        // 表示ボタン
-        display = statisticsLayout.findViewById(R.id.DisplayButton);
-        display.setOnClickListener(this);
-
-        // タイトル表示用TextViewのfindViewById
-        tittle01 = statisticsLayout.findViewById(R.id.Tittle_01);
-        tittle02 = statisticsLayout.findViewById(R.id.Tittle_02);
-        tittle03 = statisticsLayout.findViewById(R.id.Tittle_03);
-        tittle04 = statisticsLayout.findViewById(R.id.Tittle_04);
-        tittle05 = statisticsLayout.findViewById(R.id.Tittle_05);
-        tittle06 = statisticsLayout.findViewById(R.id.Tittle_06);
-        tittle07 = statisticsLayout.findViewById(R.id.Tittle_07);
-        tittle08 = statisticsLayout.findViewById(R.id.Tittle_08);
-        tittle09 = statisticsLayout.findViewById(R.id.Tittle_09);
-        tittle10 = statisticsLayout.findViewById(R.id.Tittle_10);
-        tittle11 = statisticsLayout.findViewById(R.id.Tittle_11);
-        tittle12 = statisticsLayout.findViewById(R.id.Tittle_12);
-
-        // データ表示用TextViewのfindViewById
-        totalGame = statisticsLayout.findViewById(R.id.TotalGame);
-        totalMedal = statisticsLayout.findViewById(R.id.TotalMedal);
-        discount = statisticsLayout.findViewById(R.id.Discount);
-        totalAloneBig = statisticsLayout.findViewById(R.id.TotalAloneBig);
-        totalAloneBigProbability = statisticsLayout.findViewById(R.id.TotalAloneBigProbability);
-        totalCherryBig = statisticsLayout.findViewById(R.id.TotalCherryBig);
-        totalCherryBigProbability = statisticsLayout.findViewById(R.id.TotalCherryBigProbability);
-        totalBig = statisticsLayout.findViewById(R.id.TotalBig);
-        totalBigProbability = statisticsLayout.findViewById(R.id.TotalBigProbability);
-        totalAloneReg = statisticsLayout.findViewById(R.id.TotalAloneReg);
-        totalAloneRegProbability = statisticsLayout.findViewById(R.id.TotalAloneRegProbability);
-        totalCherryReg = statisticsLayout.findViewById(R.id.TotalCherryReg);
-        totalCherryRegProbability = statisticsLayout.findViewById(R.id.TotalCherryRegProbability);
-        totalReg = statisticsLayout.findViewById(R.id.TotalReg);
-        totalRegProbability = statisticsLayout.findViewById(R.id.TotalRegProbability);
-        totalBonus = statisticsLayout.findViewById(R.id.TotalBonus);
-        totalBonusProbability = statisticsLayout.findViewById(R.id.TotalBonusProbability);
-        totalGrape = statisticsLayout.findViewById(R.id.TotalGrape);
-        totalGrapeProbability = statisticsLayout.findViewById(R.id.TotalGrapeProbability);
-        totalCherry = statisticsLayout.findViewById(R.id.TotalCherry);
-        totalCherryProbability = statisticsLayout.findViewById(R.id.TotalCherryProbability);
-
         return view;
     }
-
 
     @SuppressLint({"SetTextI18n", "NonConstantResourceId", "DefaultLocale"})
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -390,4 +334,81 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
 
         }
     }
+
+    public void setId(View view){
+
+        // findViewByIdする対象のレイアウトを指定
+        statisticsLayout = view.findViewById(R.id.StatisticsLayout);
+
+        // 日付表示用TextView
+        date_01 = statisticsLayout.findViewById(R.id.Date_01);
+        date_02 = statisticsLayout.findViewById(R.id.Date_02);
+
+        // スピナー関係
+        storeSpinner = statisticsLayout.findViewById(R.id.StoreSelect);
+        machineSpinner = statisticsLayout.findViewById(R.id.MachineSelect);
+        specialSpinner_01 = statisticsLayout.findViewById(R.id.SpecialSpinner_01);
+        specialSpinner_02 = statisticsLayout.findViewById(R.id.SpecialSpinner_02);
+        specialSpinner_03 = statisticsLayout.findViewById(R.id.SpecialSpinner_03);
+        specialSpinner_04 = statisticsLayout.findViewById(R.id.SpecialSpinner_04);
+        specialSpinner_05 = statisticsLayout.findViewById(R.id.SpecialSpinner_05);
+        specialSpinner_06 = statisticsLayout.findViewById(R.id.SpecialSpinner_06);
+
+        // チェックボックス
+        checkBox_01 = statisticsLayout.findViewById(R.id.CheckBox_01);
+        checkBox_02 = statisticsLayout.findViewById(R.id.CheckBox_02);
+        checkBox_03 = statisticsLayout.findViewById(R.id.CheckBox_03);
+        checkBox_04 = statisticsLayout.findViewById(R.id.CheckBox_04);
+        checkBox_05 = statisticsLayout.findViewById(R.id.CheckBox_05);
+        checkBox_06 = statisticsLayout.findViewById(R.id.CheckBox_06);
+
+        // タイトル表示用TextView
+        tittle01 = statisticsLayout.findViewById(R.id.Tittle_01);
+        tittle02 = statisticsLayout.findViewById(R.id.Tittle_02);
+        tittle03 = statisticsLayout.findViewById(R.id.Tittle_03);
+        tittle04 = statisticsLayout.findViewById(R.id.Tittle_04);
+        tittle05 = statisticsLayout.findViewById(R.id.Tittle_05);
+        tittle06 = statisticsLayout.findViewById(R.id.Tittle_06);
+        tittle07 = statisticsLayout.findViewById(R.id.Tittle_07);
+        tittle08 = statisticsLayout.findViewById(R.id.Tittle_08);
+        tittle09 = statisticsLayout.findViewById(R.id.Tittle_09);
+        tittle10 = statisticsLayout.findViewById(R.id.Tittle_10);
+        tittle11 = statisticsLayout.findViewById(R.id.Tittle_11);
+        tittle12 = statisticsLayout.findViewById(R.id.Tittle_12);
+
+        // データ表示用TextView
+        totalGame = statisticsLayout.findViewById(R.id.TotalGame);
+        totalMedal = statisticsLayout.findViewById(R.id.TotalMedal);
+        discount = statisticsLayout.findViewById(R.id.Discount);
+        totalAloneBig = statisticsLayout.findViewById(R.id.TotalAloneBig);
+        totalAloneBigProbability = statisticsLayout.findViewById(R.id.TotalAloneBigProbability);
+        totalCherryBig = statisticsLayout.findViewById(R.id.TotalCherryBig);
+        totalCherryBigProbability = statisticsLayout.findViewById(R.id.TotalCherryBigProbability);
+        totalBig = statisticsLayout.findViewById(R.id.TotalBig);
+        totalBigProbability = statisticsLayout.findViewById(R.id.TotalBigProbability);
+        totalAloneReg = statisticsLayout.findViewById(R.id.TotalAloneReg);
+        totalAloneRegProbability = statisticsLayout.findViewById(R.id.TotalAloneRegProbability);
+        totalCherryReg = statisticsLayout.findViewById(R.id.TotalCherryReg);
+        totalCherryRegProbability = statisticsLayout.findViewById(R.id.TotalCherryRegProbability);
+        totalReg = statisticsLayout.findViewById(R.id.TotalReg);
+        totalRegProbability = statisticsLayout.findViewById(R.id.TotalRegProbability);
+        totalBonus = statisticsLayout.findViewById(R.id.TotalBonus);
+        totalBonusProbability = statisticsLayout.findViewById(R.id.TotalBonusProbability);
+        totalGrape = statisticsLayout.findViewById(R.id.TotalGrape);
+        totalGrapeProbability = statisticsLayout.findViewById(R.id.TotalGrapeProbability);
+        totalCherry = statisticsLayout.findViewById(R.id.TotalCherry);
+        totalCherryProbability = statisticsLayout.findViewById(R.id.TotalCherryProbability);
+
+        // 表示ボタン
+        display = statisticsLayout.findViewById(R.id.DisplayButton);
+
+    }
+
+    public void setClickListener(){
+        date_01.setOnClickListener(this);
+        date_02.setOnClickListener(this);
+        display.setOnClickListener(this);
+    }
+
+
 }

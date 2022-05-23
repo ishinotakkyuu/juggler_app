@@ -47,6 +47,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <!-- 枠線 -->
+        <item name="colorControlNormal">@color/white</item>
+        <!-- チェック時の色 -->
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+
+
+
     <style name="Theme.Title_and_animation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Title_and_animation.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

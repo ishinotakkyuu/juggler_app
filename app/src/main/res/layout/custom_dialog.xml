@@ -64,9 +64,10 @@
 
     <Spinner
         android:id="@+id/StoreSpinner"
-        android:layout_width="270dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="4dp"
+        android:gravity="center"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/StoreSelectTittle"
@@ -92,8 +93,8 @@
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:ems="10"
-        android:hint="差枚数を入力"
+        android:maxLength="6"
+        android:gravity="center"
         android:inputType="number"
         android:minHeight="48dp"
         android:textSize="14sp"

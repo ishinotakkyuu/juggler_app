@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -98,8 +99,6 @@ public final class MainCounterActivity extends AppCompatActivity {
 
     // 共有データ
     static MainApplication mainApplication = null;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +224,7 @@ public final class MainCounterActivity extends AppCompatActivity {
                 focusOut();
                 return true;
 
-            case R.id.item4:
+            case R.id.item4: // カウンター初期化
                 new AlertDialog.Builder(this)
                         .setTitle("カウンター初期化")
                         .setMessage("カウンターを全てリセットしますか？")
@@ -258,7 +257,7 @@ public final class MainCounterActivity extends AppCompatActivity {
                 focusOut();
                 return true;
 
-            case R.id.item5:
+            case R.id.item5: // データ保存
                 if(!mainApplication.getStore001().equals("null")){
                     registerDialog();
                 } else {
@@ -366,6 +365,7 @@ public final class MainCounterActivity extends AppCompatActivity {
                                 // 選択した日付を取得して日付表示用のEditTextにセット
                                 EditText showDate = registerDialog.findViewById(R.id.DateEditText);
                                 showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                showDate.setGravity(Gravity.CENTER);
                                 //DB登録用
                                 operationDate = String.format("%d-%02d-%02d", year, month+1, dayOfMonth);
                                 operationYear = Integer.toString(year);
@@ -411,96 +411,143 @@ public final class MainCounterActivity extends AppCompatActivity {
                 storeName = (String)storeSpinner.getSelectedItem();
                 EditText editText = registerDialog.findViewById(R.id.DifferenceNumber);
                 String differenceNumberStr = editText.getText().toString();
+                EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+                String checkShowDate = showDate.getText().toString();
+                int checkIndividual = Integer.parseInt(individual.getText().toString());
 
-                if (StringUtils.isNotEmpty(differenceNumberStr)){
-                    differenceNumber = Integer.parseInt(differenceNumberStr);
-                }
+                // 日付入力済 かつ 個人ゲーム数が０ではなかったら、登録処理
+                if (StringUtils.isNotEmpty(checkShowDate) && checkIndividual != 0){
 
-                if(!(differenceNumber == null || differenceNumber == 0)){
-                    CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
-                    if(checkBox.isChecked() == true) {
-                        differenceNumber = -differenceNumber;
+                    if (StringUtils.isNotEmpty(differenceNumberStr)){
+                        differenceNumber = Integer.parseInt(differenceNumberStr);
                     }
+
+                    if(!(differenceNumber == null || differenceNumber == 0)){
+                        CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
+                        if(checkBox.isChecked() == true) {
+                            differenceNumber = -differenceNumber;
+                        }
+                    }
+
+                    machineNameValue = mainApplication.getMachineName();
+                    switch (machineNameValue) {
+                        case 0:
+                            machineName = "SアイムジャグラーEX";
+                            break;
+                        case 1:
+                            machineName = "Sファンキージャグラー2";
+                            break;
+                        case 2:
+                            machineName = "Sマイジャグラー5";
+                            break;
+                    }
+
+                    // R04.05.24 応急処理 カウンター初期化 ⇒ データ登録時のクラッシュ回避
+                    if (mainApplication.getStart().isEmpty()){
+                        mainApplication.setStart("0");
+                    }
+                    if (mainApplication.getStart().isEmpty()){
+                        mainApplication.setTotal("0");
+                    }
+
+                    startGame = Integer.parseInt(mainApplication.getStart());
+                    totalGame = Integer.parseInt(mainApplication.getTotal());
+                    singleBig = Integer.parseInt(mainApplication.getaB());
+                    cherryBig = Integer.parseInt(mainApplication.getcB());
+                    singleReg = Integer.parseInt(mainApplication.getaR());
+                    cherryReg = Integer.parseInt(mainApplication.getcR());
+                    cherry = Integer.parseInt(mainApplication.getCh());
+                    grape = Integer.parseInt(mainApplication.getGr());
+
+                    //　データベースへの登録処理
+                    Context context = getApplicationContext();
+                    DatabaseHelper helper = new DatabaseHelper(context);
+                    SQLiteDatabase db = helper.getWritableDatabase();
+
+                    try {
+                        String sql =
+                                "insert into TEST (" +
+                                        "OPERATION_DATE," +
+                                        "STORE_NAME," +
+                                        "OPERATION_YEAR," +
+                                        "OPERATION_MONTH," +
+                                        "OPERATION_DAY," +
+                                        "OPERATION_DAY_DIGIT," +
+                                        "WEEK_ID," +
+                                        "DIFFERENCE_NUMBER," +
+                                        "MACHINE_NAME," +
+                                        "START_GAME," +
+                                        "TOTAL_GAME," +
+                                        "SINGLE_BIG," +
+                                        "CHERRY_BIG," +
+                                        "SINGLE_REG," +
+                                        "CHERRY_REG," +
+                                        "CHERRY," +
+                                        "GRAPE" +
+                                        ") " +
+                                        "values(" +
+                                        "'" + operationDate + "'," +
+                                        "'" + storeName + "'," +
+                                        "'" + operationYear + "'," +
+                                        "'" + operationMonth + "'," +
+                                        "'" + operationDay + "'," +
+                                        "'" + operationDayDigit + "'," +
+                                        "'" + weekId + "'," +
+                                        "'" + differenceNumber + "'," +
+                                        "'" + machineName + "'," +
+                                        "'" + startGame + "'," +
+                                        "'" + totalGame + "'," +
+                                        "'" + singleBig + "'," +
+                                        "'" + cherryBig + "'," +
+                                        "'" + singleReg + "'," +
+                                        "'" + cherryReg + "'," +
+                                        "'" + cherry + "'," +
+                                        "'" + grape + "'" +
+                                        ")";
+                        SQLiteStatement stmt = db.compileStatement(sql);
+                        stmt.executeInsert();
+
+                    } catch(Exception ex) {
+                        Log.e("MemoPad", ex.toString());
+                    } finally {
+                        db.close();
+                    }
+
+                    // R04.05.24応急処理　内部ストレージ内の各ゲーム数をブランクに戻す
+                    if (mainApplication.getStart().equals("0")){
+                        mainApplication.setStart("");
+                    }
+                    if (mainApplication.getStart().equals("0")){
+                        mainApplication.setTotal("");
+                    }
+
+                    Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);
+                    toast.show();
+                    registerDialog.dismiss();
                 }
 
-                machineNameValue = mainApplication.getMachineName();
-                switch (machineNameValue) {
-                    case 0:
-                        machineName = "SアイムジャグラーEX";
-                        break;
-                    case 1:
-                        machineName = "Sファンキージャグラー2";
-                        break;
-                    case 2:
-                        machineName = "Sマイジャグラー5";
-                        break;
-                }
-                startGame = Integer.parseInt(mainApplication.getStart());
-                totalGame = Integer.parseInt(mainApplication.getTotal());
-                singleBig = Integer.parseInt(mainApplication.getaB());
-                cherryBig = Integer.parseInt(mainApplication.getcB());
-                singleReg = Integer.parseInt(mainApplication.getaR());
-                cherryReg = Integer.parseInt(mainApplication.getcR());
-                cherry = Integer.parseInt(mainApplication.getCh());
-                grape = Integer.parseInt(mainApplication.getGr());
-
-                //　データベースへの登録処理をここに記述
-                Context context = getApplicationContext();
-                DatabaseHelper helper = new DatabaseHelper(context);
-                SQLiteDatabase db = helper.getWritableDatabase();
-
-                try {
-                    String sql =
-                            "insert into TEST (" +
-                                    "OPERATION_DATE," +
-                                    "STORE_NAME," +
-                                    "OPERATION_YEAR," +
-                                    "OPERATION_MONTH," +
-                                    "OPERATION_DAY," +
-                                    "OPERATION_DAY_DIGIT," +
-                                    "WEEK_ID," +
-                                    "DIFFERENCE_NUMBER," +
-                                    "MACHINE_NAME," +
-                                    "START_GAME," +
-                                    "TOTAL_GAME," +
-                                    "SINGLE_BIG," +
-                                    "CHERRY_BIG," +
-                                    "SINGLE_REG," +
-                                    "CHERRY_REG," +
-                                    "CHERRY," +
-                                    "GRAPE" +
-                                    ") " +
-                                    "values(" +
-                                    "'" + operationDate + "'," +
-                                    "'" + storeName + "'," +
-                                    "'" + operationYear + "'," +
-                                    "'" + operationMonth + "'," +
-                                    "'" + operationDay + "'," +
-                                    "'" + operationDayDigit + "'," +
-                                    "'" + weekId + "'," +
-                                    "'" + differenceNumber + "'," +
-                                    "'" + machineName + "'," +
-                                    "'" + startGame + "'," +
-                                    "'" + totalGame + "'," +
-                                    "'" + singleBig + "'," +
-                                    "'" + cherryBig + "'," +
-                                    "'" + singleReg + "'," +
-                                    "'" + cherryReg + "'," +
-                                    "'" + cherry + "'," +
-                                    "'" + grape + "'" +
-                                    ")";
-                    SQLiteStatement stmt = db.compileStatement(sql);
-                    stmt.executeInsert();
-
-                } catch(Exception ex) {
-                    Log.e("MemoPad", ex.toString());
-                } finally {
-                    db.close();
+                // 日付未入力 かつ 個人ゲーム数が0ゲームだった際の処理
+                if (checkShowDate.isEmpty() && checkIndividual == 0){
+                    Toast toast = Toast.makeText(MainCounterActivity.this, "ゲーム数の入力及び登録時に店舗名を選択してください", Toast.LENGTH_LONG);
+                    toast.show();
+                    registerDialog.dismiss();
+                    return;
                 }
 
-                Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);
-                toast.show();
-                registerDialog.dismiss();
+                // 日付未入力の状態で登録ボタンを押した際の処理
+                if (checkShowDate.isEmpty()){
+                    Toast toast = Toast.makeText(MainCounterActivity.this, "日付を選択してください", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+
+                // 個人ゲーム数が0ゲームの状態で登録ボタンを押した際の処理
+                if (checkIndividual == 0){
+                    Toast toast = Toast.makeText(MainCounterActivity.this, "０ゲームでの登録はできません", Toast.LENGTH_LONG);
+                    toast.show();
+                    registerDialog.dismiss();
+                    return;
+                }
             }
         });
 
