@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
-
 import android.app.DatePickerDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -19,6 +18,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -37,14 +40,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
-public final class MainCounterActivity extends AppCompatActivity {
+public final class MainCounterActivity extends AppCompatActivity implements TextWatcher {
 
     // レイアウト定義
     ConstraintLayout layout;
@@ -87,6 +88,14 @@ public final class MainCounterActivity extends AppCompatActivity {
     // 機種
     int machineNameValue;
     String machineName = "";
+
+    // カスタムダイアログ内にある差枚数入力用のEditText
+    static EditText numberText;
+
+    // バイブ機能に使用
+    boolean checkVibrate = true;
+    Vibrator vibrator;
+    VibrationEffect vibrationEffect; // API26以上のOSで有効
 
     int startGame;
     int totalGame;
@@ -224,7 +233,19 @@ public final class MainCounterActivity extends AppCompatActivity {
                 focusOut();
                 return true;
 
-            case R.id.item4: // カウンター初期化
+            case R.id.item4: // バイブ機能ON/Off
+                if(checkVibrate){
+                    checkVibrate = false;
+                    Toast toast = Toast.makeText(this, "バイブ機能をOFFにしました", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    checkVibrate = true;
+                    Toast toast = Toast.makeText(this, "バイブ機能をONにしました", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                break;
+
+            case R.id.item5: // カウンター初期化
                 new AlertDialog.Builder(this)
                         .setTitle("カウンター初期化")
                         .setMessage("カウンターを全てリセットしますか？")
@@ -257,7 +278,7 @@ public final class MainCounterActivity extends AppCompatActivity {
                 focusOut();
                 return true;
 
-            case R.id.item5: // データ保存
+            case R.id.item6: // データ保存
                 if(!mainApplication.getStore001().equals("null")){
                     registerDialog();
                 } else {
@@ -403,14 +424,16 @@ public final class MainCounterActivity extends AppCompatActivity {
         storeAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_dialog);
         storeSpinner.setAdapter(storeAdapter);
 
+        // numberTextにTextWatcherを設定して0頭を回避する
+        numberText = registerDialog.findViewById(R.id.DifferenceNumber);
+        numberText.addTextChangedListener(this);
+
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 storeName = (String)storeSpinner.getSelectedItem();
-                EditText editText = registerDialog.findViewById(R.id.DifferenceNumber);
-                String differenceNumberStr = editText.getText().toString();
+                String differenceNumberStr = numberText.getText().toString();
                 EditText showDate = registerDialog.findViewById(R.id.DateEditText);
                 String checkShowDate = showDate.getText().toString();
                 int checkIndividual = Integer.parseInt(individual.getText().toString());
@@ -621,24 +644,12 @@ public final class MainCounterActivity extends AppCompatActivity {
     //ここからボタンの制御
     //-----------------------------------------------------------------------------------------------
 
-    public void aloneBigButton(View view) {
-        pushButton(aB,R.id.aB,9999);
-    }
-    public void cherryBigButton(View view) {
-        pushButton(cB,R.id.cB,9999);
-    }
-    public void aloneRegButton(View view){
-        pushButton(aR,R.id.aR,9999);
-    }
-    public void cherryRegButton(View view){
-        pushButton(cR,R.id.cR,9999);
-    }
-    public void cherryButton(View view){
-        pushButton(ch,R.id.ch,99999);
-    }
-    public void grapesButton(View view){
-        pushButton(gr,R.id.gr,999999);
-    }
+    public void aloneBigButton(View view) {pushButton(aB,R.id.aB,9999);setVibrator();}
+    public void cherryBigButton(View view) {pushButton(cB,R.id.cB,9999);setVibrator();}
+    public void aloneRegButton(View view){pushButton(aR,R.id.aR,9999);setVibrator();}
+    public void cherryRegButton(View view){pushButton(cR,R.id.cR,9999);setVibrator();}
+    public void cherryButton(View view){pushButton(ch,R.id.ch,99999);setVibrator();}
+    public void grapesButton(View view){pushButton(gr,R.id.gr,999999);setVibrator();}
 
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.counter);
@@ -682,5 +693,39 @@ public final class MainCounterActivity extends AppCompatActivity {
         focusOut();
     }
 
+    public void setVibrator(){
+        if (checkVibrate){
+            // API26以上だったら
+            if (Build.VERSION.SDK_INT >= 26){
+                vibrationEffect = VibrationEffect.createOneShot(300,-1);
+                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(vibrationEffect);
+            } else {
+                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
+            }
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    @Override
+    public void afterTextChanged(Editable s) {
+        numberText.removeTextChangedListener(this);
+        String str = s.toString();
+
+        if (StringUtils.isNotEmpty(str)) {
+            str = Integer.valueOf(str).toString();
+            numberText.setText(str);
+            numberText.setSelection(str.length());
+        } else {
+            numberText.setText("");
+        }
+
+        numberText.addTextChangedListener(this);
+
+    }
 }
 

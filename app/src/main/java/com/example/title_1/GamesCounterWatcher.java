@@ -131,6 +131,8 @@ public class GamesCounterWatcher implements TextWatcher {
                 } else {
                     mainApplication.setTotal("0");
                     CreateXML.updateText(mainApplication,"total","0");
+                    // 空白に戻す
+                    mainApplication.setTotal("");
                 }
 
                 //テキストウォッチャーを元に戻す
@@ -180,6 +182,8 @@ public class GamesCounterWatcher implements TextWatcher {
                 } else {
                     mainApplication.setStart("0");
                     CreateXML.updateText(mainApplication,"start","0");
+                    // 空白に戻す
+                    mainApplication.setStart("");
                 }
 
                 start.addTextChangedListener(this);
@@ -366,7 +370,6 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 gr.addTextChangedListener(this);
                 break;
-
         }
     }
 

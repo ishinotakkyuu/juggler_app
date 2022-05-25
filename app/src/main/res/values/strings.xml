@@ -32,8 +32,9 @@
     <string name="menu_item01">編集モード</string>
     <string name="menu_item02">加減算モード</string>
     <string name="menu_item03">ステルス機能</string>
-    <string name="menu_item04">カウンター初期化</string>
-    <string name="menu_item05">データ保存</string>
+    <string name="menu_item04">バイブON/OFF</string>
+    <string name="menu_item05">カウンター初期化</string>
+    <string name="menu_item06">データ保存</string>
     <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
 
     <!--成績照会のメニュー関係-->

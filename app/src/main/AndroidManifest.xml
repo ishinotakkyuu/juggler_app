@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".MainApplication"
@@ -12,6 +13,7 @@
         <activity
             android:name=".MainGradeInquiry"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_main_grade_inquiry"
             android:theme="@style/Theme.Title_and_animation.NoActionBar" />
         <activity
