@@ -296,9 +296,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     public void setJuggler(){
-        List<String> jugglerList = new ArrayList<>();
         // FlagStatisticsクラスも変更必要
-        jugglerList.addAll(Arrays.asList("SアイムジャグラーEX","Sファンキージャグラー2","Sマイジャグラー5"));
+        List<String> jugglerList = new ArrayList<>(Arrays.asList("SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
         ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.custom_spinner,jugglerList);
         jugglerAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
         juggler.setAdapter(jugglerAdapter);
