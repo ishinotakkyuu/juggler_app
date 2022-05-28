@@ -1,6 +1,7 @@
 package com.example.title_1;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -252,13 +253,20 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 return true;
 
             case R.id.item6: // データ保存
-                if(!mainApplication.getStore001().equals("null")){
-                    registerDialog();
+                // 個人ゲーム数が0ゲームの状態で登録ボタンを押した際の処理
+                int checkIndividual = Integer.parseInt(individual.getText().toString());
+                if (checkIndividual != 0){
+                    if(!mainApplication.getStore001().equals("null")){
+                        registerDialog();
+                    } else {
+                        notStore();
+                    }
+                    focusOut();
+                    return true;
                 } else {
-                    notStore();
+                    Toast toast = Toast.makeText(MainCounterActivity.this, "０ゲームでの登録はできません", Toast.LENGTH_LONG);
+                    toast.show();
                 }
-                focusOut();
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -306,7 +314,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     public void actionListenerFocusOut(){
         // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になる
-
         setImeActionDone(start); setImeActionDone(total); setImeActionDone(aB); setImeActionDone(cB);
         setImeActionDone(aR); setImeActionDone(cR); setImeActionDone(ch); setImeActionDone(gr);
 
@@ -401,10 +408,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             String differenceNumberStr = numberText.getText().toString();
             EditText showDate = registerDialog.findViewById(R.id.DateEditText);
             String checkShowDate = showDate.getText().toString();
-            int checkIndividual = Integer.parseInt(individual.getText().toString());
 
-            // 日付入力済 かつ 個人ゲーム数が０ではなかったら、登録処理
-            if (StringUtils.isNotEmpty(checkShowDate) && checkIndividual != 0){
+            // 日付入力済なら登録処理
+            if (StringUtils.isNotEmpty(checkShowDate)){
 
                 if (StringUtils.isNotEmpty(differenceNumberStr)){
                     differenceNumber = Integer.parseInt(differenceNumberStr);
@@ -512,28 +518,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);
                 toast.show();
                 registerDialog.dismiss();
-            }
-
-            // 日付未入力 かつ 個人ゲーム数が0ゲームだった際の処理
-            if (checkShowDate.isEmpty() && checkIndividual == 0){
-                Toast toast = Toast.makeText(MainCounterActivity.this, "ゲーム数の入力及び登録時に店舗名を選択してください", Toast.LENGTH_LONG);
-                toast.show();
-                registerDialog.dismiss();
-                return;
-            }
-
-            // 日付未入力の状態で登録ボタンを押した際の処理
-            if (checkShowDate.isEmpty()){
+            } else {
                 Toast toast = Toast.makeText(MainCounterActivity.this, "日付を選択してください", Toast.LENGTH_LONG);
                 toast.show();
-                return;
-            }
-
-            // 個人ゲーム数が0ゲームの状態で登録ボタンを押した際の処理
-            if (checkIndividual == 0){
-                Toast toast = Toast.makeText(MainCounterActivity.this, "０ゲームでの登録はできません", Toast.LENGTH_LONG);
-                toast.show();
-                registerDialog.dismiss();
             }
         });
 
@@ -586,18 +573,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     @SuppressLint("ClickableViewAccessibility")
     public void setTouchEvent(){
         touchLayout.setOnClickListener(v -> focusOut());
-        big.setOnTouchListener((v, event) -> {
-            focusOut();
-            return false;
-        });
-        reg.setOnTouchListener((v, event) -> {
-            focusOut();
-            return false;
-        });
-        bonus.setOnTouchListener((v, event) -> {
-            focusOut();
-            return false;
-        });
+        big.setOnClickListener(v -> MainCounterActivity.this.focusOut());
+        reg.setOnClickListener(v -> MainCounterActivity.this.focusOut());
+        bonus.setOnClickListener(v -> MainCounterActivity.this.focusOut());
     }
 
     public void focusOut(){
