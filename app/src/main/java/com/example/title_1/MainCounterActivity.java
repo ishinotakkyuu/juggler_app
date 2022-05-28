@@ -1,7 +1,6 @@
 package com.example.title_1;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -13,7 +12,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.icu.util.Calendar;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -26,10 +24,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -49,7 +47,7 @@ import java.util.List;
 public final class MainCounterActivity extends AppCompatActivity implements TextWatcher {
 
     // フォーカス処理に使うレイアウト・ボタン
-    ConstraintLayout layout,touchLayout;
+    ConstraintLayout layout,touchLayout,registerLayout;
     Button big,reg,bonus;
 
     // 機種名選択
@@ -62,7 +60,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     static EditText aB,cB,BB,aR,cR,RB,ch,gr,addition;
 
     //確率関係
-    static TextView aB_Probability,cB_Probability,BB_Probability,aR_Probability,cR_Probability,RB_Probability,ch_Probability,gr_Probability,addition_Probability;
+    static TextView aB_Probability,cB_Probability,BB_Probability,aR_Probability,cR_Probability,RB_Probability,
+                    ch_Probability,gr_Probability,addition_Probability;
 
     //オプション関係
     boolean plusMinusCounter = false;
@@ -123,6 +122,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // タッチイベント設定
         setTouchEvent();
     }
+
+    //***************************************************************************************************************************
+    // オプションメニューに関する処理
+    //***************************************************************************************************************************
 
     // オプションメニューを表示するメソッド
     @Override
@@ -271,80 +274,23 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         return super.onOptionsItemSelected(item);
     }
 
-    public void setID(){
-        total = findViewById(R.id.total_game);
-        start = findViewById(R.id.start_game);
-        individual = findViewById(R.id.individual_game);
-        aB = findViewById(R.id.aB); cB = findViewById(R.id.cB); BB = findViewById(R.id.BB);
-        aR = findViewById(R.id.aR); cR = findViewById(R.id.cR); RB = findViewById(R.id.RB);
-        ch = findViewById(R.id.ch); gr = findViewById(R.id.gr); addition = findViewById(R.id.addition);
-        aB_Probability = findViewById(R.id.aB_Probability);
-        cB_Probability = findViewById(R.id.cB_Probability);
-        BB_Probability = findViewById(R.id.BB_Probability);
-        aR_Probability = findViewById(R.id.aR_Probability);
-        cR_Probability = findViewById(R.id.cR_Probability);
-        RB_Probability = findViewById(R.id.RB_Probability);
-        ch_Probability = findViewById(R.id.ch_Probability);
-        gr_Probability = findViewById(R.id.gr_Probability);
-        addition_Probability = findViewById(R.id.addition_Probability);
-        layout = findViewById(R.id.counter);
-        touchLayout = findViewById(R.id.TouchCounter);
-        big = findViewById(R.id.big_bonus);
-        reg = findViewById(R.id.reg_bonus);
-        bonus = findViewById(R.id.bonus_addition);
-        juggler = findViewById(R.id.juggler);
-    }
-
-    public void setTextWatcher(){
-        //ゲーム数関係とカウンター関係へGamesCounterWatcherを設定
-        EditText[] items = ViewItems.joinEditTexts(ViewItems.getGameTextItems(),ViewItems.getCounterTextItems());
-        for (EditText item: items){
-            item.addTextChangedListener(new GamesCounterWatcher(item,mainApplication));
-        }
-    }
-
-    public void setJuggler(){
-        // FlagStatisticsクラスも変更必要
-        List<String> jugglerList = new ArrayList<>(Arrays.asList("SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
-        ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.custom_spinner,jugglerList);
-        jugglerAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
-        juggler.setAdapter(jugglerAdapter);
-        juggler.setSelection(mainApplication.getMachineName());
-    }
-
-    public void actionListenerFocusOut(){
-        // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になる
-        setImeActionDone(start); setImeActionDone(total); setImeActionDone(aB); setImeActionDone(cB);
-        setImeActionDone(aR); setImeActionDone(cR); setImeActionDone(ch); setImeActionDone(gr);
-
-        juggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            //　アイテムが選択された時
-            @Override
-            public void onItemSelected(AdapterView<?> parent,View view, int position, long id) {
-                // 保存処理
-                mainApplication.setMachineName(position);
-                CreateXML.updateText(mainApplication,"machineName",String.valueOf(position));
-                focusOut();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-    }
-
-    public void setImeActionDone(EditText editText){
-        editText.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if(i== EditorInfo.IME_ACTION_DONE){
-                focusOut();}
-            return false;});
-    }
-
     public void registerDialog(){
 
         // ダイアログを定義
         Dialog registerDialog = new Dialog(this);
         // カスタム用のレイアウトをセット
         registerDialog.setContentView(R.layout.custom_dialog);
+
+        registerLayout = registerDialog.findViewById(R.id.RegisterLayout);
+        registerLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
+                registerLayout.requestFocus();
+                return false;
+            }
+        });
 
         // 日付表示用のEditTextにリスナーを登録
         registerDialog.findViewById(R.id.DateEditText).setOnClickListener(new View.OnClickListener() {
@@ -401,6 +347,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // numberTextにTextWatcherを設定して0頭を回避する
         numberText = registerDialog.findViewById(R.id.DifferenceNumber);
         numberText.addTextChangedListener(this);
+
+        // キーボード確定ボタンを押すとフォーカスが外れる
+        numberText.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if(i== EditorInfo.IME_ACTION_DONE){
+                numberText.clearFocus();
+            }
+            return false;});
 
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
@@ -543,6 +496,90 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 .show();
     }
 
+    public void vibrator(){
+        if (checkVibrate){
+            // API26以上だったら
+            if (Build.VERSION.SDK_INT >= 26){
+                vibrationEffect = VibrationEffect.createOneShot(300,-1);
+                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(vibrationEffect);
+            } else {
+                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
+            }
+        }
+    }
+
+    // カスタムダイアログ内の差枚数入力用のEditTextにセット
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    @Override
+    public void afterTextChanged(Editable s) {
+        numberText.removeTextChangedListener(this);
+        String str = s.toString();
+        if (StringUtils.isNotEmpty(str)) {
+            str = Integer.valueOf(str).toString();
+            numberText.setText(str);
+            numberText.setSelection(str.length());
+        } else {
+            numberText.setText("");
+        }
+        numberText.addTextChangedListener(this);
+    }
+
+    //***************************************************************************************************************************
+    // 何かしらの設定をセットしている処理
+    //***************************************************************************************************************************
+
+    public void setID(){
+        total = findViewById(R.id.total_game);
+        start = findViewById(R.id.start_game);
+        individual = findViewById(R.id.individual_game);
+        aB = findViewById(R.id.aB); cB = findViewById(R.id.cB); BB = findViewById(R.id.BB);
+        aR = findViewById(R.id.aR); cR = findViewById(R.id.cR); RB = findViewById(R.id.RB);
+        ch = findViewById(R.id.ch); gr = findViewById(R.id.gr); addition = findViewById(R.id.addition);
+        aB_Probability = findViewById(R.id.aB_Probability);
+        cB_Probability = findViewById(R.id.cB_Probability);
+        BB_Probability = findViewById(R.id.BB_Probability);
+        aR_Probability = findViewById(R.id.aR_Probability);
+        cR_Probability = findViewById(R.id.cR_Probability);
+        RB_Probability = findViewById(R.id.RB_Probability);
+        ch_Probability = findViewById(R.id.ch_Probability);
+        gr_Probability = findViewById(R.id.gr_Probability);
+        addition_Probability = findViewById(R.id.addition_Probability);
+        layout = findViewById(R.id.counter);
+        touchLayout = findViewById(R.id.TouchCounter);
+        big = findViewById(R.id.big_bonus);
+        reg = findViewById(R.id.reg_bonus);
+        bonus = findViewById(R.id.bonus_addition);
+        juggler = findViewById(R.id.juggler);
+    }
+
+    //ゲーム数関係とカウンター関係へGamesCounterWatcherを設定
+    public void setTextWatcher(){
+        EditText[] items = ViewItems.joinEditTexts(ViewItems.getGameTextItems(),ViewItems.getCounterTextItems());
+        for (EditText item: items){
+            item.addTextChangedListener(new GamesCounterWatcher(item,mainApplication));
+        }
+    }
+
+    public void setJuggler(){
+        List<String> jugglerList = new ArrayList<>(Arrays.asList("SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
+        ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.custom_spinner,jugglerList);
+        jugglerAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
+        juggler.setAdapter(jugglerAdapter);
+        juggler.setSelection(mainApplication.getMachineName());
+    }
+
+    public void setImeActionDone(EditText editText){
+        editText.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if(i== EditorInfo.IME_ACTION_DONE){
+                focusOut();}
+            return false;});
+    }
+
     public void setEditTextFocusTrue(){
         Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_3_smallrole_edit, null);
         ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(),true,true,background);
@@ -578,23 +615,52 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         bonus.setOnClickListener(v -> MainCounterActivity.this.focusOut());
     }
 
+    //***************************************************************************************************************************
+    // フォーカス関係の処理
+    //***************************************************************************************************************************
+
+    public void actionListenerFocusOut(){
+        // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になる
+        setImeActionDone(start); setImeActionDone(total); setImeActionDone(aB); setImeActionDone(cB);
+        setImeActionDone(aR); setImeActionDone(cR); setImeActionDone(ch); setImeActionDone(gr);
+
+        juggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //　アイテムが選択された時
+            @Override
+            public void onItemSelected(AdapterView<?> parent,View view, int position, long id) {
+                // 保存処理
+                mainApplication.setMachineName(position);
+                CreateXML.updateText(mainApplication,"machineName",String.valueOf(position));
+                focusOut();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+    }
+
     public void focusOut(){
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(),0);
         layout.requestFocus();
     }
 
-    //-----------------------------------------------------------------------------------------------
-    //ここからボタンの制御
-    //-----------------------------------------------------------------------------------------------
+    //***************************************************************************************************************************
+    // ボタンの制御
+    //***************************************************************************************************************************
 
-    public void aloneBigButton(View view) {pushButton(aB,R.id.aB,9999);setVibrator();}
-    public void cherryBigButton(View view) {pushButton(cB,R.id.cB,9999);setVibrator();}
-    public void aloneRegButton(View view){pushButton(aR,R.id.aR,9999);setVibrator();}
-    public void cherryRegButton(View view){pushButton(cR,R.id.cR,9999);setVibrator();}
-    public void cherryButton(View view){pushButton(ch,R.id.ch,99999);setVibrator();}
-    public void grapesButton(View view){pushButton(gr,R.id.gr,999999);setVibrator();}
-
+    public void aloneBigButton(View view) {pushButton(aB,R.id.aB,9999);
+        vibrator();}
+    public void cherryBigButton(View view) {pushButton(cB,R.id.cB,9999);
+        vibrator();}
+    public void aloneRegButton(View view){pushButton(aR,R.id.aR,9999);
+        vibrator();}
+    public void cherryRegButton(View view){pushButton(cR,R.id.cR,9999);
+        vibrator();}
+    public void cherryButton(View view){pushButton(ch,R.id.ch,99999);
+        vibrator();}
+    public void grapesButton(View view){pushButton(gr,R.id.gr,999999);
+        vibrator();}
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.counter);
         ColorButton colorButton = new ColorButton();
@@ -637,37 +703,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         focusOut();
     }
 
-    public void setVibrator(){
-        if (checkVibrate){
-            // API26以上だったら
-            if (Build.VERSION.SDK_INT >= 26){
-                vibrationEffect = VibrationEffect.createOneShot(300,-1);
-                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vibrator.vibrate(vibrationEffect);
-            } else {
-                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vibrator.vibrate(300);
-            }
-        }
-    }
 
-    // カスタムダイアログ内の差枚数入力用のEditTextにセット
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {}
-    @Override
-    public void afterTextChanged(Editable s) {
-        numberText.removeTextChangedListener(this);
-        String str = s.toString();
-        if (StringUtils.isNotEmpty(str)) {
-            str = Integer.valueOf(str).toString();
-            numberText.setText(str);
-            numberText.setSelection(str.length());
-        } else {
-            numberText.setText("");
-        }
-        numberText.addTextChangedListener(this);
-    }
+
+
+
 }
 
