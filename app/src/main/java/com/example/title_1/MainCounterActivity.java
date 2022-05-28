@@ -393,7 +393,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 if (mainApplication.getStart().isEmpty()){
                     mainApplication.setStart("0");
                 }
-                if (mainApplication.getStart().isEmpty()){
+                if (mainApplication.getTotal().isEmpty()){
                     mainApplication.setTotal("0");
                 }
 
@@ -464,7 +464,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 if (mainApplication.getStart().equals("0")){
                     mainApplication.setStart("");
                 }
-                if (mainApplication.getStart().equals("0")){
+                if (mainApplication.getTotal().equals("0")){
                     mainApplication.setTotal("");
                 }
 
