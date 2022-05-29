@@ -75,6 +75,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     String operationDay;
     String operationDayDigit;
     String weekId;
+    String dayOfWeekinMonth;
 
     //店舗名
     String storeName = "";
@@ -308,6 +309,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                             EditText showDate = registerDialog.findViewById(R.id.DateEditText);
                             showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                             showDate.setGravity(Gravity.CENTER);
+
                             //DB登録用
                             operationDate = String.format("%d-%02d-%02d", year, month+1, dayOfMonth);
                             operationYear = Integer.toString(year);
@@ -320,6 +322,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                             }
                             date.set(year, month, dayOfMonth);
                             weekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
+                            dayOfWeekinMonth = Integer.toString(date.get(Calendar.DAY_OF_WEEK_IN_MONTH));
 
                         },
                         date.get(Calendar.YEAR),
@@ -421,6 +424,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "OPERATION_DAY," +
                                     "OPERATION_DAY_DIGIT," +
                                     "WEEK_ID," +
+                                    "DAY_OF_WEEK_IN_MONTH," +
                                     "DIFFERENCE_NUMBER," +
                                     "MACHINE_NAME," +
                                     "START_GAME," +
@@ -440,6 +444,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "'" + operationDay + "'," +
                                     "'" + operationDayDigit + "'," +
                                     "'" + weekId + "'," +
+                                    "'" + dayOfWeekinMonth + "'," +
                                     "'" + differenceNumber + "'," +
                                     "'" + machineName + "'," +
                                     "'" + startGame + "'," +

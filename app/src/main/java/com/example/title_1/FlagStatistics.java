@@ -40,8 +40,14 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
     EditText date_01,date_02;
 
     // 各種スピナー
-    Spinner storeSpinner,machineSpinner,
-            specialSpinner_01,specialSpinner_02,specialSpinner_03,specialSpinner_04,specialSpinner_05,specialSpinner_06;
+    static Spinner storeSpinner;
+    static Spinner machineSpinner;
+    static Spinner specialSpinner_01;
+    static Spinner specialSpinner_02;
+    static Spinner specialSpinner_03;
+    static Spinner specialSpinner_04;
+    static Spinner specialSpinner_05;
+    static Spinner specialSpinner_06;
 
     // 各種チェックボックス
     CheckBox checkBox_01,checkBox_02,checkBox_03,checkBox_04,checkBox_05,checkBox_06;
@@ -59,6 +65,7 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
              totalAloneRegProbability, totalCherryReg, totalCherryRegProbability,totalReg,totalRegProbability,
              totalBonus,totalBonusProbability,totalGrape,totalGrapeProbability,totalCherry,totalCherryProbability;
 
+    // ゲーム関連
     int totalGameValue = 0;
     int totalMedalValue = 0;
     double discountValue = 0;
@@ -164,6 +171,20 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
         specialItems06_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
         specialSpinner_06.setAdapter(specialItems06_Adapter);
 
+        // タイトルをセット
+        tittle01.setText("総回転数");
+        tittle02.setText("差枚数");
+        tittle03.setText("機械割");
+        tittle04.setText("単独BIG");
+        tittle05.setText("チェBIG");
+        tittle06.setText("BIG合算");
+        tittle07.setText("単独REG");
+        tittle08.setText("チェREG");
+        tittle09.setText("REG合算");
+        tittle10.setText("ボーナス合算");
+        tittle11.setText("ぶどう");
+        tittle12.setText("非重複チェリー");
+
         return view;
     }
 
@@ -179,6 +200,7 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 // 選択した日付を取得して日付表示用のEditTextにセット
                                 date_01.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+
                             }
                         },
                         calender_01.get(Calendar.YEAR),
@@ -208,30 +230,19 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
 
             case R.id.DisplayButton:
 
-                // タイトルをセット
-                tittle01.setText("総回転数");
-                tittle02.setText("差枚数");
-                tittle03.setText("機械割");
-                tittle04.setText("単独BIG");
-                tittle05.setText("チェBIG");
-                tittle06.setText("BIG合算");
-                tittle07.setText("単独REG");
-                tittle08.setText("チェREG");
-                tittle09.setText("REG合算");
-                tittle10.setText("ボーナス合算");
-                tittle11.setText("ぶどう");
-                tittle12.setText("非重複チェリー");
-
+                initValue();
 
                 Context context = getActivity().getApplicationContext();
                 DatabaseHelper helper = new DatabaseHelper(context);
                 SQLiteDatabase db = helper.getWritableDatabase();
 
-                String sql = "select * from " + "TEST" + ";";
+                String sql = CreateSQL.FlagStatisticsSQL();
+
+                Log.i("SQLITE","sql : " + sql);
 
                 try {
 
-                    Cursor cursor = db.rawQuery("SELECT * FROM test;",null);
+                    Cursor cursor = db.rawQuery(sql,null);
 
                     while(cursor.moveToNext()){
 
@@ -403,5 +414,17 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
         display.setOnClickListener(this);
     }
 
+    public void initValue() {
+
+        // 初期化処理
+        totalGameValue = 0;
+        totalMedalValue = 0;
+        totalSingleBigValue = 0;
+        totalCherryBigValue = 0;
+        totalSingleRegValue = 0;
+        totalCherryRegValue = 0;
+        totalCherryValue = 0;
+        totalGrapeValue = 0;
+    }
 
 }

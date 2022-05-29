@@ -25,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "OPERATION_DAY INTEGER," +
                         "OPERATION_DAY_DIGIT INTEGER," +
                         "WEEK_ID INTEGER," +
+                        "DAY_OF_WEEK_IN_MONTH INTEGER," +
                         "DIFFERENCE_NUMBER INTEGER," +
                         "MACHINE_NAME TEXT," +
                         "START_GAME INTEGER," +
