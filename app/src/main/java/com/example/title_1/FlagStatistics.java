@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FlagStatistics extends Fragment implements View.OnClickListener{
+public final class FlagStatistics extends Fragment implements View.OnClickListener{
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -107,83 +107,14 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
 
         mainApplication = (MainApplication) getActivity().getApplication();
 
-        // 各種findViewByIdの設定とクリックリスナーの登録
+        // 各種findViewByIdの設定
         setId(view);
+        // クリックリスナーの登録
         setClickListener();
-
-        // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
-        List<String> storeNames = new ArrayList<>();
-        storeNames.add("未選択");
-        String[] storeItems = CommonFeature.getStoreItems(mainApplication);
-        for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,storeNames);
-        storeAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        storeSpinner.setAdapter(storeAdapter);
-
-        // 機種名一覧リストをセット
-        List<String> machineNames = new ArrayList<>(Arrays.asList("未選択", "SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
-        ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,machineNames);
-        machineAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        machineSpinner.setAdapter(machineAdapter);
-
-        // 特殊スピナー①をセット
-        List<String> specialItems01 = new ArrayList<>(Arrays.asList(
-                "未選択", "0の付く日", "1の付く日", "2の付く日", "3の付く日", "4の付く日",
-                "5の付く日", "6の付く日", "7の付く日", "8の付く日", "9の付く日"));
-        ArrayAdapter<String> specialItems01_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems01);
-        specialItems01_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        specialSpinner_01.setAdapter(specialItems01_Adapter);
-
-        // 特殊スピナー②をセット
-        List<String> specialItems02 = new ArrayList<>(Arrays.asList("未選択", "ゾロ目", "月と日が同じ"));
-        ArrayAdapter<String> specialItems02_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems02);
-        specialItems02_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        specialSpinner_02.setAdapter(specialItems02_Adapter);
-
-        // 特殊スピナー③をセット
-        List<String> specialItems03 = new ArrayList<>(Arrays.asList(
-                "未選択", "1月", "2月", "3月", "4月", "5月", "6月",
-                "7月", "8月", "9月", "10月", "11月", "12月"));
-        ArrayAdapter<String> specialItems03_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems03);
-        specialItems03_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        specialSpinner_03.setAdapter(specialItems03_Adapter);
-
-        // 特殊スピナー④をセット
-        List<String> specialItems04 = new ArrayList<>(Arrays.asList(
-                "未選択", "1日", "2日", "3日", "4日", "5日", "6日", "7日", "8日", "9日",
-                "10日", "11日", "12日", "13日", "14日", "15日", "16日", "17日", "18日", "19日",
-                "20日", "21日", "22日", "23日", "24日", "25日", "26日", "27日", "28日", "29日", "30日", "31日"));
-        ArrayAdapter<String> specialItems04_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems04);
-        specialItems04_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        specialSpinner_04.setAdapter(specialItems04_Adapter);
-
-        // 特殊スピナー⑤をセット
-        List<String> specialItems05 = new ArrayList<>(Arrays.asList(
-                "未選択", "第1", "第2", "第3", "第4", "第5"));
-        ArrayAdapter<String> specialItems05_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems05);
-        specialItems05_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        specialSpinner_05.setAdapter(specialItems05_Adapter);
-
-        // 特殊スピナー⑥をセット
-        List<String> specialItems06 = new ArrayList<>(Arrays.asList(
-                "未選択", "日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"));
-        ArrayAdapter<String> specialItems06_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems06);
-        specialItems06_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
-        specialSpinner_06.setAdapter(specialItems06_Adapter);
-
         // タイトルをセット
-        tittle01.setText("総回転数");
-        tittle02.setText("差枚数");
-        tittle03.setText("機械割");
-        tittle04.setText("単独BIG");
-        tittle05.setText("チェBIG");
-        tittle06.setText("BIG合算");
-        tittle07.setText("単独REG");
-        tittle08.setText("チェREG");
-        tittle09.setText("REG合算");
-        tittle10.setText("ボーナス合算");
-        tittle11.setText("ぶどう");
-        tittle12.setText("非重複チェリー");
+        setTittle();
+        // 各種スピナーに項目をセット
+        setSpinnerData();
 
         return view;
     }
@@ -412,6 +343,84 @@ public class FlagStatistics extends Fragment implements View.OnClickListener{
         date_01.setOnClickListener(this);
         date_02.setOnClickListener(this);
         display.setOnClickListener(this);
+    }
+
+    public void setTittle(){
+        tittle01.setText("総回転数");
+        tittle02.setText("差枚数");
+        tittle03.setText("機械割");
+        tittle04.setText("単独BIG");
+        tittle05.setText("チェBIG");
+        tittle06.setText("BIG合算");
+        tittle07.setText("単独REG");
+        tittle08.setText("チェREG");
+        tittle09.setText("REG合算");
+        tittle10.setText("ボーナス合算");
+        tittle11.setText("ぶどう");
+        tittle12.setText("非重複チェリー");
+    }
+
+    public void setSpinnerData(){
+
+        // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
+        List<String> storeNames = new ArrayList<>();
+        storeNames.add("未選択");
+        String[] storeItems = CommonFeature.getStoreItems(mainApplication);
+        for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
+        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,storeNames);
+        storeAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        storeSpinner.setAdapter(storeAdapter);
+
+        // 機種名一覧リストをセット
+        List<String> machineNames = new ArrayList<>(Arrays.asList("未選択", "SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
+        ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,machineNames);
+        machineAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        machineSpinner.setAdapter(machineAdapter);
+
+        // 特殊スピナー①をセット
+        final List<String> specialItems01 = new ArrayList<>(Arrays.asList(
+                "未選択", "0の付く日", "1の付く日", "2の付く日", "3の付く日", "4の付く日",
+                "5の付く日", "6の付く日", "7の付く日", "8の付く日", "9の付く日"));
+        ArrayAdapter<String> specialItems01_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems01);
+        specialItems01_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        specialSpinner_01.setAdapter(specialItems01_Adapter);
+
+        // 特殊スピナー②をセット
+        final List<String> specialItems02 = new ArrayList<>(Arrays.asList("未選択", "ゾロ目", "月と日が同じ"));
+        ArrayAdapter<String> specialItems02_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems02);
+        specialItems02_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        specialSpinner_02.setAdapter(specialItems02_Adapter);
+
+        // 特殊スピナー③をセット
+        final List<String> specialItems03 = new ArrayList<>(Arrays.asList(
+                "未選択", "1月", "2月", "3月", "4月", "5月", "6月",
+                "7月", "8月", "9月", "10月", "11月", "12月"));
+        ArrayAdapter<String> specialItems03_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems03);
+        specialItems03_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        specialSpinner_03.setAdapter(specialItems03_Adapter);
+
+        // 特殊スピナー④をセット
+        final List<String> specialItems04 = new ArrayList<>(Arrays.asList(
+                "未選択", "1日", "2日", "3日", "4日", "5日", "6日", "7日", "8日", "9日",
+                "10日", "11日", "12日", "13日", "14日", "15日", "16日", "17日", "18日", "19日",
+                "20日", "21日", "22日", "23日", "24日", "25日", "26日", "27日", "28日", "29日", "30日", "31日"));
+        ArrayAdapter<String> specialItems04_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems04);
+        specialItems04_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        specialSpinner_04.setAdapter(specialItems04_Adapter);
+
+        // 特殊スピナー⑤をセット
+        final List<String> specialItems05 = new ArrayList<>(Arrays.asList(
+                "未選択", "第1", "第2", "第3", "第4", "第5"));
+        ArrayAdapter<String> specialItems05_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems05);
+        specialItems05_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        specialSpinner_05.setAdapter(specialItems05_Adapter);
+
+        // 特殊スピナー⑥をセット
+        final List<String> specialItems06 = new ArrayList<>(Arrays.asList(
+                "未選択", "日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"));
+        ArrayAdapter<String> specialItems06_Adapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,specialItems06);
+        specialItems06_Adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
+        specialSpinner_06.setAdapter(specialItems06_Adapter);
     }
 
     public void initValue() {
