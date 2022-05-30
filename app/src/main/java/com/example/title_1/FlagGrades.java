@@ -42,7 +42,7 @@ public class FlagGrades extends Fragment {
         listItems.add(data1);
         listItems.add(data2);
 
-        FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.main03_grades04_item,listItems);
+        FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.main03_grades02_item,listItems);
         keepDataList.setAdapter(adapter);
 
         return view;
