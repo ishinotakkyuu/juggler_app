@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_tittle" />
+        app:srcCompat="@drawable/a_mainactivity01_tittlelogo" />
 
     <Button
         android:id="@+id/StoreManagement"
@@ -26,7 +26,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:background="@drawable/a_1_select_button"
+        android:background="@drawable/a_mainactivity02_selectbutton"
         android:onClick="storeManagement"
         android:text="@string/store_management"
         android:textColor="@color/white"
@@ -44,7 +44,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:background="@drawable/a_1_select_button"
+        android:background="@drawable/a_mainactivity02_selectbutton"
         android:onClick="small_role_Counter"
         android:text="@string/counter"
         android:textColor="@color/white"
@@ -62,7 +62,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:background="@drawable/a_1_select_button"
+        android:background="@drawable/a_mainactivity02_selectbutton"
         android:onClick="gradeInquiry"
         android:text="@string/grade_Inquiry"
         android:textColor="@color/white"
@@ -80,7 +80,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:background="@drawable/a_1_select_button"
+        android:background="@drawable/a_mainactivity02_selectbutton"
         android:text="@string/setting"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -98,7 +98,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="100dp"
-        android:background="@drawable/a_1_select_button"
+        android:background="@drawable/a_mainactivity02_selectbutton"
         android:text="@string/manual"
         android:textColor="@color/white"
         android:textSize="30sp"

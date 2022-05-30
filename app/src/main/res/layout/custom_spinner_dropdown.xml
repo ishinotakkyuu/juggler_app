@@ -4,7 +4,7 @@
     style="?attr/spinnerDropDownItemStyle"
     android:layout_width="match_parent"
     android:layout_height="35dp"
-    android:background="@drawable/b_8_select_spinner"
+    android:background="@drawable/c_maincounteractivity12_selectspinner"
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="center"

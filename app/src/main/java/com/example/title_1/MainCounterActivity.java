@@ -587,12 +587,12 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     public void setEditTextFocusTrue(){
-        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_3_smallrole_edit, null);
+        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.c_maincounteractivity01_gamesediter, null);
         ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(),true,true,background);
     }
 
     public void setEditTextFocusFalse(){
-        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.a_4_default, null);
+        Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.c_maincounteractivity02_focusfalse, null);
         ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(),false,false,background);
     }
 
