@@ -106,7 +106,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
         mainApplication = (MainApplication) this.getApplication();
 
-        setContentView(R.layout.activity_main_counter);
+        setContentView(R.layout.main02_counter01);
 
         // 各viewをfindViewByIdで紐づけるメソッド
         setID();
@@ -280,7 +280,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // ダイアログを定義
         Dialog registerDialog = new Dialog(this);
         // カスタム用のレイアウトをセット
-        registerDialog.setContentView(R.layout.custom_dialog);
+        registerDialog.setContentView(R.layout.main02_counter04_custom_dialog);
 
         registerLayout = registerDialog.findViewById(R.id.RegisterLayout);
         registerLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -343,8 +343,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
 
         // アダプターを介して登録店舗一覧リストをセット
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_dialog,storeNames);
-        storeAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_dialog);
+        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner,storeNames);
+        storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
         storeSpinner.setAdapter(storeAdapter);
 
         // numberTextにTextWatcherを設定して0頭を回避する
@@ -573,8 +573,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     public void setJuggler(){
         List<String> jugglerList = new ArrayList<>(Arrays.asList("SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
-        ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.custom_spinner,jugglerList);
-        jugglerAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
+        ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.main02_counter02_juggler_spinner,jugglerList);
+        jugglerAdapter.setDropDownViewResource(R.layout.main02_counter03_juggler_spinner_dropdown);
         juggler.setAdapter(jugglerAdapter);
         juggler.setSelection(mainApplication.getMachineName());
     }

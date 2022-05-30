@@ -50,7 +50,7 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_store_management);
+        setContentView(R.layout.main01_storemanagement01);
 
         //アクションバーの表示
         ActionBar actionBar = getSupportActionBar();
@@ -68,7 +68,7 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
         // 共有データに保存している店舗名を取得 ⇒ itemsに店舗名を格納 ⇒ adapterを介してListViewにセット
         this.mainApplication = (MainApplication) this.getApplication();
         setStorageListItem();
-        adapter = new ListItemAdapter(this, R.layout.store_list_item, items);
+        adapter = new ListItemAdapter(this, R.layout.main01_storemanagement02_listitem, items);
         storeListView.setAdapter(adapter);
 
         // 登録店舗数の件数をセット
@@ -144,7 +144,7 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
                 setMainApplication(items);
 
                 //出力結果をリストビューに表示
-                adapter = new ListItemAdapter(this, R.layout.store_list_item, items);
+                adapter = new ListItemAdapter(this, R.layout.main01_storemanagement02_listitem, items);
                 storeListView.setAdapter(adapter);
 
                 // 登録店舗数の値を更新して、最後にトーストを表示

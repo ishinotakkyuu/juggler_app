@@ -28,7 +28,7 @@ public class FlagGrades extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.flag_grades,container,false);
+        View view = inflater.inflate(R.layout.main03_grades01,container,false);
 
         // レイアウト取得
         layout = view.findViewById(R.id.FlagGradesLayout);
@@ -42,7 +42,7 @@ public class FlagGrades extends Fragment {
         listItems.add(data1);
         listItems.add(data2);
 
-        FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.flag_grades_item,listItems);
+        FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.main03_grades04_item,listItems);
         keepDataList.setAdapter(adapter);
 
         return view;

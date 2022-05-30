@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.main00_main00_splash);
         //アクションバーの非表示
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
