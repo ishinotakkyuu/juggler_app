@@ -362,17 +362,55 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
     public void setSpinnerData(){
 
-        // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
         List<String> storeNames = new ArrayList<>();
         storeNames.add("未選択");
-        String[] storeItems = CommonFeature.getStoreItems(mainApplication);
-        for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
+        List<String> machineNames = new ArrayList<>();
+        machineNames.add("未選択");
+
+        Context context = getActivity().getApplicationContext();
+        DatabaseHelper helper = new DatabaseHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        String storeListSql = "SELECT DISTINCT STORE_NAME FROM TEST;";
+        String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST;";
+
+        Log.i("SQLITE","storeListSql : " + storeListSql);
+        Log.i("SQLITE","machineListSql : " + machineListSql);
+
+        try {
+
+            Cursor cursor = db.rawQuery(storeListSql,null);
+
+            while(cursor.moveToNext()){
+                int index = cursor.getColumnIndex("STORE_NAME");
+                String store = cursor.getString(index);
+                storeNames.add(store);
+            }
+
+            Cursor cursor2 = db.rawQuery(machineListSql,null);
+
+            while(cursor2.moveToNext()){
+                int index = cursor2.getColumnIndex("MACHINE_NAME");
+                String machine = cursor2.getString(index);
+                machineNames.add(machine);
+            }
+
+
+        }finally{
+            if(db != null) {
+                db.close();
+            }
+
+        }
+
+        // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
+        //String[] storeItems = CommonFeature.getStoreItems(mainApplication);
+        //for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
         ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,storeNames);
         storeAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
         storeSpinner.setAdapter(storeAdapter);
 
         // 機種名一覧リストをセット
-        List<String> machineNames = new ArrayList<>(Arrays.asList("未選択", "SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
         ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.custom_spinner_statistics,machineNames);
         machineAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_statistics);
         machineSpinner.setAdapter(machineAdapter);
