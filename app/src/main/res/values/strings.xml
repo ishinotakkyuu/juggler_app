@@ -38,7 +38,7 @@
     <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
 
     <!--成績照会のメニュー関係-->
-    <string name="tab_text_1">個別成績</string>
+    <string name="tab_text_1">個別データ</string>
     <string name="tab_text_2">統計データ</string>
 
 
