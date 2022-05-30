@@ -32,14 +32,15 @@ public class FlagGrades extends Fragment {
 
         // レイアウト取得
         layout = view.findViewById(R.id.FlagGradesLayout);
-        // リストビュー取得および店舗名表示用TextViewを取得
+        // リストビュー取得
         keepDataList = layout.findViewById(R.id.KeepDataList);
-        storeText = layout.findViewById(R.id.StoreName);
 
-        // リストビューに表示する要素の設定
+        // リストビューに表示する要素の設定(仮)　⇒　ここにDBから持ってきた機種名・店舗名・登録日時を新しい順にセットしていく
         ArrayList<FlagGradesListItems> listItems = new ArrayList<>();
-        FlagGradesListItems data = new FlagGradesListItems("Sアイム土屋ジャグラー","楽園大森店","2022年12月31日 12時00分");
-        listItems.add(data);
+        FlagGradesListItems data1 = new FlagGradesListItems("Sアイム土屋ジャグラー","楽園大森店","2022年12月31日12時00分");
+        FlagGradesListItems data2 = new FlagGradesListItems("Sアイム松沢ジャグラー","あああああああああああああああああん","2022年12月31日12時00分");
+        listItems.add(data1);
+        listItems.add(data2);
 
         FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.flag_grades_item,listItems);
         keepDataList.setAdapter(adapter);
