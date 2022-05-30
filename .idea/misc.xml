@@ -31,6 +31,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_8_switch.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_9_actionbar_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/baseline_schedule_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/d_1_list.xml" value="0.2545" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_twotone_access_time_24.xml" value="0.26614583333333336" />
@@ -42,6 +43,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-land/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-land/activity_main_counter.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-notlong/activity_main_counter.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-notlong/flag_grades_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw320dp/activity_main_counter.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main_counter.xml" value="0.264" />
@@ -63,6 +65,8 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_spinner.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_spinner_dialog.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_sppiner.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/flag_grades.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/flag_grades_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/flag_statistics.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/fragment_page1.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/list_layout.xml" value="0.4" />
