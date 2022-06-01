@@ -36,15 +36,19 @@ public class FlagGradesAdapter extends ArrayAdapter<FlagGradesListItems> {
         // リストビューに表示する要素を取得
         FlagGradesListItems items = fItems.get(position);
 
-        // 機種名を設定
+        // IDをセット
+        TextView textID = view.findViewById(R.id.ID);
+        textID.setText(items.getID());
+
+        // 機種名をセット
         TextView textMachineName = view.findViewById(R.id.MachineName);
         textMachineName.setText(items.getMachineName());
 
-        // 店舗名を設定
+        // 店舗名をセット
         TextView textStoreName = view.findViewById(R.id.StoreName);
         textStoreName.setText(items.getStoreName());
 
-        // 保存時間を設定
+        // 保存時間をセット
         TextView textKeepTime = view.findViewById(R.id.KeepTime);
         textKeepTime.setText(items.getKeepTime());
 

@@ -55,7 +55,6 @@
     </style>
 
 
-
     <style name="Theme.Title_and_animation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Title_and_animation.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

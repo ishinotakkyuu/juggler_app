@@ -40,6 +40,16 @@
     <!--成績照会のメニュー関係-->
     <string name="tab_text_1">個別データ</string>
     <string name="tab_text_2">統計データ</string>
+    <string name="tab_text_3">CSV出力</string>
+    <string name="title_activity_data_detail">DataDetail</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 
 </resources>

@@ -436,12 +436,14 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(), 0);
+        storeRegister.setSelection(0);
         layout.requestFocus();
         return super.dispatchTouchEvent(event);
     }
 
     public void focusOut() {
         inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(), 0);
+        storeRegister.setSelection(0);
         layout.requestFocus();
     }
 

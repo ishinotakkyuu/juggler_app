@@ -131,7 +131,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 // 選択した日付を取得して日付表示用のEditTextにセット
                                 date_01.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
-
                             }
                         },
                         calender_01.get(Calendar.YEAR),

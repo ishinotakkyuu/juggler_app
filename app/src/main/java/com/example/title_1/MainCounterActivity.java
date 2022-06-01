@@ -281,7 +281,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         Dialog registerDialog = new Dialog(this);
         // カスタム用のレイアウトをセット
         registerDialog.setContentView(R.layout.main02_counter04_custom_dialog);
-
+        // ダイアログのレイアウトをタッチするとフォーカスが外れる
         registerLayout = registerDialog.findViewById(R.id.RegisterLayout);
         registerLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -331,6 +331,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 );
                 //dialogを表示
                 datePickerDialog.show();
+                // キーボードが出ている(例えば差枚数をクリックしてキーボードを出しっぱなし)状態で日付選択をタッチした場合はキーボードを閉じる
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
+                registerLayout.requestFocus();
             }
         });
 
@@ -354,7 +358,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // キーボード確定ボタンを押すとフォーカスが外れる
         numberText.setOnEditorActionListener((textView, i, keyEvent) -> {
             if(i== EditorInfo.IME_ACTION_DONE){
-                numberText.clearFocus();
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
+                registerLayout.requestFocus();
             }
             return false;});
 
@@ -476,6 +482,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);
                 toast.show();
                 registerDialog.dismiss();
+                focusOut();
             } else {
                 Toast toast = Toast.makeText(MainCounterActivity.this, "日付を選択してください", Toast.LENGTH_LONG);
                 toast.show();
