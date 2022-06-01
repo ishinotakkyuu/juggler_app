@@ -67,6 +67,7 @@ public class FlagGrades extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                // クリックされたリストビューを取得
                 ListView listView = (ListView) parent;
 
                 // データ詳細画面にデータを引き継ぐ際に使用するIntentを定義

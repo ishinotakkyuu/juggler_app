@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class DataDetail extends AppCompatActivity {
+
+    TextView textView;
+    String ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,7 @@ public class DataDetail extends AppCompatActivity {
         // 個別データ画面から引き継がれてきたIDを受け取る
         Intent intent = getIntent();
         // 受け取ったデータを取り出す
-        String ID = intent.getStringExtra("ID");
+        ID = intent.getStringExtra("ID");
 
 
 
@@ -32,8 +36,21 @@ public class DataDetail extends AppCompatActivity {
 
 
         // 取得したデータを各TextViewにセット(R04.06.01時点では仮として、IDのみをセットする)
-        TextView textView = findViewById(R.id.textView);
+        textView = findViewById(R.id.textView);
         textView.setText(ID);
 
     }
+
+    public void takeOverID(View view){
+        // MainCounterActivityを遷移先にセット
+        Intent intent = new Intent(this,MainCounterActivity.class);
+        // Intentに引き継ぐIDをセット
+        intent.putExtra("ID",ID);
+        // MainCounterActivityに遷移させる
+        startActivity(intent);
+
+    }
+
+
+
 }

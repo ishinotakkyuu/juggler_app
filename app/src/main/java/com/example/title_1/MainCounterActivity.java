@@ -97,6 +97,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     int startGame,totalGame,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
 
+    // Intentで引き継ぐID。中身がnullなら新規、nullじゃなかったら更新、として判定
+    String ID;
+
+
     // 共有データ
     static MainApplication mainApplication = null;
 
@@ -107,6 +111,11 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         mainApplication = (MainApplication) this.getApplication();
 
         setContentView(R.layout.main02_counter01);
+
+        // データ詳細画面からIDを引き継ぐ
+        Intent intent = getIntent();
+        //　nullなら新規、そうでなければ更新　⇒　更新の場合は内部ストレージの保持不要にしないとデータが重複する可能性あり
+        ID = intent.getStringExtra("ID");
 
         // 各viewをfindViewByIdで紐づけるメソッド
         setID();
