@@ -419,14 +419,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                         break;
                 }
 
-                // R04.05.24 応急処理 カウンター初期化 ⇒ データ登録時のクラッシュ回避
-                if (mainApplication.getStart().isEmpty()){
-                    mainApplication.setStart("0");
-                }
-                if (mainApplication.getTotal().isEmpty()){
-                    mainApplication.setTotal("0");
-                }
-
                 startGame = Integer.parseInt(mainApplication.getStart());
                 totalGame = Integer.parseInt(mainApplication.getTotal());
                 singleBig = Integer.parseInt(mainApplication.getaB());
@@ -493,14 +485,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     Log.e("MemoPad", ex.toString());
                 } finally {
                     db.close();
-                }
-
-                // R04.05.24応急処理　内部ストレージ内の各ゲーム数をブランクに戻す
-                if (mainApplication.getStart().equals("0")){
-                    mainApplication.setStart("");
-                }
-                if (mainApplication.getTotal().equals("0")){
-                    mainApplication.setTotal("");
                 }
 
                 Toast toast = Toast.makeText(MainCounterActivity.this, "データを登録しました", Toast.LENGTH_LONG);

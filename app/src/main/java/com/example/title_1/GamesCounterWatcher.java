@@ -111,15 +111,12 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 //個人ゲーム数を算出。0以上だったらその値を個人ゲーム数にセット。マイナスだったら0をセット
                 totalGame = Integer.parseInt(strTotal);
-
+                //R04.06.02　クラッシュしちゃうので応急処理(原因究明しようと思ったけど眠かったからあきらめた)
                 if(!strStart.equals("")){
                     startGame = Integer.parseInt(strStart);
                 } else {
                     startGame = 0;
                 }
-
-
-
                 int individualGame = totalGame - startGame;
                 if (individualGame >= 0) {
                     individualValue = String.valueOf(individualGame);
