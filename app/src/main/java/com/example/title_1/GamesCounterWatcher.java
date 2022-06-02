@@ -99,8 +99,8 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strTotal = textString;
 
+                //総ゲーム数が空ではなかった場合
                 if (StringUtils.isNotEmpty(strTotal)) {
-                    //総ゲーム数が空ではなかった場合
                     //数値変換して文字型に再変換することで０頭を回避
                     strTotal = Integer.valueOf(strTotal).toString();
                     totalGame = Integer.parseInt(strTotal);
@@ -132,7 +132,7 @@ public class GamesCounterWatcher implements TextWatcher {
                     mainApplication.setTotal("0");
                     CreateXML.updateText(mainApplication,"total","0");
                     // 空白に戻す
-                    mainApplication.setTotal("");
+                    // mainApplication.setTotal("");
                 }
 
                 //テキストウォッチャーを元に戻す
@@ -183,7 +183,7 @@ public class GamesCounterWatcher implements TextWatcher {
                     mainApplication.setStart("0");
                     CreateXML.updateText(mainApplication,"start","0");
                     // 空白に戻す
-                    mainApplication.setStart("");
+                    // mainApplication.setStart("");
                 }
 
                 start.addTextChangedListener(this);

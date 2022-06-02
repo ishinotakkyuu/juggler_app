@@ -87,8 +87,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     int machineNameValue;
     String machineName = "";
 
-    // カスタムダイアログ内にある差枚数入力用のEditText
-    static EditText numberText;
+    // カスタムダイアログ内にある台番号・差枚数入力用のEditText
+    static EditText machineText,medalText;
 
     // バイブ機能に使用
     boolean checkVibrate = true;
@@ -361,11 +361,20 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         storeSpinner.setAdapter(storeAdapter);
 
         // numberTextにTextWatcherを設定して0頭を回避する
-        numberText = registerDialog.findViewById(R.id.DifferenceNumber);
-        numberText.addTextChangedListener(this);
+        // なお、台番号については0頭は許容しておく
+        medalText = registerDialog.findViewById(R.id.DifferenceNumber);
+        medalText.addTextChangedListener(this);
 
         // キーボード確定ボタンを押すとフォーカスが外れる
-        numberText.setOnEditorActionListener((textView, i, keyEvent) -> {
+        medalText.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if(i== EditorInfo.IME_ACTION_DONE){
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
+                registerLayout.requestFocus();
+            }
+            return false;});
+        machineText = registerDialog.findViewById(R.id.MachineNumber);
+        machineText.setOnEditorActionListener((textView, i, keyEvent) -> {
             if(i== EditorInfo.IME_ACTION_DONE){
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
@@ -376,9 +385,12 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
             storeName = (String)storeSpinner.getSelectedItem();
-            String differenceNumberStr = numberText.getText().toString();
+            String differenceNumberStr = medalText.getText().toString();
             EditText showDate = registerDialog.findViewById(R.id.DateEditText);
             String checkShowDate = showDate.getText().toString();
+
+            //　R04.06.02 台番号取得
+            String machineNumberStr = machineText.getText().toString();
 
             // 日付入力済なら登録処理
             if (StringUtils.isNotEmpty(checkShowDate)){
@@ -428,6 +440,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 Context context = getApplicationContext();
                 DatabaseHelper helper = new DatabaseHelper(context);
                 SQLiteDatabase db = helper.getWritableDatabase();
+
+                // DB項目に台番号を追加すること！
+
 
                 try {
                     String sql =
@@ -538,16 +553,16 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     public void onTextChanged(CharSequence s, int start, int before, int count) {}
     @Override
     public void afterTextChanged(Editable s) {
-        numberText.removeTextChangedListener(this);
+        medalText.removeTextChangedListener(this);
         String str = s.toString();
         if (StringUtils.isNotEmpty(str)) {
             str = Integer.valueOf(str).toString();
-            numberText.setText(str);
-            numberText.setSelection(str.length());
+            medalText.setText(str);
+            medalText.setSelection(str.length());
         } else {
-            numberText.setText("");
+            medalText.setText("");
         }
-        numberText.addTextChangedListener(this);
+        medalText.addTextChangedListener(this);
     }
 
     //***************************************************************************************************************************

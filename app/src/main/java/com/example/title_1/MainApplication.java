@@ -43,8 +43,8 @@ public class MainApplication extends Application {
 
     // 初期セット
     public void init() {
-        setTotal("");
-        setStart("");
+        setTotal("0");
+        setStart("0");
         setaB("0");
         setcB("0");
         setaR("0");

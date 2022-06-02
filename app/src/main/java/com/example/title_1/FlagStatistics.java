@@ -185,9 +185,20 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                         index = cursor.getColumnIndex("STORE_NAME");
                         String storeName = cursor.getString(index);
 
-                        index = cursor.getColumnIndex("TOTAL_GAME");
 
+
+
+
+                        // 【確認事項】
+                        //　個人ゲーム数は、総ゲーム数-開始ゲーム数では？
+                        index = cursor.getColumnIndex("TOTAL_GAME");
                         totalGameValue = totalGameValue + cursor.getInt(index);
+
+
+
+
+
+
 
                         index = cursor.getColumnIndex("DIFFERENCE_NUMBER");
                         totalMedalValue = totalMedalValue + cursor.getInt(index);
