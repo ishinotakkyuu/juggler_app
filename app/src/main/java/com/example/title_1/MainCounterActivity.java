@@ -389,8 +389,17 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             EditText showDate = registerDialog.findViewById(R.id.DateEditText);
             String checkShowDate = showDate.getText().toString();
 
+
+
+
+
             //　R04.06.02 台番号取得
             String machineNumberStr = machineText.getText().toString();
+
+
+
+
+
 
             // 日付入力済なら登録処理
             if (StringUtils.isNotEmpty(checkShowDate)){
@@ -433,7 +442,17 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 DatabaseHelper helper = new DatabaseHelper(context);
                 SQLiteDatabase db = helper.getWritableDatabase();
 
+
+
+
+
+
                 // DB項目に台番号を追加すること！
+
+
+
+
+
 
 
                 try {
