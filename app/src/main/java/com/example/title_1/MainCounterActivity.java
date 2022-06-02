@@ -240,14 +240,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                         .setTitle("カウンター初期化")
                         .setMessage("カウンターを全てリセットしますか？")
                         .setPositiveButton("はい", (dialogInterface, i) -> {
-                            start.setText(""); total.setText("");
+                            start.setText("0"); total.setText("0");
                             aB.setText("0"); cB.setText("0");
                             aR.setText("0"); cR.setText("0");
                             ch.setText("0"); gr.setText("0");
 
                             mainApplication.init();
-                            CreateXML.updateText(mainApplication,"total","");
-                            CreateXML.updateText(mainApplication,"start","");
+                            CreateXML.updateText(mainApplication,"total","0");
+                            CreateXML.updateText(mainApplication,"start","0");
 
                             ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
                             ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
