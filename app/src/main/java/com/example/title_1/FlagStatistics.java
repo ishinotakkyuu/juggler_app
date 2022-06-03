@@ -42,6 +42,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     // 各種スピナー
     static Spinner storeSpinner;
     static Spinner machineSpinner;
+    static Spinner machineNumberSpinner;
     static Spinner specialSpinner_01;
     static Spinner specialSpinner_02;
     static Spinner specialSpinner_03;
@@ -292,6 +293,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         // スピナー関係
         storeSpinner = statisticsLayout.findViewById(R.id.StoreSelect);
         machineSpinner = statisticsLayout.findViewById(R.id.MachineSelect);
+        machineNumberSpinner = statisticsLayout.findViewById(R.id.MachineNumberSelect);
         specialSpinner_01 = statisticsLayout.findViewById(R.id.SpecialSpinner_01);
         specialSpinner_02 = statisticsLayout.findViewById(R.id.SpecialSpinner_02);
         specialSpinner_03 = statisticsLayout.findViewById(R.id.SpecialSpinner_03);
@@ -377,12 +379,17 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         List<String> machineNames = new ArrayList<>();
         machineNames.add("未選択");
 
+        // R04.06.03追加
+        List<String> machineNumber = new ArrayList<>();
+        machineNumber.add("未選択");
+
         Context context = getActivity().getApplicationContext();
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
 
         String storeListSql = "SELECT DISTINCT STORE_NAME FROM TEST;";
         String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST;";
+        // String machineNumberListSql =
 
         Log.i("SQLITE","storeListSql : " + storeListSql);
         Log.i("SQLITE","machineListSql : " + machineListSql);
@@ -424,6 +431,12 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,machineNames);
         machineAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         machineSpinner.setAdapter(machineAdapter);
+
+        // R04.06.03追加
+        // 台番号をセット
+        ArrayAdapter<String> machineNumberAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,machineNumber);
+        machineNumberAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
+        machineNumberSpinner.setAdapter(machineNumberAdapter);
 
         // 特殊スピナー①をセット
         final List<String> specialItems01 = new ArrayList<>(Arrays.asList(

@@ -442,6 +442,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
 
 
+                // DB項目にユーザーID(int型)を追加すること
                 // DB項目に台番号(String型)を追加すること
                 // DB項目に保存日時(String型)を追加すること
 
