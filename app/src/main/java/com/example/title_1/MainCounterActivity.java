@@ -40,8 +40,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public final class MainCounterActivity extends AppCompatActivity implements TextWatcher {
@@ -284,6 +288,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void registerDialog(){
 
         // ダイアログを定義
@@ -373,14 +378,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 registerLayout.requestFocus();
             }
             return false;});
-        machineText = registerDialog.findViewById(R.id.MachineNumber);
-        machineText.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if(i== EditorInfo.IME_ACTION_DONE){
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
-                registerLayout.requestFocus();
-            }
-            return false;});
 
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
@@ -388,18 +385,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             String differenceNumberStr = medalText.getText().toString();
             EditText showDate = registerDialog.findViewById(R.id.DateEditText);
             String checkShowDate = showDate.getText().toString();
-
-
-
-
-
-            //　R04.06.02 台番号取得
-            String machineNumberStr = machineText.getText().toString();
-
-
-
-
-
 
             // 日付入力済なら登録処理
             if (StringUtils.isNotEmpty(checkShowDate)){
@@ -437,6 +422,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 cherry = Integer.parseInt(mainApplication.getCh());
                 grape = Integer.parseInt(mainApplication.getGr());
 
+                //　R04.06.02 台番号取得
+                machineText = registerDialog.findViewById(R.id.MachineNumber);
+                String machineNumber = machineText.getText().toString();
+                // R04.06.03　現在日時を取得
+                Date now = new Date();
+                SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
+                String nowDate = dFormat.format(now);
+
                 //　データベースへの登録処理
                 Context context = getApplicationContext();
                 DatabaseHelper helper = new DatabaseHelper(context);
@@ -447,7 +440,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
 
 
-                // DB項目に台番号を追加すること！
+
+
+                // DB項目に台番号(String型)を追加すること
+                // DB項目に保存日時(String型)を追加すること
 
 
 

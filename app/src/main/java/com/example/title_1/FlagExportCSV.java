@@ -1,5 +1,6 @@
 package com.example.title_1;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -112,6 +113,7 @@ public class FlagExportCSV extends Fragment {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     public void focusOut(){
         // レイアウトタッチ時にフォーカスを外す
         layout.setOnTouchListener(new View.OnTouchListener() {
