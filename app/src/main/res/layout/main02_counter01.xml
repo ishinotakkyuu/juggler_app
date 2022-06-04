@@ -11,7 +11,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/TouchCounter"
@@ -22,7 +25,7 @@
             <Spinner
                 android:id="@+id/juggler"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
@@ -100,12 +103,12 @@
                 android:minHeight="48dp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textColorHint="#A4A4AE"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/total_game"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/start" />
+                app:layout_constraintTop_toBottomOf="@+id/start"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <EditText
                 android:id="@+id/total_game"
@@ -122,12 +125,12 @@
                 android:minHeight="48dp"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textColorHint="#A4A4AE"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/individual_game"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/start_game"
-                app:layout_constraintTop_toBottomOf="@+id/total" />
+                app:layout_constraintTop_toBottomOf="@+id/total"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <EditText
                 android:id="@+id/individual_game"

@@ -3,11 +3,11 @@
     android:id="@android:id/text1"
     style="?attr/spinnerDropDownItemStyle"
     android:layout_width="match_parent"
-    android:layout_height="35dp"
+    android:layout_height="48dp"
     android:background="@drawable/c_maincounteractivity12_selectspinner"
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="center"
     android:textColor="#000000"
-    android:textSize="20dp"
+    android:textSize="20sp"
     android:textStyle="bold" />
