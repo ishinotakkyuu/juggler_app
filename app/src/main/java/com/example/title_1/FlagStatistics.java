@@ -49,9 +49,10 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     static Spinner specialSpinner_04;
     static Spinner specialSpinner_05;
     static Spinner specialSpinner_06;
+    static Spinner specialSpinner_07;
 
     // 各種チェックボックス
-    CheckBox checkBox_01,checkBox_02,checkBox_03,checkBox_04,checkBox_05,checkBox_06;
+    CheckBox checkBox_01,checkBox_02,checkBox_03,checkBox_04,checkBox_05,checkBox_06,checkBox_07;
 
     // データを表示するためのボタン
     Button display;
@@ -300,6 +301,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         specialSpinner_04 = statisticsLayout.findViewById(R.id.SpecialSpinner_04);
         specialSpinner_05 = statisticsLayout.findViewById(R.id.SpecialSpinner_05);
         specialSpinner_06 = statisticsLayout.findViewById(R.id.SpecialSpinner_06);
+        specialSpinner_07 = statisticsLayout.findViewById(R.id.SpecialSpinner_07);
 
         // チェックボックス
         checkBox_01 = statisticsLayout.findViewById(R.id.CheckBox_01);
@@ -308,6 +310,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         checkBox_04 = statisticsLayout.findViewById(R.id.CheckBox_04);
         checkBox_05 = statisticsLayout.findViewById(R.id.CheckBox_05);
         checkBox_06 = statisticsLayout.findViewById(R.id.CheckBox_06);
+        checkBox_07 = statisticsLayout.findViewById(R.id.CheckBox_07);
 
         // タイトル表示用TextView
         tittle01 = statisticsLayout.findViewById(R.id.Tittle_01);
@@ -482,6 +485,13 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         ArrayAdapter<String> specialItems06_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems06);
         specialItems06_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         specialSpinner_06.setAdapter(specialItems06_Adapter);
+
+        // 特殊スピナー⑦をセット
+        final List<String> specialItems07 = new ArrayList<>(Arrays.asList(
+                "未選択", "末尾0", "末尾1", "末尾2", "末尾3", "末尾4", "末尾5", "末尾6", "末尾7", "末尾8", "末尾9"));
+        ArrayAdapter<String> specialItems07_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems07);
+        specialItems07_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
+        specialSpinner_07.setAdapter(specialItems07_Adapter);
     }
 
     public void initValue() {

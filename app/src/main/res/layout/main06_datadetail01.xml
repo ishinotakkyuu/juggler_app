@@ -2,48 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/EditLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:focusableInTouchMode="true"
     tools:context=".DataDetail">
 
     <Button
-        android:id="@+id/SetCounterButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/EditButton"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="セット"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="edit_amd_back"
+        android:text="編集"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/TextDate"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
-        android:id="@+id/DeleteButtton"
-        android:layout_width="wrap_content"
+        android:id="@+id/DeleteButton"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="削除"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/Machine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:background="#9A9797"
-        android:text="Sアイムジャグラー"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_marginEnd="8dp"
+        android:onClick="delete_and_update"
+        android:text="削除"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DeleteButtton" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/TextDate"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -52,18 +45,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Machine">
+        app:layout_constraintTop_toBottomOf="@+id/EditButton">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/TouchLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/Juggler"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="#9A9797"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/DummyText"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="#C58436"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/start"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:gravity="center"
                 android:text="@string/start_game"
@@ -73,13 +96,14 @@
                 app:layout_constraintEnd_toStartOf="@+id/total"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/Juggler" />
 
             <TextView
                 android:id="@+id/total"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:gravity="center"
                 android:text="@string/total_game"
@@ -89,7 +113,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/individual"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/start"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/Juggler" />
 
 
             <TextView
@@ -97,6 +121,7 @@
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:gravity="center"
                 android:text="@string/ind_game"
@@ -106,17 +131,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/total"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/Juggler" />
 
-            <TextView
+            <EditText
                 android:id="@+id/start_game"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
-                android:background="#00000000"
+                android:background="@drawable/c_maincounteractivity01_gamesediter"
+                android:backgroundTint="#5E5E6E"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
                 android:minHeight="48dp"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -125,16 +156,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/start" />
 
-            <TextView
+            <EditText
                 android:id="@+id/total_game"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
-                android:background="#00000000"
+                android:background="@drawable/c_maincounteractivity01_gamesediter"
+                android:backgroundTint="#5E5E6E"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="6"
                 android:minHeight="48dp"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -143,7 +179,7 @@
                 app:layout_constraintStart_toEndOf="@+id/start_game"
                 app:layout_constraintTop_toBottomOf="@+id/total" />
 
-            <TextView
+            <EditText
                 android:id="@+id/individual_game"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
@@ -152,6 +188,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:focusable="false"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -160,16 +197,20 @@
                 app:layout_constraintStart_toEndOf="@+id/total_game"
                 app:layout_constraintTop_toBottomOf="@+id/individual" />
 
-            <TextView
+            <EditText
                 android:id="@+id/aB"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:ems="10"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="4"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -187,6 +228,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/c_maincounteractivity03_alonebigbottun"
                 android:enabled="false"
+                android:onClick="aloneBigButton"
                 android:text="@string/alone_big"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/aB_Probability"
@@ -212,16 +254,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/alone_big" />
 
-            <TextView
+            <EditText
                 android:id="@+id/cB"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:ems="10"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="4"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -239,6 +285,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/c_maincounteractivity04_cherrybigbottun"
                 android:enabled="false"
+                android:onClick="cherryBigButton"
                 android:text="@string/cherry_big"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/cB_Probability"
@@ -263,16 +310,18 @@
                 app:layout_constraintStart_toEndOf="@+id/aB_Probability"
                 app:layout_constraintTop_toBottomOf="@+id/cherry_big" />
 
-            <TextView
+            <EditText
                 android:id="@+id/BB"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:ems="10"
+                android:focusable="false"
                 android:maxLength="5"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -315,7 +364,7 @@
                 app:layout_constraintStart_toEndOf="@+id/cB_Probability"
                 app:layout_constraintTop_toBottomOf="@+id/big_bonus" />
 
-            <TextView
+            <EditText
                 android:id="@+id/aR"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -324,7 +373,11 @@
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:ems="10"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="4"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -342,6 +395,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/c_maincounteractivity05_aloneregbottun"
                 android:enabled="false"
+                android:onClick="aloneRegButton"
                 android:text="@string/alone_reg"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/aR_Probability"
@@ -366,7 +420,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/alone_reg" />
 
-            <TextView
+            <EditText
                 android:id="@+id/cR"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -375,7 +429,11 @@
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:ems="10"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="4"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -393,6 +451,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/c_maincounteractivity06_cherryregbottun"
                 android:enabled="false"
+                android:onClick="cherryRegButton"
                 android:text="@string/cherry_reg"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/cR_Probability"
@@ -417,7 +476,7 @@
                 app:layout_constraintStart_toEndOf="@+id/aR_Probability"
                 app:layout_constraintTop_toBottomOf="@+id/cherry_reg" />
 
-            <TextView
+            <EditText
                 android:id="@+id/RB"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -428,6 +487,7 @@
                 android:ems="10"
                 android:focusable="false"
                 android:maxLength="5"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -468,7 +528,7 @@
                 app:layout_constraintStart_toEndOf="@+id/cR_Probability"
                 app:layout_constraintTop_toBottomOf="@+id/reg_bonus" />
 
-            <TextView
+            <EditText
                 android:id="@+id/ch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -477,7 +537,11 @@
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:ems="10"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="5"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -495,6 +559,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/c_maincounteractivity07_cherrybottun"
                 android:enabled="false"
+                android:onClick="cherryButton"
                 android:text="@string/cherry"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/ch_Probability"
@@ -519,7 +584,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cherry" />
 
-            <TextView
+            <EditText
                 android:id="@+id/gr"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -528,7 +593,11 @@
                 android:layout_marginEnd="4dp"
                 android:background="#00000000"
                 android:ems="10"
+                android:focusable="false"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLength="6"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -546,6 +615,7 @@
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/c_maincounteractivity08_grapesbottun"
                 android:enabled="false"
+                android:onClick="grapesButton"
                 android:text="@string/grapes"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/gr_Probability"
@@ -571,7 +641,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/grapes" />
 
 
-            <TextView
+            <EditText
                 android:id="@+id/addition"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -582,6 +652,7 @@
                 android:ems="10"
                 android:focusable="false"
                 android:maxLength="5"
+                android:text="@string/init_game"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -624,6 +695,33 @@
                 app:layout_constraintStart_toEndOf="@+id/gr_Probability"
                 app:layout_constraintTop_toBottomOf="@+id/bonus_addition" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/TextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/DeleteButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/EditButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TextKeepTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/DeleteButton"
+        app:layout_constraintStart_toEndOf="@+id/EditButton"
+        app:layout_constraintTop_toBottomOf="@+id/TextDate" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

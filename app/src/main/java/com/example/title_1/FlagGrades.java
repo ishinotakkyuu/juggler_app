@@ -43,8 +43,8 @@ public class FlagGrades extends Fragment {
         // IDは降順にセットすること。
         ArrayList<FlagGradesListItems> listItems = new ArrayList<>();
         // 実装時、各項目は配列？で処理(DBに複数データがある場合は配列で処理することになると思われる)
-        FlagGradesListItems data1 = new FlagGradesListItems("ID2","Sアイムジャグラー","楽園大森店","2022年12月31日12時00分");
-        FlagGradesListItems data2 = new FlagGradesListItems("ID1","Sファンキージャグラー","小手指一番館","2022年11月11日12時00分");
+        FlagGradesListItems data1 = new FlagGradesListItems("ID2","SアイムジャグラーEX","楽園大森店","2022/12/31","2022年12月31日12時00分");
+        FlagGradesListItems data2 = new FlagGradesListItems("ID1","Sファンキージャグラー2","小手指一番館","2022/12/30","2022年11月11日12時00分");
         listItems.add(data1);
         listItems.add(data2);
 
@@ -76,8 +76,11 @@ public class FlagGrades extends Fragment {
                 // クリックした位置の各項目(ID・機種名・店舗名・登録日時)を取得
                 FlagGradesListItems items = (FlagGradesListItems)listView.getItemAtPosition(position);
 
-                // Intentに引き継ぐIDをセット
+                // Intentに引き継ぐIDと機種名をセット
                 intent.putExtra("ID",items.getID());
+                intent.putExtra("Machine",items.getMachineName());
+                intent.putExtra("Date",items.getDate());
+                intent.putExtra("KeepTime",items.getKeepTime());
 
                 // DataDetail.xmlに遷移させる
                 startActivity(intent);

@@ -44,9 +44,9 @@ public class FlagGradesAdapter extends ArrayAdapter<FlagGradesListItems> {
         TextView textStoreName = view.findViewById(R.id.StoreName);
         textStoreName.setText(items.getStoreName());
 
-        // 保存時間をセット
-        TextView textKeepTime = view.findViewById(R.id.KeepTime);
-        textKeepTime.setText(items.getKeepTime());
+        // 日付をセット
+        TextView textDate = view.findViewById(R.id.Date);
+        textDate.setText(items.getDate());
 
         return view;
     }
