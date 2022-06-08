@@ -1,5 +1,6 @@
 package com.example.title_1;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,18 +8,30 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,11 +39,13 @@ import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-public class DataDetail extends AppCompatActivity {
+public class DataDetail extends AppCompatActivity implements TextWatcher {
 
     // 前画面から渡されてきた情報を受け取る変数
     String ID,machine,date,keeptime;
@@ -61,14 +76,40 @@ public class DataDetail extends AppCompatActivity {
     // カウンター用のボタン
     static Button sbButton,cbButton,big,srButton,crButton,reg,chButton,grButton,bonus;
 
+    // カスタムダイアログ内で使用
+    ConstraintLayout registerLayout;
+        //日付
+        String operationDate = "";
+        String operationYear;
+        String operationMonth;
+        String operationDay;
+        String operationDayDigit;
+        String weekId;
+        String dayOfWeekinMonth;
+        // カスタムダイアログ内にある台番号・差枚数入力用のEditText
+        static EditText machineText,medalText;
+        //店舗名
+        String storeName = "";
+        // 差枚数
+        Integer differenceNumber;
+        //機種名
+        String machineName = "";
+        int startGame,totalGame,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
 
 
+
+
+
+    static MainApplication mainApplication = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main06_datedetail01);
+
+        mainApplication = (MainApplication) this.getApplication();
+
+        setContentView(R.layout.main06_datadetail01);
 
         //アクションバー非表示
         ActionBar actionBar = getSupportActionBar();
@@ -176,6 +217,7 @@ public class DataDetail extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void delete_and_update(View view){
 
         // 削除ボタン押下時の処理
@@ -205,6 +247,237 @@ public class DataDetail extends AppCompatActivity {
                     .show();
 
         } else { //更新ボタンを押下時の処理
+
+            // ダイアログを定義
+            Dialog registerDialog = new Dialog(this);
+            // カスタム用のレイアウトをセット
+            registerDialog.setContentView(R.layout.main06_datadetail02_custom_dialog);
+            // ダイアログのレイアウトをタッチするとフォーカスが外れる
+            registerLayout = registerDialog.findViewById(R.id.RegisterLayout);
+            registerLayout.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
+                    registerLayout.requestFocus();
+                    return false;
+                }
+            });
+
+            // 日付表示用のEditTextにリスナーを登録
+            registerDialog.findViewById(R.id.DateEditText).setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View view) {
+                    // Calendarインスタンスを取得
+                    final Calendar date = Calendar.getInstance();
+
+                    // DatePickerDialogインスタンスを取得
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(
+                            DataDetail.this,
+                            (view1, year, month, dayOfMonth) -> {
+                                // 選択した日付を取得して日付表示用のEditTextにセット
+                                EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+                                showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                showDate.setGravity(Gravity.CENTER);
+
+                                //DB登録用
+                                operationDate = String.format("%d-%02d-%02d", year, month+1, dayOfMonth);
+                                operationYear = Integer.toString(year);
+                                operationMonth = Integer.toString(month+1);
+                                operationDay = Integer.toString(dayOfMonth);
+                                if(dayOfMonth > 9) {
+                                    operationDayDigit = operationDay.substring(1);
+                                } else {
+                                    operationDayDigit = operationDay;
+                                }
+                                date.set(year, month, dayOfMonth);
+                                weekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
+                                dayOfWeekinMonth = Integer.toString(date.get(Calendar.DAY_OF_WEEK_IN_MONTH));
+
+                            },
+                            date.get(Calendar.YEAR),
+                            date.get(Calendar.MONTH),
+                            date.get(Calendar.DATE)
+                    );
+                    //dialogを表示
+                    datePickerDialog.show();
+                    // キーボードが出ている(例えば差枚数をクリックしてキーボードを出しっぱなし)状態で日付選択をタッチした場合はキーボードを閉じる
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
+                    registerLayout.requestFocus();
+                }
+            });
+
+            // 店舗表示用のスピナーと店舗名のリストを準備
+            Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
+            List<String> storeNames = new ArrayList<>();
+
+            // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
+            String[] storeItems = CommonFeature.getStoreItems(mainApplication);
+            for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
+
+            // アダプターを介して登録店舗一覧リストをセット
+            ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner,storeNames);
+            storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
+            storeSpinner.setAdapter(storeAdapter);
+
+            // numberTextにTextWatcherを設定して0頭を回避する
+            // なお、台番号については0頭は許容しておく
+            medalText = registerDialog.findViewById(R.id.DifferenceNumber);
+            medalText.addTextChangedListener(this);
+
+            // キーボード確定ボタンを押すとフォーカスが外れる
+            medalText.setOnEditorActionListener((textView, i, keyEvent) -> {
+                if(i== EditorInfo.IME_ACTION_DONE){
+                    InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
+                    registerLayout.requestFocus();
+                }
+                return false;});
+
+            // 登録ボタンにリスナー登録
+            registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
+                storeName = (String)storeSpinner.getSelectedItem();
+                String differenceNumberStr = medalText.getText().toString();
+                EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+                String checkShowDate = showDate.getText().toString();
+
+                // 日付入力済なら登録処理
+                if (StringUtils.isNotEmpty(checkShowDate)){
+
+                    if (StringUtils.isNotEmpty(differenceNumberStr)){
+                        differenceNumber = Integer.parseInt(differenceNumberStr);
+                    }
+
+                    if(!(differenceNumber == null || differenceNumber == 0)){
+                        CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
+                        if(checkBox.isChecked()) {
+                            differenceNumber = -differenceNumber;
+                        }
+                    }
+
+                    // 機種名取得
+                    machineName = juggler.getSelectedItem().toString();
+
+
+
+                    // 各種小役を取得すること
+                    /*startGame = Integer.parseInt(mainApplication.getStart());
+                    totalGame = Integer.parseInt(mainApplication.getTotal());
+                    singleBig = Integer.parseInt(mainApplication.getaB());
+                    cherryBig = Integer.parseInt(mainApplication.getcB());
+                    singleReg = Integer.parseInt(mainApplication.getaR());
+                    cherryReg = Integer.parseInt(mainApplication.getcR());
+                    cherry = Integer.parseInt(mainApplication.getCh());
+                    grape = Integer.parseInt(mainApplication.getGr());*/
+
+                    //　R04.06.02 台番号取得
+                    machineText = registerDialog.findViewById(R.id.MachineNumber);
+                    String machineNumber = machineText.getText().toString();
+                    // R04.06.03　現在日時を取得
+                    Date now = new Date();
+                    SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
+                    String nowDate = dFormat.format(now);
+
+                    //　データベースへの登録処理
+                    Context context = getApplicationContext();
+                    DatabaseHelper helper = new DatabaseHelper(context);
+                    SQLiteDatabase db = helper.getWritableDatabase();
+
+
+
+
+
+
+
+
+                    // DB項目にユーザーID(int型)を追加すること
+                    // DB項目に台番号(String型)を追加すること
+                    // DB項目に保存日時(String型)を追加すること
+
+
+
+
+
+
+
+                    try {
+                        String sql =
+                                "insert into TEST (" +
+                                        "OPERATION_DATE," +
+                                        "STORE_NAME," +
+                                        "OPERATION_YEAR," +
+                                        "OPERATION_MONTH," +
+                                        "OPERATION_DAY," +
+                                        "OPERATION_DAY_DIGIT," +
+                                        "WEEK_ID," +
+                                        "DAY_OF_WEEK_IN_MONTH," +
+                                        "DIFFERENCE_NUMBER," +
+                                        "MACHINE_NAME," +
+                                        "START_GAME," +
+                                        "TOTAL_GAME," +
+                                        "SINGLE_BIG," +
+                                        "CHERRY_BIG," +
+                                        "SINGLE_REG," +
+                                        "CHERRY_REG," +
+                                        "CHERRY," +
+                                        "GRAPE" +
+                                        ") " +
+                                        "values(" +
+                                        "'" + operationDate + "'," +
+                                        "'" + storeName + "'," +
+                                        "'" + operationYear + "'," +
+                                        "'" + operationMonth + "'," +
+                                        "'" + operationDay + "'," +
+                                        "'" + operationDayDigit + "'," +
+                                        "'" + weekId + "'," +
+                                        "'" + dayOfWeekinMonth + "'," +
+                                        "'" + differenceNumber + "'," +
+                                        "'" + machineName + "'," +
+                                        "'" + startGame + "'," +
+                                        "'" + totalGame + "'," +
+                                        "'" + singleBig + "'," +
+                                        "'" + cherryBig + "'," +
+                                        "'" + singleReg + "'," +
+                                        "'" + cherryReg + "'," +
+                                        "'" + cherry + "'," +
+                                        "'" + grape + "'" +
+                                        ")";
+                        SQLiteStatement stmt = db.compileStatement(sql);
+                        stmt.executeInsert();
+
+                    } catch(Exception ex) {
+                        Log.e("MemoPad", ex.toString());
+                    } finally {
+                        db.close();
+                    }
+
+                    registerDialog.dismiss();
+                    focusOut();
+                } else {
+                    Toast toast = Toast.makeText(DataDetail.this, "日付を選択してください", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
+
+            // 戻るボタンにリスナー登録
+            registerDialog.findViewById(R.id.ReturnButton).setOnClickListener(view -> registerDialog.dismiss());
+
+            // ダイアログを表示
+            registerDialog.show();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -355,5 +628,27 @@ public class DataDetail extends AppCompatActivity {
         }
         focusOut();
     }
+
+    // カスタムダイアログ内の差枚数入力用のEditTextにセット
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    @Override
+    public void afterTextChanged(Editable s) {
+        medalText.removeTextChangedListener(this);
+        String str = s.toString();
+        if (StringUtils.isNotEmpty(str)) {
+            str = Integer.valueOf(str).toString();
+            medalText.setText(str);
+            medalText.setSelection(str.length());
+        } else {
+            medalText.setText("");
+        }
+        medalText.addTextChangedListener(this);
+    }
+
+
+
 
 }
