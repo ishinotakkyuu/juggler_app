@@ -9,16 +9,28 @@
     android:focusableInTouchMode="true"
     tools:context=".DataDetail">
 
+
+    <TextView
+        android:id="@+id/TextKeepTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditButton" />
+
     <Button
         android:id="@+id/EditButton"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="edit_amd_back"
+        android:onClick="edit_and_back"
         android:text="編集"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/TextDate"
+        app:layout_constraintEnd_toStartOf="@+id/DeleteButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +47,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/TextDate"
+        app:layout_constraintStart_toEndOf="@+id/EditButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -45,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditButton">
+        app:layout_constraintTop_toBottomOf="@+id/TextKeepTime">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/TouchLayout"
@@ -698,30 +710,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/TextDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DeleteButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/EditButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/TextKeepTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/DeleteButton"
-        app:layout_constraintStart_toEndOf="@+id/EditButton"
-        app:layout_constraintTop_toBottomOf="@+id/TextDate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

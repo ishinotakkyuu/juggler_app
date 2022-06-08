@@ -42,7 +42,6 @@ import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -299,7 +298,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         });
 
         // 日付表示用のEditTextにリスナーを登録
-        registerDialog.findViewById(R.id.DateEditText).setOnClickListener(new View.OnClickListener() {
+        registerDialog.findViewById(R.id.upDateEditText).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
@@ -311,7 +310,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                         MainCounterActivity.this,
                         (view1, year, month, dayOfMonth) -> {
                             // 選択した日付を取得して日付表示用のEditTextにセット
-                            EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+                            EditText showDate = registerDialog.findViewById(R.id.upDateEditText);
                             showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                             showDate.setGravity(Gravity.CENTER);
 
@@ -344,7 +343,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         });
 
         // 店舗表示用のスピナーと店舗名のリストを準備
-        Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
+        Spinner storeSpinner = registerDialog.findViewById(R.id.upStoreSpinner);
         List<String> storeNames = new ArrayList<>();
 
         // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
@@ -374,7 +373,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
             storeName = (String)storeSpinner.getSelectedItem();
             String differenceNumberStr = medalText.getText().toString();
-            EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+            EditText showDate = registerDialog.findViewById(R.id.upDateEditText);
             String checkShowDate = showDate.getText().toString();
 
             // 日付入力済なら登録処理
@@ -414,7 +413,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 grape = Integer.parseInt(mainApplication.getGr());
 
                 //　R04.06.02 台番号取得
-                machineText = registerDialog.findViewById(R.id.MachineNumber);
+                machineText = registerDialog.findViewById(R.id.upMachineNumber);
                 String machineNumber = machineText.getText().toString();
                 // R04.06.03　現在日時を取得
                 Date now = new Date();
