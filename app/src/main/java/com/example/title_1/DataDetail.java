@@ -1,6 +1,7 @@
 package com.example.title_1;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
@@ -133,7 +134,7 @@ public class DataDetail extends AppCompatActivity {
         addition.setText("4");
     }
 
-    public void edit_amd_back(View view){
+    public void edit_and_back(View view){
 
         // 「編集」ボタンを押した処理
         if(judge){
@@ -177,6 +178,33 @@ public class DataDetail extends AppCompatActivity {
 
     public void delete_and_update(View view){
 
+        // 削除ボタン押下時の処理
+        if(judge){
+            // 注意換気用のアラートを表示
+            new AlertDialog.Builder(this)
+                    .setTitle("データ削除について")
+                    .setMessage("登録データを削除します。よろしいですか？")
+                    .setPositiveButton("削除", (dialogInterface, i) -> {
+
+
+
+
+
+
+                        // ここに該当のDB情報を削除する処理を記述
+
+
+
+
+                        Intent intent = new Intent(this,MainGradeInquiry.class);
+                        intent.putExtra("TOAST","削除");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    })
+                    .setNegativeButton("キャンセル",null)
+                    .show();
+
+        } else { //更新ボタンを押下時の処理
 
 
 
@@ -184,16 +212,20 @@ public class DataDetail extends AppCompatActivity {
 
 
 
-        // ここに該当のDB情報を削除する処理を記述
+
+
+            Intent intent = new Intent(this,MainGradeInquiry.class);
+            intent.putExtra("TOAST","更新");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+
+
+
+
+
+
         // ここにDB情報を更新する処理を記述
-
-
-
-
-
-
-
-
 
 
 

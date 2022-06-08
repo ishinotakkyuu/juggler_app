@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true">
 
     <TextView
-        android:id="@+id/upDialogTittle"
+        android:id="@+id/DialogTittle"
         android:layout_width="170dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/upDateTittle"
+        android:id="@+id/DateTittle"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_marginStart="4dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/DummyView01" />
 
     <EditText
-        android:id="@+id/upDateEditText"
+        android:id="@+id/DateEditText"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -48,10 +48,10 @@
         android:minHeight="48dp"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upDateTittle" />
+        app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
 
     <TextView
-        android:id="@+id/upStoreSelectTittle"
+        android:id="@+id/StoreSelectTittle"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_marginStart="4dp"
@@ -63,21 +63,21 @@
         app:layout_constraintEnd_toStartOf="@+id/DummyView05"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upDateTittle" />
+        app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
 
     <Spinner
-        android:id="@+id/upStoreSpinner"
+        android:id="@+id/StoreSpinner"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="4dp"
         android:gravity="center"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upStoreSelectTittle"
+        app:layout_constraintTop_toBottomOf="@+id/StoreSelectTittle"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/upMachineNumberTittle"
+        android:id="@+id/MachineNumberTittle"
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:layout_marginStart="4dp"
@@ -89,10 +89,10 @@
         app:layout_constraintEnd_toStartOf="@+id/DummyView08"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upStoreSelectTittle" />
+        app:layout_constraintTop_toBottomOf="@+id/StoreSelectTittle" />
 
     <EditText
-        android:id="@+id/upMachineNumber"
+        android:id="@+id/MachineNumber"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -102,7 +102,7 @@
         android:minHeight="48dp"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upMachineNumberTittle" />
+        app:layout_constraintTop_toBottomOf="@+id/MachineNumberTittle" />
 
     <TextView
         android:id="@+id/DifferenceNumberTittle"
@@ -117,7 +117,7 @@
         app:layout_constraintEnd_toStartOf="@+id/DummyView07"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upMachineNumberTittle" />
+        app:layout_constraintTop_toBottomOf="@+id/MachineNumberTittle" />
 
     <EditText
         android:id="@+id/DifferenceNumber"
@@ -168,7 +168,7 @@
         android:layout_width="25dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/upDialogTittle"
+        app:layout_constraintEnd_toStartOf="@+id/DialogTittle"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -180,7 +180,7 @@
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upDialogTittle"
+        app:layout_constraintStart_toEndOf="@+id/DialogTittle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -189,8 +189,8 @@
         android:layout_height="25dp"
         app:layout_constraintEnd_toStartOf="@+id/DummyView04"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upDateTittle"
-        app:layout_constraintTop_toBottomOf="@+id/upDialogTittle" />
+        app:layout_constraintStart_toEndOf="@+id/DateTittle"
+        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
 
     <TextView
         android:id="@+id/DummyView04"
@@ -208,8 +208,8 @@
         android:layout_marginTop="53dp"
         app:layout_constraintEnd_toStartOf="@+id/DummyView06"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upStoreSelectTittle"
-        app:layout_constraintTop_toBottomOf="@+id/upDateTittle" />
+        app:layout_constraintStart_toEndOf="@+id/StoreSelectTittle"
+        app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
 
     <TextView
         android:id="@+id/DummyView06"
@@ -238,7 +238,7 @@
         android:layout_marginTop="53dp"
         app:layout_constraintEnd_toStartOf="@+id/DummyView09"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/upMachineNumberTittle"
+        app:layout_constraintStart_toEndOf="@+id/MachineNumberTittle"
         app:layout_constraintTop_toBottomOf="@+id/DummyView05" />
 
     <TextView
