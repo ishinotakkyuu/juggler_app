@@ -67,7 +67,7 @@ public class DataDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main06_datadetail01);
+        setContentView(R.layout.main06_datedetail01);
 
         //アクションバー非表示
         ActionBar actionBar = getSupportActionBar();
@@ -97,8 +97,6 @@ public class DataDetail extends AppCompatActivity {
         keeptime = intent.getStringExtra("KeepTime");
 
         // 日付と登録日時をTextViewにセット
-        TextView dateText = findViewById(R.id.TextDate);
-        dateText.setText(date);
         TextView keepTimeText = findViewById(R.id.TextKeepTime);
         keepTimeText.setText(keeptime);
 
