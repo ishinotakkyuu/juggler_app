@@ -435,7 +435,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         // ①日付用EditTextに日付をセット(/の前後は半角スペース)
         // 変更がなされなかった場合でもちゃんとDBに入るのか？ 確認すること
-        showDate.setText("2022 / 06 / 11");
+        // String aaa = DBから取得した日付
+        // showDate.setText(aaa);
 
         // 日付表示用のEditTextにリスナーを登録
         showDate.setOnClickListener(new View.OnClickListener() {
@@ -487,16 +488,19 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         List<String> storeNames = new ArrayList<>();
 
         // ②20店舗分の登録店舗を(nullじゃなかったら)リストを配列にセット
-        // ②アダプターを介して登録店舗一覧リストをセット
+        // どのように仕様を満たすのかイメージできないので記述しないゴメン
         String[] storeItems = CommonFeature.getStoreItems(mainApplication);
         for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
+
+        // アダプターを介して登録店舗一覧リストをセット
         ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner,storeNames);
         storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
         storeSpinner.setAdapter(storeAdapter);
 
         // ③台番号用EditTextに台番号をセットする
         machineText = registerDialog.findViewById(R.id.MachineNumber);
-        machineText.setText("1055");
+        // int bbb = DBから取得した台番号
+        // machineText.setText(bbb);
 
         // ④差枚数用EditTextに差枚数をセット工程は以下のコメントを参照
         medalText = registerDialog.findViewById(R.id.DifferenceNumber);
