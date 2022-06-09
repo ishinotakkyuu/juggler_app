@@ -43,6 +43,7 @@
         android:layout_marginStart="4dp"
         android:ems="10"
         android:focusable="false"
+        android:gravity="center"
         android:hint="タップしてカレンダーを表示"
         android:inputType="textPersonName"
         android:minHeight="48dp"

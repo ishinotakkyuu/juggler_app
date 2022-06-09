@@ -95,6 +95,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         Integer differenceNumber;
         //機種名
         String machineName = "";
+        // チェックボックス
+        CheckBox checkBox;
         int startGame,totalGame,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
 
 
@@ -430,6 +432,11 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         //日付選択用のEditTextをセット
         showDate = registerDialog.findViewById(R.id.DateEditText);
+
+        // ①日付用EditTextに日付をセット(/の前後は半角スペース)
+        // 変更がなされなかった場合でもちゃんとDBに入るのか？ 確認すること
+        showDate.setText("2022 / 06 / 11");
+
         // 日付表示用のEditTextにリスナーを登録
         showDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -445,7 +452,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                             // 選択した日付を取得して日付表示用のEditTextにセット
 
                             showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
-                            showDate.setGravity(Gravity.CENTER);
 
                             //DB登録用
                             operationDate = String.format("%d-%02d-%02d", year, month+1, dayOfMonth);
@@ -475,9 +481,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             }
         });
 
-        // ①日付用EditTextに日付をセット(/の前後は半角スペース)
-        showDate.setText("2022 / 06 / 11");
-        showDate.setGravity(Gravity.CENTER);
 
         // 店舗表示用のスピナーと店舗名のリストを準備
         Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
@@ -491,13 +494,21 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
         storeSpinner.setAdapter(storeAdapter);
 
-        // ③台番号用EditTextに台番号をセット
+        // ③台番号用EditTextに台番号をセットする
         machineText = registerDialog.findViewById(R.id.MachineNumber);
         machineText.setText("1055");
 
-        // ④差枚数用EditTextに差枚数をセット
+        // ④差枚数用EditTextに差枚数をセット工程は以下のコメントを参照
         medalText = registerDialog.findViewById(R.id.DifferenceNumber);
-        medalText.setText("777");
+        checkBox  = registerDialog.findViewById(R.id.checkBox);
+        // ④DBから取得した値がマイナスかチェック
+        // int aaa = DBから取得した値
+        // if(aaa < 0){
+            //aaa = aaa * -1 を行ってマイナス値を一旦プラスにする
+            checkBox.setChecked(true);
+        // }
+        // medalText.setText(String.valueOf(aaa)) で差枚数をセット
+
         medalText.addTextChangedListener(this);
 
         // キーボード確定ボタンを押すとフォーカスが外れる
@@ -511,10 +522,40 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
-            storeName = (String)storeSpinner.getSelectedItem();
-            String differenceNumberStr = medalText.getText().toString();
-            EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+
+            // 機種名取得
+            machineName = juggler.getSelectedItem().toString();
+
+            // 各種小役を取得すること
+            startGame = Integer.parseInt(start.getText().toString());
+            totalGame = Integer.parseInt(total.getText().toString());
+            singleBig = Integer.parseInt(aB.getText().toString());
+            cherryBig = Integer.parseInt(cB.getText().toString());
+            singleReg = Integer.parseInt(aR.getText().toString());
+            cherryReg = Integer.parseInt(cR.getText().toString());
+            cherry = Integer.parseInt(ch.getText().toString());
+            grape = Integer.parseInt(gr.getText().toString());
+
+            // チェック用の日付取得
+            // DBに格納する値については、前述のonClick(View view)内で取得してある
             String checkShowDate = showDate.getText().toString();
+
+            // 店舗名を取得
+            storeName = (String)storeSpinner.getSelectedItem();
+
+            // 台番号取得
+            // 現時点でnullがあり得ますので対応すること
+            String machineNumber = machineText.getText().toString();
+
+            // 差枚数取得
+            // null対応は下記でしてるから大丈夫、と思われる
+            String differenceNumberStr = medalText.getText().toString();
+
+            //更新日時を取得
+            Date now = new Date();
+            SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
+            String nowDate = dFormat.format(now);
+
 
             // 日付入力済なら登録処理
             if (StringUtils.isNotEmpty(checkShowDate)){
@@ -523,36 +564,21 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                     differenceNumber = Integer.parseInt(differenceNumberStr);
                 }
 
+                // ここで差枚数のnullに対応できている
                 if(!(differenceNumber == null || differenceNumber == 0)){
-                    CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
                     if(checkBox.isChecked()) {
                         differenceNumber = -differenceNumber;
                     }
                 }
 
-                // 機種名取得
-                machineName = juggler.getSelectedItem().toString();
 
 
 
-                // 各種小役を取得すること
-                    /*startGame = Integer.parseInt(mainApplication.getStart());
-                    totalGame = Integer.parseInt(mainApplication.getTotal());
-                    singleBig = Integer.parseInt(mainApplication.getaB());
-                    cherryBig = Integer.parseInt(mainApplication.getcB());
-                    singleReg = Integer.parseInt(mainApplication.getaR());
-                    cherryReg = Integer.parseInt(mainApplication.getcR());
-                    cherry = Integer.parseInt(mainApplication.getCh());
-                    grape = Integer.parseInt(mainApplication.getGr());*/
 
-                //　R04.06.02 台番号取得
-                String machineNumber = machineText.getText().toString();
-                // R04.06.03　現在日時を取得
-                Date now = new Date();
-                SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-                String nowDate = dFormat.format(now);
 
                 //　データベースへの登録処理
+                /*
+
                 Context context = getApplicationContext();
                 DatabaseHelper helper = new DatabaseHelper(context);
                 SQLiteDatabase db = helper.getWritableDatabase();
@@ -624,6 +650,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 } finally {
                     db.close();
                 }
+
+                 */
 
                 registerDialog.dismiss();
                 focusOut();
