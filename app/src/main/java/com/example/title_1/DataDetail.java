@@ -79,6 +79,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     // カスタムダイアログ内で使用
     ConstraintLayout registerLayout;
         //日付
+        EditText showDate;
         String operationDate = "";
         String operationYear;
         String operationMonth;
@@ -427,8 +428,10 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             }
         });
 
+        //日付選択用のEditTextをセット
+        showDate = registerDialog.findViewById(R.id.DateEditText);
         // 日付表示用のEditTextにリスナーを登録
-        registerDialog.findViewById(R.id.DateEditText).setOnClickListener(new View.OnClickListener() {
+        showDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
@@ -440,7 +443,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                         DataDetail.this,
                         (view1, year, month, dayOfMonth) -> {
                             // 選択した日付を取得して日付表示用のEditTextにセット
-                            EditText showDate = registerDialog.findViewById(R.id.DateEditText);
+
                             showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                             showDate.setGravity(Gravity.CENTER);
 
@@ -472,22 +475,29 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             }
         });
 
+        // ①日付用EditTextに日付をセット(/の前後は半角スペース)
+        showDate.setText("2022 / 06 / 11");
+        showDate.setGravity(Gravity.CENTER);
+
         // 店舗表示用のスピナーと店舗名のリストを準備
         Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
         List<String> storeNames = new ArrayList<>();
 
-        // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
+        // ②20店舗分の登録店舗を(nullじゃなかったら)リストを配列にセット
+        // ②アダプターを介して登録店舗一覧リストをセット
         String[] storeItems = CommonFeature.getStoreItems(mainApplication);
         for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
-
-        // アダプターを介して登録店舗一覧リストをセット
         ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner,storeNames);
         storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
         storeSpinner.setAdapter(storeAdapter);
 
-        // numberTextにTextWatcherを設定して0頭を回避する
-        // なお、台番号については0頭は許容しておく
+        // ③台番号用EditTextに台番号をセット
+        machineText = registerDialog.findViewById(R.id.MachineNumber);
+        machineText.setText("1055");
+
+        // ④差枚数用EditTextに差枚数をセット
         medalText = registerDialog.findViewById(R.id.DifferenceNumber);
+        medalText.setText("777");
         medalText.addTextChangedListener(this);
 
         // キーボード確定ボタンを押すとフォーカスが外れる
@@ -536,7 +546,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                     grape = Integer.parseInt(mainApplication.getGr());*/
 
                 //　R04.06.02 台番号取得
-                machineText = registerDialog.findViewById(R.id.MachineNumber);
                 String machineNumber = machineText.getText().toString();
                 // R04.06.03　現在日時を取得
                 Date now = new Date();
