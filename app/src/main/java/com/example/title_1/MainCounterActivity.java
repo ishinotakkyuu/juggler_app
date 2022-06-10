@@ -503,9 +503,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             }
         });
 
-        // 戻るボタンにリスナー登録
-        registerDialog.findViewById(R.id.ReturnButton).setOnClickListener(view -> registerDialog.dismiss());
-
         // ダイアログを表示
         registerDialog.show();
     }

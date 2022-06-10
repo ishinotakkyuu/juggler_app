@@ -17,9 +17,8 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView02"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DummyView01"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -34,7 +33,7 @@
         app:layout_constraintEnd_toStartOf="@+id/DummyView03"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DummyView01" />
+        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
 
     <EditText
         android:id="@+id/DateEditText"
@@ -148,41 +147,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="更新"
-        app:layout_constraintEnd_toStartOf="@+id/ReturnButton"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DifferenceNumber" />
-
-    <Button
-        android:id="@+id/ReturnButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="戻る"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/RegisterButton"
-        app:layout_constraintTop_toBottomOf="@+id/DifferenceNumber" />
-
-    <TextView
-        android:id="@+id/DummyView01"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/DialogTittle"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/DummyView02"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DialogTittle"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/DummyView03"
@@ -200,7 +167,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/DummyView03"
-        app:layout_constraintTop_toBottomOf="@+id/DummyView02" />
+        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
 
     <TextView
         android:id="@+id/DummyView05"

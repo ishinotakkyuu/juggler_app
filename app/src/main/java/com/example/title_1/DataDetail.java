@@ -169,13 +169,10 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         total.setText("584");
         aB.setText("1");
         cB.setText("2");
-        BB.setText("3");                            //単独BIG+チェリー重複BIGで算出
         aR.setText("1");
         cR.setText("0");
-        RB.setText("1");                            //単独REG+チェリー重複REGで算出
         ch.setText("10");
         gr.setText("69");
-        addition.setText("4");
     }
 
     public void edit_and_back(View view){
@@ -668,9 +665,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 toast.show();
             }
         });
-
-        // 戻るボタンにリスナー登録 →　消す
-        //registerDialog.findViewById(R.id.ReturnButton).setOnClickListener(View.OnClickListe);
 
         // ダイアログを表示
         registerDialog.show();
