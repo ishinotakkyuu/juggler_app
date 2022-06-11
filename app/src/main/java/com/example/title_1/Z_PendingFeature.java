@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PendingFeature {
+public class Z_PendingFeature {
 
     //ゲーム数関係
     EditText total; EditText start; EditText individual;

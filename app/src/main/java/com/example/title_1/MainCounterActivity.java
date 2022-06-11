@@ -585,7 +585,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     public void setTextWatcher(){
         EditText[] items = ViewItems.joinEditTexts(ViewItems.getGameTextItems(),ViewItems.getCounterTextItems());
         for (EditText item: items){
-            item.addTextChangedListener(new GamesCounterWatcher(item,mainApplication));
+            item.addTextChangedListener(new MainCounterWatcher(item,mainApplication));
         }
     }
 

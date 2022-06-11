@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class DetailCounterWatcher implements TextWatcher {
+public class DateDetailCounterWatcher implements TextWatcher {
 
     final String INIT_VALUE = "1/0.00";
 
@@ -41,7 +41,7 @@ public class DetailCounterWatcher implements TextWatcher {
 
     TextView view;
 
-    public DetailCounterWatcher(TextView view) {
+    public DateDetailCounterWatcher(TextView view) {
         this.view = view;
     }
 

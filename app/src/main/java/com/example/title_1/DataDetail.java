@@ -139,7 +139,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         // 各種EditTextにTextWatcherをセット
         EditText[] items = ViewItems.joinEditTexts(ViewItems.getDetailGameTextItems(),ViewItems.getDetailCounterTextItems());
         for (EditText item: items){
-            item.addTextChangedListener(new DetailCounterWatcher(item));
+            item.addTextChangedListener(new DateDetailCounterWatcher(item));
         }
 
 

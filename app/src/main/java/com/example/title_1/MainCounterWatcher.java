@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 //-----------------------------------------------------------------------------------------------
 //カウンター機能の制御【メイン処理】
 //-----------------------------------------------------------------------------------------------
-public class GamesCounterWatcher implements TextWatcher {
+public class MainCounterWatcher implements TextWatcher {
 
     final String INIT_VALUE = "1/0.00";
 
@@ -47,7 +47,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
     TextView view;
 
-    public GamesCounterWatcher(TextView view, MainApplication mainApplication) {
+    public MainCounterWatcher(TextView view, MainApplication mainApplication) {
         this.view = view;
         this.mainApplication = mainApplication;
     }
