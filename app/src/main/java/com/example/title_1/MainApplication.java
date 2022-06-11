@@ -49,9 +49,9 @@ public class MainApplication extends Application {
 
         Random rnd = new Random();
         //乱数を取得する
-        setUserId(rnd.nextInt());
-        setTotal("");
-        setStart("");
+        setUserId(rnd.nextInt(2147483647));
+        setTotal("0");
+        setStart("0");
         setaB("0");
         setcB("0");
         setaR("0");

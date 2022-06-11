@@ -18,7 +18,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String SQL_CREATE_ENTRIES =
                 "CREATE TABLE TEST ( " +
                         "ID INTEGER PRIMARY KEY," +
+                        "USER_ID INTEGER NOT NULL," +
                         "OPERATION_DATE TEXT NOT NULL," +
+                        "SAVE_DATE TEXT NOT NULL," +
                         "STORE_NAME TEXT NOT NULL," +
                         "OPERATION_YEAR INTEGER," +
                         "OPERATION_MONTH INTEGER," +
@@ -28,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "DAY_OF_WEEK_IN_MONTH INTEGER," +
                         "DIFFERENCE_NUMBER INTEGER," +
                         "MACHINE_NAME TEXT," +
+                        "TABLE_NUMBER TEXT," +
                         "START_GAME INTEGER," +
                         "TOTAL_GAME INTEGER," +
                         "SINGLE_BIG INTEGER," +

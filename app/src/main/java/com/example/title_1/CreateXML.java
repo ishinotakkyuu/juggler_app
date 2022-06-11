@@ -37,6 +37,14 @@ public class CreateXML {
         Element info = document.createElement("info");
         document.appendChild(info);
 
+        // ユーザID
+        Element userId = document.createElement("userId");
+        userId.setAttribute("id", "ユーザID");
+        String userIdValue = String.valueOf(mainApplication.getUserId());
+        userId.appendChild(document.createTextNode(userIdValue));
+        info.appendChild(userId);
+
+
         //　機種名
         Element machineName = document.createElement("machineName");
         machineName.setAttribute("id", "機種名");
