@@ -12,8 +12,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -22,8 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -78,30 +74,44 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
     // カスタムダイアログ内で使用
     ConstraintLayout registerLayout;
-        //日付
-        EditText showDate;
-        String operationDate = "";
-        String operationYear;
-        String operationMonth;
-        String operationDay;
-        String operationDayDigit;
-        String weekId;
-        String dayOfWeekinMonth;
-        // カスタムダイアログ内にある台番号・差枚数入力用のEditText
-        static EditText machineText,medalText;
-        //店舗名
-        String storeName = "";
-        // 差枚数
-        Integer differenceNumber;
-        //機種名
-        String machineName = "";
-        // チェックボックス
-        CheckBox checkBox;
-        int startGame,totalGame,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
 
+    //日付
+    EditText showDate;
+    String operationDate = "";
+    String operationYear;
+    String operationMonth;
+    String operationDay;
+    String operationDayDigit;
+    String weekId;
+    String dayOfWeekinMonth;
+    // カスタムダイアログ内にある台番号・差枚数入力用のEditText
+    static EditText machineText,medalText;
+    // 店舗名
+    static String storeName = "";
+    // 差枚数
+    Integer differenceNumber;
+    //機種名
+    String machineName = "";
+    // 台番号
+    String tableNumber;
+    // チェックボックス
+    CheckBox checkBox;
+    int startGame,totalGame,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
 
-
-
+    //DB保存用項目
+    static int startValue;
+    static int totalValue;
+    static int aBValue;
+    static int cBValue;
+    static int aRValue;
+    static int cRValue;
+    static int chValue;
+    static int grValue;
+    static String operationDateValue;
+    static String storeNameValue;
+    static Integer differenceNumberValue;
+    static String tableNumberValue;
+    static List<String> storeNames = new ArrayList<>();
 
     static MainApplication mainApplication = null;
 
@@ -150,29 +160,28 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         // 機種選択用スピナーのセット
         setJuggler(machine);
 
+        // 取得したIDを使ってDBから必要な項目を取得する
+        Context context = this;
+        String sql = CreateSQL.DataDetailSelectSQL(ID);
+        DatabaseResultSet.aaa("DataDetailSelect",context,sql);
 
-
-
-
-
-
-        // 取得したIDを使ってDBから必要な項目を取得するコードをここに記述する
-
-
-
-
-
-
+        // DBに存在するすべての店舗名を取得しリストに入れる
+        sql = CreateSQL.SelectStoreNameSQL();
+        DatabaseResultSet.aaa("DataDetailSelect2",context,sql);
 
         // DBから取得した各種データを(String型で)セットする
-        start.setText("162");
-        total.setText("584");
-        aB.setText("1");
-        cB.setText("2");
-        aR.setText("1");
-        cR.setText("0");
-        ch.setText("10");
-        gr.setText("69");
+        start.setText(String.valueOf(startValue));
+        total.setText(String.valueOf(totalValue));
+        aB.setText(String.valueOf(aBValue));
+        cB.setText(String.valueOf(cBValue));
+        aR.setText(String.valueOf(aRValue));
+        cR.setText(String.valueOf(cRValue));
+        ch.setText(String.valueOf(chValue));
+        gr.setText(String.valueOf(grValue));
+        operationDate = operationDateValue;
+        differenceNumber = differenceNumberValue;
+        storeName = storeNameValue;
+        tableNumber = tableNumberValue;
     }
 
     public void edit_and_back(View view){
@@ -217,7 +226,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         }
     }
 
-    public void delete_and_update(View view){
+    public void deleteAndUpdate(View view){
 
         // 削除ボタン押下時の処理
         if(judge){
@@ -227,15 +236,12 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                     .setMessage("登録データを削除します。よろしいですか？")
                     .setPositiveButton("削除", (dialogInterface, i) -> {
 
-
-
-
-
-
-                        // ここに該当のDB情報を削除する処理を記述
-
-
-
+                        // 該当のDB情報を削除する
+                        Context context = this;
+                        if(!ID.isEmpty()) {
+                            String sql = "DELETE FROM TEST WHERE ID = '" + ID + "';";
+                            DatabaseResultSet.UpdateOrDelete(context, sql);
+                        }
 
                         Intent intent = new Intent(this,MainGradeInquiry.class);
                         intent.putExtra("TOAST","削除");
@@ -252,16 +258,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 notStore();
             }
         }
-
-
-
-
-
-
-        // ここにDB情報を更新する処理を記述
-
-
-
 
     }
 
@@ -432,8 +428,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         // ①日付用EditTextに日付をセット(/の前後は半角スペース)
         // 変更がなされなかった場合でもちゃんとDBに入るのか？ 確認すること
-        // String aaa = DBから取得した日付
-        // showDate.setText(aaa);
+        showDate.setText(operationDateValue);
 
         // 日付表示用のEditTextにリスナーを登録
         showDate.setOnClickListener(new View.OnClickListener() {
@@ -482,7 +477,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         // 店舗表示用のスピナーと店舗名のリストを準備
         Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
-        List<String> storeNames = new ArrayList<>();
 
         // ②20店舗分の登録店舗を(nullじゃなかったら)リストを配列にセット
         // どのように仕様を満たすのかイメージできないので記述しないゴメン
@@ -496,19 +490,17 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         // ③台番号用EditTextに台番号をセットする
         machineText = registerDialog.findViewById(R.id.MachineNumber);
-        // int bbb = DBから取得した台番号
-        // machineText.setText(bbb);
+        machineText.setText(tableNumber);
 
         // ④差枚数用EditTextに差枚数をセット工程は以下のコメントを参照
         medalText = registerDialog.findViewById(R.id.DifferenceNumber);
         checkBox  = registerDialog.findViewById(R.id.checkBox);
         // ④DBから取得した値がマイナスかチェック
-        // int aaa = DBから取得した値
-        // if(aaa < 0){
-            //aaa = aaa * -1 を行ってマイナス値を一旦プラスにする
+        if(differenceNumber < 0){
+            differenceNumber = differenceNumber * -1 ;
             checkBox.setChecked(true);
-        // }
-        // medalText.setText(String.valueOf(aaa)) で差枚数をセット
+        }
+        medalText.setText(String.valueOf(differenceNumber));
 
         medalText.addTextChangedListener(this);
 
@@ -546,7 +538,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
             // 台番号取得
             // 現時点でnullがあり得ますので対応すること
-            String machineNumber = machineText.getText().toString();
+            tableNumber = machineText.getText().toString();
 
             // 差枚数取得
             // null対応は下記でしてるから大丈夫、と思われる
@@ -572,12 +564,27 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                     }
                 }
 
+                // ここにDB情報を更新する処理を記述
+                Context context = this;
+                if(!ID.isEmpty()) {
+                    String sql = "UPDATE TEST SET " +
+                            "OPERATION_DATE = '" + operationDate + "', " +
+                            "STORE_NAME = '" + storeName + "', " +
+                            "DIFFERENCE_NUMBER = '" + differenceNumber + "', " +
+                            "TABLE_NUMBER = '" + tableNumber + "', " +
+                            "START_GAME = '" + startGame + "', " +
+                            "TOTAL_GAME = '" + totalGame + "', " +
+                            "SINGLE_BIG = '" + singleBig + "', " +
+                            "CHERRY_BIG = '" + cherryBig + "', " +
+                            "SINGLE_REG = '" + singleReg + "', " +
+                            "CHERRY_REG = '" + cherryReg + "', " +
+                            "CHERRY = '" + cherry + "', " +
+                            "GRAPE = '" + grape + "' " +
+                            "WHERE ID = '" + ID + "';";
+                    DatabaseResultSet.UpdateOrDelete(context, sql);
+                }
 
 
-
-
-
-                //　データベースへの登録処理
                 /*
 
                 Context context = getApplicationContext();

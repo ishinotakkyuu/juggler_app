@@ -116,7 +116,19 @@ public class CreateSQL {
 
         return sql;
     }
+    public static String SelectStoreNameSQL() {
 
+        String sql = "select STORE_NAME from TEST ;";
+
+        return sql;
+    }
+
+    public static String DataDetailSelectSQL(String id) {
+
+        String sql = "select * from TEST where ID = '" + id +"';";
+
+        return sql;
+    }
 
     public static String addAnd(String sql){
 

@@ -68,21 +68,21 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
              totalBonus,totalBonusProbability,totalGrape,totalGrapeProbability,totalCherry,totalCherryProbability;
 
     // ゲーム関連
-    int totalGameValue = 0;
-    int totalMedalValue = 0;
+    static int totalGameValue = 0;
+    static int totalMedalValue = 0;
     double discountValue = 0;
     //BIG
-    int totalSingleBigValue= 0;
+    static int totalSingleBigValue= 0;
     double totalSingleBigProbabilityValue = 0;
-    int totalCherryBigValue = 0;
+    static int totalCherryBigValue = 0;
     double totalCherryBigProbabilityValue = 0;
     int totalBigValue = 0;
     double totalBigProbabilityValue = 0;
 
     // REG
-    int totalSingleRegValue = 0;
+    static int totalSingleRegValue = 0;
     double totalSingleRegProbabilityValue = 0;
-    int totalCherryRegValue = 0;
+    static int totalCherryRegValue = 0;
     double totalCherryRegProbabilityValue = 0;
     int totalRegValue = 0;
     double totalRegProbabilityValue = 0;
@@ -92,9 +92,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     double totalBonusProbabilityValue = 0;
 
     // 子役
-    int totalCherryValue = 0;
+    static int totalCherryValue = 0;
     double totalCherryProbabilityValue = 0;
-    int totalGrapeValue = 0;
+    static int totalGrapeValue = 0;
     double totalGrapeProbabilityValue = 0;
 
 
@@ -165,63 +165,8 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 initValue();
 
                 Context context = getActivity().getApplicationContext();
-                DatabaseHelper helper = new DatabaseHelper(context);
-                SQLiteDatabase db = helper.getWritableDatabase();
-
                 String sql = CreateSQL.FlagStatisticsSQL();
-
-                Log.i("SQLITE","sql : " + sql);
-
-                try {
-
-                    Cursor cursor = db.rawQuery(sql,null);
-
-                    while(cursor.moveToNext()){
-
-                        int index = cursor.getColumnIndex("ID");
-                        String id = String.valueOf(cursor.getLong(index));
-
-                        index = cursor.getColumnIndex("OPERATION_DATE");
-                        String operationDate = cursor.getString(index);
-
-                        index = cursor.getColumnIndex("STORE_NAME");
-                        String storeName = cursor.getString(index);
-
-                        index = cursor.getColumnIndex("TOTAL_GAME");
-                        int index2 = cursor.getColumnIndex("START_GAME");
-                        totalGameValue = totalGameValue + (cursor.getInt(index) - cursor.getInt(index2));
-
-                        index = cursor.getColumnIndex("DIFFERENCE_NUMBER");
-                        totalMedalValue = totalMedalValue + cursor.getInt(index);
-
-                        index = cursor.getColumnIndex("SINGLE_BIG");
-                        totalSingleBigValue = totalSingleBigValue + cursor.getInt(index);
-
-                        index = cursor.getColumnIndex("CHERRY_BIG");
-                        totalCherryBigValue = totalCherryBigValue + cursor.getInt(index);
-
-                        index = cursor.getColumnIndex("SINGLE_REG");
-                        totalSingleRegValue = totalSingleRegValue + cursor.getInt(index);
-
-                        index = cursor.getColumnIndex("CHERRY_REG");
-                        totalCherryRegValue = totalCherryRegValue + cursor.getInt(index);
-
-                        index = cursor.getColumnIndex("CHERRY");
-                        totalCherryValue = totalCherryValue + cursor.getInt(index);
-
-                        index = cursor.getColumnIndex("GRAPE");
-                        totalGrapeValue = totalGrapeValue + cursor.getInt(index);
-
-                        // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
-                        Log.i("SQLITE", "_id : " + id + " " +
-                                "OPERATION_DATE : " + operationDate + " " +
-                                "STORE_NAME : "+ storeName + " ");
-                    }
-                }finally{
-                    if(db != null) {
-                        db.close();
-                    }
-                }
+                DatabaseResultSet.aaa("FlagStatistics",context,sql);
 
                 totalBigValue = totalSingleBigValue + totalCherryBigValue;
                 totalRegValue = totalSingleRegValue + totalCherryRegValue;
