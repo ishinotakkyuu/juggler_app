@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RegisterLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/DialogTittle"
+        android:layout_width="170dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/menu_item06"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/DateTittle"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:text=" 日付"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView03"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
+
+    <EditText
+        android:id="@+id/DateEditText"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="タップしてカレンダーを表示"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
+
+    <TextView
+        android:id="@+id/StoreSelectTittle"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="53dp"
+        android:text=" 店舗名"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView05"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
+
+    <Spinner
+        android:id="@+id/StoreSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StoreSelectTittle"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/MachineNumberTittle"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="53dp"
+        android:text=" 台番号"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView08"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StoreSelectTittle" />
+
+    <EditText
+        android:id="@+id/MachineNumber"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="6"
+        android:minHeight="48dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MachineNumberTittle" />
+
+    <TextView
+        android:id="@+id/DifferenceNumberTittle"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="53dp"
+        android:text=" 差枚数"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView07"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MachineNumberTittle" />
+
+    <EditText
+        android:id="@+id/DifferenceNumber"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="6"
+        android:minHeight="48dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DifferenceNumberTittle" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toEndOf="@+id/DifferenceNumber"
+        app:layout_constraintTop_toBottomOf="@+id/DummyView07" />
+
+    <Button
+        android:id="@+id/RegisterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="登録"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DifferenceNumber" />
+
+    <TextView
+        android:id="@+id/DummyView03"
+        android:layout_width="160dp"
+        android:layout_height="25dp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView04"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/DateTittle"
+        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
+
+    <TextView
+        android:id="@+id/DummyView04"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/DummyView03"
+        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
+
+    <TextView
+        android:id="@+id/DummyView05"
+        android:layout_width="160dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="53dp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView06"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/StoreSelectTittle"
+        app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
+
+    <TextView
+        android:id="@+id/DummyView06"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="53dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/DummyView05"
+        app:layout_constraintTop_toBottomOf="@+id/DummyView04" />
+
+    <TextView
+        android:id="@+id/DummyView07"
+        android:layout_width="160dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="53dp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView10"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/DifferenceNumberTittle"
+        app:layout_constraintTop_toBottomOf="@+id/DummyView08" />
+
+    <TextView
+        android:id="@+id/DummyView08"
+        android:layout_width="160dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="53dp"
+        app:layout_constraintEnd_toStartOf="@+id/DummyView09"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/MachineNumberTittle"
+        app:layout_constraintTop_toBottomOf="@+id/DummyView05" />
+
+    <TextView
+        android:id="@+id/DummyView09"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="53dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/DummyView08"
+        app:layout_constraintTop_toBottomOf="@+id/DummyView06" />
+
+    <TextView
+        android:id="@+id/DummyView10"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="53dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/DummyView07"
+        app:layout_constraintTop_toBottomOf="@+id/DummyView09" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

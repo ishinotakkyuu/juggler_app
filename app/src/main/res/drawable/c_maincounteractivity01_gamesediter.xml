@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--ここをイジると、個別データの詳細画面にも影響-->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="3dp" />
+
+    <stroke
+        android:width="2dp"
+        android:color="#FAFAFA"
+        />
+
+    <solid android:color="#333232"/>
+
+</shape>

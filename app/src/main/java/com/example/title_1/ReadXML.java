@@ -61,9 +61,6 @@ class ReadXML {
                     if(textNode != null) {
                         text = textNode.getNodeValue();
                         mainApplication.setStart(text);
-                    }else{
-                        // 2022/05/29 開始ゲームがnullだったら空白で補完
-                        mainApplication.setStart("");
                     }
                     break;
                 case "aB":

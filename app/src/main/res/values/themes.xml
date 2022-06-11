@@ -32,8 +32,8 @@
 
     <!-- 背景色の設定とタイトルカラーのスタイル設定 -->
     <style name="CustomActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/b_9_actionbar_background</item>
-        <item name="background">@drawable/b_9_actionbar_background</item>
+        <item name="android:background">@drawable/c_maincounteractivity11_actionbar</item>
+        <item name="background">@drawable/c_maincounteractivity11_actionbar</item>
         <item name="titleTextStyle">@style/titleTextStyle</item>
     </style>
 
@@ -53,7 +53,6 @@
         <!-- チェック時の色 -->
         <item name="colorControlActivated">@color/white</item>
     </style>
-
 
 
     <style name="Theme.Title_and_animation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

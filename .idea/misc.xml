@@ -31,6 +31,11 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_8_switch.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_9_actionbar_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/baseline_schedule_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/c_1_select_spinner.xml" value="0.23" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/c_maincounteractivity01_gamesediter.xml" value="0.2555" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/c_maincounteractivity02_focusfalse.xml" value="0.2555" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/c_maincounteractivity04_cherrybigbottun.xml" value="0.23" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/d_1_list.xml" value="0.2545" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_twotone_access_time_24.xml" value="0.26614583333333336" />
@@ -42,6 +47,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-land/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-land/activity_main_counter.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-notlong/activity_main_counter.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-notlong/flag_grades_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw320dp/activity_main_counter.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main_counter.xml" value="0.264" />
@@ -52,6 +58,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/custom_spinner.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/store_list_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-xxhdpi/activity_main_counter.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/aaa.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main_counter.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_splash.xml" value="0.264" />
@@ -63,9 +70,22 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_spinner.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_spinner_dialog.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/custom_sppiner.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/flag_grades.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/flag_grades_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/flag_statistics.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/fragment_page1.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/list_layout.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main01_storemanagement01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main02_counter01.xml" value="0.46647230320699706" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main02_counter04_custom_dialog.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main03_grades01.xml" value="0.2507836990595611" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main03_grades02_item.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main04_statistics01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main05_exportcsv01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main06_datadetail01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main06_datadetail02_custom_dialog.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main06_datedetail01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main06_datedetail02_custom_dialog.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/register_dialog.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/store_list_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/store_name.xml" value="0.4" />

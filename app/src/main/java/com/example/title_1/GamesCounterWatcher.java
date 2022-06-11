@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import org.apache.commons.lang3.StringUtils;
 
 //-----------------------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
     TextView view;
 
-    public GamesCounterWatcher(TextView view, MainApplication mainApplication){
+    public GamesCounterWatcher(TextView view, MainApplication mainApplication) {
         this.view = view;
         this.mainApplication = mainApplication;
     }
@@ -55,9 +56,11 @@ public class GamesCounterWatcher implements TextWatcher {
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public void afterTextChanged(Editable s) {
@@ -89,7 +92,7 @@ public class GamesCounterWatcher implements TextWatcher {
         String individualValue = "0";
 
         //TextWatcherを設定したどのViewが操作されたのか、switchを使って振り分ける
-        switch (view.getId()){
+        switch (view.getId()) {
 
             //総ゲーム数の場合
             case R.id.total_game:
@@ -99,40 +102,37 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strTotal = textString;
 
-                if (StringUtils.isNotEmpty(strTotal)) {
-                    //総ゲーム数が空ではなかった場合
-                    //数値変換して文字型に再変換することで０頭を回避
+                //総ゲーム数が空だった場合は0をセット。そうでなければ0頭回避処理
+                if (StringUtils.isEmpty(strTotal)) {
+                    strTotal = "0";
+                } else {
                     strTotal = Integer.valueOf(strTotal).toString();
-                    totalGame = Integer.parseInt(strTotal);
-                    //打ち始めゲーム数が空だった場合
-                    if (strStart.isEmpty()) {
-                        //０が入力されていたら、次に入力された数値で上書きする
-                        //個人ゲーム数に総ゲーム数をセット
-                        individualValue = String.valueOf(totalGame);
-                        //打ち始めゲーム数に数値が入力されていたら、総ゲーム数-打ち始めゲーム数を算出
-                    } else {
-                        startGame = Integer.parseInt(strStart);
-                        int individualGame = totalGame - startGame;
-                        //差がプラスだったら差分をセット
-                        if (individualGame >= 0) {
-                            individualValue = String.valueOf(individualGame);
-                        }
-                    }
-                    // 値のセット
-                    total.setText(strTotal);
-                    total.setSelection(strTotal.length());
                 }
+
+                //個人ゲーム数を算出。0以上だったらその値を個人ゲーム数にセット。マイナスだったら0をセット
+                totalGame = Integer.parseInt(strTotal);
+                //R04.06.02　クラッシュしちゃうので応急処理(原因究明しようと思ったけど眠かったからあきらめた)
+                if(!strStart.equals("")){
+                    startGame = Integer.parseInt(strStart);
+                } else {
+                    startGame = 0;
+                }
+                int individualGame = totalGame - startGame;
+                if (individualGame >= 0) {
+                    individualValue = String.valueOf(individualGame);
+                } else {
+                    individualValue = "0";
+                }
+
+                // 値のセット
+                total.setText(strTotal);
+                total.setSelection(strTotal.length());
                 individual.setText(individualValue);
 
-                if(StringUtils.isNotEmpty(strTotal)) {
-                    // 保存処理
+                // 保存処理
+                if (StringUtils.isNotEmpty(strTotal)) {
                     mainApplication.setTotal(strTotal);
-                    CreateXML.updateText(mainApplication,"total",strTotal);
-                } else {
-                    mainApplication.setTotal("0");
-                    CreateXML.updateText(mainApplication,"total","0");
-                    // 空白に戻す
-                    mainApplication.setTotal("");
+                    CreateXML.updateText(mainApplication, "total", strTotal);
                 }
 
                 //テキストウォッチャーを元に戻す
@@ -145,28 +145,21 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strStart = textString;
 
-                if(StringUtils.isEmpty(strStart)){
-                    //打ち始めゲーム数が空、総ゲーム数に値が入っていた場合
-                    if(StringUtils.isNotEmpty(strTotal)){
-                        totalGame = Integer.parseInt(strTotal);
-                        //個人ゲーム数に総ゲーム数を格納
-                        individualValue = String.valueOf(totalGame);
-                    }
+                //開始ゲーム数が空だった場合は0をセット。そうでなければ0頭回避処理
+                if (StringUtils.isEmpty(strStart)) {
+                    strStart = "0";
                 } else {
-                    //打ち始めゲーム数、総ゲーム数に値が入っていた場合
-                    if(StringUtils.isNotEmpty(strTotal)){
-                        totalGame = Integer.parseInt(strTotal);
-                        strStart = Integer.valueOf(strStart).toString();
-                        startGame = Integer.parseInt(strStart);
-                        int individualGame = totalGame - startGame;
+                    strStart = Integer.valueOf(strStart).toString();
+                }
 
-                        if(individualGame >= 0) {
-                            individualValue = String.valueOf(individualGame);
-                        }
-                    } else {
-                        //総ゲーム数が空、打ち始めゲーム数に値が入っていた場合
-                        strStart = Integer.valueOf(strStart).toString();
-                    }
+                //個人ゲーム数を算出。0以上だったらその値を個人ゲーム数にセット。マイナスだったら0をセット
+                totalGame = Integer.parseInt(strTotal);
+                startGame = Integer.parseInt(strStart);
+                individualGame = totalGame - startGame;
+                if (individualGame >= 0) {
+                    individualValue = String.valueOf(individualGame);
+                } else {
+                    individualValue = "0";
                 }
 
                 // 値のセット
@@ -174,16 +167,10 @@ public class GamesCounterWatcher implements TextWatcher {
                 start.setSelection(strStart.length());
                 individual.setText(individualValue);
 
-
-                if(StringUtils.isNotEmpty(strStart)) {
-                    // 保存処理
+                // 保存処理
+                if (StringUtils.isNotEmpty(strStart)) {
                     mainApplication.setStart(strStart);
-                    CreateXML.updateText(mainApplication,"start",strStart);
-                } else {
-                    mainApplication.setStart("0");
-                    CreateXML.updateText(mainApplication,"start","0");
-                    // 空白に戻す
-                    mainApplication.setStart("");
+                    CreateXML.updateText(mainApplication, "start", strStart);
                 }
 
                 start.addTextChangedListener(this);
@@ -194,15 +181,15 @@ public class GamesCounterWatcher implements TextWatcher {
                 if (textString.equals("0")) {
                     setProbabilityZero();
                 } else {
-                    setCounterBlankProbabilityZero(aB,aB_Probability);
-                    setCounterBlankProbabilityZero(cB,cB_Probability);
-                    setCounterBlankProbabilityZero(BB,BB_Probability);
-                    setCounterBlankProbabilityZero(aR,aR_Probability);
-                    setCounterBlankProbabilityZero(cR,cR_Probability);
-                    setCounterBlankProbabilityZero(RB,RB_Probability);
-                    setCounterBlankProbabilityZero(ch,ch_Probability);
-                    setCounterBlankProbabilityZero(gr,gr_Probability);
-                    setCounterBlankProbabilityZero(addition,addition_Probability);
+                    setCounterBlankProbabilityZero(aB, aB_Probability);
+                    setCounterBlankProbabilityZero(cB, cB_Probability);
+                    setCounterBlankProbabilityZero(BB, BB_Probability);
+                    setCounterBlankProbabilityZero(aR, aR_Probability);
+                    setCounterBlankProbabilityZero(cR, cR_Probability);
+                    setCounterBlankProbabilityZero(RB, RB_Probability);
+                    setCounterBlankProbabilityZero(ch, ch_Probability);
+                    setCounterBlankProbabilityZero(gr, gr_Probability);
+                    setCounterBlankProbabilityZero(addition, addition_Probability);
                 }
                 break;
 
@@ -215,7 +202,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strAloneBig = textString;
 
-                setProbability(strAloneBig,strCherryBig,BB,aB_Probability,cB_Probability,BB_Probability);
+                setProbability(strAloneBig, strCherryBig, BB, aB_Probability, cB_Probability, BB_Probability);
 
                 //空の状態でsetText(Integer.valueOf(textString).toString())をやるとクラッシュしちゃう
                 if (StringUtils.isNotEmpty(strAloneBig)) {
@@ -229,7 +216,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setaB(strAloneBig);
-                CreateXML.updateText(mainApplication,"aB",strAloneBig);
+                CreateXML.updateText(mainApplication, "aB", strAloneBig);
 
                 aB.addTextChangedListener(this);
                 break;
@@ -238,7 +225,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 cB.removeTextChangedListener(this);
                 //入力値を更新
                 strCherryBig = textString;
-                setProbability(strAloneBig,strCherryBig,BB,aB_Probability,cB_Probability,BB_Probability);
+                setProbability(strAloneBig, strCherryBig, BB, aB_Probability, cB_Probability, BB_Probability);
                 if (StringUtils.isNotEmpty(strCherryBig)) {
                     strCherryBig = Integer.valueOf(strCherryBig).toString();
                     cB.setText(strCherryBig);
@@ -250,7 +237,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setcB(strCherryBig);
-                CreateXML.updateText(mainApplication,"cB",strCherryBig);
+                CreateXML.updateText(mainApplication, "cB", strCherryBig);
 
                 cB.addTextChangedListener(this);
                 break;
@@ -262,7 +249,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 addition.setText(String.valueOf(additionCount));
 
                 //総ゲーム数が0以外 かつ ボーナスが0以上だった場合
-                if( ! strTotal.equals("0") && additionCount > 0){
+                if (!strTotal.equals("0") && additionCount > 0) {
                     double AdditionProbability = ind / additionCount;
                     addition_Probability.setText(setFormat(AdditionProbability));
                 }
@@ -273,7 +260,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strAloneReg = textString;
 
-                setProbability(strAloneReg,strCherryReg,RB,aR_Probability,cR_Probability,RB_Probability);
+                setProbability(strAloneReg, strCherryReg, RB, aR_Probability, cR_Probability, RB_Probability);
 
                 if (StringUtils.isNotEmpty(strAloneReg)) {
                     strAloneReg = Integer.valueOf(strAloneReg).toString();
@@ -286,7 +273,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setaR(strAloneReg);
-                CreateXML.updateText(mainApplication,"aR",strAloneReg);
+                CreateXML.updateText(mainApplication, "aR", strAloneReg);
 
                 aR.addTextChangedListener(this);
                 break;
@@ -296,7 +283,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strCherryReg = textString;
 
-                setProbability(strAloneReg,strCherryReg,RB,aR_Probability,cR_Probability,RB_Probability);
+                setProbability(strAloneReg, strCherryReg, RB, aR_Probability, cR_Probability, RB_Probability);
 
                 if (StringUtils.isNotEmpty(strCherryReg)) {
                     strCherryReg = Integer.valueOf(strCherryReg).toString();
@@ -309,7 +296,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setcR(strCherryReg);
-                CreateXML.updateText(mainApplication,"cR",strCherryReg);
+                CreateXML.updateText(mainApplication, "cR", strCherryReg);
 
                 cR.addTextChangedListener(this);
                 break;
@@ -319,7 +306,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 strTotalReg = textString;
                 additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
                 addition.setText(String.valueOf(additionCount));
-                if( ! strTotal.equals("0") && additionCount > 0){
+                if (!strTotal.equals("0") && additionCount > 0) {
                     double AdditionProbability = ind / additionCount;
                     addition_Probability.setText(setFormat(AdditionProbability));
                 }
@@ -330,7 +317,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strCherry = textString;
 
-                setProbability_ch_gr(strCherry,ch_Probability);
+                setProbability_ch_gr(strCherry, ch_Probability);
 
                 if (StringUtils.isNotEmpty(strCherry)) {
                     strCherry = Integer.valueOf(strCherry).toString();
@@ -343,7 +330,7 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setCh(strCherry);
-                CreateXML.updateText(mainApplication,"ch",strCherry);
+                CreateXML.updateText(mainApplication, "ch", strCherry);
 
                 ch.addTextChangedListener(this);
                 break;
@@ -353,7 +340,7 @@ public class GamesCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strGr = textString;
 
-                setProbability_ch_gr(strGr,gr_Probability);
+                setProbability_ch_gr(strGr, gr_Probability);
 
                 if (StringUtils.isNotEmpty(strGr)) {
                     strGr = Integer.valueOf(strGr).toString();
@@ -366,16 +353,16 @@ public class GamesCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setGr(strGr);
-                CreateXML.updateText(mainApplication,"gr",strGr);
+                CreateXML.updateText(mainApplication, "gr", strGr);
 
                 gr.addTextChangedListener(this);
                 break;
         }
     }
 
-    public void setProbability_ch_gr(String smallRole,TextView tv){
+    public void setProbability_ch_gr(String smallRole, TextView tv) {
 
-        if(StringUtils.isEmpty(smallRole) || smallRole.equals("0") || smallRole.equals("00")){
+        if (StringUtils.isEmpty(smallRole) || smallRole.equals("0") || smallRole.equals("00")) {
             tv.setText(INIT_VALUE);
         } else {
             double ind = Double.parseDouble(individual.getText().toString());
@@ -385,13 +372,13 @@ public class GamesCounterWatcher implements TextWatcher {
         }
     }
 
-    public void setCounterBlankProbabilityZero(EditText ed,TextView tv){
+    public void setCounterBlankProbabilityZero(EditText ed, TextView tv) {
 
         String edString = ed.getText().toString();
         String individualString = individual.getText().toString();
 
         // テキストが空もしくは0だった場合は初期値を格納
-        if(StringUtils.isEmpty(edString) || edString.equals("0")){
+        if (StringUtils.isEmpty(edString) || edString.equals("0")) {
             tv.setText(INIT_VALUE);
         } else {
             double ind = Double.parseDouble(individualString);
@@ -401,13 +388,19 @@ public class GamesCounterWatcher implements TextWatcher {
         }
     }
 
-    public void setProbabilityZero(){
-        aB_Probability.setText(INIT_VALUE); cB_Probability.setText(INIT_VALUE); BB_Probability.setText(INIT_VALUE);
-        aR_Probability.setText(INIT_VALUE); cR_Probability.setText(INIT_VALUE); RB_Probability.setText(INIT_VALUE);
-        ch_Probability.setText(INIT_VALUE); gr_Probability.setText(INIT_VALUE); addition_Probability.setText(INIT_VALUE);
+    public void setProbabilityZero() {
+        aB_Probability.setText(INIT_VALUE);
+        cB_Probability.setText(INIT_VALUE);
+        BB_Probability.setText(INIT_VALUE);
+        aR_Probability.setText(INIT_VALUE);
+        cR_Probability.setText(INIT_VALUE);
+        RB_Probability.setText(INIT_VALUE);
+        ch_Probability.setText(INIT_VALUE);
+        gr_Probability.setText(INIT_VALUE);
+        addition_Probability.setText(INIT_VALUE);
     }
 
-    public void setProbability(String alone,String cherry,EditText bonus,TextView tv1,TextView tv2,TextView tv3){
+    public void setProbability(String alone, String cherry, EditText bonus, TextView tv1, TextView tv2, TextView tv3) {
 
         String bonusValue = "0";
         String tv1Value = INIT_VALUE;
@@ -416,15 +409,15 @@ public class GamesCounterWatcher implements TextWatcher {
         int aloneValue = 0;
         int cherryValue = 0;
 
-        if(StringUtils.isNotEmpty(alone)) {
+        if (StringUtils.isNotEmpty(alone)) {
             aloneValue = Integer.parseInt(alone);
         }
-        if(StringUtils.isNotEmpty(cherry)){
+        if (StringUtils.isNotEmpty(cherry)) {
             cherryValue = Integer.parseInt(cherry);
         }
 
-            //単独カウンターが空、かつ、チェリー重複カウンターが０
-        if(alone.isEmpty() && cherryValue > 0){
+        //単独カウンターが空、かつ、チェリー重複カウンターが０
+        if (alone.isEmpty() && cherryValue > 0) {
             double ind = Integer.parseInt(individual.getText().toString());
             double probability = ind / cherryValue;
 
@@ -433,7 +426,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０、かつ、チェリー重複カウンターが０より大きい
-        } else if(aloneValue == 0 && cherryValue > 0){
+        } else if (aloneValue == 0 && cherryValue > 0) {
             bonusValue = Integer.valueOf(cherry).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(cherry);
@@ -442,7 +435,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv2Value = setFormat(probability);
             tv3Value = setFormat(probability);
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが空
-        } else if(aloneValue > 0 && cherry.isEmpty()){
+        } else if (aloneValue > 0 && cherry.isEmpty()) {
             bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
@@ -451,7 +444,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０
-        } else if(aloneValue > 0 && cherryValue == 0){
+        } else if (aloneValue > 0 && cherryValue == 0) {
             bonusValue = Integer.valueOf(alone).toString();
             double ind = Integer.parseInt(individual.getText().toString());
             double cnt = Integer.parseInt(alone);
@@ -460,7 +453,7 @@ public class GamesCounterWatcher implements TextWatcher {
             tv3Value = setFormat(probability);
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０より大きい
-        } else if(aloneValue > 0 && cherryValue > 0) {
+        } else if (aloneValue > 0 && cherryValue > 0) {
             double ind = Integer.parseInt(individual.getText().toString());
             int aloneBonus = Integer.parseInt(alone);
             int cherryBonus = Integer.parseInt(cherry);
@@ -483,7 +476,7 @@ public class GamesCounterWatcher implements TextWatcher {
     }
 
     @SuppressLint("DefaultLocale")
-    private String setFormat(double probability){
+    private String setFormat(double probability) {
         return "1/" + String.format("%.2f", probability);
     }
 }
