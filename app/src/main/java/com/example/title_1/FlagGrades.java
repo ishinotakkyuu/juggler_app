@@ -1,8 +1,12 @@
 package com.example.title_1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,21 +47,54 @@ public class FlagGrades extends Fragment {
         keepDataList = layout.findViewById(R.id.KeepDataList);
 
 
-
-
-
         // リストビューに表示する要素の設定(仮)　⇒　ここにDBから持ってきたID・機種名・店舗名・登録日時を新しい順にセットしていく
         // IDは降順にセットすること。
         ArrayList<FlagGradesListItems> listItems = new ArrayList<>();
-        // 実装時、各項目は配列？で処理(DBに複数データがある場合は配列で処理することになると思われる)
-        FlagGradesListItems data1 = new FlagGradesListItems("ID2","SアイムジャグラーEX","楽園大森店","2022/12/31(日付)","2022年12月31日12時00分(登録日時)");
-        FlagGradesListItems data2 = new FlagGradesListItems("ID1","Sファンキージャグラー2","小手指一番館","2022/12/30(日付)","2022年12月30日12時00分(登録日時)");
-        listItems.add(data1);
-        listItems.add(data2);
 
+        Context context = getActivity().getApplicationContext();
+        DatabaseHelper helper = new DatabaseHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
 
+        String sql = CreateSQL.FlagGradesSQL();
 
+        Log.i("SQLITE","sql : " + sql);
 
+        try {
+
+            Cursor cursor = db.rawQuery(sql,null);
+
+            while(cursor.moveToNext()){
+
+                // ID
+                int index = cursor.getColumnIndex("ID");
+                String id = String.valueOf(cursor.getLong(index));
+
+                // 機種名
+                index = cursor.getColumnIndex("MACHINE_NAME");
+                String machineName = cursor.getString(index);
+
+                // 店舗名
+                index = cursor.getColumnIndex("STORE_NAME");
+                String storeName = cursor.getString(index);
+
+                // 稼働日
+                index = cursor.getColumnIndex("OPERATION_DATE");
+                String operationDate = cursor.getString(index);
+
+                // 登録日時
+                index = cursor.getColumnIndex("SAVE_DATE");
+                String saveDate = cursor.getString(index);
+
+                // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
+                Log.i("SQLITE", "_id : " + id + " ");
+
+                listItems.add(new FlagGradesListItems(id,machineName,storeName,operationDate,saveDate));
+            }
+        }finally{
+            if(db != null) {
+                db.close();
+            }
+        }
 
         // 配列の要素をアダプターを使ってリストビューにセット
         FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.main03_grades02_item,listItems);

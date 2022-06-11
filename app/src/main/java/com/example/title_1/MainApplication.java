@@ -6,11 +6,14 @@ import android.widget.EditText;
 
 import org.w3c.dom.Document;
 
+import java.util.Random;
+
 public class MainApplication extends Application {
 
     private Context context;
     private Document document;
 
+    private int userId;
     private int machineName;
     private String total;
     private String start;
@@ -43,6 +46,10 @@ public class MainApplication extends Application {
 
     // 初期セット
     public void init() {
+
+        Random rnd = new Random();
+        //乱数を取得する
+        setUserId(rnd.nextInt(2147483647));
         setTotal("0");
         setStart("0");
         setaB("0");
@@ -66,6 +73,14 @@ public class MainApplication extends Application {
     }
     public void setDocument(Document document) {
         this.document = document;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getMachineName() {

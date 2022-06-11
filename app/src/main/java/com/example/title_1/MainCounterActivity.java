@@ -71,7 +71,11 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     boolean editorModeCounter = false;
     boolean skeletonCounter = false;
 
+    // ユーザID
+    int userId;
+
     //日付
+    String saveDate = "";
     String operationDate = "";
     String operationYear;
     String operationMonth;
@@ -89,6 +93,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // 機種
     int machineNameValue;
     String machineName = "";
+
+    // 台番号
+    String tableNumber;
+
 
     // カスタムダイアログ内にある台番号・差枚数入力用のEditText
     static EditText machineText,medalText;
@@ -371,6 +379,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
+
+            // ユーザID
+            userId = mainApplication.getUserId();
+            // 店舗名
             storeName = (String)storeSpinner.getSelectedItem();
             String differenceNumberStr = medalText.getText().toString();
             EditText showDate = registerDialog.findViewById(R.id.DateEditText);
@@ -414,38 +426,23 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
                 //　R04.06.02 台番号取得
                 machineText = registerDialog.findViewById(R.id.MachineNumber);
-                String machineNumber = machineText.getText().toString();
+                tableNumber = machineText.getText().toString();
                 // R04.06.03　現在日時を取得
                 Date now = new Date();
                 SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-                String nowDate = dFormat.format(now);
+                saveDate = dFormat.format(now);
 
                 //　データベースへの登録処理
                 Context context = getApplicationContext();
                 DatabaseHelper helper = new DatabaseHelper(context);
                 SQLiteDatabase db = helper.getWritableDatabase();
 
-
-
-
-
-
-
-
-                // DB項目にユーザーID(int型)を追加すること
-                // DB項目に台番号(String型)を追加すること
-                // DB項目に保存日時(String型)を追加すること
-
-
-
-
-
-
-
                 try {
                     String sql =
                             "insert into TEST (" +
+                                    "USER_ID," +
                                     "OPERATION_DATE," +
+                                    "SAVE_DATE," +
                                     "STORE_NAME," +
                                     "OPERATION_YEAR," +
                                     "OPERATION_MONTH," +
@@ -455,6 +452,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "DAY_OF_WEEK_IN_MONTH," +
                                     "DIFFERENCE_NUMBER," +
                                     "MACHINE_NAME," +
+                                    "TABLE_NUMBER," +
                                     "START_GAME," +
                                     "TOTAL_GAME," +
                                     "SINGLE_BIG," +
@@ -465,7 +463,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "GRAPE" +
                                     ") " +
                                     "values(" +
+                                    "'" + userId + "'," +
                                     "'" + operationDate + "'," +
+                                    "'" + saveDate + "'," +
                                     "'" + storeName + "'," +
                                     "'" + operationYear + "'," +
                                     "'" + operationMonth + "'," +
@@ -475,6 +475,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "'" + dayOfWeekinMonth + "'," +
                                     "'" + differenceNumber + "'," +
                                     "'" + machineName + "'," +
+                                    "'" + tableNumber + "'," +
                                     "'" + startGame + "'," +
                                     "'" + totalGame + "'," +
                                     "'" + singleBig + "'," +

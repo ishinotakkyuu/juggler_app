@@ -92,6 +92,15 @@ public class CreateSQL {
             sql = sql + "WEEK_ID = " + "'" + conditionValue + "'";
         }
 
+        // 特殊7
+        int spinner07Position = FlagStatistics.specialSpinner_07.getSelectedItemPosition();
+        if(spinner07Position != 0){
+            sql = addAnd(sql);
+            String conditionValue =  String.valueOf(spinner07Position - 1);
+
+            sql = sql + "substr(TABLE_NUMBER,length(TABLE_NUMBER)) =" + "'" + conditionValue + "'";
+        }
+
         if(sql.isEmpty()) {
             sql = initSql  + end;
         }else{
@@ -100,6 +109,14 @@ public class CreateSQL {
 
         return sql;
     }
+
+    public static String FlagGradesSQL() {
+
+        String sql = "select * from TEST ORDER BY OPERATION_DATE desc;";
+
+        return sql;
+    }
+
 
     public static String addAnd(String sql){
 

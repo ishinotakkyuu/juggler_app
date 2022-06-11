@@ -42,8 +42,16 @@ class ReadXML {
             String elementNodesNodeName = elementNodes.getNodeName();
             switch (elementNodesNodeName) {
 
-                case "machineName":
+                case "userId":
                     Node textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setUserId(Integer.parseInt(text));
+                    }
+                    break;
+
+                case "machineName":
+                    textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
                         mainApplication.setMachineName(Integer.parseInt(text));
