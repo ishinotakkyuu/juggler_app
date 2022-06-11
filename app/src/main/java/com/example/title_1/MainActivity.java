@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void storeManagement(View view){
-        Intent intent = new Intent(getApplication(), StoreManagement.class);
+        Intent intent = new Intent(getApplication(), MainManagementStore.class);
         startActivity(intent);
     }
 

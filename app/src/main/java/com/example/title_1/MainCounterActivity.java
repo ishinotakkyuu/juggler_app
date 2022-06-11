@@ -513,7 +513,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 .setTitle("店舗登録のお願い")
                 .setMessage("データを残したい場合は店舗登録を行ってください")
                 .setPositiveButton("店舗登録へ", (dialog, which) -> {
-                    Intent intent = new Intent(getApplication(), StoreManagement.class);
+                    Intent intent = new Intent(getApplication(), MainManagementStore.class);
                     startActivity(intent);
                 })
                 .setNegativeButton("戻る", null)

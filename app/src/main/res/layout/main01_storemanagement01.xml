@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:focusableInTouchMode="true"
-    tools:context=".StoreManagement">
+    tools:context=".MainManagementStore">
 
     <EditText
         android:id="@+id/EditStoreName"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:onClick="addText"
+        android:onClick="addStore"
         android:text="追加"
         app:layout_constraintBaseline_toBaselineOf="@+id/EditStoreName"
         app:layout_constraintEnd_toEndOf="parent"

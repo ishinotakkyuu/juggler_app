@@ -24,7 +24,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 
 
-public final class StoreManagement extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public final class MainManagementStore extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     // 登録店舗名を入力するEditText
     EditText storeRegister;
@@ -83,7 +83,7 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
     }
 
     //「追加」ボタンに設定
-    public void addText(View view) {
+    public void addStore(View view) {
 
         boolean errorFlag = true;
         int size = items.size();
@@ -269,18 +269,56 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        boolean errorFlag = true;
+                        int size = items.size();
+
                         // 更新後の店舗名を取得 ⇒ セットしてadapterを更新
                         String newStoreName = editText.getText().toString();
-                        ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
-                        items.set(position,newStoreName);
-                        adapter.notifyDataSetChanged();
+                        // Normalizerを使って文字列に含まれる全角スペースを半角に変換(同時に数値は半角・カタカナは全角に変換される)
+                        newStoreName = Normalizer.normalize(newStoreName,Normalizer.Form.NFKC);
+                        // 文字列前後の半角スペースを削除
+                        newStoreName = newStoreName.trim();
+                        // 文字列内に絵文字が含まれるか判定。ただし絵文字だけに限らず、日常的に使われない文字もはじく使用になってます。
+                        // R04.05.21時点で適当に入れた中国語・アラビア語・ロシア語は通過。ただ再起動すると文字化けするものもあった。また、古代文字ははじいた。
+                        for(int i = 0; i < newStoreName.length(); i++){
+                            char c = newStoreName.charAt(i);
+                            if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
+                                Toast toast = Toast.makeText(MainManagementStore.this, "使用できない文字が含まれています", Toast.LENGTH_LONG);
+                                toast.show();
+                                return;
+                            }
+                        }
+                        //空白チェック
+                        if(StringUtils.isBlank(newStoreName)){
+                            errorFlag = false;
+                            Toast toast = Toast.makeText(MainManagementStore.this, "店舗名が空白のため更新できません", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
 
-                        // 共有データも更新
-                        setMainApplication(items);
+                        // 重複チェック
+                        for(int i = 0; i < size; i++){
+                            if((items.get(i)).equals(newStoreName)){
+                                errorFlag = false;
+                                Toast toast = Toast.makeText(MainManagementStore.this, "すでに登録されている店舗名です", Toast.LENGTH_LONG);
+                                toast.show();
+                                break;
+                            }
+                        }
 
-                        // トースト表示
-                        Toast toast = Toast.makeText(StoreManagement.this, beforeName + "を" + newStoreName + "に変更しました", Toast.LENGTH_LONG);
-                        toast.show();
+                        // 店舗名の重複がなければ配列に項目をセットし、内部ストレージにも保存
+                        if(errorFlag){
+
+                            ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
+                            items.set(position,newStoreName);
+                            adapter.notifyDataSetChanged();
+
+                            // 共有データも更新
+                            setMainApplication(items);
+
+                            // トースト表示
+                            Toast toast = Toast.makeText(MainManagementStore.this, beforeName + "を" + newStoreName + "に変更しました", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
                     }
                 })
                 .setNegativeButton("キャンセル", null)
@@ -307,7 +345,7 @@ public final class StoreManagement extends AppCompatActivity implements AdapterV
 
                         // 店舗数表示を更新してトースト表示
                         storeCounter.setText("登録店舗数：" + adapter.getCount() + "件");
-                        Toast toast = Toast.makeText(StoreManagement.this, "削除しました", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(MainManagementStore.this, "削除しました", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 })

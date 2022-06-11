@@ -67,6 +67,10 @@ public class MainCounterWatcher implements TextWatcher {
 
         //入力値
         String textString = s.toString();
+        if(textString.isEmpty()){
+            textString = "0";
+        }
+
 
         String strTotal = total.getText().toString();
         String strStart = start.getText().toString();
