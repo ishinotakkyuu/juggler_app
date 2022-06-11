@@ -122,7 +122,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         mainApplication = (MainApplication) this.getApplication();
 
-        setContentView(R.layout.main06_datadetail01);
+        setContentView(R.layout.main05_datadetail01);
 
         //アクションバー非表示
         ActionBar actionBar = getSupportActionBar();
@@ -410,7 +410,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         // ダイアログを定義
         Dialog registerDialog = new Dialog(this);
         // カスタム用のレイアウトをセット
-        registerDialog.setContentView(R.layout.main06_datadetail02_custom_dialog);
+        registerDialog.setContentView(R.layout.main05_datadetail02_custom_dialog);
         // ダイアログのレイアウトをタッチするとフォーカスが外れる
         registerLayout = registerDialog.findViewById(R.id.RegisterLayout);
         registerLayout.setOnTouchListener(new View.OnTouchListener() {

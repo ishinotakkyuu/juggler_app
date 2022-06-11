@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.title_1.FlagExportCSV;
+import com.example.title_1.Z_FlagExportCSV;
 import com.example.title_1.FlagGrades;
 import com.example.title_1.FlagStatistics;
 import com.example.title_1.R;
@@ -20,7 +20,7 @@ import com.example.title_1.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2,R.string.tab_text_3};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -42,8 +42,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 fragment = new FlagStatistics();
                 break;
+            /*
             case 2:
-                fragment = new FlagExportCSV();
+                //fragment = new Z_FlagExportCSV();
+
+             */
         }
         return fragment;
     }
@@ -57,7 +60,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     // ここでタブの数を管理
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 3;
+        return 2;
     }
 }
