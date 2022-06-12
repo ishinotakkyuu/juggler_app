@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class ListItemAdapter extends ArrayAdapter<String> {
+public class MainManagementStoreAdapter extends ArrayAdapter<String> {
 
     private int mResource;
     private List<String> items;
@@ -21,7 +21,7 @@ public class ListItemAdapter extends ArrayAdapter<String> {
      * @param resource リソースID
      * @param items リストビューの要素
      */
-    public ListItemAdapter(Context context, int resource, List<String> items) {
+    public MainManagementStoreAdapter(Context context, int resource, List<String> items) {
         super(context, resource, items);
 
         mResource = resource;

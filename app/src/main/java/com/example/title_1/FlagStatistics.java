@@ -188,26 +188,26 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 nfNum.setMaximumFractionDigits(1);
 
                 // ここにDBデータを記述
-                totalGame.setText(String.valueOf(Math.round(totalGameValue)) + "回転");
-                totalMedal.setText(String.valueOf(Math.round(totalMedalValue))+ "枚");
+                totalGame.setText(Math.round(totalGameValue) + "回転");
+                totalMedal.setText(Math.round(totalMedalValue) + "枚");
                 discount.setText(String.format("%.2f",discountValue) + "%");
-                totalAloneBig.setText(String.valueOf(totalSingleBigValue) + "回");
+                totalAloneBig.setText(totalSingleBigValue + "回");
                 totalAloneBigProbability.setText("1/" + String.format("%.2f",totalSingleBigProbabilityValue));
-                totalCherryBig.setText(String.valueOf(totalCherryBigValue) + "回");
+                totalCherryBig.setText(totalCherryBigValue + "回");
                 totalCherryBigProbability.setText("1/" + String.format("%.2f",totalCherryBigProbabilityValue));
-                totalBig.setText(String.valueOf(totalBigValue) + "回");
+                totalBig.setText(totalBigValue + "回");
                 totalBigProbability.setText("1/" + String.format("%.2f",totalBigProbabilityValue));
-                totalAloneReg.setText(String.valueOf(totalSingleRegValue) + "回");
+                totalAloneReg.setText(totalSingleRegValue + "回");
                 totalAloneRegProbability.setText("1/" + String.format("%.2f",totalSingleRegProbabilityValue));
-                totalCherryReg.setText(String.valueOf(totalCherryRegValue) + "回");
+                totalCherryReg.setText(totalCherryRegValue + "回");
                 totalCherryRegProbability.setText("1/" + String.format("%.2f",totalCherryRegProbabilityValue));
-                totalReg.setText(String.valueOf(totalRegValue) + "回");
+                totalReg.setText(totalRegValue + "回");
                 totalRegProbability.setText("1/" + String.format("%.2f",totalRegProbabilityValue));
-                totalBonus.setText(String.valueOf(totalBonusValue) + "回");
+                totalBonus.setText(totalBonusValue + "回");
                 totalBonusProbability.setText("1/" + String.format("%.2f",totalBonusProbabilityValue));
-                totalGrape.setText(String.valueOf(totalGrapeValue) + "回");
+                totalGrape.setText(totalGrapeValue + "回");
                 totalGrapeProbability.setText("1/" + String.format("%.2f",totalGrapeProbabilityValue));
-                totalCherry.setText(String.valueOf(totalCherryValue) + "回");
+                totalCherry.setText(totalCherryValue + "回");
                 totalCherryProbability.setText("1/" + String.format("%.2f",totalCherryProbabilityValue));
 
                 break;

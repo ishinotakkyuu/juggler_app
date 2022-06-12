@@ -35,7 +35,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     // 登録店舗を表示させるListView,登録店舗名を格納するArrayList,ListViewに登録店舗名をセットする時に使用するadapter
     ListView storeListView;
     ArrayList<String> items = new ArrayList<>();
-    ListItemAdapter adapter;
+    MainManagementStoreAdapter adapter;
 
     // フォーカス関係で使用
     ConstraintLayout layout;
@@ -68,7 +68,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         // 共有データに保存している店舗名を取得 ⇒ itemsに店舗名を格納 ⇒ adapterを介してListViewにセット
         this.mainApplication = (MainApplication) this.getApplication();
         setStorageListItem();
-        adapter = new ListItemAdapter(this, R.layout.main01_storemanagement02_listitem, items);
+        adapter = new MainManagementStoreAdapter(this, R.layout.main01_storemanagement02_listitem, items);
         storeListView.setAdapter(adapter);
 
         // 登録店舗数の件数をセット
@@ -144,7 +144,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                 setMainApplication(items);
 
                 //出力結果をリストビューに表示
-                adapter = new ListItemAdapter(this, R.layout.main01_storemanagement02_listitem, items);
+                adapter = new MainManagementStoreAdapter(this, R.layout.main01_storemanagement02_listitem, items);
                 storeListView.setAdapter(adapter);
 
                 // 登録店舗数の値を更新して、最後にトーストを表示
