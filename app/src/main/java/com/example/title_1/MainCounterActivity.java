@@ -430,7 +430,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 // R04.06.03　現在日時を取得
                 Date now = new Date();
                 SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-                saveDate = dFormat.format(now);
+                saveDate = dFormat.format(now) + "登録";
 
                 //　データベースへの登録処理
                 Context context = getApplicationContext();

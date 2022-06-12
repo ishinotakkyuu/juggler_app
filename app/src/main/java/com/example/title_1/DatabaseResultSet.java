@@ -175,7 +175,7 @@ public class DatabaseResultSet {
     protected static void DataDetailSelect2(Cursor cursor) {
 
         int index = cursor.getColumnIndex("STORE_NAME");
-        DataDetail.storeNames.add(cursor.getString(index));
+        DataDetail.DB_Store.add(cursor.getString(index));
 
         // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
         Log.i("SQLITE", "STORE_NAME : " + index + " ");

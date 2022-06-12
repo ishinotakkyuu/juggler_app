@@ -39,12 +39,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class DataDetail extends AppCompatActivity implements TextWatcher {
 
     // 前画面から渡されてきた情報を受け取る変数
-    String ID, machine, date, keeptime;
+    String ID, date, store, machine, keeptime;
 
     // レイアウト
     ConstraintLayout layout, touchLayout;
@@ -111,7 +112,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     static String storeNameValue;
     static Integer differenceNumberValue;
     static String tableNumberValue;
-    static List<String> storeNames = new ArrayList<>();
+    static List<String> DB_Store = new ArrayList<>();
 
     static MainApplication mainApplication = null;
 
@@ -147,8 +148,9 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         Intent intent = getIntent();
         // 渡されてきたデータを取り出す
         ID = intent.getStringExtra("ID");
-        machine = intent.getStringExtra("Machine");
         date = intent.getStringExtra("Date");
+        store = intent.getStringExtra("Store");
+        machine = intent.getStringExtra("Machine");
         keeptime = intent.getStringExtra("KeepTime");
 
         // 日付と登録日時をTextViewにセット
@@ -280,9 +282,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         //日付選択用のEditTextをセット
         showDate = registerDialog.findViewById(R.id.DateEditText);
 
-        // ①日付用EditTextに日付をセット(/の前後は半角スペース)
-        // 変更がなされなかった場合でもちゃんとDBに入るのか？ 確認すること
-        showDate.setText(operationDateValue);
+        // 日付用EditTextに日付をセット(/の前後は半角スペース)
+        showDate.setText(date.replace("-"," / "));
 
         // 日付表示用のEditTextにリスナーを登録
         showDate.setOnClickListener(new View.OnClickListener() {
@@ -331,19 +332,28 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         // 店舗表示用のスピナーと店舗名のリストを準備
         Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
 
-        // ②20店舗分の登録店舗を(nullじゃなかったら)リストを配列にセット
-        // どのように仕様を満たすのかイメージできないので記述しないゴメン
-        String[] storeItems = CommonFeature.getStoreItems(mainApplication);
-        for (String Item : storeItems) {
-            if (!Item.equals("null")) {
-                storeNames.add(Item);
-            }
+        // 登録店舗を格納するためのList
+        List<String> registerStoreItems = new ArrayList<>();
+        // 20店舗分の登録店舗を(nullじゃなかったら)リストを配列にセット
+        String[] Register_Store = CommonFeature.getStoreItems(mainApplication);
+        for (String Item : Register_Store) {
+            if (!Item.equals("null")) { registerStoreItems.add(Item); }
         }
+        // 登録店舗+DB内店舗の重複削除前リスト作成
+        List<String> beforeStoreItems = new ArrayList<>(registerStoreItems);
+        beforeStoreItems.addAll(DB_Store);
 
-        // アダプターを介して登録店舗一覧リストをセット
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner, storeNames);
+        // 登録店舗+DB内店舗の重複削除後リスト作成
+        List<String> newStoreItems = new ArrayList<>(new HashSet<>(beforeStoreItems));
+
+        // アダプターを介して登録店舗+DB内店舗の重複削除後のリストをセット
+        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner, newStoreItems);
         storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
         storeSpinner.setAdapter(storeAdapter);
+
+        // スピナーで変更前の店舗名を初期値として選択
+        int index = newStoreItems.indexOf(store);
+        storeSpinner.setSelection(index);
 
         // 台番号用EditTextに台番号をセットする
         machineText = registerDialog.findViewById(R.id.MachineNumber);
@@ -352,12 +362,14 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         // 差枚数用EditTextに差枚数をセット
         medalText = registerDialog.findViewById(R.id.DifferenceNumber);
         checkBox = registerDialog.findViewById(R.id.checkBox);
-        // DBから取得した値がマイナスかチェック
-        if (differenceNumber < 0) {
-            differenceNumber = differenceNumber * -1;
-            checkBox.setChecked(true);
+        // 0判定(登録時に差枚数が空欄だった場合の対応。ただし０登録した場合も下記の処理になってしまう)
+        if(differenceNumber != 0) {
+            if (differenceNumber < 0) { //DBから取得した値がマイナスかチェック
+                differenceNumber = differenceNumber * -1;
+                checkBox.setChecked(true);
+            }
+            medalText.setText(String.valueOf(differenceNumber));
         }
-        medalText.setText(String.valueOf(differenceNumber));
         medalText.addTextChangedListener(this);
 
         // キーボード確定ボタンを押すとフォーカスが外れる
@@ -404,7 +416,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             //更新日時を取得
             Date now = new Date();
             SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-            String nowDate = dFormat.format(now);
+            String nowDate = dFormat.format(now) + "更新";
 
 
             // 日付入力済なら登録処理
@@ -426,6 +438,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 if (!ID.isEmpty()) {
                     String sql = "UPDATE TEST SET " +
                             "OPERATION_DATE = '" + operationDate + "', " +
+                            //ここ忘れてる　"SAVE_DATE TEXT = '" + nowDate + "', " +
                             "STORE_NAME = '" + storeName + "', " +
                             "DIFFERENCE_NUMBER = '" + differenceNumber + "', " +
                             "TABLE_NUMBER = '" + tableNumber + "', " +

@@ -38,9 +38,7 @@ public class FlagGradesListItems {
         return this.machineName;
     }
 
-    public String getStoreName(){
-        return this.storeName;
-    }
+    public String getStoreName(){ return this.storeName; }
 
     public String getDate(){ return this.date; }
 

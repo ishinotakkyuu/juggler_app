@@ -97,6 +97,8 @@ public class FlagGrades extends Fragment {
 
                 // Intentに引き継ぐIDと機種名をセット
                 intent.putExtra("ID",items.getID());
+                intent.putExtra("Date",items.getDate());
+                intent.putExtra("Store",items.getStoreName());
                 intent.putExtra("Machine",items.getMachineName());
                 intent.putExtra("KeepTime",items.getKeepTime());
 
