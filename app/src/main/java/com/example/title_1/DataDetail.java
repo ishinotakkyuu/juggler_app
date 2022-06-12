@@ -143,7 +143,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             item.addTextChangedListener(new DateDetailCounterWatcher(item));
         }
 
-
         // 個別データ画面から渡されてきたデータを取得
         Intent intent = getIntent();
         // 渡されてきたデータを取り出す
@@ -172,8 +171,10 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         DatabaseResultSet.aaa("DataDetailSelect2", context, sql);
 
         // DBから取得した各種データを(String型で)セットする
-        start.setText(String.valueOf(startValue));
-        total.setText(String.valueOf(totalValue));
+        // ①総ゲーム数と②開始ゲーム数のセットを逆にするとクラッシュします
+        // 詳細はMainCounterWatcher.javaのtotal_game処理内に記述してある
+        total.setText(String.valueOf(totalValue)); //①
+        start.setText(String.valueOf(startValue)); //②
         aB.setText(String.valueOf(aBValue));
         cB.setText(String.valueOf(cBValue));
         aR.setText(String.valueOf(aRValue));

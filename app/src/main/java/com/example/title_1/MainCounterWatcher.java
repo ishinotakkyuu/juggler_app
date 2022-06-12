@@ -65,12 +65,11 @@ public class MainCounterWatcher implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
 
-        //入力値
+        //空が入ってきたら0に置き換える
         String textString = s.toString();
         if(textString.isEmpty()){
             textString = "0";
         }
-
 
         String strTotal = total.getText().toString();
         String strStart = start.getText().toString();
@@ -106,21 +105,19 @@ public class MainCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strTotal = textString;
 
-                //総ゲーム数が空だった場合は0をセット。そうでなければ0頭回避処理
-                if (StringUtils.isEmpty(strTotal)) {
-                    strTotal = "0";
-                } else {
-                    strTotal = Integer.valueOf(strTotal).toString();
-                }
+                // 0頭回避処理
+                strTotal = Integer.valueOf(strTotal).toString();
 
-                //個人ゲーム数を算出。0以上だったらその値を個人ゲーム数にセット。マイナスだったら0をセット
                 totalGame = Integer.parseInt(strTotal);
-                //R04.06.02　クラッシュしちゃうので応急処理(原因究明しようと思ったけど眠かったからあきらめた)
-                if(!strStart.equals("")){
-                    startGame = Integer.parseInt(strStart);
-                } else {
-                    startGame = 0;
+                // MainCounterActivity.javaのsetValue()で「総ゲーム数」から内部ストレージの値を
+                // セットしている関係でまずtotal_gameのテキストウォッチャーが発動する
+                // そのため、必ず「開始ゲーム数」は空白となる。以下のif文はその空白対応のためにある
+                if(strStart.equals("")){
+                    strStart = "0";
                 }
+                startGame = Integer.parseInt(strStart);
+
+                // 個人ゲーム数を算出。0以上だったらその値を個人ゲーム数にセット。マイナスだったら0をセット
                 int individualGame = totalGame - startGame;
                 if (individualGame >= 0) {
                     individualValue = String.valueOf(individualGame);
@@ -134,31 +131,30 @@ public class MainCounterWatcher implements TextWatcher {
                 individual.setText(individualValue);
 
                 // 保存処理
-                if (StringUtils.isNotEmpty(strTotal)) {
-                    mainApplication.setTotal(strTotal);
-                    CreateXML.updateText(mainApplication, "total", strTotal);
-                }
+                mainApplication.setTotal(strTotal);
+                CreateXML.updateText(mainApplication, "total", strTotal);
 
-                //テキストウォッチャーを元に戻す
+                // テキストウォッチャーを元に戻す
                 total.addTextChangedListener(this);
                 break;
 
             //打ち始めゲーム数の場合
             case R.id.start_game:
+
                 start.removeTextChangedListener(this);
-                //入力値を更新
+                // 入力値を更新
                 strStart = textString;
 
-                //開始ゲーム数が空だった場合は0をセット。そうでなければ0頭回避処理
-                if (StringUtils.isEmpty(strStart)) {
-                    strStart = "0";
-                } else {
-                    strStart = Integer.valueOf(strStart).toString();
-                }
+                // 0頭回避処理
+                strStart = Integer.valueOf(strStart).toString();
 
-                //個人ゲーム数を算出。0以上だったらその値を個人ゲーム数にセット。マイナスだったら0をセット
                 totalGame = Integer.parseInt(strTotal);
+                // MainCounterActivity.javaのsetValue()で「総ゲーム数」から内部ストレージの値を
+                // セットしている関係でまずtotal_gameのテキストウォッチャーが発動する
+                // そのため、start_gameに関しては0がすでにセットされているのでtotal_gameのような影響は受けない。よってif文での対応は不要
                 startGame = Integer.parseInt(strStart);
+
+                // 個人ゲーム数を算出。0以上だったらその値を個人ゲーム数にセット。マイナスだったら0をセット
                 individualGame = totalGame - startGame;
                 if (individualGame >= 0) {
                     individualValue = String.valueOf(individualGame);
@@ -172,10 +168,8 @@ public class MainCounterWatcher implements TextWatcher {
                 individual.setText(individualValue);
 
                 // 保存処理
-                if (StringUtils.isNotEmpty(strStart)) {
-                    mainApplication.setStart(strStart);
-                    CreateXML.updateText(mainApplication, "start", strStart);
-                }
+                mainApplication.setStart(strStart);
+                CreateXML.updateText(mainApplication, "start", strStart);
 
                 start.addTextChangedListener(this);
                 break;
@@ -202,21 +196,19 @@ public class MainCounterWatcher implements TextWatcher {
             //--------------------------------------------------------------------------------------------------------------------
 
             case R.id.aB: //単独ビッグ
+
                 aB.removeTextChangedListener(this);
-                //入力値を更新
+                // 入力値を更新
                 strAloneBig = textString;
 
+                // 確率の再計算
                 setProbability(strAloneBig, strCherryBig, BB, aB_Probability, cB_Probability, BB_Probability);
 
-                //空の状態でsetText(Integer.valueOf(textString).toString())をやるとクラッシュしちゃう
-                if (StringUtils.isNotEmpty(strAloneBig)) {
-                    strAloneBig = Integer.valueOf(strAloneBig).toString();
-                    aB.setText(strAloneBig);
-                    aB.setSelection(strAloneBig.length());
-                } else {
-                    aB.setText("0");
-                    aB.setSelection(1);
-                }
+                // 0頭回避処理
+                strAloneBig = Integer.valueOf(strAloneBig).toString();
+
+                aB.setText(strAloneBig);
+                aB.setSelection(strAloneBig.length());
 
                 // 保存処理
                 mainApplication.setaB(strAloneBig);
@@ -226,18 +218,19 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             case R.id.cB: //チェリービッグ
+
                 cB.removeTextChangedListener(this);
                 //入力値を更新
                 strCherryBig = textString;
+
+                // 確率の再計算
                 setProbability(strAloneBig, strCherryBig, BB, aB_Probability, cB_Probability, BB_Probability);
-                if (StringUtils.isNotEmpty(strCherryBig)) {
-                    strCherryBig = Integer.valueOf(strCherryBig).toString();
-                    cB.setText(strCherryBig);
-                    cB.setSelection(strCherryBig.length());
-                } else {
-                    cB.setText("0");
-                    cB.setSelection(1);
-                }
+
+                // 0頭回避処理
+                strCherryBig = Integer.valueOf(strCherryBig).toString();
+
+                cB.setText(strCherryBig);
+                cB.setSelection(strCherryBig.length());
 
                 // 保存処理
                 mainApplication.setcB(strCherryBig);
@@ -247,6 +240,7 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             case R.id.BB: //ビッグボーナス
+
                 //入力値を更新
                 strTotalBig = textString;
                 int additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
@@ -260,20 +254,19 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             case R.id.aR: //単独レギュラー
+
                 aR.removeTextChangedListener(this);
                 //入力値を更新
                 strAloneReg = textString;
 
+                // 確率の再計算
                 setProbability(strAloneReg, strCherryReg, RB, aR_Probability, cR_Probability, RB_Probability);
 
-                if (StringUtils.isNotEmpty(strAloneReg)) {
-                    strAloneReg = Integer.valueOf(strAloneReg).toString();
-                    aR.setText(strAloneReg);
-                    aR.setSelection(strAloneReg.length());
-                } else {
-                    aR.setText("0");
-                    aR.setSelection(1);
-                }
+                // 0頭回避処理
+                strAloneReg = Integer.valueOf(strAloneReg).toString();
+
+                aR.setText(strAloneReg);
+                aR.setSelection(strAloneReg.length());
 
                 // 保存処理
                 mainApplication.setaR(strAloneReg);
@@ -283,20 +276,19 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             case R.id.cR: //チェリービッグ
+
                 cR.removeTextChangedListener(this);
                 //入力値を更新
                 strCherryReg = textString;
 
+                // 確率の再計算
                 setProbability(strAloneReg, strCherryReg, RB, aR_Probability, cR_Probability, RB_Probability);
 
-                if (StringUtils.isNotEmpty(strCherryReg)) {
-                    strCherryReg = Integer.valueOf(strCherryReg).toString();
-                    cR.setText(strCherryReg);
-                    cR.setSelection(strCherryReg.length());
-                } else {
-                    cR.setText("0");
-                    cR.setSelection(1);
-                }
+                // 0頭回避処理
+                strCherryReg = Integer.valueOf(strCherryReg).toString();
+
+                cR.setText(strCherryReg);
+                cR.setSelection(strCherryReg.length());
 
                 // 保存処理
                 mainApplication.setcR(strCherryReg);
@@ -306,6 +298,7 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             case R.id.RB: //レギュラーボーナス
+
                 //入力値を更新
                 strTotalReg = textString;
                 additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
@@ -317,20 +310,19 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             case R.id.ch: //非重複チェリー
+
                 ch.removeTextChangedListener(this);
                 //入力値を更新
                 strCherry = textString;
 
+                // 確率の再計算
                 setProbability_ch_gr(strCherry, ch_Probability);
 
-                if (StringUtils.isNotEmpty(strCherry)) {
-                    strCherry = Integer.valueOf(strCherry).toString();
-                    ch.setText(strCherry);
-                    ch.setSelection(strCherry.length());
-                } else {
-                    ch.setText("0");
-                    ch.setSelection(1);
-                }
+                // 0頭回避処理
+                strCherry = Integer.valueOf(strCherry).toString();
+
+                ch.setText(strCherry);
+                ch.setSelection(strCherry.length());
 
                 // 保存処理
                 mainApplication.setCh(strCherry);
@@ -339,21 +331,20 @@ public class MainCounterWatcher implements TextWatcher {
                 ch.addTextChangedListener(this);
                 break;
 
-            case R.id.gr:
+            case R.id.gr: //ぶどう
+
                 gr.removeTextChangedListener(this);
                 //入力値を更新
                 strGr = textString;
 
+                // 確率の再計算
                 setProbability_ch_gr(strGr, gr_Probability);
 
-                if (StringUtils.isNotEmpty(strGr)) {
-                    strGr = Integer.valueOf(strGr).toString();
-                    gr.setText(strGr);
-                    gr.setSelection(strGr.length());
-                } else {
-                    gr.setText("0");
-                    gr.setSelection(1);
-                }
+                // 0頭回避処理
+                strGr = Integer.valueOf(strGr).toString();
+
+                gr.setText(strGr);
+                gr.setSelection(strGr.length());
 
                 // 保存処理
                 mainApplication.setGr(strGr);
