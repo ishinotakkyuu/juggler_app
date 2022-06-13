@@ -55,56 +55,56 @@ public class CreateXML {
         //　総ゲーム数
         Element total = document.createElement("total");
         total.setAttribute("id", "総ゲーム数");
-        String totalValue = String.valueOf(mainApplication.getTotal());
+        String totalValue = String.valueOf(mainApplication.getTotalGames());
         total.appendChild(document.createTextNode(totalValue));
         info.appendChild(total);
 
         //　打ち始めゲーム数
         Element start = document.createElement("start");
         start.setAttribute("id", "打ち始めゲーム数");
-        String startValue = String.valueOf(mainApplication.getStart());
+        String startValue = String.valueOf(mainApplication.getStartGames());
         start.appendChild(document.createTextNode(startValue));
         info.appendChild(start);
 
         //　単独BIG
         Element aB = document.createElement("aB");
         aB.setAttribute("id", "単独BIG");
-        String aBValue = String.valueOf(mainApplication.getaB());
+        String aBValue = String.valueOf(mainApplication.getSingleBig());
         aB.appendChild(document.createTextNode(aBValue));
         info.appendChild(aB);
 
         //　チェリーBIG
         Element cB = document.createElement("cB");
         cB.setAttribute("id", "チェリーBIG");
-        String cBValue = String.valueOf(mainApplication.getcB());
+        String cBValue = String.valueOf(mainApplication.getCherryBig());
         cB.appendChild(document.createTextNode(cBValue));
         info.appendChild(cB);
 
         //　単独REG
         Element aR = document.createElement("aR");
         aR.setAttribute("id", "単独REG");
-        String aRValue = String.valueOf(mainApplication.getaR());
+        String aRValue = String.valueOf(mainApplication.getSingleReg());
         aR.appendChild(document.createTextNode(aRValue));
         info.appendChild(aR);
 
         //　チェリーREG
         Element cR = document.createElement("cR");
         cR.setAttribute("id", "チェリーREG");
-        String cRValue = String.valueOf(mainApplication.getcR());
+        String cRValue = String.valueOf(mainApplication.getCherryReg());
         cR.appendChild(document.createTextNode(cRValue));
         info.appendChild(cR);
 
         //　非重複チェリー
         Element ch = document.createElement("ch");
         ch.setAttribute("id", "非重複チェリー");
-        String chValue = String.valueOf(mainApplication.getCh());
+        String chValue = String.valueOf(mainApplication.getCherry());
         ch.appendChild(document.createTextNode(chValue));
         info.appendChild(ch);
 
         //　ぶどう
         Element gr = document.createElement("gr");
         gr.setAttribute("id", "ぶどう");
-        String grValue = String.valueOf(mainApplication.getGr());
+        String grValue = String.valueOf(mainApplication.getGrape());
         gr.appendChild(document.createTextNode(grValue));
         info.appendChild(gr);
 

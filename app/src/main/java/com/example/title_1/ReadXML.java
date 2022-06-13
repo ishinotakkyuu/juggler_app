@@ -61,56 +61,56 @@ class ReadXML {
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setTotal(text);
+                        mainApplication.setTotalGames(text);
                     }
                     break;
                 case "start":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setStart(text);
+                        mainApplication.setStartGames(text);
                     }
                     break;
                 case "aB":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setaB(text);
+                        mainApplication.setSingleBig(text);
                     }
                     break;
                 case "cB":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setcB(text);
+                        mainApplication.setCherryBig(text);
                     }
                     break;
                 case "aR":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setaR(text);
+                        mainApplication.setSingleReg(text);
                     }
                     break;
                 case "cR":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setcR(text);
+                        mainApplication.setCherryReg(text);
                     }
                     break;
                 case "ch":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setCh(text);
+                        mainApplication.setCherry(text);
                     }
                     break;
                 case "gr":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setGr(text);
+                        mainApplication.setGrape(text);
                     }
                     break;
 

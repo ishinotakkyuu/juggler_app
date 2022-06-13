@@ -2,7 +2,6 @@ package com.example.title_1;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.EditText;
 
 import org.w3c.dom.Document;
 
@@ -15,14 +14,14 @@ public class MainApplication extends Application {
 
     private int userId;
     private int machineName;
-    private String total;
-    private String start;
-    private String aB;
-    private String cB;
-    private String aR;
-    private String cR;
-    private String ch;
-    private String gr;
+    private String totalGames;
+    private String startGames;
+    private String singleBig;
+    private String cherryBig;
+    private String singleReg;
+    private String cherryReg;
+    private String cherry;
+    private String grape;
     private String store001;
     private String store002;
     private String store003;
@@ -46,18 +45,17 @@ public class MainApplication extends Application {
 
     // 初期セット
     public void init() {
-
         Random rnd = new Random();
         //乱数を取得する
         setUserId(rnd.nextInt(2147483647));
-        setTotal("0");
-        setStart("0");
-        setaB("0");
-        setcB("0");
-        setaR("0");
-        setcR("0");
-        setCh("0");
-        setGr("0");
+        setTotalGames("0");
+        setStartGames("0");
+        setSingleBig("0");
+        setCherryBig("0");
+        setSingleReg("0");
+        setCherryReg("0");
+        setCherry("0");
+        setGrape("0");
     }
 
 
@@ -91,68 +89,68 @@ public class MainApplication extends Application {
         this.machineName = machineName;
     }
 
-    public String getTotal() {
-        return total;
+    public String getTotalGames() {
+        return totalGames;
     }
 
-    public void setTotal(String total) {
-        this.total = total;
+    public void setTotalGames(String total) {
+        this.totalGames = total;
     }
 
-    public String getStart() {
-        return start;
+    public String getStartGames() {
+        return startGames;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setStartGames(String start) {
+        this.startGames = start;
     }
 
-    public String getaB() {
-        return aB;
+    public String getSingleBig() {
+        return singleBig;
     }
 
-    public void setaB(String aB) {
-        this.aB = aB;
+    public void setSingleBig(String aB) {
+        this.singleBig = aB;
     }
 
-    public String getcB() {
-        return cB;
+    public String getCherryBig() {
+        return cherryBig;
     }
 
-    public void setcB(String cB) {
-        this.cB = cB;
+    public void setCherryBig(String cB) {
+        this.cherryBig = cB;
     }
 
-    public String getaR() {
-        return aR;
+    public String getSingleReg() {
+        return singleReg;
     }
 
-    public void setaR(String aR) {
-        this.aR = aR;
+    public void setSingleReg(String aR) {
+        this.singleReg = aR;
     }
 
-    public String getcR() {
-        return cR;
+    public String getCherryReg() {
+        return cherryReg;
     }
 
-    public void setcR(String cR) {
-        this.cR = cR;
+    public void setCherryReg(String cR) {
+        this.cherryReg = cR;
     }
 
-    public String getCh() {
-        return ch;
+    public String getCherry() {
+        return cherry;
     }
 
-    public void setCh(String ch) {
-        this.ch = ch;
+    public void setCherry(String ch) {
+        this.cherry = ch;
     }
 
-    public String getGr() {
-        return gr;
+    public String getGrape() {
+        return grape;
     }
 
-    public void setGr(String gr) {
-        this.gr = gr;
+    public void setGrape(String gr) {
+        this.grape = gr;
     }
 
     // 20店舗に対応

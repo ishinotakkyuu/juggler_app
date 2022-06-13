@@ -404,14 +404,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                         break;
                 }
 
-                dbStartGames = Integer.parseInt(mainApplication.getStart());
-                dbTotalGames = Integer.parseInt(mainApplication.getTotal());
-                dbSingleBig = Integer.parseInt(mainApplication.getaB());
-                dbCherryBig = Integer.parseInt(mainApplication.getcB());
-                dbSingleReg = Integer.parseInt(mainApplication.getaR());
-                dbCherryReg = Integer.parseInt(mainApplication.getcR());
-                dbCherry = Integer.parseInt(mainApplication.getCh());
-                dbGrape = Integer.parseInt(mainApplication.getGr());
+                dbStartGames = Integer.parseInt(mainApplication.getStartGames());
+                dbTotalGames = Integer.parseInt(mainApplication.getTotalGames());
+                dbSingleBig = Integer.parseInt(mainApplication.getSingleBig());
+                dbCherryBig = Integer.parseInt(mainApplication.getCherryBig());
+                dbSingleReg = Integer.parseInt(mainApplication.getSingleReg());
+                dbCherryReg = Integer.parseInt(mainApplication.getCherryReg());
+                dbCherry = Integer.parseInt(mainApplication.getCherry());
+                dbGrape = Integer.parseInt(mainApplication.getGrape());
 
                 // 台番号取得
                 eTableNumber = registerDialog.findViewById(R.id.MachineNumber);
@@ -605,19 +605,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     private void setValue() {
         // 共有データから値をセット
-        // 総ゲームと開始ゲームは空白が許容されるためnullチェックする
-        if(mainApplication.getTotal() != null){
-            eTotalGames.setText(mainApplication.getTotal());
-        }
-        if(mainApplication.getStart() != null){
-            eStartGames.setText(mainApplication.getStart());
-        }
-        eSingleBig.setText(mainApplication.getaB());
-        eCherryBig.setText(mainApplication.getcB());
-        eSingleReg.setText(mainApplication.getaR());
-        eCherryReg.setText(mainApplication.getcR());
-        eCherry.setText(mainApplication.getCh());
-        eGrape.setText(mainApplication.getGr());
+        eTotalGames.setText(mainApplication.getTotalGames());
+        eStartGames.setText(mainApplication.getStartGames());
+        eSingleBig.setText(mainApplication.getSingleBig());
+        eCherryBig.setText(mainApplication.getCherryBig());
+        eSingleReg.setText(mainApplication.getSingleReg());
+        eCherryReg.setText(mainApplication.getCherryReg());
+        eCherry.setText(mainApplication.getCherry());
+        eGrape.setText(mainApplication.getGrape());
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -683,8 +678,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             textValue = Integer.parseInt(text);
          }
 
+        // プラス状態の場合
         if (judgePlusMinus) {
-
             if (StringUtils.isNotEmpty(text)) {
                 if (textValue > 0) {
                     textValue--;
@@ -695,11 +690,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     toast.show();
                 }
             }
-
-        } else {
-
+        } else { //マイナス状態の場合
             if (StringUtils.isNotEmpty(text)) {
-
                 if (textValue < limit) {
                     textValue++;
                     colorButton.setFlash(v,id);
@@ -715,6 +707,5 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         }
         focusOut();
     }
-
 }
 

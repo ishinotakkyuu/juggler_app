@@ -14,27 +14,27 @@ public class CreateSQL {
         String sql = "";
 
         // 店舗名
-        int storePosition = FlagStatistics.storeSpinner.getSelectedItemPosition();
+        int storePosition = FlagStatistics.sStore.getSelectedItemPosition();
 
         // 店舗名を選択していた場合
         if(storePosition != 0) {
-            String storeName = (String)FlagStatistics.storeSpinner.getSelectedItem();
+            String storeName = (String)FlagStatistics.sStore.getSelectedItem();
 
             sql = sql + "STORE_NAME = " + "'" + storeName + "'";
         }
 
         // 機種名
-        int machinePosition = FlagStatistics.machineSpinner.getSelectedItemPosition();
+        int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
 
         if(machinePosition != 0){
-            String machineName = (String)FlagStatistics.machineSpinner.getSelectedItem();
+            String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
             sql = addAnd(sql);
 
             sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
         }
 
         // 特殊1
-        int spinner01Position = FlagStatistics.specialSpinner_01.getSelectedItemPosition();
+        int spinner01Position = FlagStatistics.sDayDigit.getSelectedItemPosition();
         if(spinner01Position != 0){
             sql = addAnd(sql);
             String conditionValue =  String.valueOf(spinner01Position - 1);
@@ -43,9 +43,9 @@ public class CreateSQL {
         }
 
         // 特殊2
-        int spinner02Position = FlagStatistics.specialSpinner_02.getSelectedItemPosition();
+        int spinner02Position = FlagStatistics.sSpecialDay.getSelectedItemPosition();
         if(spinner02Position == 1){
-            // ぞろめ
+            // ゾロ目
             sql = addAnd(sql);
             sql = sql + "SUBSTR(OPERATION_DATE,9,1) = SUBSTR(OPERATION_DATE,10,1)";
         }else if(spinner02Position == 2){
@@ -55,7 +55,7 @@ public class CreateSQL {
         }
 
         // 特殊3
-        int spinner03Position = FlagStatistics.specialSpinner_03.getSelectedItemPosition();
+        int spinner03Position = FlagStatistics.sMonth.getSelectedItemPosition();
         if(spinner03Position != 0){
             sql = addAnd(sql);
             String conditionValue =  String.valueOf(spinner03Position);
@@ -64,7 +64,7 @@ public class CreateSQL {
         }
 
         // 特殊4
-        int spinner04Position = FlagStatistics.specialSpinner_04.getSelectedItemPosition();
+        int spinner04Position = FlagStatistics.sDay.getSelectedItemPosition();
         if(spinner04Position != 0){
             sql = addAnd(sql);
             String conditionValue =  String.valueOf(spinner04Position);
@@ -74,7 +74,7 @@ public class CreateSQL {
 
         // 特殊5
         //保留
-        int spinner05Position = FlagStatistics.specialSpinner_05.getSelectedItemPosition();
+        int spinner05Position = FlagStatistics.sDayOfWeek_In_Month.getSelectedItemPosition();
 
         if(spinner05Position != 0){
             sql = addAnd(sql);
@@ -84,7 +84,7 @@ public class CreateSQL {
         }
 
         // 特殊6
-        int spinner06Position = FlagStatistics.specialSpinner_06.getSelectedItemPosition();
+        int spinner06Position = FlagStatistics.sWeekId.getSelectedItemPosition();
         if(spinner06Position != 0){
             sql = addAnd(sql);
             String conditionValue =  String.valueOf(spinner06Position);
@@ -93,7 +93,7 @@ public class CreateSQL {
         }
 
         // 特殊7
-        int spinner07Position = FlagStatistics.specialSpinner_07.getSelectedItemPosition();
+        int spinner07Position = FlagStatistics.sAttachDay.getSelectedItemPosition();
         if(spinner07Position != 0){
             sql = addAnd(sql);
             String conditionValue =  String.valueOf(spinner07Position - 1);

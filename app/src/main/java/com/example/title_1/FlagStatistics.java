@@ -34,32 +34,21 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     static MainApplication mainApplication = null;
 
     // レイアウト
-    ConstraintLayout statisticsLayout;
+    ConstraintLayout mainLayout;
 
     // 日付表示用のEditText
-    EditText date_01,date_02;
+    EditText dateStart, dateEnd;
 
-    // 各種スピナー
-    static Spinner storeSpinner;
-    static Spinner machineSpinner;
-    static Spinner machineNumberSpinner;
-    static Spinner specialSpinner_01;
-    static Spinner specialSpinner_02;
-    static Spinner specialSpinner_03;
-    static Spinner specialSpinner_04;
-    static Spinner specialSpinner_05;
-    static Spinner specialSpinner_06;
-    static Spinner specialSpinner_07;
-
-    // 各種チェックボックス
-    CheckBox checkBox_01,checkBox_02,checkBox_03,checkBox_04,checkBox_05,checkBox_06,checkBox_07;
+    // 各種スピナーとそれぞれに対応するチェックぼっく
+    static Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay;
+    CheckBox cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay;
 
     // データを表示するためのボタン
-    Button display;
+    Button bDisplay;
 
     // タイトル表示に使用するTextView
-    TextView tittle01,tittle02,tittle03,tittle04,tittle05,tittle06,tittle07,tittle08,tittle09,
-             tittle10,tittle11,tittle12;
+    TextView tittleTotalGames, tittleMedal, tittleDiscount, tittleSingleBig, tittleCherryBig, tittleTotalBig, tittleSingleReg, tittleCherryReg, tittleTotalReg,
+            tittleTotalBonus, tittleGrape, tittleCherry;
 
     // データ表示に使用するTextView
     TextView totalGame,totalMedal,discount,totalAloneBig,totalAloneBigProbability,
@@ -132,7 +121,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 // 選択した日付を取得して日付表示用のEditTextにセット
-                                date_01.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                dateStart.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                             }
                         },
                         calender_01.get(Calendar.YEAR),
@@ -149,7 +138,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // 選択した日付を取得して日付表示用のEditTextにセット
-                        date_02.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                        dateEnd.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                     }
                 },
                         calender_02.get(Calendar.YEAR),
@@ -218,94 +207,94 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     public void setId(View view){
 
         // findViewByIdする対象のレイアウトを指定
-        statisticsLayout = view.findViewById(R.id.StatisticsLayout);
+        mainLayout = view.findViewById(R.id.StatisticsLayout);
 
         // 日付表示用TextView
-        date_01 = statisticsLayout.findViewById(R.id.Date_01);
-        date_02 = statisticsLayout.findViewById(R.id.Date_02);
+        dateStart = mainLayout.findViewById(R.id.Date_01);
+        dateEnd = mainLayout.findViewById(R.id.Date_02);
 
         // スピナー関係
-        storeSpinner = statisticsLayout.findViewById(R.id.StoreSelect);
-        machineSpinner = statisticsLayout.findViewById(R.id.MachineSelect);
-        machineNumberSpinner = statisticsLayout.findViewById(R.id.MachineNumberSelect);
-        specialSpinner_01 = statisticsLayout.findViewById(R.id.SpecialSpinner_01);
-        specialSpinner_02 = statisticsLayout.findViewById(R.id.SpecialSpinner_02);
-        specialSpinner_03 = statisticsLayout.findViewById(R.id.SpecialSpinner_03);
-        specialSpinner_04 = statisticsLayout.findViewById(R.id.SpecialSpinner_04);
-        specialSpinner_05 = statisticsLayout.findViewById(R.id.SpecialSpinner_05);
-        specialSpinner_06 = statisticsLayout.findViewById(R.id.SpecialSpinner_06);
-        specialSpinner_07 = statisticsLayout.findViewById(R.id.SpecialSpinner_07);
+        sStore = mainLayout.findViewById(R.id.StoreSelect);
+        sMachine = mainLayout.findViewById(R.id.MachineSelect);
+        sTableNumber = mainLayout.findViewById(R.id.MachineNumberSelect);
+        sDayDigit = mainLayout.findViewById(R.id.SpecialSpinner_01);
+        sSpecialDay = mainLayout.findViewById(R.id.SpecialSpinner_02);
+        sMonth = mainLayout.findViewById(R.id.SpecialSpinner_03);
+        sDay = mainLayout.findViewById(R.id.SpecialSpinner_04);
+        sDayOfWeek_In_Month = mainLayout.findViewById(R.id.SpecialSpinner_05);
+        sWeekId = mainLayout.findViewById(R.id.SpecialSpinner_06);
+        sAttachDay = mainLayout.findViewById(R.id.SpecialSpinner_07);
 
         // チェックボックス
-        checkBox_01 = statisticsLayout.findViewById(R.id.CheckBox_01);
-        checkBox_02 = statisticsLayout.findViewById(R.id.CheckBox_02);
-        checkBox_03 = statisticsLayout.findViewById(R.id.CheckBox_03);
-        checkBox_04 = statisticsLayout.findViewById(R.id.CheckBox_04);
-        checkBox_05 = statisticsLayout.findViewById(R.id.CheckBox_05);
-        checkBox_06 = statisticsLayout.findViewById(R.id.CheckBox_06);
-        checkBox_07 = statisticsLayout.findViewById(R.id.CheckBox_07);
+        cDayDigit = mainLayout.findViewById(R.id.CheckBox_01);
+        cSpecialDay = mainLayout.findViewById(R.id.CheckBox_02);
+        cMonth = mainLayout.findViewById(R.id.CheckBox_03);
+        cDay = mainLayout.findViewById(R.id.CheckBox_04);
+        cDayOfWeek_In_Month = mainLayout.findViewById(R.id.CheckBox_05);
+        cWeekId = mainLayout.findViewById(R.id.CheckBox_06);
+        cAttachDay = mainLayout.findViewById(R.id.CheckBox_07);
 
         // タイトル表示用TextView
-        tittle01 = statisticsLayout.findViewById(R.id.Tittle_01);
-        tittle02 = statisticsLayout.findViewById(R.id.Tittle_02);
-        tittle03 = statisticsLayout.findViewById(R.id.Tittle_03);
-        tittle04 = statisticsLayout.findViewById(R.id.Tittle_04);
-        tittle05 = statisticsLayout.findViewById(R.id.Tittle_05);
-        tittle06 = statisticsLayout.findViewById(R.id.Tittle_06);
-        tittle07 = statisticsLayout.findViewById(R.id.Tittle_07);
-        tittle08 = statisticsLayout.findViewById(R.id.Tittle_08);
-        tittle09 = statisticsLayout.findViewById(R.id.Tittle_09);
-        tittle10 = statisticsLayout.findViewById(R.id.Tittle_10);
-        tittle11 = statisticsLayout.findViewById(R.id.Tittle_11);
-        tittle12 = statisticsLayout.findViewById(R.id.Tittle_12);
+        tittleTotalGames = mainLayout.findViewById(R.id.Tittle_01);
+        tittleMedal = mainLayout.findViewById(R.id.Tittle_02);
+        tittleDiscount = mainLayout.findViewById(R.id.Tittle_03);
+        tittleSingleBig = mainLayout.findViewById(R.id.Tittle_04);
+        tittleCherryBig = mainLayout.findViewById(R.id.Tittle_05);
+        tittleTotalBig = mainLayout.findViewById(R.id.Tittle_06);
+        tittleSingleReg = mainLayout.findViewById(R.id.Tittle_07);
+        tittleCherryReg = mainLayout.findViewById(R.id.Tittle_08);
+        tittleTotalReg = mainLayout.findViewById(R.id.Tittle_09);
+        tittleTotalBonus = mainLayout.findViewById(R.id.Tittle_10);
+        tittleGrape = mainLayout.findViewById(R.id.Tittle_11);
+        tittleCherry = mainLayout.findViewById(R.id.Tittle_12);
 
         // データ表示用TextView
-        totalGame = statisticsLayout.findViewById(R.id.TotalGame);
-        totalMedal = statisticsLayout.findViewById(R.id.TotalMedal);
-        discount = statisticsLayout.findViewById(R.id.Discount);
-        totalAloneBig = statisticsLayout.findViewById(R.id.TotalAloneBig);
-        totalAloneBigProbability = statisticsLayout.findViewById(R.id.TotalAloneBigProbability);
-        totalCherryBig = statisticsLayout.findViewById(R.id.TotalCherryBig);
-        totalCherryBigProbability = statisticsLayout.findViewById(R.id.TotalCherryBigProbability);
-        totalBig = statisticsLayout.findViewById(R.id.TotalBig);
-        totalBigProbability = statisticsLayout.findViewById(R.id.TotalBigProbability);
-        totalAloneReg = statisticsLayout.findViewById(R.id.TotalAloneReg);
-        totalAloneRegProbability = statisticsLayout.findViewById(R.id.TotalAloneRegProbability);
-        totalCherryReg = statisticsLayout.findViewById(R.id.TotalCherryReg);
-        totalCherryRegProbability = statisticsLayout.findViewById(R.id.TotalCherryRegProbability);
-        totalReg = statisticsLayout.findViewById(R.id.TotalReg);
-        totalRegProbability = statisticsLayout.findViewById(R.id.TotalRegProbability);
-        totalBonus = statisticsLayout.findViewById(R.id.TotalBonus);
-        totalBonusProbability = statisticsLayout.findViewById(R.id.TotalBonusProbability);
-        totalGrape = statisticsLayout.findViewById(R.id.TotalGrape);
-        totalGrapeProbability = statisticsLayout.findViewById(R.id.TotalGrapeProbability);
-        totalCherry = statisticsLayout.findViewById(R.id.TotalCherry);
-        totalCherryProbability = statisticsLayout.findViewById(R.id.TotalCherryProbability);
+        totalGame = mainLayout.findViewById(R.id.TotalGame);
+        totalMedal = mainLayout.findViewById(R.id.TotalMedal);
+        discount = mainLayout.findViewById(R.id.Discount);
+        totalAloneBig = mainLayout.findViewById(R.id.TotalAloneBig);
+        totalAloneBigProbability = mainLayout.findViewById(R.id.TotalAloneBigProbability);
+        totalCherryBig = mainLayout.findViewById(R.id.TotalCherryBig);
+        totalCherryBigProbability = mainLayout.findViewById(R.id.TotalCherryBigProbability);
+        totalBig = mainLayout.findViewById(R.id.TotalBig);
+        totalBigProbability = mainLayout.findViewById(R.id.TotalBigProbability);
+        totalAloneReg = mainLayout.findViewById(R.id.TotalAloneReg);
+        totalAloneRegProbability = mainLayout.findViewById(R.id.TotalAloneRegProbability);
+        totalCherryReg = mainLayout.findViewById(R.id.TotalCherryReg);
+        totalCherryRegProbability = mainLayout.findViewById(R.id.TotalCherryRegProbability);
+        totalReg = mainLayout.findViewById(R.id.TotalReg);
+        totalRegProbability = mainLayout.findViewById(R.id.TotalRegProbability);
+        totalBonus = mainLayout.findViewById(R.id.TotalBonus);
+        totalBonusProbability = mainLayout.findViewById(R.id.TotalBonusProbability);
+        totalGrape = mainLayout.findViewById(R.id.TotalGrape);
+        totalGrapeProbability = mainLayout.findViewById(R.id.TotalGrapeProbability);
+        totalCherry = mainLayout.findViewById(R.id.TotalCherry);
+        totalCherryProbability = mainLayout.findViewById(R.id.TotalCherryProbability);
 
         // 表示ボタン
-        display = statisticsLayout.findViewById(R.id.DisplayButton);
+        bDisplay = mainLayout.findViewById(R.id.DisplayButton);
 
     }
 
     public void setClickListener(){
-        date_01.setOnClickListener(this);
-        date_02.setOnClickListener(this);
-        display.setOnClickListener(this);
+        dateStart.setOnClickListener(this);
+        dateEnd.setOnClickListener(this);
+        bDisplay.setOnClickListener(this);
     }
 
     public void setTittle(){
-        tittle01.setText("総回転数");
-        tittle02.setText("差枚数");
-        tittle03.setText("機械割");
-        tittle04.setText("単独BIG");
-        tittle05.setText("チェBIG");
-        tittle06.setText("BIG合算");
-        tittle07.setText("単独REG");
-        tittle08.setText("チェREG");
-        tittle09.setText("REG合算");
-        tittle10.setText("ボーナス合算");
-        tittle11.setText("ぶどう");
-        tittle12.setText("非重複チェリー");
+        tittleTotalGames.setText("総回転数");
+        tittleMedal.setText("差枚数");
+        tittleDiscount.setText("機械割");
+        tittleSingleBig.setText("単独BIG");
+        tittleCherryBig.setText("チェBIG");
+        tittleTotalBig.setText("BIG合算");
+        tittleSingleReg.setText("単独REG");
+        tittleCherryReg.setText("チェREG");
+        tittleTotalReg.setText("REG合算");
+        tittleTotalBonus.setText("ボーナス合算");
+        tittleGrape.setText("ぶどう");
+        tittleCherry.setText("非重複チェリー");
     }
 
     public void setSpinnerData(){
@@ -361,18 +350,18 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         //for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
         ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,storeNames);
         storeAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        storeSpinner.setAdapter(storeAdapter);
+        sStore.setAdapter(storeAdapter);
 
         // 機種名一覧リストをセット
         ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,machineNames);
         machineAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        machineSpinner.setAdapter(machineAdapter);
+        sMachine.setAdapter(machineAdapter);
 
         // R04.06.03追加
         // 台番号をセット
         ArrayAdapter<String> machineNumberAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,machineNumber);
         machineNumberAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        machineNumberSpinner.setAdapter(machineNumberAdapter);
+        sTableNumber.setAdapter(machineNumberAdapter);
 
         // 特殊スピナー①をセット
         final List<String> specialItems01 = new ArrayList<>(Arrays.asList(
@@ -380,13 +369,13 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 "5の付く日", "6の付く日", "7の付く日", "8の付く日", "9の付く日"));
         ArrayAdapter<String> specialItems01_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems01);
         specialItems01_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        specialSpinner_01.setAdapter(specialItems01_Adapter);
+        sDayDigit.setAdapter(specialItems01_Adapter);
 
         // 特殊スピナー②をセット
         final List<String> specialItems02 = new ArrayList<>(Arrays.asList("未選択", "ゾロ目", "月と日が同じ"));
         ArrayAdapter<String> specialItems02_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems02);
         specialItems02_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        specialSpinner_02.setAdapter(specialItems02_Adapter);
+        sSpecialDay.setAdapter(specialItems02_Adapter);
 
         // 特殊スピナー③をセット
         final List<String> specialItems03 = new ArrayList<>(Arrays.asList(
@@ -394,7 +383,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 "7月", "8月", "9月", "10月", "11月", "12月"));
         ArrayAdapter<String> specialItems03_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems03);
         specialItems03_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        specialSpinner_03.setAdapter(specialItems03_Adapter);
+        sMonth.setAdapter(specialItems03_Adapter);
 
         // 特殊スピナー④をセット
         final List<String> specialItems04 = new ArrayList<>(Arrays.asList(
@@ -403,28 +392,28 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 "20日", "21日", "22日", "23日", "24日", "25日", "26日", "27日", "28日", "29日", "30日", "31日"));
         ArrayAdapter<String> specialItems04_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems04);
         specialItems04_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        specialSpinner_04.setAdapter(specialItems04_Adapter);
+        sDay.setAdapter(specialItems04_Adapter);
 
         // 特殊スピナー⑤をセット
         final List<String> specialItems05 = new ArrayList<>(Arrays.asList(
                 "未選択", "第1", "第2", "第3", "第4", "第5"));
         ArrayAdapter<String> specialItems05_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems05);
         specialItems05_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        specialSpinner_05.setAdapter(specialItems05_Adapter);
+        sDayOfWeek_In_Month.setAdapter(specialItems05_Adapter);
 
         // 特殊スピナー⑥をセット
         final List<String> specialItems06 = new ArrayList<>(Arrays.asList(
                 "未選択", "日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"));
         ArrayAdapter<String> specialItems06_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems06);
         specialItems06_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        specialSpinner_06.setAdapter(specialItems06_Adapter);
+        sWeekId.setAdapter(specialItems06_Adapter);
 
         // 特殊スピナー⑦をセット
         final List<String> specialItems07 = new ArrayList<>(Arrays.asList(
                 "未選択", "末尾0", "末尾1", "末尾2", "末尾3", "末尾4", "末尾5", "末尾6", "末尾7", "末尾8", "末尾9"));
         ArrayAdapter<String> specialItems07_Adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,specialItems07);
         specialItems07_Adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        specialSpinner_07.setAdapter(specialItems07_Adapter);
+        sAttachDay.setAdapter(specialItems07_Adapter);
     }
 
     public void initValue() {

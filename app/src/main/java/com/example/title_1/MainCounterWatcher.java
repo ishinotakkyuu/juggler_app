@@ -131,7 +131,7 @@ public class MainCounterWatcher implements TextWatcher {
                 individual.setText(individualValue);
 
                 // 保存処理
-                mainApplication.setTotal(strTotal);
+                mainApplication.setTotalGames(strTotal);
                 CreateXML.updateText(mainApplication, "total", strTotal);
 
                 // テキストウォッチャーを元に戻す
@@ -168,7 +168,7 @@ public class MainCounterWatcher implements TextWatcher {
                 individual.setText(individualValue);
 
                 // 保存処理
-                mainApplication.setStart(strStart);
+                mainApplication.setStartGames(strStart);
                 CreateXML.updateText(mainApplication, "start", strStart);
 
                 start.addTextChangedListener(this);
@@ -211,7 +211,7 @@ public class MainCounterWatcher implements TextWatcher {
                 aB.setSelection(strAloneBig.length());
 
                 // 保存処理
-                mainApplication.setaB(strAloneBig);
+                mainApplication.setSingleBig(strAloneBig);
                 CreateXML.updateText(mainApplication, "aB", strAloneBig);
 
                 aB.addTextChangedListener(this);
@@ -233,7 +233,7 @@ public class MainCounterWatcher implements TextWatcher {
                 cB.setSelection(strCherryBig.length());
 
                 // 保存処理
-                mainApplication.setcB(strCherryBig);
+                mainApplication.setCherryBig(strCherryBig);
                 CreateXML.updateText(mainApplication, "cB", strCherryBig);
 
                 cB.addTextChangedListener(this);
@@ -269,7 +269,7 @@ public class MainCounterWatcher implements TextWatcher {
                 aR.setSelection(strAloneReg.length());
 
                 // 保存処理
-                mainApplication.setaR(strAloneReg);
+                mainApplication.setSingleReg(strAloneReg);
                 CreateXML.updateText(mainApplication, "aR", strAloneReg);
 
                 aR.addTextChangedListener(this);
@@ -291,7 +291,7 @@ public class MainCounterWatcher implements TextWatcher {
                 cR.setSelection(strCherryReg.length());
 
                 // 保存処理
-                mainApplication.setcR(strCherryReg);
+                mainApplication.setCherryReg(strCherryReg);
                 CreateXML.updateText(mainApplication, "cR", strCherryReg);
 
                 cR.addTextChangedListener(this);
@@ -325,7 +325,7 @@ public class MainCounterWatcher implements TextWatcher {
                 ch.setSelection(strCherry.length());
 
                 // 保存処理
-                mainApplication.setCh(strCherry);
+                mainApplication.setCherry(strCherry);
                 CreateXML.updateText(mainApplication, "ch", strCherry);
 
                 ch.addTextChangedListener(this);
@@ -347,7 +347,7 @@ public class MainCounterWatcher implements TextWatcher {
                 gr.setSelection(strGr.length());
 
                 // 保存処理
-                mainApplication.setGr(strGr);
+                mainApplication.setGrape(strGr);
                 CreateXML.updateText(mainApplication, "gr", strGr);
 
                 gr.addTextChangedListener(this);
