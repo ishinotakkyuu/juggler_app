@@ -50,63 +50,53 @@ import java.util.List;
 public final class MainCounterActivity extends AppCompatActivity implements TextWatcher {
 
     // フォーカス処理に使うレイアウト・ボタン
-    ConstraintLayout layout,touchLayout,registerLayout;
-    Button big,reg,bonus;
+    ConstraintLayout mainLayout, scrollLayout;
+    Button bTotalBig, bTotalReg, bTotalBonus;
 
     // 機種名選択
-    Spinner juggler;
+    Spinner sJuggler;
 
     //ゲーム数関係
-    static EditText start,total,individual;
+    static EditText eStartGames, eTotalGames, eIndividualGames;
 
     //カウンター関係
-    static EditText aB,cB,BB,aR,cR,RB,ch,gr,addition;
+    static EditText eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus;
 
     //確率関係
-    static TextView aB_Probability,cB_Probability,BB_Probability,aR_Probability,cR_Probability,RB_Probability,
-                    ch_Probability,gr_Probability,addition_Probability;
+    static TextView tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
+                    tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
+                    tCherryProbability, tGrapeProbability, tTotalBonusProbability;
 
-    //オプション関係
-    boolean plusMinusCounter = false;
-    boolean editorModeCounter = false;
-    boolean skeletonCounter = false;
+    //各種判定用
+    boolean judgePlusMinus = false;
+    boolean judgeSkeleton = false;
+    boolean judgeEditorMode = false;
+    boolean judgeVibrator = true;
 
-    // ユーザID
-    int userId;
+    // カスタムダイアログ関係
+    ConstraintLayout dialogLayout;
+    static EditText eTableNumber, eMedal;
+    EditText eDate;
 
-    //日付
-    String saveDate = "";
-    String operationDate = "";
-    String operationYear;
-    String operationMonth;
-    String operationDay;
-    String operationDayDigit;
-    String weekId;
-    String dayOfWeekinMonth;
+    //DB関係
+    int dbUserId;
+    String dbOperationDate = "";
+    String dbSaveDate = "";
+    String dbStoreName = "";
+    String dbOperationYear;
+    String dbOperationMonth;
+    String dbOperationDay;
+    String dbOperationDayDigit;
+    String dbWeekId;
+    String dbDayOfWeek_in_Month;
+    Integer dbMedal;
+    String dbMachineName = "";
+    String dbTableNumber;
+    int dbStartGames, dbTotalGames, dbSingleBig, dbCherryBig, dbSingleReg, dbCherryReg, dbCherry, dbGrape;
 
-    //店舗名
-    String storeName = "";
-
-    // 差枚数
-    Integer differenceNumber;
-
-    // 機種
-    int machineNameValue;
-    String machineName = "";
-
-    // 台番号
-    String tableNumber;
-
-
-    // カスタムダイアログ内にある台番号・差枚数入力用のEditText
-    static EditText machineText,medalText;
-
-    // バイブ機能に使用
-    boolean checkVibrate = true;
+    // バイブ機能
     Vibrator vibrator;
     VibrationEffect vibrationEffect; // API26以上のOSで有効
-
-    int startGame,totalGame,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -120,7 +110,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         setContentView(R.layout.main02_counter01);
 
         // 各viewをfindViewByIdで紐づけるメソッド
-        setID();
+        setFindViewByID();
         // 機種名選択のスピナー登録
         setJuggler();
         // ゲーム数・カウント回数を表示するEditTextにテクストウォッチャーを設定するメソッド
@@ -153,41 +143,41 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         switch (item.getItemId()) {
             case R.id.item1: // 編集モード
 
-                if(editorModeCounter){
+                if(judgeEditorMode){
                     setEditTextFocusFalse();
-                    editorModeCounter = false;
+                    judgeEditorMode = false;
                 } else {
                     setEditTextFocusTrue();
-                    editorModeCounter = true;
+                    judgeEditorMode = true;
                 }
                 focusOut();
                 return true;
 
             case R.id.item2: // 加減算切り替えモード
 
-                if(plusMinusCounter) {
+                if(judgePlusMinus) {
                     ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
                     ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
-                    plusMinusCounter = false;
+                    judgePlusMinus = false;
                 } else {
-                    if(skeletonCounter) {
+                    if(judgeSkeleton) {
                         new AlertDialog.Builder(this)
                                 .setTitle("ステルス機能の解除について")
                                 .setMessage("減算モードを利用する場合はステルス機能を解除する必要があります")
                                 .setPositiveButton("解除", (dialogInterface, i) -> {
                                     ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
                                     ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
-                                    skeletonCounter = false;
-                                    plusMinusCounter = true;
+                                    judgeSkeleton = false;
+                                    judgePlusMinus = true;
                                     Toast toast = Toast.makeText(MainCounterActivity.this, "ステルス機能が解除されました", Toast.LENGTH_LONG);
                                     toast.show();
                                 })
-                                .setNegativeButton("キャンセル", (dialogInterface, i) -> plusMinusCounter = false)
+                                .setNegativeButton("キャンセル", (dialogInterface, i) -> judgePlusMinus = false)
                                 .show();
                     } else{
                         ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
                         ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
-                        plusMinusCounter = true;
+                        judgePlusMinus = true;
                     }
                 }
                 focusOut();
@@ -195,12 +185,12 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
             case R.id.item3: // カウンター非表示モード
 
-                if(skeletonCounter) {
+                if(judgeSkeleton) {
                     ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
                     ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
-                    skeletonCounter = false;
+                    judgeSkeleton = false;
                 } else {
-                    if(plusMinusCounter) {
+                    if(judgePlusMinus) {
                         new AlertDialog.Builder(this)
                                 .setTitle("減算状態の解除について")
                                 .setMessage("ステルス機能を利用する場合は減算状態を解除する必要があります")
@@ -208,30 +198,30 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     int skeleton = getResources().getColor(R.color.skeleton);
                                     ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
                                     ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
-                                    skeletonCounter = true;
-                                    plusMinusCounter = false;
+                                    judgeSkeleton = true;
+                                    judgePlusMinus = false;
                                     Toast toast = Toast.makeText(MainCounterActivity.this, "カウンターは加算されます", Toast.LENGTH_LONG);
                                     toast.show();
                                 })
-                                .setNegativeButton("キャンセル", (dialogInterface, i) -> skeletonCounter = false)
+                                .setNegativeButton("キャンセル", (dialogInterface, i) -> judgeSkeleton = false)
                                 .show();
                     } else {
                         int skeleton = getResources().getColor(R.color.skeleton);
                         ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
                         ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
-                        skeletonCounter = true;
+                        judgeSkeleton = true;
                     }
                 }
                 focusOut();
                 return true;
 
             case R.id.item4: // バイブ機能ON/Off
-                if(checkVibrate){
-                    checkVibrate = false;
+                if(judgeVibrator){
+                    judgeVibrator = false;
                     Toast toast = Toast.makeText(this, "バイブ機能をOFFにしました", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
-                    checkVibrate = true;
+                    judgeVibrator = true;
                     Toast toast = Toast.makeText(this, "バイブ機能をONにしました", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -242,10 +232,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                         .setTitle("カウンター初期化")
                         .setMessage("カウンターを全てリセットしますか？")
                         .setPositiveButton("はい", (dialogInterface, i) -> {
-                            start.setText("0"); total.setText("0");
-                            aB.setText("0"); cB.setText("0");
-                            aR.setText("0"); cR.setText("0");
-                            ch.setText("0"); gr.setText("0");
+                            eStartGames.setText("0"); eTotalGames.setText("0");
+                            eSingleBig.setText("0"); eCherryBig.setText("0");
+                            eSingleReg.setText("0"); eCherryReg.setText("0");
+                            eCherry.setText("0"); eGrape.setText("0");
 
                             mainApplication.init();
                             CreateXML.updateText(mainApplication,"total","0");
@@ -255,9 +245,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                             ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
                             setEditTextFocusFalse();
 
-                            plusMinusCounter = false;
-                            editorModeCounter = false;
-                            skeletonCounter = false;
+                            judgePlusMinus = false;
+                            judgeEditorMode = false;
+                            judgeSkeleton = false;
 
                             Toast toast = Toast.makeText(MainCounterActivity.this, "リセットしました", Toast.LENGTH_SHORT);
                             toast.show();
@@ -269,12 +259,12 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
             case R.id.item6: // データ保存
                 // 個人ゲーム数が0ゲームの状態で登録ボタンを押した際の処理
-                int checkIndividual = Integer.parseInt(individual.getText().toString());
-                if (checkIndividual != 0){
+                int checkedIndividualGames = Integer.parseInt(eIndividualGames.getText().toString());
+                if (checkedIndividualGames != 0){
                     if(!mainApplication.getStore001().equals("null")){
                         registerDialog();
                     } else {
-                        notStore();
+                        pleaseAddStore();
                     }
                     focusOut();
                     return true;
@@ -294,13 +284,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // カスタム用のレイアウトをセット
         registerDialog.setContentView(R.layout.main02_counter04_custom_dialog);
         // ダイアログのレイアウトをタッチするとフォーカスが外れる
-        registerLayout = registerDialog.findViewById(R.id.RegisterLayout);
-        registerLayout.setOnTouchListener(new View.OnTouchListener() {
+        dialogLayout = registerDialog.findViewById(R.id.RegisterLayout);
+        dialogLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
-                registerLayout.requestFocus();
+                inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+                dialogLayout.requestFocus();
                 return false;
             }
         });
@@ -318,23 +308,23 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                         MainCounterActivity.this,
                         (view1, year, month, dayOfMonth) -> {
                             // 選択した日付を取得して日付表示用のEditTextにセット
-                            EditText showDate = registerDialog.findViewById(R.id.DateEditText);
-                            showDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
-                            showDate.setGravity(Gravity.CENTER);
+                            eDate = registerDialog.findViewById(R.id.DateEditText);
+                            eDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                            eDate.setGravity(Gravity.CENTER);
 
                             //DB登録用
-                            operationDate = String.format("%d-%02d-%02d", year, month+1, dayOfMonth);
-                            operationYear = Integer.toString(year);
-                            operationMonth = Integer.toString(month+1);
-                            operationDay = Integer.toString(dayOfMonth);
+                            dbOperationDate = String.format("%d-%02d-%02d", year, month+1, dayOfMonth);
+                            dbOperationYear = Integer.toString(year);
+                            dbOperationMonth = Integer.toString(month+1);
+                            dbOperationDay = Integer.toString(dayOfMonth);
                             if(dayOfMonth > 9) {
-                                operationDayDigit = operationDay.substring(1);
+                                dbOperationDayDigit = dbOperationDay.substring(1);
                             } else {
-                                operationDayDigit = operationDay;
+                                dbOperationDayDigit = dbOperationDay;
                             }
                             date.set(year, month, dayOfMonth);
-                            weekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
-                            dayOfWeekinMonth = Integer.toString(date.get(Calendar.DAY_OF_WEEK_IN_MONTH));
+                            dbWeekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
+                            dbDayOfWeek_in_Month = Integer.toString(date.get(Calendar.DAY_OF_WEEK_IN_MONTH));
 
                         },
                         date.get(Calendar.YEAR),
@@ -345,35 +335,35 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 datePickerDialog.show();
                 // キーボードが出ている(例えば差枚数をクリックしてキーボードを出しっぱなし)状態で日付選択をタッチした場合はキーボードを閉じる
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
-                registerLayout.requestFocus();
+                inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+                dialogLayout.requestFocus();
             }
         });
 
         // 店舗表示用のスピナーと店舗名のリストを準備
-        Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
-        List<String> storeNames = new ArrayList<>();
+        Spinner sStore = registerDialog.findViewById(R.id.StoreSpinner);
+        List<String> sStore_Items = new ArrayList<>();
 
         // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
-        String[] storeItems = CommonFeature.getStoreItems(mainApplication);
-        for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
+        String[] Storage_Store_Items = CommonFeature.getStoreItems(mainApplication);
+        for(String Item:Storage_Store_Items){if(!Item.equals("null")){sStore_Items.add(Item);}}
 
         // アダプターを介して登録店舗一覧リストをセット
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner,storeNames);
+        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner,sStore_Items);
         storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
-        storeSpinner.setAdapter(storeAdapter);
+        sStore.setAdapter(storeAdapter);
 
-        // numberTextにTextWatcherを設定して0頭を回避する
+        // TextWatcherを設定して0頭を回避する
         // なお、台番号については0頭は許容しておく
-        medalText = registerDialog.findViewById(R.id.DifferenceNumber);
-        medalText.addTextChangedListener(this);
+        eMedal = registerDialog.findViewById(R.id.DifferenceNumber);
+        eMedal.addTextChangedListener(this);
 
         // キーボード確定ボタンを押すとフォーカスが外れる
-        medalText.setOnEditorActionListener((textView, i, keyEvent) -> {
+        eMedal.setOnEditorActionListener((textView, i, keyEvent) -> {
             if(i== EditorInfo.IME_ACTION_DONE){
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(registerLayout.getWindowToken(),0);
-                registerLayout.requestFocus();
+                inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+                dialogLayout.requestFocus();
             }
             return false;});
 
@@ -381,56 +371,55 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
 
             // ユーザID
-            userId = mainApplication.getUserId();
+            dbUserId = mainApplication.getUserId();
             // 店舗名
-            storeName = (String)storeSpinner.getSelectedItem();
-            String differenceNumberStr = medalText.getText().toString();
-            EditText showDate = registerDialog.findViewById(R.id.DateEditText);
-            String checkShowDate = showDate.getText().toString();
+            dbStoreName = (String)sStore.getSelectedItem();
+            String medalStr = eMedal.getText().toString();
+            String checkedDate = eDate.getText().toString();
 
             // 日付入力済なら登録処理
-            if (StringUtils.isNotEmpty(checkShowDate)){
+            if (StringUtils.isNotEmpty(checkedDate)){
 
-                if (StringUtils.isNotEmpty(differenceNumberStr)){
-                    differenceNumber = Integer.parseInt(differenceNumberStr);
+                if (StringUtils.isNotEmpty(medalStr)){
+                    dbMedal = Integer.parseInt(medalStr);
                 }
 
-                if(!(differenceNumber == null || differenceNumber == 0)){
+                if(!(dbMedal == null || dbMedal == 0)){
                     CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
                     if(checkBox.isChecked()) {
-                        differenceNumber = -differenceNumber;
+                        dbMedal = -dbMedal;
                     }
                 }
 
-                machineNameValue = mainApplication.getMachineName();
+                int machineNameValue = mainApplication.getMachineName();
                 switch (machineNameValue) {
                     case 0:
-                        machineName = "SアイムジャグラーEX";
+                        dbMachineName = "SアイムジャグラーEX";
                         break;
                     case 1:
-                        machineName = "Sファンキージャグラー2";
+                        dbMachineName = "Sファンキージャグラー2";
                         break;
                     case 2:
-                        machineName = "Sマイジャグラー5";
+                        dbMachineName = "Sマイジャグラー5";
                         break;
                 }
 
-                startGame = Integer.parseInt(mainApplication.getStart());
-                totalGame = Integer.parseInt(mainApplication.getTotal());
-                singleBig = Integer.parseInt(mainApplication.getaB());
-                cherryBig = Integer.parseInt(mainApplication.getcB());
-                singleReg = Integer.parseInt(mainApplication.getaR());
-                cherryReg = Integer.parseInt(mainApplication.getcR());
-                cherry = Integer.parseInt(mainApplication.getCh());
-                grape = Integer.parseInt(mainApplication.getGr());
+                dbStartGames = Integer.parseInt(mainApplication.getStart());
+                dbTotalGames = Integer.parseInt(mainApplication.getTotal());
+                dbSingleBig = Integer.parseInt(mainApplication.getaB());
+                dbCherryBig = Integer.parseInt(mainApplication.getcB());
+                dbSingleReg = Integer.parseInt(mainApplication.getaR());
+                dbCherryReg = Integer.parseInt(mainApplication.getcR());
+                dbCherry = Integer.parseInt(mainApplication.getCh());
+                dbGrape = Integer.parseInt(mainApplication.getGr());
 
-                //　R04.06.02 台番号取得
-                machineText = registerDialog.findViewById(R.id.MachineNumber);
-                tableNumber = machineText.getText().toString();
-                // R04.06.03　現在日時を取得
+                // 台番号取得
+                eTableNumber = registerDialog.findViewById(R.id.MachineNumber);
+                dbTableNumber = eTableNumber.getText().toString();
+                // 現在日時を取得
                 Date now = new Date();
                 SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-                saveDate = dFormat.format(now) + "登録";
+                dbSaveDate = dFormat.format(now) + "登録";
 
                 //　データベースへの登録処理
                 Context context = getApplicationContext();
@@ -463,27 +452,27 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "GRAPE" +
                                     ") " +
                                     "values(" +
-                                    "'" + userId + "'," +
-                                    "'" + operationDate + "'," +
-                                    "'" + saveDate + "'," +
-                                    "'" + storeName + "'," +
-                                    "'" + operationYear + "'," +
-                                    "'" + operationMonth + "'," +
-                                    "'" + operationDay + "'," +
-                                    "'" + operationDayDigit + "'," +
-                                    "'" + weekId + "'," +
-                                    "'" + dayOfWeekinMonth + "'," +
-                                    "'" + differenceNumber + "'," +
-                                    "'" + machineName + "'," +
-                                    "'" + tableNumber + "'," +
-                                    "'" + startGame + "'," +
-                                    "'" + totalGame + "'," +
-                                    "'" + singleBig + "'," +
-                                    "'" + cherryBig + "'," +
-                                    "'" + singleReg + "'," +
-                                    "'" + cherryReg + "'," +
-                                    "'" + cherry + "'," +
-                                    "'" + grape + "'" +
+                                    "'" + dbUserId + "'," +
+                                    "'" + dbOperationDate + "'," +
+                                    "'" + dbSaveDate + "'," +
+                                    "'" + dbStoreName + "'," +
+                                    "'" + dbOperationYear + "'," +
+                                    "'" + dbOperationMonth + "'," +
+                                    "'" + dbOperationDay + "'," +
+                                    "'" + dbOperationDayDigit + "'," +
+                                    "'" + dbWeekId + "'," +
+                                    "'" + dbDayOfWeek_in_Month + "'," +
+                                    "'" + dbMedal + "'," +
+                                    "'" + dbMachineName + "'," +
+                                    "'" + dbTableNumber + "'," +
+                                    "'" + dbStartGames + "'," +
+                                    "'" + dbTotalGames + "'," +
+                                    "'" + dbSingleBig + "'," +
+                                    "'" + dbCherryBig + "'," +
+                                    "'" + dbSingleReg + "'," +
+                                    "'" + dbCherryReg + "'," +
+                                    "'" + dbCherry + "'," +
+                                    "'" + dbGrape + "'" +
                                     ")";
                     SQLiteStatement stmt = db.compileStatement(sql);
                     stmt.executeInsert();
@@ -508,7 +497,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         registerDialog.show();
     }
 
-    public void notStore(){
+    public void pleaseAddStore(){
         new AlertDialog.Builder(this)
                 .setTitle("店舗登録のお願い")
                 .setMessage("データを残したい場合は店舗登録を行ってください")
@@ -521,7 +510,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     public void vibrator(){
-        if (checkVibrate){
+        if (judgeVibrator){
             // API26以上だったら
             if (Build.VERSION.SDK_INT >= 26){
                 vibrationEffect = VibrationEffect.createOneShot(300,-1);
@@ -541,44 +530,44 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     public void onTextChanged(CharSequence s, int start, int before, int count) {}
     @Override
     public void afterTextChanged(Editable s) {
-        medalText.removeTextChangedListener(this);
-        String str = s.toString();
-        if (StringUtils.isNotEmpty(str)) {
-            str = Integer.valueOf(str).toString();
-            medalText.setText(str);
-            medalText.setSelection(str.length());
+        eMedal.removeTextChangedListener(this);
+        String medalText = s.toString();
+        if (StringUtils.isNotEmpty(medalText)) {
+            medalText = Integer.valueOf(medalText).toString();
+            eMedal.setText(medalText);
+            eMedal.setSelection(medalText.length());
         } else {
-            medalText.setText("");
+            eMedal.setText("");
         }
-        medalText.addTextChangedListener(this);
+        eMedal.addTextChangedListener(this);
     }
 
     //***************************************************************************************************************************
     // 何かしらの設定をセットしている処理
     //***************************************************************************************************************************
 
-    public void setID(){
-        total = findViewById(R.id.total_game);
-        start = findViewById(R.id.start_game);
-        individual = findViewById(R.id.individual_game);
-        aB = findViewById(R.id.aB); cB = findViewById(R.id.cB); BB = findViewById(R.id.BB);
-        aR = findViewById(R.id.aR); cR = findViewById(R.id.cR); RB = findViewById(R.id.RB);
-        ch = findViewById(R.id.ch); gr = findViewById(R.id.gr); addition = findViewById(R.id.addition);
-        aB_Probability = findViewById(R.id.aB_Probability);
-        cB_Probability = findViewById(R.id.cB_Probability);
-        BB_Probability = findViewById(R.id.BB_Probability);
-        aR_Probability = findViewById(R.id.aR_Probability);
-        cR_Probability = findViewById(R.id.cR_Probability);
-        RB_Probability = findViewById(R.id.RB_Probability);
-        ch_Probability = findViewById(R.id.ch_Probability);
-        gr_Probability = findViewById(R.id.gr_Probability);
-        addition_Probability = findViewById(R.id.addition_Probability);
-        layout = findViewById(R.id.counter);
-        touchLayout = findViewById(R.id.TouchCounter);
-        big = findViewById(R.id.big_bonus);
-        reg = findViewById(R.id.reg_bonus);
-        bonus = findViewById(R.id.bonus_addition);
-        juggler = findViewById(R.id.juggler);
+    public void setFindViewByID(){
+        eTotalGames = findViewById(R.id.total_game);
+        eStartGames = findViewById(R.id.start_game);
+        eIndividualGames = findViewById(R.id.individual_game);
+        eSingleBig = findViewById(R.id.aB); eCherryBig = findViewById(R.id.cB); eTotalBig = findViewById(R.id.BB);
+        eSingleReg = findViewById(R.id.aR); eCherryReg = findViewById(R.id.cR); eTotalReg = findViewById(R.id.RB);
+        eCherry = findViewById(R.id.ch); eGrape = findViewById(R.id.gr); eTotalBonus = findViewById(R.id.addition);
+        tSingleBigProbability = findViewById(R.id.aB_Probability);
+        tCherryBigProbability = findViewById(R.id.cB_Probability);
+        tTotalBigProbability = findViewById(R.id.BB_Probability);
+        tSingleRegProbability = findViewById(R.id.aR_Probability);
+        tCherryRegProbability = findViewById(R.id.cR_Probability);
+        tTotalRegProbability = findViewById(R.id.RB_Probability);
+        tCherryProbability = findViewById(R.id.ch_Probability);
+        tGrapeProbability = findViewById(R.id.gr_Probability);
+        tTotalBonusProbability = findViewById(R.id.addition_Probability);
+        mainLayout = findViewById(R.id.counter);
+        scrollLayout = findViewById(R.id.TouchCounter);
+        bTotalBig = findViewById(R.id.big_bonus);
+        bTotalReg = findViewById(R.id.reg_bonus);
+        bTotalBonus = findViewById(R.id.bonus_addition);
+        sJuggler = findViewById(R.id.juggler);
     }
 
     //ゲーム数関係とカウンター関係へGamesCounterWatcherを設定
@@ -593,8 +582,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         List<String> jugglerList = new ArrayList<>(Arrays.asList("SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
         ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.main02_counter02_juggler_spinner,jugglerList);
         jugglerAdapter.setDropDownViewResource(R.layout.main02_counter03_juggler_spinner_dropdown);
-        juggler.setAdapter(jugglerAdapter);
-        juggler.setSelection(mainApplication.getMachineName());
+        sJuggler.setAdapter(jugglerAdapter);
+        sJuggler.setSelection(mainApplication.getMachineName());
     }
 
     public void setImeActionDone(EditText editText){
@@ -618,25 +607,25 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // 共有データから値をセット
         // 総ゲームと開始ゲームは空白が許容されるためnullチェックする
         if(mainApplication.getTotal() != null){
-            total.setText(mainApplication.getTotal());
+            eTotalGames.setText(mainApplication.getTotal());
         }
         if(mainApplication.getStart() != null){
-            start.setText(mainApplication.getStart());
+            eStartGames.setText(mainApplication.getStart());
         }
-        aB.setText(mainApplication.getaB());
-        cB.setText(mainApplication.getcB());
-        aR.setText(mainApplication.getaR());
-        cR.setText(mainApplication.getcR());
-        ch.setText(mainApplication.getCh());
-        gr.setText(mainApplication.getGr());
+        eSingleBig.setText(mainApplication.getaB());
+        eCherryBig.setText(mainApplication.getcB());
+        eSingleReg.setText(mainApplication.getaR());
+        eCherryReg.setText(mainApplication.getcR());
+        eCherry.setText(mainApplication.getCh());
+        eGrape.setText(mainApplication.getGr());
     }
 
     @SuppressLint("ClickableViewAccessibility")
     public void setTouchEvent(){
-        touchLayout.setOnClickListener(v -> focusOut());
-        big.setOnClickListener(v -> MainCounterActivity.this.focusOut());
-        reg.setOnClickListener(v -> MainCounterActivity.this.focusOut());
-        bonus.setOnClickListener(v -> MainCounterActivity.this.focusOut());
+        scrollLayout.setOnClickListener(v -> focusOut());
+        bTotalBig.setOnClickListener(v -> MainCounterActivity.this.focusOut());
+        bTotalReg.setOnClickListener(v -> MainCounterActivity.this.focusOut());
+        bTotalBonus.setOnClickListener(v -> MainCounterActivity.this.focusOut());
     }
 
     //***************************************************************************************************************************
@@ -645,10 +634,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     public void actionListenerFocusOut(){
         // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になる
-        setImeActionDone(start); setImeActionDone(total); setImeActionDone(aB); setImeActionDone(cB);
-        setImeActionDone(aR); setImeActionDone(cR); setImeActionDone(ch); setImeActionDone(gr);
+        setImeActionDone(eStartGames); setImeActionDone(eTotalGames); setImeActionDone(eSingleBig); setImeActionDone(eCherryBig);
+        setImeActionDone(eSingleReg); setImeActionDone(eCherryReg); setImeActionDone(eCherry); setImeActionDone(eGrape);
 
-        juggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sJuggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
             @Override
             public void onItemSelected(AdapterView<?> parent,View view, int position, long id) {
@@ -665,25 +654,25 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     public void focusOut(){
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(),0);
-        layout.requestFocus();
+        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(),0);
+        mainLayout.requestFocus();
     }
 
     //***************************************************************************************************************************
     // ボタンの制御
     //***************************************************************************************************************************
 
-    public void aloneBigButton(View view) {pushButton(aB,R.id.aB,9999);
+    public void aloneBigButton(View view) {pushButton(eSingleBig,R.id.aB,9999);
         vibrator();}
-    public void cherryBigButton(View view) {pushButton(cB,R.id.cB,9999);
+    public void cherryBigButton(View view) {pushButton(eCherryBig,R.id.cB,9999);
         vibrator();}
-    public void aloneRegButton(View view){pushButton(aR,R.id.aR,9999);
+    public void aloneRegButton(View view){pushButton(eSingleReg,R.id.aR,9999);
         vibrator();}
-    public void cherryRegButton(View view){pushButton(cR,R.id.cR,9999);
+    public void cherryRegButton(View view){pushButton(eCherryReg,R.id.cR,9999);
         vibrator();}
-    public void cherryButton(View view){pushButton(ch,R.id.ch,99999);
+    public void cherryButton(View view){pushButton(eCherry,R.id.ch,99999);
         vibrator();}
-    public void grapesButton(View view){pushButton(gr,R.id.gr,999999);
+    public void grapesButton(View view){pushButton(eGrape,R.id.gr,999999);
         vibrator();}
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.counter);
@@ -694,7 +683,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             textValue = Integer.parseInt(text);
          }
 
-        if (plusMinusCounter) {
+        if (judgePlusMinus) {
 
             if (StringUtils.isNotEmpty(text)) {
                 if (textValue > 0) {

@@ -461,9 +461,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 intent.putExtra("TOAST", "更新");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            } else {
-                Toast toast = Toast.makeText(DataDetail.this, "日付を選択してください", Toast.LENGTH_LONG);
-                toast.show();
             }
         });
         // ダイアログを表示

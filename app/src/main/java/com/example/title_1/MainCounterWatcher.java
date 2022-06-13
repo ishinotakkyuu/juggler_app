@@ -16,31 +16,31 @@ public class MainCounterWatcher implements TextWatcher {
     final String INIT_VALUE = "1/0.00";
 
     //ゲーム数関係
-    EditText total = MainCounterActivity.total;
-    EditText start = MainCounterActivity.start;
-    EditText individual = MainCounterActivity.individual;
+    EditText total = MainCounterActivity.eTotalGames;
+    EditText start = MainCounterActivity.eStartGames;
+    EditText individual = MainCounterActivity.eIndividualGames;
 
     //カウンター関係
-    EditText aB = MainCounterActivity.aB;
-    EditText cB = MainCounterActivity.cB;
-    EditText BB = MainCounterActivity.BB;
-    EditText aR = MainCounterActivity.aR;
-    EditText cR = MainCounterActivity.cR;
-    EditText RB = MainCounterActivity.RB;
-    EditText ch = MainCounterActivity.ch;
-    EditText gr = MainCounterActivity.gr;
-    EditText addition = MainCounterActivity.addition;
+    EditText aB = MainCounterActivity.eSingleBig;
+    EditText cB = MainCounterActivity.eCherryBig;
+    EditText BB = MainCounterActivity.eTotalBig;
+    EditText aR = MainCounterActivity.eSingleReg;
+    EditText cR = MainCounterActivity.eCherryReg;
+    EditText RB = MainCounterActivity.eTotalReg;
+    EditText ch = MainCounterActivity.eCherry;
+    EditText gr = MainCounterActivity.eGrape;
+    EditText addition = MainCounterActivity.eTotalBonus;
 
     //確率関係
-    TextView aB_Probability = MainCounterActivity.aB_Probability;
-    TextView cB_Probability = MainCounterActivity.cB_Probability;
-    TextView BB_Probability = MainCounterActivity.BB_Probability;
-    TextView aR_Probability = MainCounterActivity.aR_Probability;
-    TextView cR_Probability = MainCounterActivity.cR_Probability;
-    TextView RB_Probability = MainCounterActivity.RB_Probability;
-    TextView ch_Probability = MainCounterActivity.ch_Probability;
-    TextView gr_Probability = MainCounterActivity.gr_Probability;
-    TextView addition_Probability = MainCounterActivity.addition_Probability;
+    TextView aB_Probability = MainCounterActivity.tSingleBigProbability;
+    TextView cB_Probability = MainCounterActivity.tCherryBigProbability;
+    TextView BB_Probability = MainCounterActivity.tTotalBigProbability;
+    TextView aR_Probability = MainCounterActivity.tSingleRegProbability;
+    TextView cR_Probability = MainCounterActivity.tCherryRegProbability;
+    TextView RB_Probability = MainCounterActivity.tTotalRegProbability;
+    TextView ch_Probability = MainCounterActivity.tCherryProbability;
+    TextView gr_Probability = MainCounterActivity.tGrapeProbability;
+    TextView addition_Probability = MainCounterActivity.tTotalBonusProbability;
 
     // 共有データ
     MainApplication mainApplication;

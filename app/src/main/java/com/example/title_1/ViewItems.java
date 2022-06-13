@@ -11,9 +11,9 @@ public class ViewItems {
     //ゲーム数関係
     public static EditText[] getGameTextItems() {
         return new EditText[]{
-                MainCounterActivity.total,
-                MainCounterActivity.start,
-                MainCounterActivity.individual
+                MainCounterActivity.eTotalGames,
+                MainCounterActivity.eStartGames,
+                MainCounterActivity.eIndividualGames
         };
     }
 
@@ -29,15 +29,15 @@ public class ViewItems {
     //カウンター関係
     public static EditText[] getCounterTextItems() {
         return new EditText[]{
-                MainCounterActivity.aB,
-                MainCounterActivity.cB,
-                MainCounterActivity.BB,
-                MainCounterActivity.aR,
-                MainCounterActivity.cR,
-                MainCounterActivity.RB,
-                MainCounterActivity.ch,
-                MainCounterActivity.gr,
-                MainCounterActivity.addition
+                MainCounterActivity.eSingleBig,
+                MainCounterActivity.eCherryBig,
+                MainCounterActivity.eTotalBig,
+                MainCounterActivity.eSingleReg,
+                MainCounterActivity.eCherryReg,
+                MainCounterActivity.eTotalReg,
+                MainCounterActivity.eCherry,
+                MainCounterActivity.eGrape,
+                MainCounterActivity.eTotalBonus
         };
     }
 
@@ -59,12 +59,12 @@ public class ViewItems {
     //カウンター関係(編集可能なもの)
     public static EditText[] getCounterEditTextItems() {
         return new EditText[]{
-                MainCounterActivity.aB,
-                MainCounterActivity.cB,
-                MainCounterActivity.aR,
-                MainCounterActivity.cR,
-                MainCounterActivity.ch,
-                MainCounterActivity.gr
+                MainCounterActivity.eSingleBig,
+                MainCounterActivity.eCherryBig,
+                MainCounterActivity.eSingleReg,
+                MainCounterActivity.eCherryReg,
+                MainCounterActivity.eCherry,
+                MainCounterActivity.eGrape
         };
     }
 
@@ -83,15 +83,15 @@ public class ViewItems {
     //確率関係
     public static TextView[] getProbabilityTextItems() {
         return new TextView[]{
-                MainCounterActivity.aB_Probability,
-                MainCounterActivity.cB_Probability,
-                MainCounterActivity.BB_Probability,
-                MainCounterActivity.aR_Probability,
-                MainCounterActivity.cR_Probability,
-                MainCounterActivity.RB_Probability,
-                MainCounterActivity.ch_Probability,
-                MainCounterActivity.gr_Probability,
-                MainCounterActivity.addition_Probability
+                MainCounterActivity.tSingleBigProbability,
+                MainCounterActivity.tCherryBigProbability,
+                MainCounterActivity.tTotalBigProbability,
+                MainCounterActivity.tSingleRegProbability,
+                MainCounterActivity.tCherryRegProbability,
+                MainCounterActivity.tTotalRegProbability,
+                MainCounterActivity.tCherryProbability,
+                MainCounterActivity.tGrapeProbability,
+                MainCounterActivity.tTotalBonusProbability
         };
     }
 

@@ -354,7 +354,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     private void setStorageListItem() {
 
         // 20店舗対応
-        String Storage_Store_Items[] = CommonFeature.getStoreItems(mainApplication);
+        String[] Storage_Store_Items = CommonFeature.getStoreItems(mainApplication);
         int Storage_Store_Items_Size = Storage_Store_Items.length;
 
         for (int i = 0; i < Storage_Store_Items_Size; i++) {

@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
         ReadXML.readInfo(mainApplication);
     }
 
-    public void storeManagement(View view){
+    public void MainManagementStore(View view){
         Intent intent = new Intent(getApplication(), MainManagementStore.class);
         startActivity(intent);
     }
 
-    public void small_role_Counter(View view){
+    public void MainCounter(View view){
         Intent intent = new Intent(getApplication(), MainCounterActivity.class);
         startActivity(intent);
     }
