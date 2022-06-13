@@ -27,18 +27,18 @@ import java.util.ArrayList;
 public final class MainManagementStore extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     // 登録店舗名を入力するEditText
-    EditText storeRegister;
+    EditText eStoreName;
 
     // 店舗数を表示するTextView
-    TextView storeCounter;
+    TextView tStoreCounter;
 
     // 登録店舗を表示させるListView,登録店舗名を格納するArrayList,ListViewに登録店舗名をセットする時に使用するadapter
-    ListView storeListView;
-    ArrayList<String> items = new ArrayList<>();
+    ListView lStoreName;
+    ArrayList<String> Store_List_Items = new ArrayList<>();
     MainManagementStoreAdapter adapter;
 
     // フォーカス関係で使用
-    ConstraintLayout layout;
+    ConstraintLayout mainLayout;
     InputMethodManager inputMethodManager;
 
     // ListViewのどの要素がタップされたかを格納する変数
@@ -60,22 +60,22 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
         // フォーカス関係　他、レイアウトの各オブジェクトのfindViewById
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        layout = findViewById(R.id.main_layout);
-        storeCounter = findViewById(R.id.StoreCount);
-        storeListView = findViewById(R.id.StoreList);
-        storeRegister = findViewById(R.id.EditStoreName);
+        mainLayout = findViewById(R.id.main_layout);
+        tStoreCounter = findViewById(R.id.StoreCount);
+        lStoreName = findViewById(R.id.StoreList);
+        eStoreName = findViewById(R.id.EditStoreName);
 
         // 共有データに保存している店舗名を取得 ⇒ itemsに店舗名を格納 ⇒ adapterを介してListViewにセット
         this.mainApplication = (MainApplication) this.getApplication();
         setStorageListItem();
-        adapter = new MainManagementStoreAdapter(this, R.layout.main01_storemanagement02_listitem, items);
-        storeListView.setAdapter(adapter);
+        adapter = new MainManagementStoreAdapter(this, R.layout.main01_storemanagement02_listitem, Store_List_Items);
+        lStoreName.setAdapter(adapter);
 
         // 登録店舗数の件数をセット
-        storeCounter.setText("登録店舗数：" + adapter.getCount() + "件");
+        tStoreCounter.setText("登録店舗数：" + adapter.getCount() + "件");
 
         // ListViewにリスナーを登録
-        storeListView.setOnItemClickListener(this);
+        lStoreName.setOnItemClickListener(this);
 
         // 登録店舗名を入力するEditTextにフォーカスを外すための機能をセット
         actionListenerFocusOut();
@@ -86,19 +86,19 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     public void addStore(View view) {
 
         boolean errorFlag = true;
-        int size = items.size();
+        int Store_Items_Size = Store_List_Items.size();
 
         // 入力された店舗名を取得
-        String newStoreName = storeRegister.getText().toString();
+        String addStoreName = eStoreName.getText().toString();
         // Normalizerを使って文字列に含まれる全角スペースを半角に変換(同時に数値は半角・カタカナは全角に変換される)
-        newStoreName = Normalizer.normalize(newStoreName,Normalizer.Form.NFKC);
+        addStoreName = Normalizer.normalize(addStoreName,Normalizer.Form.NFKC);
         // 文字列前後の半角スペースを削除
-        newStoreName = newStoreName.trim();
+        addStoreName = addStoreName.trim();
 
         // 文字列内に絵文字が含まれるか判定。ただし絵文字だけに限らず、日常的に使われない文字もはじく使用になってます。
         // R04.05.21時点で適当に入れた中国語・アラビア語・ロシア語は通過。ただ再起動すると文字化けするものもあった。また、古代文字ははじいた。
-        for(int i = 0; i < newStoreName.length(); i++){
-            char c = newStoreName.charAt(i);
+        for(int i = 0; i < addStoreName.length(); i++){
+            char c = addStoreName.charAt(i);
             if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
                 Toast toast = Toast.makeText(this, "使用できない文字が含まれています", Toast.LENGTH_LONG);
                 toast.show();
@@ -107,13 +107,13 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         }
 
         // 上記の文字列チェック後、正常値と判定されたらEditText内の入力文字列をクリアする。
-        storeRegister.getEditableText().clear();
+        eStoreName.getEditableText().clear();
 
         // EditTextに文字が入力されていない状態で「追加」ボタンを押しても何も処理されない。
-        if (!newStoreName.isEmpty()) {
+        if (!addStoreName.isEmpty()) {
 
             // 20店舗対応
-            if (size >= 20) {
+            if (Store_Items_Size >= 20) {
                 //トーストを表示
                 Toast toast = Toast.makeText(this, "店舗数が上限に達しました", Toast.LENGTH_SHORT);
                 toast.show();
@@ -121,15 +121,15 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             }
 
             //空白チェック
-            if(StringUtils.isBlank(newStoreName)){
+            if(StringUtils.isBlank(addStoreName)){
                 errorFlag = false;
                 Toast toast = Toast.makeText(this, "店舗名が空白のため登録できません", Toast.LENGTH_LONG);
                 toast.show();
             }
 
             // 重複チェック
-            for(int i = 0; i < size; i++){
-                if((items.get(i)).equals(newStoreName)){
+            for(int i = 0; i < Store_Items_Size; i++){
+                if((Store_List_Items.get(i)).equals(addStoreName)){
                     errorFlag = false;
                     Toast toast = Toast.makeText(this, "すでに登録されている店舗名です", Toast.LENGTH_LONG);
                     toast.show();
@@ -140,16 +140,16 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             if(errorFlag){
 
                 // 店舗名の重複がなければ配列に項目をセットし、内部ストレージにも保存
-                items.add(newStoreName);
-                setMainApplication(items);
+                Store_List_Items.add(addStoreName);
+                setMainApplication(Store_List_Items);
 
                 //出力結果をリストビューに表示
-                adapter = new MainManagementStoreAdapter(this, R.layout.main01_storemanagement02_listitem, items);
-                storeListView.setAdapter(adapter);
+                adapter = new MainManagementStoreAdapter(this, R.layout.main01_storemanagement02_listitem, Store_List_Items);
+                lStoreName.setAdapter(adapter);
 
                 // 登録店舗数の値を更新して、最後にトーストを表示
-                storeCounter.setText("登録店舗数：" + adapter.getCount() + "件");
-                Toast toast = Toast.makeText(this, newStoreName + "が追加されました", Toast.LENGTH_SHORT);
+                tStoreCounter.setText("登録店舗数：" + adapter.getCount() + "件");
+                Toast toast = Toast.makeText(this, addStoreName + "が追加されました", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
@@ -163,20 +163,20 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         //タップされたリストビューを取得 ⇒ タップされた位置をtappedPositionに保持 ⇒ タップされた店舗名を取得
         ListView listView = (ListView) parent;
         tappedPosition = position;
-        String tappedStoreName = (String)listView.getItemAtPosition(position);
+        String tappedStoreItem = (String)listView.getItemAtPosition(position);
 
         // selectListをセット
-        String[] selectList = {"上に移動","下に移動","店舗名編集", "削除", "キャンセル"};
+        String[] Select_List = {"上に移動","下に移動","店舗名編集", "削除", "キャンセル"};
 
         // アラートダイアグラムの表示 ⇒ 各選択項目ごとの処理を行う
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setItems(selectList, (dialog, idx) -> {
+        alert.setItems(Select_List, (dialog, idx) -> {
             switch (idx){
 
                 // 上に移動
                 case 0:
                     if (tappedPosition > 0){
-                        moveAbove(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition - 1),tappedStoreName);
+                        moveUp(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition - 1),tappedStoreItem);
                     } else {
                         Toast toast = Toast.makeText(this, "一番上のアイテムのため移動できません", Toast.LENGTH_LONG);
                         toast.show();
@@ -185,8 +185,8 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
                 // 下に移動
                 case 1:
-                    if (tappedPosition < items.size() - 1){
-                        moveBelow(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition + 1),tappedStoreName);
+                    if (tappedPosition < Store_List_Items.size() - 1){
+                        moveDown(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition + 1),tappedStoreItem);
                     } else {
                         Toast toast = Toast.makeText(this, "一番下のアイテムのため移動できません", Toast.LENGTH_LONG);
                         toast.show();
@@ -195,12 +195,12 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
                 // 店舗名編集
                 case 2:
-                    storeReName(tappedStoreName, listView, position);
+                    storeReName(tappedStoreItem, listView, position);
                     break;
 
                 // 削除
                 case 3:
-                    deleteList(tappedStoreName, listView);
+                    deleteList(tappedStoreItem, listView);
                     break;
 
                 // キャンセル
@@ -212,40 +212,40 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         focusOut();
     }
 
-    public void moveAbove(ListView listView,int parentPosition,String upStoreName,String tappedStoreName){
+    public void moveUp(ListView listView, int parentPosition, String upStoreName, String tappedStoreName){
 
         // 更新前のadapterを取得
         ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
 
         // 入れ替えを行う
-        items.set(parentPosition - 1,tappedStoreName);
-        items.set(parentPosition,upStoreName);
+        Store_List_Items.set(parentPosition - 1,tappedStoreName);
+        Store_List_Items.set(parentPosition,upStoreName);
 
         // adapterの更新
         adapter.notifyDataSetChanged();
 
         // 共有データの更新
-        setMainApplication(items);
+        setMainApplication(Store_List_Items);
 
         // トーストの表示
         Toast toast = Toast.makeText(this, "上に移動しました", Toast.LENGTH_SHORT);
         toast.show();
     }
 
-    public void moveBelow(ListView listView,int parentPosition,String downStoreName, String tappedStoreName){
+    public void moveDown(ListView listView, int parentPosition, String downStoreName, String tappedStoreName){
 
         // 更新前のadapterを取得
         ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
 
         // 入れ替えを行う
-        items.set(parentPosition + 1,tappedStoreName);
-        items.set(parentPosition,downStoreName);
+        Store_List_Items.set(parentPosition + 1,tappedStoreName);
+        Store_List_Items.set(parentPosition,downStoreName);
 
         // adapterの更新
         adapter.notifyDataSetChanged();
 
         // 共有データの更新
-        setMainApplication(items);
+        setMainApplication(Store_List_Items);
 
         // トーストの表示
         Toast toast = Toast.makeText(this, "下に移動しました", Toast.LENGTH_SHORT);
@@ -255,25 +255,25 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
     public void storeReName(String beforeName, ListView listView, int position) {
 
-        final EditText editText = new EditText(this);
+        final EditText eStoreReName = new EditText(this);
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(20);
-        editText.setFilters(filters);
+        eStoreReName.setFilters(filters);
 
-        editText.setHint("編集前：" + beforeName);
+        eStoreReName.setHint("編集前：" + beforeName);
         new AlertDialog.Builder(this)
                 .setTitle("店舗名編集")
                 .setMessage("新しい店舗名を入力してください")
-                .setView(editText)
+                .setView(eStoreReName)
                 .setPositiveButton("変更", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                         boolean errorFlag = true;
-                        int size = items.size();
+                        int Store_Items_Size = Store_List_Items.size();
 
                         // 更新後の店舗名を取得 ⇒ セットしてadapterを更新
-                        String newStoreName = editText.getText().toString();
+                        String newStoreName = eStoreReName.getText().toString();
                         // Normalizerを使って文字列に含まれる全角スペースを半角に変換(同時に数値は半角・カタカナは全角に変換される)
                         newStoreName = Normalizer.normalize(newStoreName,Normalizer.Form.NFKC);
                         // 文字列前後の半角スペースを削除
@@ -296,8 +296,8 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         }
 
                         // 重複チェック
-                        for(int i = 0; i < size; i++){
-                            if((items.get(i)).equals(newStoreName)){
+                        for(int i = 0; i < Store_Items_Size; i++){
+                            if((Store_List_Items.get(i)).equals(newStoreName)){
                                 errorFlag = false;
                                 Toast toast = Toast.makeText(MainManagementStore.this, "すでに登録されている店舗名です", Toast.LENGTH_LONG);
                                 toast.show();
@@ -309,11 +309,11 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         if(errorFlag){
 
                             ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
-                            items.set(position,newStoreName);
+                            Store_List_Items.set(position,newStoreName);
                             adapter.notifyDataSetChanged();
 
                             // 共有データも更新
-                            setMainApplication(items);
+                            setMainApplication(Store_List_Items);
 
                             // トースト表示
                             Toast toast = Toast.makeText(MainManagementStore.this, beforeName + "を" + newStoreName + "に変更しました", Toast.LENGTH_LONG);
@@ -328,9 +328,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     public void deleteList(String tappedStoreName, ListView listView) {
         new AlertDialog.Builder(this)
                 .setTitle("登録店舗削除")
-
                 .setMessage("「" + tappedStoreName + "」をリストから削除してよろしいですか？")
-
                 .setPositiveButton("削除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -338,13 +336,13 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         // adapterから店舗名を削除＆リストからも削除 ⇒ adapterを更新
                         ArrayAdapter<String> adapter = (ArrayAdapter<String>) listView.getAdapter();
                         adapter.remove(tappedStoreName);
-                        items.remove(tappedStoreName);
+                        Store_List_Items.remove(tappedStoreName);
 
                         // 共有データも更新
-                        setMainApplication(items);
+                        setMainApplication(Store_List_Items);
 
                         // 店舗数表示を更新してトースト表示
-                        storeCounter.setText("登録店舗数：" + adapter.getCount() + "件");
+                        tStoreCounter.setText("登録店舗数：" + adapter.getCount() + "件");
                         Toast toast = Toast.makeText(MainManagementStore.this, "削除しました", Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -356,30 +354,30 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     private void setStorageListItem() {
 
         // 20店舗対応
-        String storeItems[] = CommonFeature.getStoreItems(mainApplication);
-        int size = storeItems.length;
+        String Storage_Store_Items[] = CommonFeature.getStoreItems(mainApplication);
+        int Storage_Store_Items_Size = Storage_Store_Items.length;
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < Storage_Store_Items_Size; i++) {
 
-            if (!storeItems[i].equals("null")) {
+            if (!Storage_Store_Items[i].equals("null")) {
                 // xmlの上から順に店舗名を入れる
-                String item = storeItems[i];
-                this.items.add(item);
+                String item = Storage_Store_Items[i];
+                this.Store_List_Items.add(item);
             }
         }
     }
 
-    private void setMainApplication(ArrayList<String> items) {
+    private void setMainApplication(ArrayList<String> Items) {
 
         String storeName;
         // 20店舗対応
         int storeLimit = 20;
-        int size = items.size();
+        int Items_Size = Items.size();
 
         for (int i = 0; i < storeLimit; i++) {
 
-            if (i < size) {
-                storeName = items.get(i);
+            if (i < Items_Size) {
+                storeName = Items.get(i);
             } else {
                 storeName = "null";
             }
@@ -473,20 +471,20 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     // そこでリストビューをタッチしてもフォーカスが外れるようにするdispatchTouchEventを使う
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(), 0);
-        storeRegister.setSelection(0);
-        layout.requestFocus();
+        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+        eStoreName.setSelection(0);
+        mainLayout.requestFocus();
         return super.dispatchTouchEvent(event);
     }
 
     public void focusOut() {
-        inputMethodManager.hideSoftInputFromWindow(layout.getWindowToken(), 0);
-        storeRegister.setSelection(0);
-        layout.requestFocus();
+        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+        eStoreName.setSelection(0);
+        mainLayout.requestFocus();
     }
 
     public void actionListenerFocusOut() {
-        storeRegister.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        eStoreName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
