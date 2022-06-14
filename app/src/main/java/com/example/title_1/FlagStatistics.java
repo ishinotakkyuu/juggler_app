@@ -37,9 +37,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     ConstraintLayout mainLayout;
 
     // 日付表示用のEditText
-    EditText dateStart, dateEnd;
+    EditText eDateStart, eDateEnd;
 
-    // 各種スピナーとそれぞれに対応するチェックぼっく
+    // 各種スピナーとそれぞれに対応するチェックボックス
     static Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay;
     CheckBox cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay;
 
@@ -47,44 +47,30 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     Button bDisplay;
 
     // タイトル表示に使用するTextView
-    TextView tittleTotalGames, tittleMedal, tittleDiscount, tittleSingleBig, tittleCherryBig, tittleTotalBig, tittleSingleReg, tittleCherryReg, tittleTotalReg,
-            tittleTotalBonus, tittleGrape, tittleCherry;
+    TextView tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig, tTittleTotalBig,
+             tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry;
 
     // データ表示に使用するTextView
-    TextView totalGame,totalMedal,discount,totalAloneBig,totalAloneBigProbability,
-             totalCherryBig, totalCherryBigProbability,totalBig,totalBigProbability,totalAloneReg,
-             totalAloneRegProbability, totalCherryReg, totalCherryRegProbability,totalReg,totalRegProbability,
-             totalBonus,totalBonusProbability,totalGrape,totalGrapeProbability,totalCherry,totalCherryProbability;
+    TextView tTotalGames, tTotalMedal, tDiscount,
+             tTotalSingleBig, tTotalSingleBigProbability,
+             tTotalCherryBig, tTotalCherryBigProbability,
+             tTotalBig, tTotalBigProbability,
+             tTotalSingleReg, tTotalSingleRegProbability,
+             tTotalCherryReg, tTotalCherryRegProbability,
+             tTotalReg, tTotalRegProbability,
+             tTotalBonus, tTotalBonusProbability,
+             tTotalGrape, tTotalGrapeProbability,
+             tTotalCherry, tTotalCherryProbability;
 
-    // ゲーム関連
-    static int totalGameValue = 0;
-    static int totalMedalValue = 0;
-    double discountValue = 0;
-    //BIG
-    static int totalSingleBigValue= 0;
-    double totalSingleBigProbabilityValue = 0;
-    static int totalCherryBigValue = 0;
-    double totalCherryBigProbabilityValue = 0;
-    int totalBigValue = 0;
-    double totalBigProbabilityValue = 0;
+    // DBから値を取得
+    static int dbTotalGamesValue,dbTotalMedalValue,dbTotalSingleBigValue,dbTotalCherryBigValue,
+               dbTotalSingleRegValue,dbTotalCherryRegValue,dbTotalCherryValue,dbTotalGrapeValue;
 
-    // REG
-    static int totalSingleRegValue = 0;
-    double totalSingleRegProbabilityValue = 0;
-    static int totalCherryRegValue = 0;
-    double totalCherryRegProbabilityValue = 0;
-    int totalRegValue = 0;
-    double totalRegProbabilityValue = 0;
-
-    // 合算
-    int totalBonusValue = 0;
-    double totalBonusProbabilityValue = 0;
-
-    // 子役
-    static int totalCherryValue = 0;
-    double totalCherryProbabilityValue = 0;
-    static int totalGrapeValue = 0;
-    double totalGrapeProbabilityValue = 0;
+    // DB値から算出するもの
+    int calTotalBigValue,calTotalRegValue,calTotalBonusValue;
+    double calDiscountValue,calTotalSingleBigProbabilityValue,calTotalCherryBigProbabilityValue,calTotalBigProbabilityValue,
+            calTotalSingleRegProbabilityValue,calTotalCherryRegProbabilityValue,calTotalRegProbabilityValue,
+            calTotalBonusProbabilityValue,calTotalCherryProbabilityValue,calTotalGrapeProbabilityValue;
 
 
     @Nullable
@@ -99,7 +85,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         mainApplication = (MainApplication) getActivity().getApplication();
 
         // 各種findViewByIdの設定
-        setId(view);
+        setFindViewById(view);
         // クリックリスナーの登録
         setClickListener();
         // タイトルをセット
@@ -121,7 +107,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 // 選択した日付を取得して日付表示用のEditTextにセット
-                                dateStart.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                                eDateStart.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                             }
                         },
                         calender_01.get(Calendar.YEAR),
@@ -138,7 +124,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // 選択した日付を取得して日付表示用のEditTextにセット
-                        dateEnd.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                        eDateEnd.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                     }
                 },
                         calender_02.get(Calendar.YEAR),
@@ -157,61 +143,62 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 String sql = CreateSQL.FlagStatisticsSQL();
                 DatabaseResultSet.aaa("FlagStatistics",context,sql);
 
-                totalBigValue = totalSingleBigValue + totalCherryBigValue;
-                totalRegValue = totalSingleRegValue + totalCherryRegValue;
-                totalBonusValue = totalBigValue + totalRegValue;
+                calTotalBigValue = dbTotalSingleBigValue + dbTotalCherryBigValue;
+                calTotalRegValue = dbTotalSingleRegValue + dbTotalCherryRegValue;
+                calTotalBonusValue = calTotalBigValue + calTotalRegValue;
 
-                if(totalGameValue > 0) {
-                    discountValue = (((double)totalGameValue * 3) + (double)totalMedalValue) / ((double)totalGameValue * 3) * 100;
-                    totalSingleBigProbabilityValue = (double)totalGameValue / (double)totalSingleBigValue;
-                    totalCherryBigProbabilityValue = (double)totalGameValue / (double)totalSingleBigValue;
-                    totalBigProbabilityValue = (double)totalGameValue / (double)totalBigValue;
-                    totalSingleRegProbabilityValue = (double)totalGameValue / (double)totalSingleRegValue;
-                    totalCherryRegProbabilityValue = (double)totalGameValue / (double)totalCherryRegValue;
-                    totalRegProbabilityValue = (double)totalGameValue / (double)totalRegValue;
-                    totalBonusProbabilityValue = (double)totalGameValue / (double)totalBonusValue;
-                    totalCherryProbabilityValue = (double)totalGameValue / (double)totalCherryValue;
-                    totalGrapeProbabilityValue = (double)totalGameValue / (double)totalGrapeValue;
+                if(dbTotalGamesValue > 0) {
+                    calDiscountValue = (((double) dbTotalGamesValue * 3) + (double) dbTotalMedalValue) / ((double) dbTotalGamesValue * 3) * 100;
+                    calTotalSingleBigProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalSingleBigValue;
+                    calTotalCherryBigProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalSingleBigValue;
+                    calTotalBigProbabilityValue = (double) dbTotalGamesValue / (double) calTotalBigValue;
+                    calTotalSingleRegProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalSingleRegValue;
+                    calTotalCherryRegProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalCherryRegValue;
+                    calTotalRegProbabilityValue = (double) dbTotalGamesValue / (double) calTotalRegValue;
+                    calTotalBonusProbabilityValue = (double) dbTotalGamesValue / (double) calTotalBonusValue;
+                    calTotalCherryProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalCherryValue;
+                    calTotalGrapeProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalGrapeValue;
                 }
+
                 NumberFormat nfNum = NumberFormat.getNumberInstance();
                 nfNum.setMaximumFractionDigits(1);
 
                 // ここにDBデータを記述
-                totalGame.setText(Math.round(totalGameValue) + "回転");
-                totalMedal.setText(Math.round(totalMedalValue) + "枚");
-                discount.setText(String.format("%.2f",discountValue) + "%");
-                totalAloneBig.setText(totalSingleBigValue + "回");
-                totalAloneBigProbability.setText("1/" + String.format("%.2f",totalSingleBigProbabilityValue));
-                totalCherryBig.setText(totalCherryBigValue + "回");
-                totalCherryBigProbability.setText("1/" + String.format("%.2f",totalCherryBigProbabilityValue));
-                totalBig.setText(totalBigValue + "回");
-                totalBigProbability.setText("1/" + String.format("%.2f",totalBigProbabilityValue));
-                totalAloneReg.setText(totalSingleRegValue + "回");
-                totalAloneRegProbability.setText("1/" + String.format("%.2f",totalSingleRegProbabilityValue));
-                totalCherryReg.setText(totalCherryRegValue + "回");
-                totalCherryRegProbability.setText("1/" + String.format("%.2f",totalCherryRegProbabilityValue));
-                totalReg.setText(totalRegValue + "回");
-                totalRegProbability.setText("1/" + String.format("%.2f",totalRegProbabilityValue));
-                totalBonus.setText(totalBonusValue + "回");
-                totalBonusProbability.setText("1/" + String.format("%.2f",totalBonusProbabilityValue));
-                totalGrape.setText(totalGrapeValue + "回");
-                totalGrapeProbability.setText("1/" + String.format("%.2f",totalGrapeProbabilityValue));
-                totalCherry.setText(totalCherryValue + "回");
-                totalCherryProbability.setText("1/" + String.format("%.2f",totalCherryProbabilityValue));
+                tTotalGames.setText(Math.round(dbTotalGamesValue) + "回転");
+                tTotalMedal.setText(Math.round(dbTotalMedalValue) + "枚");
+                tDiscount.setText(String.format("%.2f", calDiscountValue) + "%");
+                tTotalSingleBig.setText(dbTotalSingleBigValue + "回");
+                tTotalSingleBigProbability.setText("1/" + String.format("%.2f", calTotalSingleBigProbabilityValue));
+                tTotalCherryBig.setText(dbTotalCherryBigValue + "回");
+                tTotalCherryBigProbability.setText("1/" + String.format("%.2f", calTotalCherryBigProbabilityValue));
+                tTotalBig.setText(calTotalBigValue + "回");
+                tTotalBigProbability.setText("1/" + String.format("%.2f", calTotalBigProbabilityValue));
+                tTotalSingleReg.setText(dbTotalSingleRegValue + "回");
+                tTotalSingleRegProbability.setText("1/" + String.format("%.2f", calTotalSingleRegProbabilityValue));
+                tTotalCherryReg.setText(dbTotalCherryRegValue + "回");
+                tTotalCherryRegProbability.setText("1/" + String.format("%.2f", calTotalCherryRegProbabilityValue));
+                tTotalReg.setText(calTotalRegValue + "回");
+                tTotalRegProbability.setText("1/" + String.format("%.2f", calTotalRegProbabilityValue));
+                tTotalBonus.setText(calTotalBonusValue + "回");
+                tTotalBonusProbability.setText("1/" + String.format("%.2f", calTotalBonusProbabilityValue));
+                tTotalGrape.setText(dbTotalGrapeValue + "回");
+                tTotalGrapeProbability.setText("1/" + String.format("%.2f", calTotalGrapeProbabilityValue));
+                tTotalCherry.setText(dbTotalCherryValue + "回");
+                tTotalCherryProbability.setText("1/" + String.format("%.2f", calTotalCherryProbabilityValue));
 
                 break;
 
         }
     }
 
-    public void setId(View view){
+    public void setFindViewById(View view){
 
         // findViewByIdする対象のレイアウトを指定
         mainLayout = view.findViewById(R.id.StatisticsLayout);
 
         // 日付表示用TextView
-        dateStart = mainLayout.findViewById(R.id.Date_01);
-        dateEnd = mainLayout.findViewById(R.id.Date_02);
+        eDateStart = mainLayout.findViewById(R.id.Date_01);
+        eDateEnd = mainLayout.findViewById(R.id.Date_02);
 
         // スピナー関係
         sStore = mainLayout.findViewById(R.id.StoreSelect);
@@ -235,41 +222,41 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         cAttachDay = mainLayout.findViewById(R.id.CheckBox_07);
 
         // タイトル表示用TextView
-        tittleTotalGames = mainLayout.findViewById(R.id.Tittle_01);
-        tittleMedal = mainLayout.findViewById(R.id.Tittle_02);
-        tittleDiscount = mainLayout.findViewById(R.id.Tittle_03);
-        tittleSingleBig = mainLayout.findViewById(R.id.Tittle_04);
-        tittleCherryBig = mainLayout.findViewById(R.id.Tittle_05);
-        tittleTotalBig = mainLayout.findViewById(R.id.Tittle_06);
-        tittleSingleReg = mainLayout.findViewById(R.id.Tittle_07);
-        tittleCherryReg = mainLayout.findViewById(R.id.Tittle_08);
-        tittleTotalReg = mainLayout.findViewById(R.id.Tittle_09);
-        tittleTotalBonus = mainLayout.findViewById(R.id.Tittle_10);
-        tittleGrape = mainLayout.findViewById(R.id.Tittle_11);
-        tittleCherry = mainLayout.findViewById(R.id.Tittle_12);
+        tTittleTotalGames = mainLayout.findViewById(R.id.Tittle_01);
+        tTittleMedal = mainLayout.findViewById(R.id.Tittle_02);
+        tTittleDiscount = mainLayout.findViewById(R.id.Tittle_03);
+        tTittleSingleBig = mainLayout.findViewById(R.id.Tittle_04);
+        tTittleCherryBig = mainLayout.findViewById(R.id.Tittle_05);
+        tTittleTotalBig = mainLayout.findViewById(R.id.Tittle_06);
+        tTittleSingleReg = mainLayout.findViewById(R.id.Tittle_07);
+        tTittleCherryReg = mainLayout.findViewById(R.id.Tittle_08);
+        tTittleTotalReg = mainLayout.findViewById(R.id.Tittle_09);
+        tTittleTotalBonus = mainLayout.findViewById(R.id.Tittle_10);
+        tTittleGrape = mainLayout.findViewById(R.id.Tittle_11);
+        tTittleCherry = mainLayout.findViewById(R.id.Tittle_12);
 
         // データ表示用TextView
-        totalGame = mainLayout.findViewById(R.id.TotalGame);
-        totalMedal = mainLayout.findViewById(R.id.TotalMedal);
-        discount = mainLayout.findViewById(R.id.Discount);
-        totalAloneBig = mainLayout.findViewById(R.id.TotalAloneBig);
-        totalAloneBigProbability = mainLayout.findViewById(R.id.TotalAloneBigProbability);
-        totalCherryBig = mainLayout.findViewById(R.id.TotalCherryBig);
-        totalCherryBigProbability = mainLayout.findViewById(R.id.TotalCherryBigProbability);
-        totalBig = mainLayout.findViewById(R.id.TotalBig);
-        totalBigProbability = mainLayout.findViewById(R.id.TotalBigProbability);
-        totalAloneReg = mainLayout.findViewById(R.id.TotalAloneReg);
-        totalAloneRegProbability = mainLayout.findViewById(R.id.TotalAloneRegProbability);
-        totalCherryReg = mainLayout.findViewById(R.id.TotalCherryReg);
-        totalCherryRegProbability = mainLayout.findViewById(R.id.TotalCherryRegProbability);
-        totalReg = mainLayout.findViewById(R.id.TotalReg);
-        totalRegProbability = mainLayout.findViewById(R.id.TotalRegProbability);
-        totalBonus = mainLayout.findViewById(R.id.TotalBonus);
-        totalBonusProbability = mainLayout.findViewById(R.id.TotalBonusProbability);
-        totalGrape = mainLayout.findViewById(R.id.TotalGrape);
-        totalGrapeProbability = mainLayout.findViewById(R.id.TotalGrapeProbability);
-        totalCherry = mainLayout.findViewById(R.id.TotalCherry);
-        totalCherryProbability = mainLayout.findViewById(R.id.TotalCherryProbability);
+        tTotalGames = mainLayout.findViewById(R.id.TotalGame);
+        tTotalMedal = mainLayout.findViewById(R.id.TotalMedal);
+        tDiscount = mainLayout.findViewById(R.id.Discount);
+        tTotalSingleBig = mainLayout.findViewById(R.id.TotalAloneBig);
+        tTotalSingleBigProbability = mainLayout.findViewById(R.id.TotalAloneBigProbability);
+        tTotalCherryBig = mainLayout.findViewById(R.id.TotalCherryBig);
+        tTotalCherryBigProbability = mainLayout.findViewById(R.id.TotalCherryBigProbability);
+        tTotalBig = mainLayout.findViewById(R.id.TotalBig);
+        tTotalBigProbability = mainLayout.findViewById(R.id.TotalBigProbability);
+        tTotalSingleReg = mainLayout.findViewById(R.id.TotalAloneReg);
+        tTotalSingleRegProbability = mainLayout.findViewById(R.id.TotalAloneRegProbability);
+        tTotalCherryReg = mainLayout.findViewById(R.id.TotalCherryReg);
+        tTotalCherryRegProbability = mainLayout.findViewById(R.id.TotalCherryRegProbability);
+        tTotalReg = mainLayout.findViewById(R.id.TotalReg);
+        tTotalRegProbability = mainLayout.findViewById(R.id.TotalRegProbability);
+        tTotalBonus = mainLayout.findViewById(R.id.TotalBonus);
+        tTotalBonusProbability = mainLayout.findViewById(R.id.TotalBonusProbability);
+        tTotalGrape = mainLayout.findViewById(R.id.TotalGrape);
+        tTotalGrapeProbability = mainLayout.findViewById(R.id.TotalGrapeProbability);
+        tTotalCherry = mainLayout.findViewById(R.id.TotalCherry);
+        tTotalCherryProbability = mainLayout.findViewById(R.id.TotalCherryProbability);
 
         // 表示ボタン
         bDisplay = mainLayout.findViewById(R.id.DisplayButton);
@@ -277,36 +264,34 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     }
 
     public void setClickListener(){
-        dateStart.setOnClickListener(this);
-        dateEnd.setOnClickListener(this);
+        eDateStart.setOnClickListener(this);
+        eDateEnd.setOnClickListener(this);
         bDisplay.setOnClickListener(this);
     }
 
     public void setTittle(){
-        tittleTotalGames.setText("総回転数");
-        tittleMedal.setText("差枚数");
-        tittleDiscount.setText("機械割");
-        tittleSingleBig.setText("単独BIG");
-        tittleCherryBig.setText("チェBIG");
-        tittleTotalBig.setText("BIG合算");
-        tittleSingleReg.setText("単独REG");
-        tittleCherryReg.setText("チェREG");
-        tittleTotalReg.setText("REG合算");
-        tittleTotalBonus.setText("ボーナス合算");
-        tittleGrape.setText("ぶどう");
-        tittleCherry.setText("非重複チェリー");
+        tTittleTotalGames.setText("総回転数");
+        tTittleMedal.setText("差枚数");
+        tTittleDiscount.setText("機械割");
+        tTittleSingleBig.setText("単独BIG");
+        tTittleCherryBig.setText("チェBIG");
+        tTittleTotalBig.setText("BIG合算");
+        tTittleSingleReg.setText("単独REG");
+        tTittleCherryReg.setText("チェREG");
+        tTittleTotalReg.setText("REG合算");
+        tTittleTotalBonus.setText("ボーナス合算");
+        tTittleGrape.setText("ぶどう");
+        tTittleCherry.setText("非重複チェリー");
     }
 
     public void setSpinnerData(){
 
-        List<String> storeNames = new ArrayList<>();
-        storeNames.add("未選択");
-        List<String> machineNames = new ArrayList<>();
-        machineNames.add("未選択");
-
-        // R04.06.03追加
-        List<String> machineNumber = new ArrayList<>();
-        machineNumber.add("未選択");
+        List<String> Store_Names = new ArrayList<>();
+        Store_Names.add("未選択");
+        List<String> Machine_Names = new ArrayList<>();
+        Machine_Names.add("未選択");
+        List<String> Table_Number = new ArrayList<>();
+        Table_Number.add("未選択");
 
         Context context = getActivity().getApplicationContext();
         DatabaseHelper helper = new DatabaseHelper(context);
@@ -326,7 +311,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             while(cursor.moveToNext()){
                 int index = cursor.getColumnIndex("STORE_NAME");
                 String store = cursor.getString(index);
-                storeNames.add(store);
+                Store_Names.add(store);
             }
 
             Cursor cursor2 = db.rawQuery(machineListSql,null);
@@ -334,7 +319,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             while(cursor2.moveToNext()){
                 int index = cursor2.getColumnIndex("MACHINE_NAME");
                 String machine = cursor2.getString(index);
-                machineNames.add(machine);
+                Machine_Names.add(machine);
             }
 
 
@@ -346,20 +331,18 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         }
 
         // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
-        //　String[] storeItems = CommonFeature.getStoreItems(mainApplication);
-        //for(String Item:storeItems){if(!Item.equals("null")){storeNames.add(Item);}}
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,storeNames);
+        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,Store_Names);
         storeAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         sStore.setAdapter(storeAdapter);
 
         // 機種名一覧リストをセット
-        ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,machineNames);
+        ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,Machine_Names);
         machineAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         sMachine.setAdapter(machineAdapter);
 
         // R04.06.03追加
         // 台番号をセット
-        ArrayAdapter<String> machineNumberAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,machineNumber);
+        ArrayAdapter<String> machineNumberAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,Table_Number);
         machineNumberAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         sTableNumber.setAdapter(machineNumberAdapter);
 
@@ -417,16 +400,15 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     }
 
     public void initValue() {
-
         // 初期化処理
-        totalGameValue = 0;
-        totalMedalValue = 0;
-        totalSingleBigValue = 0;
-        totalCherryBigValue = 0;
-        totalSingleRegValue = 0;
-        totalCherryRegValue = 0;
-        totalCherryValue = 0;
-        totalGrapeValue = 0;
+        dbTotalGamesValue = 0;
+        dbTotalMedalValue = 0;
+        dbTotalSingleBigValue = 0;
+        dbTotalCherryBigValue = 0;
+        dbTotalSingleRegValue = 0;
+        dbTotalCherryRegValue = 0;
+        dbTotalCherryValue = 0;
+        dbTotalGrapeValue = 0;
     }
 
 }

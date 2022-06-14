@@ -96,28 +96,28 @@ public class DatabaseResultSet {
 
         index = cursor.getColumnIndex("TOTAL_GAME");
         int index2 = cursor.getColumnIndex("START_GAME");
-        FlagStatistics.totalGameValue = FlagStatistics.totalGameValue + (cursor.getInt(index) - cursor.getInt(index2));
+        FlagStatistics.dbTotalGamesValue = FlagStatistics.dbTotalGamesValue + (cursor.getInt(index) - cursor.getInt(index2));
 
         index = cursor.getColumnIndex("DIFFERENCE_NUMBER");
-        FlagStatistics.totalMedalValue = FlagStatistics.totalMedalValue + cursor.getInt(index);
+        FlagStatistics.dbTotalMedalValue = FlagStatistics.dbTotalMedalValue + cursor.getInt(index);
 
         index = cursor.getColumnIndex("SINGLE_BIG");
-        FlagStatistics.totalSingleBigValue = FlagStatistics.totalSingleBigValue + cursor.getInt(index);
+        FlagStatistics.dbTotalSingleBigValue = FlagStatistics.dbTotalSingleBigValue + cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY_BIG");
-        FlagStatistics.totalCherryBigValue = FlagStatistics.totalCherryBigValue + cursor.getInt(index);
+        FlagStatistics.dbTotalCherryBigValue = FlagStatistics.dbTotalCherryBigValue + cursor.getInt(index);
 
         index = cursor.getColumnIndex("SINGLE_REG");
-        FlagStatistics.totalSingleRegValue = FlagStatistics.totalSingleRegValue + cursor.getInt(index);
+        FlagStatistics.dbTotalSingleRegValue = FlagStatistics.dbTotalSingleRegValue + cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY_REG");
-        FlagStatistics.totalCherryRegValue = FlagStatistics.totalCherryRegValue + cursor.getInt(index);
+        FlagStatistics.dbTotalCherryRegValue = FlagStatistics.dbTotalCherryRegValue + cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY");
-        FlagStatistics.totalCherryValue = FlagStatistics.totalCherryValue + cursor.getInt(index);
+        FlagStatistics.dbTotalCherryValue = FlagStatistics.dbTotalCherryValue + cursor.getInt(index);
 
         index = cursor.getColumnIndex("GRAPE");
-        FlagStatistics.totalGrapeValue = FlagStatistics.totalGrapeValue + cursor.getInt(index);
+        FlagStatistics.dbTotalGrapeValue = FlagStatistics.dbTotalGrapeValue + cursor.getInt(index);
 
         // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
         Log.i("SQLITE", "_id : " + id + " " +
