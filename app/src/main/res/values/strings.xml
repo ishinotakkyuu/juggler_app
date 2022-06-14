@@ -3,6 +3,70 @@
     <string name="counter_name">ジャグラー小役カウンター</string>
 
 
+<!--Javaソースコード-->
+
+    <!--複数箇所で使用-->
+        <!--機種名-->
+            <string name="sImEX">SアイムジャグラーEX</string>
+            <string name="sFan2">Sファンキージャグラー2</string>
+            <string name="sMy5">Sマイジャグラー5</string>
+        <!--機種名:配列バージョン-->
+            <string-array name="JUGGLER">
+                <item>@string/sImEX</item>
+                <item>@string/sFan2</item>
+                <item>@string/sMy5</item>
+            </string-array>
+        <!--ひと言-->
+            <string name="release">解除</string>
+            <string name="cancel">キャンセル</string>
+            <string name="yes">はい</string>
+            <string name="no">いいえ</string>
+            <string name="back">戻る</string>
+
+
+
+    <!--MainCounterActivity.java 関係-->
+        <!--メニュー関係-->
+            <string name="menu_item01">編集モード</string>
+            <string name="menu_item02">加減算モード</string>
+            <string name="menu_item03">ステルス機能</string>
+            <string name="menu_item04">バイブON/OFF</string>
+            <string name="menu_item05">カウンター初期化</string>
+            <string name="menu_item06">データ保存</string>
+        <!--加減算切り替え-->
+            <string name="stealth_release_tittle">ステルス機能の解除について</string>
+            <string name="stealth_release_message">減算モードを利用する場合はステルス機能を解除する必要があります</string>
+            <string name="stealth_toast">ステルス機能が解除されました</string>
+        <!--ステルス機能-->
+            <string name="plus_minus_release_tittle">減算状態の解除について</string>
+            <string name="plus_minus_release_message">ステルス機能を利用する場合は減算状態を解除する必要があります</string>
+            <string name="plus_minus_toast">ボタン押下時は加算されます</string>
+        <!--バイブ機能-->
+            <string name="vib_off">バイブ機能をOFFにしました</string>
+            <string name="vib_on">バイブ機能をONにしました</string>
+        <!--カウンター初期化-->
+            <string name="counter_init_tittle">カウンター初期化</string>
+            <string name="counter_init_message">カウンターを全てリセットしますか？</string>
+            <string name="counter_init_toast">リセットしました</string>
+        <!--店舗未登録状態で保存処理しようとした場合-->
+            <string name="add_store_tittle">店舗登録のお願い</string>
+            <string name="add_store_message">データ保存する場合は店舗登録を行ってください</string>
+            <string name="go_add_store">店舗登録へ</string>
+        <!--データ保存-->
+            <string name="zero_game_toast">０ゲームでの登録はできません</string>
+            <string name="select_date_toast">日付を選択してください</string>
+            <string name="register_toast">データを登録しました</string>
+        <!--カウント回数上限/下限-->
+            <string name="upper_limit_toast">カウント回数上限に達しました</string>
+            <string name="lower_limit_toast">カウント回数下限に達しました</string>
+    <!--MainCounterActivity.java 以上-->
+
+
+
+
+
+
+
     <string name="store_management">店 舗 管 理</string>
     <string name="grade_Inquiry">成 績 照 会</string>
     <string name="counter">小 役 カ ウ ン ター</string>
@@ -28,13 +92,6 @@
     <string name="grapes">ぶどう</string>
     <string name="total_bonus">合算</string>
 
-    <!--小役カウンターのメニュー関係-->
-    <string name="menu_item01">編集モード</string>
-    <string name="menu_item02">加減算モード</string>
-    <string name="menu_item03">ステルス機能</string>
-    <string name="menu_item04">バイブON/OFF</string>
-    <string name="menu_item05">カウンター初期化</string>
-    <string name="menu_item06">データ保存</string>
     <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
 
     <!--成績照会のメニュー関係-->

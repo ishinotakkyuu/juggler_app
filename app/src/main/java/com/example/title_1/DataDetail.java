@@ -284,7 +284,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         showDate = registerDialog.findViewById(R.id.DateEditText);
 
         // 日付用EditTextに日付をセット(/の前後は半角スペース)
-        showDate.setText(date.replace("-"," / "));
+        showDate.setText(date);
 
         // 日付表示用のEditTextにリスナーを登録
         showDate.setOnClickListener(new View.OnClickListener() {
@@ -303,7 +303,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                             showDate.setText(String.format("%d / %02d / %02d", year, month + 1, dayOfMonth));
 
                             //DB登録用
-                            operationDate = String.format("%d-%02d-%02d", year, month + 1, dayOfMonth);
+                            operationDate = String.format("%d / %02d / %02d", year, month + 1, dayOfMonth);
                             operationYear = Integer.toString(year);
                             operationMonth = Integer.toString(month + 1);
                             operationDay = Integer.toString(dayOfMonth);
