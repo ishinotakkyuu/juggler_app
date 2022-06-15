@@ -680,7 +680,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     colorButton.setFlash(v,id);
                     editText.setText(String.valueOf(textValue));
                 } else {
-                    Toast toast = Toast.makeText(this, getString(R.string.lower_limit_toast), Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, getString(R.string.lower_limit_count_toast), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
@@ -691,7 +691,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     colorButton.setFlash(v,id);
                     editText.setText(String.valueOf(textValue));
                 } else {
-                    Toast toast = Toast.makeText(this, getString(R.string.upper_limit_toast), Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, getString(R.string.upper_limit_count_toast), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } else {

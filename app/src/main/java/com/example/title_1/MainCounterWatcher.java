@@ -16,31 +16,31 @@ public class MainCounterWatcher implements TextWatcher {
     final String INIT_VALUE = "1/0.00";
 
     //ゲーム数関係
-    EditText total = MainCounterActivity.eTotalGames;
-    EditText start = MainCounterActivity.eStartGames;
-    EditText individual = MainCounterActivity.eIndividualGames;
+    EditText eTotalGames = MainCounterActivity.eTotalGames;
+    EditText eStartGames = MainCounterActivity.eStartGames;
+    EditText eIndividualGames = MainCounterActivity.eIndividualGames;
 
     //カウンター関係
-    EditText aB = MainCounterActivity.eSingleBig;
-    EditText cB = MainCounterActivity.eCherryBig;
-    EditText BB = MainCounterActivity.eTotalBig;
-    EditText aR = MainCounterActivity.eSingleReg;
-    EditText cR = MainCounterActivity.eCherryReg;
-    EditText RB = MainCounterActivity.eTotalReg;
-    EditText ch = MainCounterActivity.eCherry;
-    EditText gr = MainCounterActivity.eGrape;
-    EditText addition = MainCounterActivity.eTotalBonus;
+    EditText eSingleBig = MainCounterActivity.eSingleBig;
+    EditText eCherryBig = MainCounterActivity.eCherryBig;
+    EditText eTotalBig = MainCounterActivity.eTotalBig;
+    EditText eSingleReg = MainCounterActivity.eSingleReg;
+    EditText eCherryReg = MainCounterActivity.eCherryReg;
+    EditText eTotalReg = MainCounterActivity.eTotalReg;
+    EditText eCherry = MainCounterActivity.eCherry;
+    EditText eGrape = MainCounterActivity.eGrape;
+    EditText eTotalBonus = MainCounterActivity.eTotalBonus;
 
     //確率関係
-    TextView aB_Probability = MainCounterActivity.tSingleBigProbability;
-    TextView cB_Probability = MainCounterActivity.tCherryBigProbability;
-    TextView BB_Probability = MainCounterActivity.tTotalBigProbability;
-    TextView aR_Probability = MainCounterActivity.tSingleRegProbability;
-    TextView cR_Probability = MainCounterActivity.tCherryRegProbability;
-    TextView RB_Probability = MainCounterActivity.tTotalRegProbability;
-    TextView ch_Probability = MainCounterActivity.tCherryProbability;
-    TextView gr_Probability = MainCounterActivity.tGrapeProbability;
-    TextView addition_Probability = MainCounterActivity.tTotalBonusProbability;
+    TextView tSingleBigProbability = MainCounterActivity.tSingleBigProbability;
+    TextView tCherryBigProbability = MainCounterActivity.tCherryBigProbability;
+    TextView tTotalBigProbability = MainCounterActivity.tTotalBigProbability;
+    TextView tSingleRegProbability = MainCounterActivity.tSingleRegProbability;
+    TextView tCherryRegProbability = MainCounterActivity.tCherryRegProbability;
+    TextView tTotalRegProbability = MainCounterActivity.tTotalRegProbability;
+    TextView tCherryProbability = MainCounterActivity.tCherryProbability;
+    TextView tGrapeProbability = MainCounterActivity.tGrapeProbability;
+    TextView tTotalBonusProbability = MainCounterActivity.tTotalBonusProbability;
 
     // 共有データ
     MainApplication mainApplication;
@@ -71,27 +71,27 @@ public class MainCounterWatcher implements TextWatcher {
             textString = "0";
         }
 
-        String strTotal = total.getText().toString();
-        String strStart = start.getText().toString();
+        String strTotal = eTotalGames.getText().toString();
+        String strStart = eStartGames.getText().toString();
         int totalGame;
         int startGame;
 
         //ビッグ
-        String strAloneBig = aB.getText().toString();
-        String strCherryBig = cB.getText().toString();
-        String strTotalBig = BB.getText().toString();
+        String strAloneBig = eSingleBig.getText().toString();
+        String strCherryBig = eCherryBig.getText().toString();
+        String strTotalBig = eTotalBig.getText().toString();
 
         //レギュラー
-        String strAloneReg = aR.getText().toString();
-        String strCherryReg = cR.getText().toString();
-        String strTotalReg = RB.getText().toString();
+        String strAloneReg = eSingleReg.getText().toString();
+        String strCherryReg = eCherryReg.getText().toString();
+        String strTotalReg = eTotalReg.getText().toString();
 
         //小役
         String strCherry;
         String strGr;
 
         //差分ゲーム数
-        double ind = Integer.parseInt(individual.getText().toString());
+        double ind = Integer.parseInt(eIndividualGames.getText().toString());
         String individualValue = "0";
 
         //TextWatcherを設定したどのViewが操作されたのか、switchを使って振り分ける
@@ -101,7 +101,7 @@ public class MainCounterWatcher implements TextWatcher {
             case R.id.total_game:
 
                 //無限ループを回避するために、テキストウォッチャーを解除する
-                total.removeTextChangedListener(this);
+                eTotalGames.removeTextChangedListener(this);
                 //入力値を更新
                 strTotal = textString;
 
@@ -126,22 +126,22 @@ public class MainCounterWatcher implements TextWatcher {
                 }
 
                 // 値のセット
-                total.setText(strTotal);
-                total.setSelection(strTotal.length());
-                individual.setText(individualValue);
+                eTotalGames.setText(strTotal);
+                eTotalGames.setSelection(strTotal.length());
+                eIndividualGames.setText(individualValue);
 
                 // 保存処理
                 mainApplication.setTotalGames(strTotal);
                 CreateXML.updateText(mainApplication, "total", strTotal);
 
                 // テキストウォッチャーを元に戻す
-                total.addTextChangedListener(this);
+                eTotalGames.addTextChangedListener(this);
                 break;
 
             //打ち始めゲーム数の場合
             case R.id.start_game:
 
-                start.removeTextChangedListener(this);
+                eStartGames.removeTextChangedListener(this);
                 // 入力値を更新
                 strStart = textString;
 
@@ -163,15 +163,15 @@ public class MainCounterWatcher implements TextWatcher {
                 }
 
                 // 値のセット
-                start.setText(strStart);
-                start.setSelection(strStart.length());
-                individual.setText(individualValue);
+                eStartGames.setText(strStart);
+                eStartGames.setSelection(strStart.length());
+                eIndividualGames.setText(individualValue);
 
                 // 保存処理
                 mainApplication.setStartGames(strStart);
                 CreateXML.updateText(mainApplication, "start", strStart);
 
-                start.addTextChangedListener(this);
+                eStartGames.addTextChangedListener(this);
                 break;
 
             //個人ゲーム数が変更されたら各役物の確率も変更
@@ -179,15 +179,15 @@ public class MainCounterWatcher implements TextWatcher {
                 if (textString.equals("0")) {
                     setProbabilityZero();
                 } else {
-                    setCounterBlankProbabilityZero(aB, aB_Probability);
-                    setCounterBlankProbabilityZero(cB, cB_Probability);
-                    setCounterBlankProbabilityZero(BB, BB_Probability);
-                    setCounterBlankProbabilityZero(aR, aR_Probability);
-                    setCounterBlankProbabilityZero(cR, cR_Probability);
-                    setCounterBlankProbabilityZero(RB, RB_Probability);
-                    setCounterBlankProbabilityZero(ch, ch_Probability);
-                    setCounterBlankProbabilityZero(gr, gr_Probability);
-                    setCounterBlankProbabilityZero(addition, addition_Probability);
+                    setCounterBlankProbabilityZero(eSingleBig, tSingleBigProbability);
+                    setCounterBlankProbabilityZero(eCherryBig, tCherryBigProbability);
+                    setCounterBlankProbabilityZero(eTotalBig, tTotalBigProbability);
+                    setCounterBlankProbabilityZero(eSingleReg, tSingleRegProbability);
+                    setCounterBlankProbabilityZero(eCherryReg, tCherryRegProbability);
+                    setCounterBlankProbabilityZero(eTotalReg, tTotalRegProbability);
+                    setCounterBlankProbabilityZero(eCherry, tCherryProbability);
+                    setCounterBlankProbabilityZero(eGrape, tGrapeProbability);
+                    setCounterBlankProbabilityZero(eTotalBonus, tTotalBonusProbability);
                 }
                 break;
 
@@ -197,46 +197,46 @@ public class MainCounterWatcher implements TextWatcher {
 
             case R.id.aB: //単独ビッグ
 
-                aB.removeTextChangedListener(this);
+                eSingleBig.removeTextChangedListener(this);
                 // 入力値を更新
                 strAloneBig = textString;
 
                 // 確率の再計算
-                setProbability(strAloneBig, strCherryBig, BB, aB_Probability, cB_Probability, BB_Probability);
+                setProbability(strAloneBig, strCherryBig, eTotalBig, tSingleBigProbability, tCherryBigProbability, tTotalBigProbability);
 
                 // 0頭回避処理
                 strAloneBig = Integer.valueOf(strAloneBig).toString();
 
-                aB.setText(strAloneBig);
-                aB.setSelection(strAloneBig.length());
+                eSingleBig.setText(strAloneBig);
+                eSingleBig.setSelection(strAloneBig.length());
 
                 // 保存処理
                 mainApplication.setSingleBig(strAloneBig);
                 CreateXML.updateText(mainApplication, "aB", strAloneBig);
 
-                aB.addTextChangedListener(this);
+                eSingleBig.addTextChangedListener(this);
                 break;
 
             case R.id.cB: //チェリービッグ
 
-                cB.removeTextChangedListener(this);
+                eCherryBig.removeTextChangedListener(this);
                 //入力値を更新
                 strCherryBig = textString;
 
                 // 確率の再計算
-                setProbability(strAloneBig, strCherryBig, BB, aB_Probability, cB_Probability, BB_Probability);
+                setProbability(strAloneBig, strCherryBig, eTotalBig, tSingleBigProbability, tCherryBigProbability, tTotalBigProbability);
 
                 // 0頭回避処理
                 strCherryBig = Integer.valueOf(strCherryBig).toString();
 
-                cB.setText(strCherryBig);
-                cB.setSelection(strCherryBig.length());
+                eCherryBig.setText(strCherryBig);
+                eCherryBig.setSelection(strCherryBig.length());
 
                 // 保存処理
                 mainApplication.setCherryBig(strCherryBig);
                 CreateXML.updateText(mainApplication, "cB", strCherryBig);
 
-                cB.addTextChangedListener(this);
+                eCherryBig.addTextChangedListener(this);
                 break;
 
             case R.id.BB: //ビッグボーナス
@@ -244,57 +244,57 @@ public class MainCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strTotalBig = textString;
                 int additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
-                addition.setText(String.valueOf(additionCount));
+                eTotalBonus.setText(String.valueOf(additionCount));
 
                 //総ゲーム数が0以外 かつ ボーナスが0以上だった場合
                 if (!strTotal.equals("0") && additionCount > 0) {
                     double AdditionProbability = ind / additionCount;
-                    addition_Probability.setText(setFormat(AdditionProbability));
+                    tTotalBonusProbability.setText(setFormat(AdditionProbability));
                 }
                 break;
 
             case R.id.aR: //単独レギュラー
 
-                aR.removeTextChangedListener(this);
+                eSingleReg.removeTextChangedListener(this);
                 //入力値を更新
                 strAloneReg = textString;
 
                 // 確率の再計算
-                setProbability(strAloneReg, strCherryReg, RB, aR_Probability, cR_Probability, RB_Probability);
+                setProbability(strAloneReg, strCherryReg, eTotalReg, tSingleRegProbability, tCherryRegProbability, tTotalRegProbability);
 
                 // 0頭回避処理
                 strAloneReg = Integer.valueOf(strAloneReg).toString();
 
-                aR.setText(strAloneReg);
-                aR.setSelection(strAloneReg.length());
+                eSingleReg.setText(strAloneReg);
+                eSingleReg.setSelection(strAloneReg.length());
 
                 // 保存処理
                 mainApplication.setSingleReg(strAloneReg);
                 CreateXML.updateText(mainApplication, "aR", strAloneReg);
 
-                aR.addTextChangedListener(this);
+                eSingleReg.addTextChangedListener(this);
                 break;
 
             case R.id.cR: //チェリービッグ
 
-                cR.removeTextChangedListener(this);
+                eCherryReg.removeTextChangedListener(this);
                 //入力値を更新
                 strCherryReg = textString;
 
                 // 確率の再計算
-                setProbability(strAloneReg, strCherryReg, RB, aR_Probability, cR_Probability, RB_Probability);
+                setProbability(strAloneReg, strCherryReg, eTotalReg, tSingleRegProbability, tCherryRegProbability, tTotalRegProbability);
 
                 // 0頭回避処理
                 strCherryReg = Integer.valueOf(strCherryReg).toString();
 
-                cR.setText(strCherryReg);
-                cR.setSelection(strCherryReg.length());
+                eCherryReg.setText(strCherryReg);
+                eCherryReg.setSelection(strCherryReg.length());
 
                 // 保存処理
                 mainApplication.setCherryReg(strCherryReg);
                 CreateXML.updateText(mainApplication, "cR", strCherryReg);
 
-                cR.addTextChangedListener(this);
+                eCherryReg.addTextChangedListener(this);
                 break;
 
             case R.id.RB: //レギュラーボーナス
@@ -302,55 +302,55 @@ public class MainCounterWatcher implements TextWatcher {
                 //入力値を更新
                 strTotalReg = textString;
                 additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
-                addition.setText(String.valueOf(additionCount));
+                eTotalBonus.setText(String.valueOf(additionCount));
                 if (!strTotal.equals("0") && additionCount > 0) {
                     double AdditionProbability = ind / additionCount;
-                    addition_Probability.setText(setFormat(AdditionProbability));
+                    tTotalBonusProbability.setText(setFormat(AdditionProbability));
                 }
                 break;
 
             case R.id.ch: //非重複チェリー
 
-                ch.removeTextChangedListener(this);
+                eCherry.removeTextChangedListener(this);
                 //入力値を更新
                 strCherry = textString;
 
                 // 確率の再計算
-                setProbability_ch_gr(strCherry, ch_Probability);
+                setProbability_ch_gr(strCherry, tCherryProbability);
 
                 // 0頭回避処理
                 strCherry = Integer.valueOf(strCherry).toString();
 
-                ch.setText(strCherry);
-                ch.setSelection(strCherry.length());
+                eCherry.setText(strCherry);
+                eCherry.setSelection(strCherry.length());
 
                 // 保存処理
                 mainApplication.setCherry(strCherry);
                 CreateXML.updateText(mainApplication, "ch", strCherry);
 
-                ch.addTextChangedListener(this);
+                eCherry.addTextChangedListener(this);
                 break;
 
             case R.id.gr: //ぶどう
 
-                gr.removeTextChangedListener(this);
+                eGrape.removeTextChangedListener(this);
                 //入力値を更新
                 strGr = textString;
 
                 // 確率の再計算
-                setProbability_ch_gr(strGr, gr_Probability);
+                setProbability_ch_gr(strGr, tGrapeProbability);
 
                 // 0頭回避処理
                 strGr = Integer.valueOf(strGr).toString();
 
-                gr.setText(strGr);
-                gr.setSelection(strGr.length());
+                eGrape.setText(strGr);
+                eGrape.setSelection(strGr.length());
 
                 // 保存処理
                 mainApplication.setGrape(strGr);
                 CreateXML.updateText(mainApplication, "gr", strGr);
 
-                gr.addTextChangedListener(this);
+                eGrape.addTextChangedListener(this);
                 break;
         }
     }
@@ -360,7 +360,7 @@ public class MainCounterWatcher implements TextWatcher {
         if (StringUtils.isEmpty(smallRole) || smallRole.equals("0") || smallRole.equals("00")) {
             tv.setText(INIT_VALUE);
         } else {
-            double ind = Double.parseDouble(individual.getText().toString());
+            double ind = Double.parseDouble(eIndividualGames.getText().toString());
             double sr = Double.parseDouble(smallRole);
             double sr_Probability = ind / sr;
             tv.setText(setFormat(sr_Probability));
@@ -370,7 +370,7 @@ public class MainCounterWatcher implements TextWatcher {
     public void setCounterBlankProbabilityZero(EditText ed, TextView tv) {
 
         String edString = ed.getText().toString();
-        String individualString = individual.getText().toString();
+        String individualString = eIndividualGames.getText().toString();
 
         // テキストが空もしくは0だった場合は初期値を格納
         if (StringUtils.isEmpty(edString) || edString.equals("0")) {
@@ -384,15 +384,15 @@ public class MainCounterWatcher implements TextWatcher {
     }
 
     public void setProbabilityZero() {
-        aB_Probability.setText(INIT_VALUE);
-        cB_Probability.setText(INIT_VALUE);
-        BB_Probability.setText(INIT_VALUE);
-        aR_Probability.setText(INIT_VALUE);
-        cR_Probability.setText(INIT_VALUE);
-        RB_Probability.setText(INIT_VALUE);
-        ch_Probability.setText(INIT_VALUE);
-        gr_Probability.setText(INIT_VALUE);
-        addition_Probability.setText(INIT_VALUE);
+        tSingleBigProbability.setText(INIT_VALUE);
+        tCherryBigProbability.setText(INIT_VALUE);
+        tTotalBigProbability.setText(INIT_VALUE);
+        tSingleRegProbability.setText(INIT_VALUE);
+        tCherryRegProbability.setText(INIT_VALUE);
+        tTotalRegProbability.setText(INIT_VALUE);
+        tCherryProbability.setText(INIT_VALUE);
+        tGrapeProbability.setText(INIT_VALUE);
+        tTotalBonusProbability.setText(INIT_VALUE);
     }
 
     public void setProbability(String alone, String cherry, EditText bonus, TextView tv1, TextView tv2, TextView tv3) {
@@ -413,7 +413,7 @@ public class MainCounterWatcher implements TextWatcher {
 
         //単独カウンターが空、かつ、チェリー重複カウンターが０
         if (alone.isEmpty() && cherryValue > 0) {
-            double ind = Integer.parseInt(individual.getText().toString());
+            double ind = Integer.parseInt(eIndividualGames.getText().toString());
             double probability = ind / cherryValue;
 
             bonusValue = Integer.valueOf(cherry).toString();
@@ -423,7 +423,7 @@ public class MainCounterWatcher implements TextWatcher {
             //単独カウンターが０、かつ、チェリー重複カウンターが０より大きい
         } else if (aloneValue == 0 && cherryValue > 0) {
             bonusValue = Integer.valueOf(cherry).toString();
-            double ind = Integer.parseInt(individual.getText().toString());
+            double ind = Integer.parseInt(eIndividualGames.getText().toString());
             double cnt = Integer.parseInt(cherry);
             double probability = ind / cnt;
 
@@ -432,7 +432,7 @@ public class MainCounterWatcher implements TextWatcher {
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが空
         } else if (aloneValue > 0 && cherry.isEmpty()) {
             bonusValue = Integer.valueOf(alone).toString();
-            double ind = Integer.parseInt(individual.getText().toString());
+            double ind = Integer.parseInt(eIndividualGames.getText().toString());
             double cnt = Integer.parseInt(alone);
             double probability = ind / cnt;
             tv1Value = setFormat(probability);
@@ -441,7 +441,7 @@ public class MainCounterWatcher implements TextWatcher {
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０
         } else if (aloneValue > 0 && cherryValue == 0) {
             bonusValue = Integer.valueOf(alone).toString();
-            double ind = Integer.parseInt(individual.getText().toString());
+            double ind = Integer.parseInt(eIndividualGames.getText().toString());
             double cnt = Integer.parseInt(alone);
             double probability = ind / cnt;
             tv1Value = setFormat(probability);
@@ -449,7 +449,7 @@ public class MainCounterWatcher implements TextWatcher {
 
             //単独カウンターが０より大きい、かつ、チェリー重複カウンターが０より大きい
         } else if (aloneValue > 0 && cherryValue > 0) {
-            double ind = Integer.parseInt(individual.getText().toString());
+            double ind = Integer.parseInt(eIndividualGames.getText().toString());
             int aloneBonus = Integer.parseInt(alone);
             int cherryBonus = Integer.parseInt(cherry);
             int total_Bonus = aloneBonus + cherryBonus;

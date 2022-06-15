@@ -72,7 +72,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         lStoreName.setAdapter(adapter);
 
         // 登録店舗数の件数をセット
-        tStoreCounter.setText("登録店舗数：" + adapter.getCount() + "件");
+        tStoreCounter.setText(getString(R.string.store_count,adapter.getCount()));
 
         // ListViewにリスナーを登録
         lStoreName.setOnItemClickListener(this);
@@ -100,7 +100,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         for(int i = 0; i < addStoreName.length(); i++){
             char c = addStoreName.charAt(i);
             if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
-                Toast toast = Toast.makeText(this, "使用できない文字が含まれています", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, getString(R.string.not_use_string), Toast.LENGTH_LONG);
                 toast.show();
                 return;
             }
@@ -115,7 +115,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             // 20店舗対応
             if (Store_Items_Size >= 20) {
                 //トーストを表示
-                Toast toast = Toast.makeText(this, "店舗数が上限に達しました", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this, getString(R.string.upper_limit_store_toast), Toast.LENGTH_SHORT);
                 toast.show();
                 return;
             }
@@ -123,7 +123,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             //空白チェック
             if(StringUtils.isBlank(addStoreName)){
                 errorFlag = false;
-                Toast toast = Toast.makeText(this, "店舗名が空白のため登録できません", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, getString(R.string.not_blank_store_name), Toast.LENGTH_LONG);
                 toast.show();
             }
 
@@ -131,7 +131,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             for(int i = 0; i < Store_Items_Size; i++){
                 if((Store_List_Items.get(i)).equals(addStoreName)){
                     errorFlag = false;
-                    Toast toast = Toast.makeText(this, "すでに登録されている店舗名です", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(this, getString(R.string.already_store_name), Toast.LENGTH_LONG);
                     toast.show();
                     break;
                 }
@@ -148,8 +148,8 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                 lStoreName.setAdapter(adapter);
 
                 // 登録店舗数の値を更新して、最後にトーストを表示
-                tStoreCounter.setText("登録店舗数：" + adapter.getCount() + "件");
-                Toast toast = Toast.makeText(this, addStoreName + "が追加されました", Toast.LENGTH_SHORT);
+                tStoreCounter.setText(getString(R.string.store_count,adapter.getCount()));
+                Toast toast = Toast.makeText(this, getString(R.string.add_store,addStoreName),Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
@@ -166,7 +166,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         String tappedStoreItem = (String)listView.getItemAtPosition(position);
 
         // selectListをセット
-        String[] Select_List = {"上に移動","下に移動","店舗名編集", "削除", "キャンセル"};
+        String[] Select_List = getResources().getStringArray(R.array.DIALOG_MENU);
 
         // アラートダイアグラムの表示 ⇒ 各選択項目ごとの処理を行う
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -178,7 +178,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                     if (tappedPosition > 0){
                         moveUp(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition - 1),tappedStoreItem);
                     } else {
-                        Toast toast = Toast.makeText(this, "一番上のアイテムのため移動できません", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(this, getString(R.string.not_up_toast), Toast.LENGTH_LONG);
                         toast.show();
                     }
                     break;
@@ -188,7 +188,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                     if (tappedPosition < Store_List_Items.size() - 1){
                         moveDown(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition + 1),tappedStoreItem);
                     } else {
-                        Toast toast = Toast.makeText(this, "一番下のアイテムのため移動できません", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(this, getString(R.string.not_down_toast), Toast.LENGTH_LONG);
                         toast.show();
                     }
                     break;
@@ -201,10 +201,6 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                 // 削除
                 case 3:
                     deleteList(tappedStoreItem, listView);
-                    break;
-
-                // キャンセル
-                case 4:
                     break;
             }
         });
@@ -228,7 +224,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         setMainApplication(Store_List_Items);
 
         // トーストの表示
-        Toast toast = Toast.makeText(this, "上に移動しました", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, getString(R.string.up_toast), Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -248,7 +244,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         setMainApplication(Store_List_Items);
 
         // トーストの表示
-        Toast toast = Toast.makeText(this, "下に移動しました", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, getString(R.string.down_toast), Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -260,12 +256,12 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         filters[0] = new InputFilter.LengthFilter(20);
         eStoreReName.setFilters(filters);
 
-        eStoreReName.setHint("編集前：" + beforeName);
+        eStoreReName.setHint(getString(R.string.hint_before_name,beforeName));
         new AlertDialog.Builder(this)
-                .setTitle("店舗名編集")
-                .setMessage("新しい店舗名を入力してください")
+                .setTitle(getString(R.string.rename_tittle))
+                .setMessage(getString(R.string.rename_message))
                 .setView(eStoreReName)
-                .setPositiveButton("変更", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.rename), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -283,7 +279,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         for(int i = 0; i < newStoreName.length(); i++){
                             char c = newStoreName.charAt(i);
                             if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
-                                Toast toast = Toast.makeText(MainManagementStore.this, "使用できない文字が含まれています", Toast.LENGTH_LONG);
+                                Toast toast = Toast.makeText(MainManagementStore.this, getString(R.string.not_use_string), Toast.LENGTH_LONG);
                                 toast.show();
                                 return;
                             }
@@ -291,7 +287,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         //空白チェック
                         if(StringUtils.isBlank(newStoreName)){
                             errorFlag = false;
-                            Toast toast = Toast.makeText(MainManagementStore.this, "店舗名が空白のため更新できません", Toast.LENGTH_LONG);
+                            Toast toast = Toast.makeText(MainManagementStore.this, getString(R.string.not_blank_store_name), Toast.LENGTH_LONG);
                             toast.show();
                         }
 
@@ -299,7 +295,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         for(int i = 0; i < Store_Items_Size; i++){
                             if((Store_List_Items.get(i)).equals(newStoreName)){
                                 errorFlag = false;
-                                Toast toast = Toast.makeText(MainManagementStore.this, "すでに登録されている店舗名です", Toast.LENGTH_LONG);
+                                Toast toast = Toast.makeText(MainManagementStore.this, getString(R.string.already_store_name), Toast.LENGTH_LONG);
                                 toast.show();
                                 break;
                             }
@@ -316,20 +312,20 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                             setMainApplication(Store_List_Items);
 
                             // トースト表示
-                            Toast toast = Toast.makeText(MainManagementStore.this, beforeName + "を" + newStoreName + "に変更しました", Toast.LENGTH_LONG);
+                            Toast toast = Toast.makeText(MainManagementStore.this, getString(R.string.rename_toast,beforeName,newStoreName), Toast.LENGTH_LONG);
                             toast.show();
                         }
                     }
                 })
-                .setNegativeButton("キャンセル", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
 
     public void deleteList(String tappedStoreName, ListView listView) {
         new AlertDialog.Builder(this)
-                .setTitle("登録店舗削除")
-                .setMessage("「" + tappedStoreName + "」をリストから削除してよろしいですか？")
-                .setPositiveButton("削除", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.delete_store_tittle))
+                .setMessage(getString(R.string.delete_store_message,tappedStoreName))
+                .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -342,12 +338,12 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         setMainApplication(Store_List_Items);
 
                         // 店舗数表示を更新してトースト表示
-                        tStoreCounter.setText("登録店舗数：" + adapter.getCount() + "件");
-                        Toast toast = Toast.makeText(MainManagementStore.this, "削除しました", Toast.LENGTH_SHORT);
+                        tStoreCounter.setText(getString(R.string.store_count,adapter.getCount()));
+                        Toast toast = Toast.makeText(MainManagementStore.this, getString(R.string.delete_toast), Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 })
-                .setNegativeButton("いいえ", null)
+                .setNegativeButton(getString(R.string.no), null)
                 .show();
     }
 
