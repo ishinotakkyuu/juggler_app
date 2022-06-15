@@ -20,9 +20,9 @@ public class ViewItems {
     //詳細画面のゲーム数関係
     public static EditText[] getDetailGameTextItems() {
         return new EditText[]{
-                DataDetail.total,
-                DataDetail.start,
-                DataDetail.individual
+                DataDetail.eTotalGames,
+                DataDetail.eStartGames,
+                DataDetail.eIndividualGames
         };
     }
 
@@ -44,15 +44,15 @@ public class ViewItems {
     //詳細画面のカウンター関係
     public static EditText[] getDetailCounterTextItems() {
         return new EditText[]{
-                DataDetail.aB,
-                DataDetail.cB,
-                DataDetail.BB,
-                DataDetail.aR,
-                DataDetail.cR,
-                DataDetail.RB,
-                DataDetail.ch,
-                DataDetail.gr,
-                DataDetail.addition
+                DataDetail.eSingleBig,
+                DataDetail.eCherryBig,
+                DataDetail.eTotalBig,
+                DataDetail.eSingleReg,
+                DataDetail.eCherryReg,
+                DataDetail.eTotalReg,
+                DataDetail.eCherry,
+                DataDetail.eGrape,
+                DataDetail.eTotalBonus
         };
     }
 
@@ -71,12 +71,12 @@ public class ViewItems {
     //詳細画面のカウンター関係(編集可能なもの)
     public static EditText[] getDetailCounterEditTextItems() {
         return new EditText[]{
-                DataDetail.aB,
-                DataDetail.cB,
-                DataDetail.aR,
-                DataDetail.cR,
-                DataDetail.ch,
-                DataDetail.gr
+                DataDetail.eSingleBig,
+                DataDetail.eCherryBig,
+                DataDetail.eSingleReg,
+                DataDetail.eCherryReg,
+                DataDetail.eCherry,
+                DataDetail.eGrape
         };
     }
 
@@ -97,30 +97,30 @@ public class ViewItems {
 
     public static TextView[] getDetailProbabilityTextItems() {
         return new TextView[]{
-                DataDetail.aB_Probability,
-                DataDetail.cB_Probability,
-                DataDetail.BB_Probability,
-                DataDetail.aR_Probability,
-                DataDetail.cR_Probability,
-                DataDetail.RB_Probability,
-                DataDetail.ch_Probability,
-                DataDetail.gr_Probability,
-                DataDetail.addition_Probability
+                DataDetail.tSingleBigProbability,
+                DataDetail.tCherryBigProbability,
+                DataDetail.tTotalBigProbability,
+                DataDetail.tSingleRegProbability,
+                DataDetail.tCherryRegProbability,
+                DataDetail.tTotalRegProbability,
+                DataDetail.tCherryProbability,
+                DataDetail.tGrapeProbability,
+                DataDetail.tTotalBonusProbability
         };
     }
 
     //詳細画面のボタン関係
     public static Button[] getDetailCounterButtonItems() {
         return new Button[]{
-                DataDetail.sbButton,
-                DataDetail.cbButton,
-                DataDetail.big,
-                DataDetail.srButton,
-                DataDetail.crButton,
-                DataDetail.reg,
-                DataDetail.chButton,
-                DataDetail.grButton,
-                DataDetail.bonus
+                DataDetail.bSingleBig,
+                DataDetail.bCherryBig,
+                DataDetail.bTotalBig,
+                DataDetail.bSingleReg,
+                DataDetail.bCherryReg,
+                DataDetail.bTotalReg,
+                DataDetail.bCherry,
+                DataDetail.bGrape,
+                DataDetail.bTotalBonus
         };
     }
 

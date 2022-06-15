@@ -132,40 +132,40 @@ public class DatabaseResultSet {
         String id = String.valueOf(cursor.getLong(index));
 
         index = cursor.getColumnIndex("OPERATION_DATE");
-        DataDetail.operationDateValue = cursor.getString(index);
+        DataDetail.dbOperationDateValue = cursor.getString(index);
 
         index = cursor.getColumnIndex("STORE_NAME");
-        DataDetail.storeNameValue = cursor.getString(index);
+        DataDetail.dbStoreNameValue = cursor.getString(index);
 
         index = cursor.getColumnIndex("DIFFERENCE_NUMBER");
-        DataDetail.differenceNumberValue = cursor.getInt(index);
+        DataDetail.dbMedalValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("TABLE_NUMBER");
-        DataDetail.tableNumberValue = cursor.getString(index);
+        DataDetail.dbTableNumberValue = cursor.getString(index);
 
         index = cursor.getColumnIndex("START_GAME");
-        DataDetail.startValue = cursor.getInt(index);
+        DataDetail.getDBStartValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("TOTAL_GAME");
-        DataDetail.totalValue = cursor.getInt(index);
+        DataDetail.getDBTotalValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("SINGLE_BIG");
-        DataDetail.aBValue = cursor.getInt(index);
+        DataDetail.getDBSingleBigValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY_REG");
-        DataDetail.cBValue = cursor.getInt(index);
+        DataDetail.getDBCherryBigValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("SINGLE_REG");
-        DataDetail.aRValue = cursor.getInt(index);
+        DataDetail.getDBSingleRegValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY_BIG");
-        DataDetail.cRValue = cursor.getInt(index);
+        DataDetail.getDBCherryRegValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY");
-        DataDetail.chValue = cursor.getInt(index);
+        DataDetail.getDBCherryValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("GRAPE");
-        DataDetail.grValue = cursor.getInt(index);
+        DataDetail.getDBGrapeValue = cursor.getInt(index);
 
         // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
         Log.i("SQLITE", "_id : " + id + " ");

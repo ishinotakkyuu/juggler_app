@@ -13,31 +13,31 @@ public class DateDetailCounterWatcher implements TextWatcher {
     final String INIT_VALUE = "1/0.00";
 
     //ゲーム数関係
-    EditText total = DataDetail.total;
-    EditText start = DataDetail.start;
-    EditText individual = DataDetail.individual;
+    EditText total = DataDetail.eTotalGames;
+    EditText start = DataDetail.eStartGames;
+    EditText individual = DataDetail.eIndividualGames;
 
     //カウンター関係
-    EditText aB = DataDetail.aB;
-    EditText cB = DataDetail.cB;
-    EditText BB = DataDetail.BB;
-    EditText aR = DataDetail.aR;
-    EditText cR = DataDetail.cR;
-    EditText RB = DataDetail.RB;
-    EditText ch = DataDetail.ch;
-    EditText gr = DataDetail.gr;
-    EditText addition = DataDetail.addition;
+    EditText aB = DataDetail.eSingleBig;
+    EditText cB = DataDetail.eCherryBig;
+    EditText BB = DataDetail.eTotalBig;
+    EditText aR = DataDetail.eSingleReg;
+    EditText cR = DataDetail.eCherryReg;
+    EditText RB = DataDetail.eTotalReg;
+    EditText ch = DataDetail.eCherry;
+    EditText gr = DataDetail.eGrape;
+    EditText addition = DataDetail.eTotalBonus;
 
     //確率関係
-    TextView aB_Probability = DataDetail.aB_Probability;
-    TextView cB_Probability = DataDetail.cB_Probability;
-    TextView BB_Probability = DataDetail.BB_Probability;
-    TextView aR_Probability = DataDetail.aR_Probability;
-    TextView cR_Probability = DataDetail.cR_Probability;
-    TextView RB_Probability = DataDetail.RB_Probability;
-    TextView ch_Probability = DataDetail.ch_Probability;
-    TextView gr_Probability = DataDetail.gr_Probability;
-    TextView addition_Probability = DataDetail.addition_Probability;
+    TextView aB_Probability = DataDetail.tSingleBigProbability;
+    TextView cB_Probability = DataDetail.tCherryBigProbability;
+    TextView BB_Probability = DataDetail.tTotalBigProbability;
+    TextView aR_Probability = DataDetail.tSingleRegProbability;
+    TextView cR_Probability = DataDetail.tCherryRegProbability;
+    TextView RB_Probability = DataDetail.tTotalRegProbability;
+    TextView ch_Probability = DataDetail.tCherryProbability;
+    TextView gr_Probability = DataDetail.tGrapeProbability;
+    TextView addition_Probability = DataDetail.tTotalBonusProbability;
 
     TextView view;
 
