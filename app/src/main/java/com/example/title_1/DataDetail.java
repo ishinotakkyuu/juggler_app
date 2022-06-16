@@ -107,13 +107,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     // DBにある全ての店舗を格納するための配列
     static List<String> DB_Store = new ArrayList<>();
 
-
     static MainApplication mainApplication = null;
-
-
-    // 以下は不要と思われるので土屋さんに確認後削除すること
-    static String dbStoreNameValue;
-    // ------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,11 +156,11 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         // 取得したIDを使ってDBから必要な項目を取得する
         Context context = this;
         String sql = CreateSQL.DataDetailSelectSQL(catchID);
-        DatabaseResultSet.aaa("DataDetailSelect", context, sql);
+        DatabaseResultSet.execution("DataDetailSelect", context, sql);
 
         // DBに存在するすべての店舗名を取得しリストに入れる
         sql = CreateSQL.SelectStoreNameSQL();
-        DatabaseResultSet.aaa("DataDetailSelect2", context, sql);
+        DatabaseResultSet.execution("DataDetailSelect2", context, sql);
 
         // DBから取得した各種データを(String型で)セットする
         // ①総ゲーム数と②開始ゲーム数のセットを逆にするとクラッシュします
@@ -361,6 +355,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         dbMedal = dbMedalValue;
         eMedal = registerDialog.findViewById(R.id.DifferenceNumber);
         checkBox = registerDialog.findViewById(R.id.checkBox);
+
         if(dbMedal != 0) {
             if (dbMedal < 0) { //DBから取得した値がマイナスかチェック
                 dbMedal = dbMedal * -1;
@@ -410,7 +405,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             //更新日時を取得
             Date now = new Date();
             SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-            dbSaveDate = dFormat.format(now);
+            dbSaveDate = dFormat.format(now) + "更新";
 
             if (StringUtils.isNotEmpty(differenceNumberStr)) {
                 dbMedal = Integer.parseInt(differenceNumberStr);
@@ -430,7 +425,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 String sql = "UPDATE TEST SET " +
                         "OPERATION_DATE = '" + dbOperationDate + "', " +
                         "STORE_NAME = '" + dbStoreName + "', " +
-//                        "SAVE_DATE = '" + dbSaveDate + "', " +
+                        "SAVE_DATE = '" + dbSaveDate + "', " +
                         "DIFFERENCE_NUMBER = '" + dbMedal + "', " +
                         "TABLE_NUMBER = '" + dbTableNumber + "', " +
                         "START_GAME = '" + dbStartGames + "', " +

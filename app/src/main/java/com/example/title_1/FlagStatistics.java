@@ -141,23 +141,23 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
                 Context context = getActivity().getApplicationContext();
                 String sql = CreateSQL.FlagStatisticsSQL();
-                DatabaseResultSet.aaa("FlagStatistics",context,sql);
+                DatabaseResultSet.execution("FlagStatistics",context,sql);
 
                 calTotalBigValue = dbTotalSingleBigValue + dbTotalCherryBigValue;
                 calTotalRegValue = dbTotalSingleRegValue + dbTotalCherryRegValue;
                 calTotalBonusValue = calTotalBigValue + calTotalRegValue;
 
                 if(dbTotalGamesValue > 0) {
-                    calDiscountValue = (((double) dbTotalGamesValue * 3) + (double) dbTotalMedalValue) / ((double) dbTotalGamesValue * 3) * 100;
-                    calTotalSingleBigProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalSingleBigValue;
-                    calTotalCherryBigProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalSingleBigValue;
-                    calTotalBigProbabilityValue = (double) dbTotalGamesValue / (double) calTotalBigValue;
-                    calTotalSingleRegProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalSingleRegValue;
-                    calTotalCherryRegProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalCherryRegValue;
-                    calTotalRegProbabilityValue = (double) dbTotalGamesValue / (double) calTotalRegValue;
-                    calTotalBonusProbabilityValue = (double) dbTotalGamesValue / (double) calTotalBonusValue;
-                    calTotalCherryProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalCherryValue;
-                    calTotalGrapeProbabilityValue = (double) dbTotalGamesValue / (double) dbTotalGrapeValue;
+                    calDiscountValue = (division(dbTotalGamesValue * 3 + dbTotalMedalValue,dbTotalGamesValue * 3)) *100;
+                    calTotalSingleBigProbabilityValue = division(dbTotalGamesValue,dbTotalSingleBigValue);
+                    calTotalCherryBigProbabilityValue = division(dbTotalGamesValue,dbTotalSingleBigValue);
+                    calTotalBigProbabilityValue = division(dbTotalGamesValue,calTotalBigValue);
+                    calTotalSingleRegProbabilityValue = division(dbTotalGamesValue,dbTotalSingleRegValue);
+                    calTotalCherryRegProbabilityValue = division(dbTotalGamesValue,dbTotalCherryRegValue);
+                    calTotalRegProbabilityValue = division(dbTotalGamesValue,calTotalRegValue);
+                    calTotalBonusProbabilityValue = division(dbTotalGamesValue,calTotalBonusValue);
+                    calTotalCherryProbabilityValue = division(dbTotalGamesValue,dbTotalCherryValue);
+                    calTotalGrapeProbabilityValue = division(dbTotalGamesValue,dbTotalGrapeValue);
                 }
 
                 NumberFormat nfNum = NumberFormat.getNumberInstance();
@@ -190,6 +190,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         }
     }
+
 
     public void setFindViewById(View view){
 
@@ -409,6 +410,16 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         dbTotalCherryRegValue = 0;
         dbTotalCherryValue = 0;
         dbTotalGrapeValue = 0;
+    }
+
+    // ダブル型で割り算するメソッド
+    public double division(int numerator , int denominator){
+
+        double result = 0;
+        if(numerator!=0 && denominator!=0) {
+            result = (double)numerator / (double)denominator;
+        }
+        return result;
     }
 
 }

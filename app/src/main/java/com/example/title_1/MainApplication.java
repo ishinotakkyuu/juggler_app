@@ -47,7 +47,10 @@ public class MainApplication extends Application {
     public void init() {
         Random rnd = new Random();
         //乱数を取得する
-        setUserId(rnd.nextInt(2147483647));
+        if(userId!=0){
+            setUserId(rnd.nextInt(2147483646)+1);
+        }
+
         setTotalGames("0");
         setStartGames("0");
         setSingleBig("0");

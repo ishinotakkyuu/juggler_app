@@ -1,22 +1,15 @@
 package com.example.title_1;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -55,7 +48,7 @@ public class FlagGrades extends Fragment {
 
         Context context = getActivity().getApplicationContext();
         String sql = CreateSQL.FlagGradesSQL();
-        DatabaseResultSet.aaa("FlagGrades",context,sql);
+        DatabaseResultSet.execution("FlagGrades",context,sql);
 
         // 配列の要素をアダプターを使ってリストビューにセット
         FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.main03_grades02_item,listItems);

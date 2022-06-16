@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class DatabaseResultSet {
 
-    protected static void aaa(String flg, Context context, String sql) {
+    protected static void execution(String flg, Context context, String sql) {
 
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -133,9 +133,6 @@ public class DatabaseResultSet {
 
         index = cursor.getColumnIndex("OPERATION_DATE");
         DataDetail.dbOperationDateValue = cursor.getString(index);
-
-        index = cursor.getColumnIndex("STORE_NAME");
-        DataDetail.dbStoreNameValue = cursor.getString(index);
 
         index = cursor.getColumnIndex("DIFFERENCE_NUMBER");
         DataDetail.dbMedalValue = cursor.getInt(index);
