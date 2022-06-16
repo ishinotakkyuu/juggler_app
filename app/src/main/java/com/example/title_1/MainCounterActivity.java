@@ -298,13 +298,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             public void onClick(View view) {
                 // Calendarインスタンスを取得
                 final Calendar date = Calendar.getInstance();
+                eDate = registerDialog.findViewById(R.id.DateEditText);
 
                 // DatePickerDialogインスタンスを取得
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         MainCounterActivity.this,
                         (view1, year, month, dayOfMonth) -> {
                             // 選択した日付を取得して日付表示用のEditTextにセット
-                            eDate = registerDialog.findViewById(R.id.DateEditText);
                             eDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                             eDate.setGravity(Gravity.CENTER);
 
@@ -416,7 +416,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 // 現在日時を取得
                 Date now = new Date();
                 SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-                dbSaveDate = dFormat.format(now) + "登録";
+                dbSaveDate = dFormat.format(now);
 
                 //　データベースへの登録処理
                 Context context = getApplicationContext();

@@ -359,13 +359,13 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         // 0判定(登録時に差枚数が空欄だった場合の対応。０登録した場合は空欄がセットされる)
         dbMedal = dbMedalValue;
+        eMedal = registerDialog.findViewById(R.id.DifferenceNumber);
+        checkBox = registerDialog.findViewById(R.id.checkBox);
         if(dbMedal != 0) {
             if (dbMedal < 0) { //DBから取得した値がマイナスかチェック
                 dbMedal = dbMedal * -1;
-                checkBox = registerDialog.findViewById(R.id.checkBox);
                 checkBox.setChecked(true);
             }
-            eMedal = registerDialog.findViewById(R.id.DifferenceNumber);
             eMedal.setText(String.valueOf(dbMedal));
         }
         eMedal.addTextChangedListener(this);
@@ -410,7 +410,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             //更新日時を取得
             Date now = new Date();
             SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-            dbSaveDate = dFormat.format(now) + "更新";
+            dbSaveDate = dFormat.format(now);
 
             if (StringUtils.isNotEmpty(differenceNumberStr)) {
                 dbMedal = Integer.parseInt(differenceNumberStr);
@@ -430,6 +430,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 String sql = "UPDATE TEST SET " +
                         "OPERATION_DATE = '" + dbOperationDate + "', " +
                         "STORE_NAME = '" + dbStoreName + "', " +
+//                        "SAVE_DATE = '" + dbSaveDate + "', " +
                         "DIFFERENCE_NUMBER = '" + dbMedal + "', " +
                         "TABLE_NUMBER = '" + dbTableNumber + "', " +
                         "START_GAME = '" + dbStartGames + "', " +
