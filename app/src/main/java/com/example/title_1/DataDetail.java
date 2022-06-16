@@ -405,7 +405,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             //更新日時を取得
             Date now = new Date();
             SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-            dbSaveDate = dFormat.format(now) + "更新";
+            dbSaveDate = dFormat.format(now);
 
             if (StringUtils.isNotEmpty(differenceNumberStr)) {
                 dbMedal = Integer.parseInt(differenceNumberStr);
