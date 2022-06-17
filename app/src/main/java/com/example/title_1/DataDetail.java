@@ -79,7 +79,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     static EditText eTableNumber, eMedal;
 
     //DB関係
-    String dbOperationDate;
+    String dbOperationDate = "";
     String dbSaveDate = "";
     String dbStoreName = "";
     String dbOperationYear;
@@ -96,14 +96,13 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     // チェックボックス
     CheckBox checkBox;
 
-    // 各種EditTextに値をセットするためにDBから取得してきた数値群
-    static int getDBStartValue,getDBTotalValue,getDBSingleBigValue,getDBCherryBigValue,
-               getDBSingleRegValue,getDBCherryRegValue,getDBCherryValue,getDBGrapeValue;
+    // DB初期値
+    static String dbStoreNameValue,dbTableNumberValue;
+    static int dbStartValue,dbTotalValue,dbSingleBigValue,dbCherryBigValue,
+               dbSingleRegValue,dbCherryRegValue,dbCherryValue,dbGrapeValue,
+               dbMedalValue,dbOperationYearValue,dbOperationMonthValue,dbOperationDayValue,
+               dbOperationDayDigitValue,dbWeekIdValue,dbDayOfWeek_in_MonthValue;
 
-    // ダイアログ表示させるために取得したDB値
-    static String dbOperationDateValue;
-    static String dbTableNumberValue;
-    static Integer dbMedalValue;
     // DBにある全ての店舗を格納するための配列
     static List<String> DB_Store = new ArrayList<>();
 
@@ -144,7 +143,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         catchMachine = intent.getStringExtra("Machine");
         catchRegisterDate = intent.getStringExtra("KeepTime");
 
-        // 日付と登録日時をTextViewにセット
+        // 登録日時をTextViewにセット
         TextView keepTimeText = findViewById(R.id.TextKeepTime);
         keepTimeText.setText(catchRegisterDate);
 
@@ -162,17 +161,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         sql = CreateSQL.SelectStoreNameSQL();
         DatabaseResultSet.execution("DataDetailSelect2", context, sql);
 
-        // DBから取得した各種データを(String型で)セットする
-        // ①総ゲーム数と②開始ゲーム数のセットを逆にするとクラッシュします
-        // 詳細はMainCounterWatcher.javaのtotal_game処理内に記述してある
-        eTotalGames.setText(String.valueOf(getDBTotalValue)); //①
-        eStartGames.setText(String.valueOf(getDBStartValue)); //②
-        eSingleBig.setText(String.valueOf(getDBSingleBigValue));
-        eCherryBig.setText(String.valueOf(getDBCherryBigValue));
-        eSingleReg.setText(String.valueOf(getDBSingleRegValue));
-        eCherryReg.setText(String.valueOf(getDBCherryRegValue));
-        eCherry.setText(String.valueOf(getDBCherryValue));
-        eGrape.setText(String.valueOf(getDBGrapeValue));
+        // DB初期値で各種データを初期化
+        initValue();
     }
 
     public void edit_and_back(View view) {
@@ -245,7 +235,15 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                     .show();
 
         } else { //更新ボタンを押下時の処理
-            registerDialog();
+
+            int checkedIndividualGames = Integer.parseInt(eIndividualGames.getText().toString());
+            if (checkedIndividualGames != 0) {
+                registerDialog();
+            } else {
+                Toast toast = Toast.makeText(DataDetail.this, "０ゲームでの更新はできません", Toast.LENGTH_LONG);
+                toast.show();
+                focusOut();
+            }
         }
     }
 
@@ -270,11 +268,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
         // 日付選択用のEditTextをセット
         eDate = registerDialog.findViewById(R.id.DateEditText);
-        // 日付用EditTextに日付をセットしたうえで、DB用変数に値を格納する(ダイアログ上で日付を何も操作せず更新をかけた場合の対応)
         eDate.setText(catchDate);
-        dbOperationDate = catchDate;
-        // 上記同様に日付関係のDB値を取得しておく必要がある！日付関係の値については前画面から渡されてきていないのでDBから持ってくる必要あり
-
 
         // 日付表示用のEditTextにリスナーを登録
         eDate.setOnClickListener(new View.OnClickListener() {
@@ -288,8 +282,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         DataDetail.this,
                         (view1, year, month, dayOfMonth) -> {
-                            // 選択した日付を取得して日付表示用のEditTextにセット
 
+                            // 選択した日付を取得して日付表示用のEditTextにセット
                             eDate.setText(String.format("%d / %02d / %02d", year, month + 1, dayOfMonth));
 
                             //DB登録用
@@ -347,15 +341,12 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         storeSpinner.setSelection(index);
 
         // 台番号用EditTextに台番号をセットする
-        dbTableNumber = dbTableNumberValue;
         eTableNumber = registerDialog.findViewById(R.id.MachineNumber);
         eTableNumber.setText(dbTableNumber);
 
         // 0判定(登録時に差枚数が空欄だった場合の対応。０登録した場合は空欄がセットされる)
-        dbMedal = dbMedalValue;
         eMedal = registerDialog.findViewById(R.id.DifferenceNumber);
         checkBox = registerDialog.findViewById(R.id.checkBox);
-
         if(dbMedal != 0) {
             if (dbMedal < 0) { //DBから取得した値がマイナスかチェック
                 dbMedal = dbMedal * -1;
@@ -378,73 +369,75 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
 
-            // 機種名取得
-            dbMachineName = juggler.getSelectedItem().toString();
+                // 機種名取得
+                dbMachineName = juggler.getSelectedItem().toString();
 
-            // 各種小役を取得すること
-            dbStartGames = Integer.parseInt(eStartGames.getText().toString());
-            dbTotalGames = Integer.parseInt(eTotalGames.getText().toString());
-            dbSingleBig = Integer.parseInt(eSingleBig.getText().toString());
-            dbCherryBig = Integer.parseInt(eCherryBig.getText().toString());
-            dbSingleReg = Integer.parseInt(eSingleReg.getText().toString());
-            dbCherryReg = Integer.parseInt(eCherryReg.getText().toString());
-            dbCherry = Integer.parseInt(eCherry.getText().toString());
-            dbGrape = Integer.parseInt(eGrape.getText().toString());
+                // 各種小役を取得すること
+                dbStartGames = Integer.parseInt(eStartGames.getText().toString());
+                dbTotalGames = Integer.parseInt(eTotalGames.getText().toString());
+                dbSingleBig = Integer.parseInt(eSingleBig.getText().toString());
+                dbCherryBig = Integer.parseInt(eCherryBig.getText().toString());
+                dbSingleReg = Integer.parseInt(eSingleReg.getText().toString());
+                dbCherryReg = Integer.parseInt(eCherryReg.getText().toString());
+                dbCherry = Integer.parseInt(eCherry.getText().toString());
+                dbGrape = Integer.parseInt(eGrape.getText().toString());
 
-            // 店舗名を取得
-            dbStoreName = (String) storeSpinner.getSelectedItem();
+                // 店舗名を取得
+                dbStoreName = (String) storeSpinner.getSelectedItem();
 
-            // 台番号取得
-            // 現時点でnullがあり得ますので対応すること
-            dbTableNumber = eTableNumber.getText().toString();
+                // 台番号取得
+                dbTableNumber = eTableNumber.getText().toString();
 
-            // 差枚数取得
-            // null対応は下記でしてるから大丈夫、と思われる
-            String differenceNumberStr = eMedal.getText().toString();
-
-            //更新日時を取得
-            Date now = new Date();
-            SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-            dbSaveDate = dFormat.format(now);
-
-            if (StringUtils.isNotEmpty(differenceNumberStr)) {
-                dbMedal = Integer.parseInt(differenceNumberStr);
-            }
-
-            // ここで差枚数のnullに対応できている
-            if (!(dbMedal == null || dbMedal == 0)) {
-                if (checkBox.isChecked()) {
-                    dbMedal = -dbMedal;
+                // 差枚数取得
+                String medalStr = eMedal.getText().toString();
+                if (StringUtils.isNotEmpty(medalStr)) {
+                    dbMedal = Integer.parseInt(medalStr);
                 }
-            }
+                if (!(dbMedal == null || dbMedal == 0)) {
+                    if (checkBox.isChecked()) {
+                        dbMedal = -dbMedal;
+                    }
+                }
 
-            // DB情報を更新する
-            Context context = this;
-            if (!catchID.isEmpty()) {
-                //DB情報はユーザーID以外全て更新しないといけなかった(要件定義漏れ)
-                String sql = "UPDATE TEST SET " +
-                        "OPERATION_DATE = '" + dbOperationDate + "', " +
-                        "STORE_NAME = '" + dbStoreName + "', " +
-                        "SAVE_DATE = '" + dbSaveDate + "', " +
-                        "DIFFERENCE_NUMBER = '" + dbMedal + "', " +
-                        "TABLE_NUMBER = '" + dbTableNumber + "', " +
-                        "START_GAME = '" + dbStartGames + "', " +
-                        "TOTAL_GAME = '" + dbTotalGames + "', " +
-                        "SINGLE_BIG = '" + dbSingleBig + "', " +
-                        "CHERRY_BIG = '" + dbCherryBig + "', " +
-                        "SINGLE_REG = '" + dbSingleReg + "', " +
-                        "CHERRY_REG = '" + dbCherryReg + "', " +
-                        "CHERRY = '" + dbCherry + "', " +
-                        "GRAPE = '" + dbGrape + "' " +
-                        "WHERE ID = '" + catchID + "';";
-                DatabaseResultSet.UpdateOrDelete(context, sql);
-            }
-            registerDialog.dismiss();
-            focusOut();
-            Intent intent = new Intent(this, MainGradeInquiry.class);
-            intent.putExtra("TOAST", "更新");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+                //更新日時を取得
+                Date now = new Date();
+                SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
+                dbSaveDate = dFormat.format(now);
+
+                // DB情報を更新する
+                Context context = this;
+                if (!catchID.isEmpty()) {
+                    //DB情報はユーザーID以外全て更新しないといけなかった(要件定義漏れ)
+                    String sql = "UPDATE TEST SET " +
+                            "OPERATION_DATE = '" + dbOperationDate + "', " +
+                            "SAVE_DATE = '" + dbSaveDate + "', " +
+                            "STORE_NAME = '" + dbStoreName + "', " +
+                            "OPERATION_YEAR = '" + dbOperationYear + "', " +
+                            "OPERATION_MONTH = '" + dbOperationMonth + "', " +
+                            "OPERATION_DAY = '" + dbOperationDay + "', " +
+                            "OPERATION_DAY_DIGIT = '" + dbOperationDayDigit + "', " +
+                            "WEEK_ID = '" + dbWeekId + "', " +
+                            "DAY_OF_WEEK_IN_MONTH = '" + dbDayOfWeek_in_Month + "', " +
+                            "DIFFERENCE_NUMBER = '" + dbMedal + "', " +
+                            "MACHINE_NAME = '" + dbMachineName + "', " +
+                            "TABLE_NUMBER = '" + dbTableNumber + "', " +
+                            "START_GAME = '" + dbStartGames + "', " +
+                            "TOTAL_GAME = '" + dbTotalGames + "', " +
+                            "SINGLE_BIG = '" + dbSingleBig + "', " +
+                            "CHERRY_BIG = '" + dbCherryBig + "', " +
+                            "SINGLE_REG = '" + dbSingleReg + "', " +
+                            "CHERRY_REG = '" + dbCherryReg + "', " +
+                            "CHERRY = '" + dbCherry + "', " +
+                            "GRAPE = '" + dbGrape + "' " +
+                            "WHERE ID = '" + catchID + "';";
+                    DatabaseResultSet.UpdateOrDelete(context, sql);
+                }
+                registerDialog.dismiss();
+                focusOut();
+                Intent intent = new Intent(this, MainGradeInquiry.class);
+                intent.putExtra("TOAST", "更新");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
         });
         // ダイアログを表示
         registerDialog.show();
@@ -557,30 +550,12 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         mainLayout.requestFocus();
     }
 
-    public void aloneBigButton(View view) {
-        pushButton(eSingleBig, R.id.aB, 9999);
-    }
-
-    public void cherryBigButton(View view) {
-        pushButton(eCherryBig, R.id.cB, 9999);
-    }
-
-    public void aloneRegButton(View view) {
-        pushButton(eSingleReg, R.id.aR, 9999);
-    }
-
-    public void cherryRegButton(View view) {
-        pushButton(eCherryReg, R.id.cR, 9999);
-    }
-
-    public void cherryButton(View view) {
-        pushButton(eCherry, R.id.ch, 99999);
-    }
-
-    public void grapesButton(View view) {
-        pushButton(eGrape, R.id.gr, 999999);
-    }
-
+    public void singleBigButton(View view) {pushButton(eSingleBig, R.id.aB, 9999);}
+    public void cherryBigButton(View view) {pushButton(eCherryBig, R.id.cB, 9999);}
+    public void singleRegButton(View view) {pushButton(eSingleReg, R.id.aR, 9999);}
+    public void cherryRegButton(View view) {pushButton(eCherryReg, R.id.cR, 9999);}
+    public void cherryButton(View view) {pushButton(eCherry, R.id.ch, 99999);}
+    public void grapeButton(View view) {pushButton(eGrape, R.id.gr, 999999);}
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.EditLayout);
         ColorButton colorButton = new ColorButton();
@@ -644,5 +619,30 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             eMedal.setText("");
         }
         eMedal.addTextChangedListener(this);
+    }
+
+    public void initValue() {
+        dbOperationDate = catchDate;
+        dbStoreName = catchStore;
+        dbOperationYear = Integer.toString(dbOperationYearValue);
+        dbOperationMonth = Integer.toString(dbOperationMonthValue);
+        dbOperationDay = Integer.toString(dbOperationDayValue);
+        dbOperationDayDigit = Integer.toString(dbOperationDayDigitValue);
+        dbWeekId = Integer.toString(dbWeekIdValue);
+        dbDayOfWeek_in_Month = Integer.toString(dbDayOfWeek_in_MonthValue);
+        dbMedal = dbMedalValue;
+        dbMachineName = catchMachine;
+        dbTableNumber = dbTableNumberValue;
+
+        // ①総ゲーム数と②開始ゲーム数のセットを逆にするとクラッシュします
+        // 詳細はMainCounterWatcher.javaのtotal_game処理内に記述してある
+        eTotalGames.setText(String.valueOf(dbTotalValue)); //①
+        eStartGames.setText(String.valueOf(dbStartValue)); //②
+        eSingleBig.setText(String.valueOf(dbSingleBigValue));
+        eCherryBig.setText(String.valueOf(dbCherryBigValue));
+        eSingleReg.setText(String.valueOf(dbSingleRegValue));
+        eCherryReg.setText(String.valueOf(dbCherryRegValue));
+        eCherry.setText(String.valueOf(dbCherryValue));
+        eGrape.setText(String.valueOf(dbGrapeValue));
     }
 }

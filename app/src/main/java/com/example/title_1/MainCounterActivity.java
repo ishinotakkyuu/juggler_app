@@ -298,13 +298,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             public void onClick(View view) {
                 // Calendarインスタンスを取得
                 final Calendar date = Calendar.getInstance();
-                eDate = registerDialog.findViewById(R.id.DateEditText);
 
                 // DatePickerDialogインスタンスを取得
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         MainCounterActivity.this,
                         (view1, year, month, dayOfMonth) -> {
                             // 選択した日付を取得して日付表示用のEditTextにセット
+                            eDate = registerDialog.findViewById(R.id.DateEditText);
                             eDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
                             eDate.setGravity(Gravity.CENTER);
 
@@ -371,6 +371,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             // 店舗名
             dbStoreName = (String)sStore.getSelectedItem();
             String medalStr = eMedal.getText().toString();
+            // ここでもう1回findViewすることでクラッシュ回避(ダイアログ出現後にやらないとNULLになるらしい)
+            eDate = registerDialog.findViewById(R.id.DateEditText);
             String checkedDate = eDate.getText().toString();
 
             // 日付入力済なら登録処理
