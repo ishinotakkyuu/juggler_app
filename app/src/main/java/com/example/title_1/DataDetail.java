@@ -45,7 +45,7 @@ import java.util.List;
 public class DataDetail extends AppCompatActivity implements TextWatcher {
 
     // 前画面から渡されてきた情報を受け取る変数
-    String catchID, catchDate, catchStore, catchMachine, catchRegisterDate;
+    String catchID, catchDate, catchStore, catchMachine, catchKeepTime;
 
     // レイアウト
     ConstraintLayout mainLayout, scrollLayout;
@@ -69,7 +69,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     // 判定用
     boolean judge = true,judgePlusMinus = true;
 
-    //機種名関係
+    //保存日時・機種名関係
+    TextView tKeepTime;
     Spinner juggler;
     EditText eDummy;
 
@@ -107,12 +108,14 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     static List<String> DB_Store = new ArrayList<>();
 
     static MainApplication mainApplication = null;
+    Machines machines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mainApplication = (MainApplication) this.getApplication();
+        machines = new Machines(getResources()); //Machineクラスのインスタンス生成
 
         setContentView(R.layout.main05_datadetail01);
 
@@ -141,16 +144,15 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         catchDate = intent.getStringExtra("Date");
         catchStore = intent.getStringExtra("Store");
         catchMachine = intent.getStringExtra("Machine");
-        catchRegisterDate = intent.getStringExtra("KeepTime");
+        catchKeepTime = intent.getStringExtra("KeepTime");
 
-        // 登録日時をTextViewにセット
-        TextView keepTimeText = findViewById(R.id.TextKeepTime);
-        keepTimeText.setText(catchRegisterDate);
+        // 保存日時をTextViewにセット
+        tKeepTime.setText(catchKeepTime);
 
         // スピナーを隠すダミーのEditTextに渡されてきた機種名をセット
         eDummy.setText(catchMachine);
         // 機種選択用スピナーのセット
-        setJuggler(catchMachine);
+        setJuggler();
 
         // 取得したIDを使ってDBから必要な項目を取得する
         Context context = this;
@@ -372,7 +374,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 // 機種名取得
                 dbMachineName = juggler.getSelectedItem().toString();
 
-                // 各種小役を取得すること
+                // 各種カウンター値の取得
                 dbStartGames = Integer.parseInt(eStartGames.getText().toString());
                 dbTotalGames = Integer.parseInt(eTotalGames.getText().toString());
                 dbSingleBig = Integer.parseInt(eSingleBig.getText().toString());
@@ -407,7 +409,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 // DB情報を更新する
                 Context context = this;
                 if (!catchID.isEmpty()) {
-                    //DB情報はユーザーID以外全て更新しないといけなかった(要件定義漏れ)
                     String sql = "UPDATE TEST SET " +
                             "OPERATION_DATE = '" + dbOperationDate + "', " +
                             "SAVE_DATE = '" + dbSaveDate + "', " +
@@ -446,6 +447,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     public void setFindViewByID() {
         mainLayout = findViewById(R.id.EditLayout);
         scrollLayout = findViewById(R.id.TouchLayout);
+        tKeepTime = findViewById(R.id.TextKeepTime);
         eDummy = findViewById(R.id.DummyText);
         juggler = findViewById(R.id.Juggler);
         eTotalGames = findViewById(R.id.total_game);
@@ -482,25 +484,12 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         bTotalBonus = findViewById(R.id.bonus_addition);
     }
 
-    public void setJuggler(String machine) {
-        List<String> jugglerList = new ArrayList<>(Arrays.asList("SアイムジャグラーEX", "Sファンキージャグラー2", "Sマイジャグラー5"));
+    public void setJuggler() {
+        List<String> jugglerList = machines.getJugglerList();
         ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this, R.layout.main02_counter02_juggler_spinner, jugglerList);
         jugglerAdapter.setDropDownViewResource(R.layout.main02_counter03_juggler_spinner_dropdown);
         juggler.setAdapter(jugglerAdapter);
-        juggler.setSelection(getMachineSelection(machine));
-    }
-
-    public int getMachineSelection(String machine) {
-        int selection = 0; //デフォルトはSアイムジャグラーEX
-        switch (machine) {
-            case "Sファンキージャグラー2":
-                selection = 1;
-                break;
-            case "Sマイジャグラー5":
-                selection = 2;
-                break;
-        }
-        return selection;
+        juggler.setSelection(machines.getMachineIndex(catchMachine));
     }
 
     public void actionListenerFocusOut() {
@@ -517,21 +506,14 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         juggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                focusOut();
-            }
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {focusOut();}
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
     }
-
     public void setImeActionDone(EditText editText) {
         editText.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_DONE) {
-                focusOut();
-            }
+            if (i == EditorInfo.IME_ACTION_DONE) {focusOut();}
             return false;
         });
     }

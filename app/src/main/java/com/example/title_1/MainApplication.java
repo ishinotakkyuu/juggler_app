@@ -13,7 +13,7 @@ public class MainApplication extends Application {
     private Document document;
 
     private int userId;
-    private int machineName;
+    private int machinePosition;
     private String totalGames;
     private String startGames;
     private String singleBig;
@@ -84,12 +84,12 @@ public class MainApplication extends Application {
         this.userId = userId;
     }
 
-    public int getMachineName() {
-        return machineName;
+    public int getMachinePosition() {
+        return machinePosition;
     }
 
-    public void setMachineName(int machineName) {
-        this.machineName = machineName;
+    public void setMachinePosition(int machinePosition) {
+        this.machinePosition = machinePosition;
     }
 
     public String getTotalGames() {

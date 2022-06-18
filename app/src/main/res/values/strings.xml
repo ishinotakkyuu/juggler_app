@@ -5,17 +5,27 @@
 
 <!--Javaソースコード-->
 
-    <!--複数箇所で使用-->
-        <!--機種名-->
-            <string name="sImEX">SアイムジャグラーEX</string>
-            <string name="sFan2">Sファンキージャグラー2</string>
-            <string name="sMy5">Sマイジャグラー5</string>
-        <!--機種名:配列バージョン-->
-            <string-array name="JUGGLER">
-                <item>@string/sImEX</item>
-                <item>@string/sFan2</item>
-                <item>@string/sMy5</item>
+    <!--機種名管理用-->
+        <!--機種名(現行機種)追加・削除はここ-->
+            <string-array name="NOW_JUGGLER">
+                <item>SアイムジャグラーEX</item>
+                <item>Sファンキージャグラー2</item>
+                <item>Sマイジャグラー5</item>
             </string-array>
+
+        <!--機種名(全機種)-->
+            <string-array name="JUGGLER">
+                <item>SアイムジャグラーEX</item>
+                <item>Sファンキージャグラー2</item>
+                <item>Sマイジャグラー5</item>
+
+                <!--新機種が登場した時はここに追加していく-->
+                <!--全機種が対象なので削除はしない-->
+
+            </string-array>
+
+
+    <!--複数箇所で使用-->
         <!--ひと言-->
             <string name="yes">はい</string>
             <string name="no">いいえ</string>

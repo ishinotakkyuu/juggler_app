@@ -54,7 +54,7 @@ class ReadXML {
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
                         text = textNode.getNodeValue();
-                        mainApplication.setMachineName(Integer.parseInt(text));
+                        mainApplication.setMachinePosition(Integer.parseInt(text));
                     }
                     break;
                 case "total":

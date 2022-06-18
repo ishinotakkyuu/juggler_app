@@ -43,7 +43,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +53,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     Button bTotalBig, bTotalReg, bTotalBonus;
 
     // 機種名選択
+    Machines machines;
     Spinner sJuggler;
 
     //ゲーム数関係
@@ -103,14 +103,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         super.onCreate(savedInstanceState);
 
         mainApplication = (MainApplication) this.getApplication();
-
+        machines = new Machines(getResources()); //Machineクラスのインスタンス生成
         setContentView(R.layout.main02_counter01);
 
-        // 各viewをfindViewByIdで紐づけるメソッド
+        // 各viewをfindViewByIdで紐づける
         setFindViewByID();
         // 機種名選択のスピナー登録
         setJuggler();
-        // ゲーム数・カウント回数を表示するEditTextにテクストウォッチャーを設定するメソッド
+        // ゲーム数・カウント回数を表示するEditTextにテキストウォッチャーを設定するメソッド
         setTextWatcher();
         // 画面起動時には各EditTextを操作できないようにする
         setEditTextFocusFalse();
@@ -389,19 +389,10 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     }
                 }
 
-                int machineNameValue = mainApplication.getMachineName();
-                switch (machineNameValue) {
-                    case 0:
-                        dbMachineName = getString(R.string.sImEX);
-                        break;
-                    case 1:
-                        dbMachineName = getString(R.string.sFan2);
-                        break;
-                    case 2:
-                        dbMachineName = getString(R.string.sMy5);
-                        break;
-                }
+                // 機種名取得
+                dbMachineName = machines.getNowMachineName(mainApplication.getMachinePosition());
 
+                // 各種カウンター値を取得
                 dbStartGames = Integer.parseInt(mainApplication.getStartGames());
                 dbTotalGames = Integer.parseInt(mainApplication.getTotalGames());
                 dbSingleBig = Integer.parseInt(mainApplication.getSingleBig());
@@ -578,11 +569,11 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     public void setJuggler(){
-        List<String> jugglerList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.JUGGLER)));
+        List<String> jugglerList = machines.getNowJugglerList();
         ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.main02_counter02_juggler_spinner,jugglerList);
         jugglerAdapter.setDropDownViewResource(R.layout.main02_counter03_juggler_spinner_dropdown);
         sJuggler.setAdapter(jugglerAdapter);
-        sJuggler.setSelection(mainApplication.getMachineName());
+        sJuggler.setSelection(mainApplication.getMachinePosition());
     }
 
     public void setEditTextFocusTrue(){
@@ -633,7 +624,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             @Override
             public void onItemSelected(AdapterView<?> parent,View view, int position, long id) {
                 // 保存処理
-                mainApplication.setMachineName(position);
+                mainApplication.setMachinePosition(position);
                 CreateXML.updateText(mainApplication,"machineName",String.valueOf(position));
                 focusOut();
             }

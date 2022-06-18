@@ -48,7 +48,7 @@ public class CreateXML {
         //　機種名
         Element machineName = document.createElement("machineName");
         machineName.setAttribute("id", "機種名");
-        String machineNameValue = String.valueOf(mainApplication.getMachineName());
+        String machineNameValue = String.valueOf(mainApplication.getMachinePosition());
         machineName.appendChild(document.createTextNode(machineNameValue));
         info.appendChild(machineName);
 
