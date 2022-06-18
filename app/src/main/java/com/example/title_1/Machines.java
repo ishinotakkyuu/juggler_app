@@ -1,6 +1,7 @@
 package com.example.title_1;
 
 import android.content.res.Resources;
+import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,7 @@ public class Machines{
     private List<String> jugglerList; //★新機種追加が発生した場合はString.xmlの「R.array.JUGGLER」を修正すること
 
     // コンストラクタ
-    public Machines(Resources resources){
+    public Machines(@NonNull Resources resources){
         this.nowJugglerList = new ArrayList<>(Arrays.asList(resources.getStringArray(R.array.NOW_JUGGLER)));
         this.jugglerList = new ArrayList<>(Arrays.asList(resources.getStringArray(R.array.JUGGLER)));
     }
@@ -30,6 +31,10 @@ public class Machines{
 
     public String getMachineName(int position){
         return this.jugglerList.get(position);
+    }
+
+    public int getNowMachineIndex(String machineName){
+        return this.nowJugglerList.indexOf(machineName);
     }
 
     public int getMachineIndex(String machineName){

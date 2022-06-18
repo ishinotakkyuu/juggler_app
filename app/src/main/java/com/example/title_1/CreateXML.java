@@ -1,13 +1,10 @@
 package com.example.title_1;
 
 import android.content.Context;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
 import java.io.File;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,10 +29,31 @@ public class CreateXML {
             e.printStackTrace();
         }
 
+        // XML文書の土台となるDocumentノードを生成
         Document document = documentBuilder.newDocument();
 
+        // root要素の生成
+        // root要素とは、XML文書のツリー構造で最上位の要素。Activityで例えるなら、XMLの一番上にある「<androidx.constraintLayout.widget.ConstraintLayout」ってやつ
+        // XML文書には必ずこのroot要素が必要であり、Elementとは、XML 文書内の要素を表す。要素にはroot要素やtext要素などがあり、他にもたくさんあるらしい
         Element info = document.createElement("info");
+
+        // root要素をDocumentノードへ追加
         document.appendChild(info);
+
+        // 以下は、XML文書のtext要素追加コード。Activityで例えるなら、「TextView」とか「Button」とかにあたる。
+            // text要素はroot要素の子ノード
+                // ①createElementメソッドは、text要素をセットするもの
+                // ②setAttributeメソッドは、属性をセットしてするもの
+                // ③appendChildメソッドは、text要素(子ノード)を親要素の末尾に追加するもの
+                // ④createTextNodeメソッドは、指定した文字列でtextノードを作成するもの。XML文書内の表記でいうと、＞＜で挟まれたやつがtextノード
+                    // これらを踏まえて、以下のコードは次の流れを示している。
+                        //①指定したタグ名で開始タグを作成　⇒　<userId
+                        //②作成した開始タグの後ろに属性をセット　⇒　<userId id="ユーザID">
+                        //③textノード名をmainApplicationから取得　⇒　int型なので初期値だと0が入る
+                        //④取得したtextノード名を①と②で作った要素列の末尾にセット　⇒　<userId id="ユーザID">int型なので初期値だと0が入る
+                        //⑤最後に①と同じタグ名を使って終了タグを末尾にセット　⇒　<userId id="ユーザID">int型なので初期値だと0が入る</userId>　これにて完成
+                            //なお、String.valueOfの引数にnullが入ると、文字列の"null"が入るという、ちょっと変わった仕様になってる模様(String.valueOf null で検索すると色々情報が出てきた)
+                            //ただし、nullが来ると色々と面倒なので、文字列"null"のままで進める
 
         // ユーザID
         Element userId = document.createElement("userId");
@@ -43,7 +61,6 @@ public class CreateXML {
         String userIdValue = String.valueOf(mainApplication.getUserId());
         userId.appendChild(document.createTextNode(userIdValue));
         info.appendChild(userId);
-
 
         //　機種名
         Element machineName = document.createElement("machineName");
@@ -249,6 +266,7 @@ public class CreateXML {
         info.appendChild(store020);
 
         // 内部ストレージに入れてる
+        // 内部ストレージはアプリ固有の領域のため、アクセス権限対応は不要
         File file = new File(context.getFilesDir(), "info.xml");
         write(file, document);
 

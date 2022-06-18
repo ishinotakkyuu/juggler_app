@@ -98,7 +98,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     CheckBox checkBox;
 
     // DB初期値
-    static String dbStoreNameValue,dbTableNumberValue;
+    static String dbTableNumberValue;
     static int dbStartValue,dbTotalValue,dbSingleBigValue,dbCherryBigValue,
                dbSingleRegValue,dbCherryRegValue,dbCherryValue,dbGrapeValue,
                dbMedalValue,dbOperationYearValue,dbOperationMonthValue,dbOperationDayValue,
@@ -167,7 +167,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         initValue();
     }
 
-    public void edit_and_back(View view) {
+    public void EditORBack(View view) {
 
         // 「編集」ボタンを押した処理
         if (judge) {
@@ -211,7 +211,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         }
     }
 
-    public void deleteAndUpdate(View view) {
+    public void DeleteORUpdate(View view) {
 
         // 削除ボタン押下時の処理
         if (judge) {
