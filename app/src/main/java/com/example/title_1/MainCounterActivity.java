@@ -644,17 +644,17 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // ボタンの制御
     //***************************************************************************************************************************
 
-    public void aloneBigButton(View view) {pushButton(eSingleBig,R.id.eSingleBig,9999);
+    public void mSingleBigButton(View view) {pushButton(eSingleBig,R.id.eSingleBig,9999);
         vibrator();}
-    public void cherryBigButton(View view) {pushButton(eCherryBig,R.id.eCherryBig,9999);
+    public void mCherryBigButton(View view) {pushButton(eCherryBig,R.id.eCherryBig,9999);
         vibrator();}
-    public void aloneRegButton(View view){pushButton(eSingleReg,R.id.eSingleReg,9999);
+    public void mSingleRegButton(View view){pushButton(eSingleReg,R.id.eSingleReg,9999);
         vibrator();}
-    public void cherryRegButton(View view){pushButton(eCherryReg,R.id.eCherryReg,9999);
+    public void mCherryRegButton(View view){pushButton(eCherryReg,R.id.eCherryReg,9999);
         vibrator();}
-    public void cherryButton(View view){pushButton(eCherry,R.id.eCherry,99999);
+    public void mCherryButton(View view){pushButton(eCherry,R.id.eCherry,99999);
         vibrator();}
-    public void grapesButton(View view){pushButton(eGrape,R.id.eGrape,999999);
+    public void mGrapeButton(View view){pushButton(eGrape,R.id.eGrape,999999);
         vibrator();}
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.counter);

@@ -531,12 +531,12 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         mainLayout.requestFocus();
     }
 
-    public void singleBigButton(View view) {pushButton(eSingleBig, R.id.eSingleBig, 9999);}
-    public void cherryBigButton(View view) {pushButton(eCherryBig, R.id.eCherryBig, 9999);}
-    public void singleRegButton(View view) {pushButton(eSingleReg, R.id.eSingleReg, 9999);}
-    public void cherryRegButton(View view) {pushButton(eCherryReg, R.id.eCherryReg, 9999);}
-    public void cherryButton(View view) {pushButton(eCherry, R.id.eCherry, 99999);}
-    public void grapeButton(View view) {pushButton(eGrape, R.id.eGrape, 999999);}
+    public void dSingleBigButton(View view) {pushButton(eSingleBig, R.id.eSingleBig, 9999);}
+    public void dCherryBigButton(View view) {pushButton(eCherryBig, R.id.eCherryBig, 9999);}
+    public void dSingleRegButton(View view) {pushButton(eSingleReg, R.id.eSingleReg, 9999);}
+    public void dCherryRegButton(View view) {pushButton(eCherryReg, R.id.eCherryReg, 9999);}
+    public void dCherryButton(View view) {pushButton(eCherry, R.id.eCherry, 99999);}
+    public void dGrapeButton(View view) {pushButton(eGrape, R.id.eGrape, 999999);}
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.EditLayout);
         ColorButton colorButton = new ColorButton();

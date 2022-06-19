@@ -1,7 +1,6 @@
 <resources>
 
-    <string name="app_name">ジャグラーデータ管理</string>
-    <string name="counter_name">ジャグラー小役カウンター</string>
+    <string name="app_name">J-管理</string>
 
 <!--Javaソースコード-->
 
@@ -201,7 +200,7 @@
     <string name="manual">使 い 方</string>
 
     <string name="tittle">ジャグラーデータ管理</string>
-
+    <string name="counter_name">ジャグラー小役カウンター</string>
     <string name="start_game">開始ゲーム数</string>
     <string name="total_game">総ゲーム数</string>
     <string name="ind_game">個人ゲーム数</string>
@@ -219,7 +218,6 @@
     <string name="grapes">ぶどう</string>
     <string name="total_bonus">合算</string>
 
-    <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
 
 
 
@@ -228,6 +226,7 @@
 
 
     <!-- Strings used for fragments for navigation -->
+    <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
