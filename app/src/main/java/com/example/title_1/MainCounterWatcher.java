@@ -98,7 +98,7 @@ public class MainCounterWatcher implements TextWatcher {
         switch (view.getId()) {
 
             //総ゲーム数の場合
-            case R.id.total_game:
+            case R.id.eTotalGames:
 
                 //無限ループを回避するために、テキストウォッチャーを解除する
                 eTotalGames.removeTextChangedListener(this);
@@ -139,7 +139,7 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             //打ち始めゲーム数の場合
-            case R.id.start_game:
+            case R.id.eStartGames:
 
                 eStartGames.removeTextChangedListener(this);
                 // 入力値を更新
@@ -175,7 +175,7 @@ public class MainCounterWatcher implements TextWatcher {
                 break;
 
             //個人ゲーム数が変更されたら各役物の確率も変更
-            case R.id.individual_game:
+            case R.id.eIndividualGames:
                 if (textString.equals("0")) {
                     setProbabilityZero();
                 } else {
@@ -195,7 +195,7 @@ public class MainCounterWatcher implements TextWatcher {
             //ここからボーナスカウンターボタン押下時及びカウンターを直接編集した時の挙動振り分け
             //--------------------------------------------------------------------------------------------------------------------
 
-            case R.id.aB: //単独ビッグ
+            case R.id.eSingleBig: //単独ビッグ
 
                 eSingleBig.removeTextChangedListener(this);
                 // 入力値を更新
@@ -217,7 +217,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eSingleBig.addTextChangedListener(this);
                 break;
 
-            case R.id.cB: //チェリービッグ
+            case R.id.eCherryBig: //チェリービッグ
 
                 eCherryBig.removeTextChangedListener(this);
                 //入力値を更新
@@ -239,7 +239,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eCherryBig.addTextChangedListener(this);
                 break;
 
-            case R.id.BB: //ビッグボーナス
+            case R.id.eTotalBig: //ビッグボーナス
 
                 //入力値を更新
                 strTotalBig = textString;
@@ -253,7 +253,7 @@ public class MainCounterWatcher implements TextWatcher {
                 }
                 break;
 
-            case R.id.aR: //単独レギュラー
+            case R.id.eSingleReg: //単独レギュラー
 
                 eSingleReg.removeTextChangedListener(this);
                 //入力値を更新
@@ -275,7 +275,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eSingleReg.addTextChangedListener(this);
                 break;
 
-            case R.id.cR: //チェリービッグ
+            case R.id.eCherryReg: //チェリービッグ
 
                 eCherryReg.removeTextChangedListener(this);
                 //入力値を更新
@@ -297,7 +297,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eCherryReg.addTextChangedListener(this);
                 break;
 
-            case R.id.RB: //レギュラーボーナス
+            case R.id.eTotalReg: //レギュラーボーナス
 
                 //入力値を更新
                 strTotalReg = textString;
@@ -309,7 +309,7 @@ public class MainCounterWatcher implements TextWatcher {
                 }
                 break;
 
-            case R.id.ch: //非重複チェリー
+            case R.id.eCherry: //非重複チェリー
 
                 eCherry.removeTextChangedListener(this);
                 //入力値を更新
@@ -331,7 +331,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eCherry.addTextChangedListener(this);
                 break;
 
-            case R.id.gr: //ぶどう
+            case R.id.eGrape: //ぶどう
 
                 eGrape.removeTextChangedListener(this);
                 //入力値を更新

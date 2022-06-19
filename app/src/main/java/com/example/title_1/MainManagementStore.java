@@ -61,9 +61,9 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         // フォーカス関係　他、レイアウトの各オブジェクトのfindViewById
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mainLayout = findViewById(R.id.main_layout);
-        tStoreCounter = findViewById(R.id.StoreCount);
-        lStoreName = findViewById(R.id.StoreList);
-        eStoreName = findViewById(R.id.EditStoreName);
+        tStoreCounter = findViewById(R.id.tStoreCount);
+        lStoreName = findViewById(R.id.lStore);
+        eStoreName = findViewById(R.id.eStoreName);
 
         // 共有データに保存している店舗名を取得 ⇒ itemsに店舗名を格納 ⇒ adapterを介してListViewにセット
         this.mainApplication = (MainApplication) this.getApplication();

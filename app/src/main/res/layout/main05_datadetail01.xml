@@ -94,7 +94,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/start"
+                android:id="@+id/tStartGames"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
@@ -105,13 +105,13 @@
                 android:textAlignment="center"
                 android:textColor="#74D60C"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/total"
+                app:layout_constraintEnd_toStartOf="@+id/tTotalGames"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Juggler" />
 
             <TextView
-                android:id="@+id/total"
+                android:id="@+id/tTotalGames"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
@@ -122,14 +122,14 @@
                 android:textAlignment="center"
                 android:textColor="#74D60C"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/individual"
+                app:layout_constraintEnd_toStartOf="@+id/tIndividualGames"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/start"
+                app:layout_constraintStart_toEndOf="@+id/tStartGames"
                 app:layout_constraintTop_toBottomOf="@+id/Juggler" />
 
 
             <TextView
-                android:id="@+id/individual"
+                android:id="@+id/tIndividualGames"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="4dp"
@@ -142,11 +142,11 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/total"
+                app:layout_constraintStart_toEndOf="@+id/tTotalGames"
                 app:layout_constraintTop_toBottomOf="@+id/Juggler" />
 
             <EditText
-                android:id="@+id/start_game"
+                android:id="@+id/eStartGames"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
@@ -163,13 +163,13 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@+id/total_game"
+                app:layout_constraintEnd_toStartOf="@+id/eTotalGames"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/start" />
+                app:layout_constraintTop_toBottomOf="@+id/tStartGames" />
 
             <EditText
-                android:id="@+id/total_game"
+                android:id="@+id/eTotalGames"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
@@ -186,13 +186,13 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@+id/individual_game"
+                app:layout_constraintEnd_toStartOf="@+id/eIndividualGames"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/start_game"
-                app:layout_constraintTop_toBottomOf="@+id/total" />
+                app:layout_constraintStart_toEndOf="@+id/eStartGames"
+                app:layout_constraintTop_toBottomOf="@+id/tTotalGames" />
 
             <EditText
-                android:id="@+id/individual_game"
+                android:id="@+id/eIndividualGames"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="4dp"
@@ -206,11 +206,11 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/total_game"
-                app:layout_constraintTop_toBottomOf="@+id/individual" />
+                app:layout_constraintStart_toEndOf="@+id/eTotalGames"
+                app:layout_constraintTop_toBottomOf="@+id/tIndividualGames" />
 
             <EditText
-                android:id="@+id/aB"
+                android:id="@+id/eSingleBig"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -226,14 +226,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/alone_big"
-                app:layout_constraintEnd_toStartOf="@+id/cB"
+                app:layout_constraintBottom_toTopOf="@+id/bSingleBig"
+                app:layout_constraintEnd_toStartOf="@+id/eCherryBig"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/start_game" />
+                app:layout_constraintTop_toBottomOf="@+id/eStartGames" />
 
             <Button
-                android:id="@+id/alone_big"
+                android:id="@+id/bSingleBig"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -243,15 +243,15 @@
                 android:onClick="singleBigButton"
                 android:text="@string/alone_big"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/aB_Probability"
-                app:layout_constraintEnd_toStartOf="@+id/cherry_big"
+                app:layout_constraintBottom_toTopOf="@+id/tSingleBigProbability"
+                app:layout_constraintEnd_toStartOf="@+id/bCherryBig"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/aB" />
+                app:layout_constraintTop_toBottomOf="@+id/eSingleBig" />
 
 
             <TextView
-                android:id="@+id/aB_Probability"
+                android:id="@+id/tSingleBigProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -260,14 +260,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/aR"
-                app:layout_constraintEnd_toStartOf="@+id/cB_Probability"
+                app:layout_constraintBottom_toTopOf="@+id/eSingleReg"
+                app:layout_constraintEnd_toStartOf="@+id/tCherryBigProbability"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/alone_big" />
+                app:layout_constraintTop_toBottomOf="@+id/bSingleBig" />
 
             <EditText
-                android:id="@+id/cB"
+                android:id="@+id/eCherryBig"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -283,14 +283,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/cherry_big"
-                app:layout_constraintEnd_toStartOf="@+id/BB"
+                app:layout_constraintBottom_toTopOf="@+id/bCherryBig"
+                app:layout_constraintEnd_toStartOf="@+id/eTotalBig"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/aB"
-                app:layout_constraintTop_toBottomOf="@+id/total_game" />
+                app:layout_constraintStart_toEndOf="@+id/eSingleBig"
+                app:layout_constraintTop_toBottomOf="@+id/eTotalGames" />
 
             <Button
-                android:id="@+id/cherry_big"
+                android:id="@+id/bCherryBig"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -300,14 +300,14 @@
                 android:onClick="cherryBigButton"
                 android:text="@string/cherry_big"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/cB_Probability"
-                app:layout_constraintEnd_toStartOf="@+id/big_bonus"
+                app:layout_constraintBottom_toTopOf="@+id/tCherryBigProbability"
+                app:layout_constraintEnd_toStartOf="@+id/bTotalBig"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/alone_big"
-                app:layout_constraintTop_toBottomOf="@+id/cB" />
+                app:layout_constraintStart_toEndOf="@+id/bSingleBig"
+                app:layout_constraintTop_toBottomOf="@+id/eCherryBig" />
 
             <TextView
-                android:id="@+id/cB_Probability"
+                android:id="@+id/tCherryBigProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -316,14 +316,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/cR"
-                app:layout_constraintEnd_toStartOf="@+id/BB_Probability"
+                app:layout_constraintBottom_toTopOf="@+id/eCherryReg"
+                app:layout_constraintEnd_toStartOf="@+id/tTotalBigProbability"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/aB_Probability"
-                app:layout_constraintTop_toBottomOf="@+id/cherry_big" />
+                app:layout_constraintStart_toEndOf="@+id/tSingleBigProbability"
+                app:layout_constraintTop_toBottomOf="@+id/bCherryBig" />
 
             <EditText
-                android:id="@+id/BB"
+                android:id="@+id/eTotalBig"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -337,14 +337,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/big_bonus"
+                app:layout_constraintBottom_toTopOf="@+id/bTotalBig"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cB"
-                app:layout_constraintTop_toBottomOf="@+id/individual_game" />
+                app:layout_constraintStart_toEndOf="@+id/eCherryBig"
+                app:layout_constraintTop_toBottomOf="@+id/eIndividualGames" />
 
             <Button
-                android:id="@+id/big_bonus"
+                android:id="@+id/bTotalBig"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -353,15 +353,15 @@
                 android:enabled="false"
                 android:text="@string/big_bonus"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/BB_Probability"
+                app:layout_constraintBottom_toTopOf="@+id/tTotalBigProbability"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cherry_big"
-                app:layout_constraintTop_toBottomOf="@+id/BB" />
+                app:layout_constraintStart_toEndOf="@+id/bCherryBig"
+                app:layout_constraintTop_toBottomOf="@+id/eTotalBig" />
 
 
             <TextView
-                android:id="@+id/BB_Probability"
+                android:id="@+id/tTotalBigProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -370,14 +370,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/RB"
+                app:layout_constraintBottom_toTopOf="@+id/eTotalReg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cB_Probability"
-                app:layout_constraintTop_toBottomOf="@+id/big_bonus" />
+                app:layout_constraintStart_toEndOf="@+id/tCherryBigProbability"
+                app:layout_constraintTop_toBottomOf="@+id/bTotalBig" />
 
             <EditText
-                android:id="@+id/aR"
+                android:id="@+id/eSingleReg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -393,14 +393,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/alone_reg"
-                app:layout_constraintEnd_toStartOf="@+id/cR"
+                app:layout_constraintBottom_toTopOf="@+id/bSingleReg"
+                app:layout_constraintEnd_toStartOf="@+id/eCherryReg"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/aB_Probability" />
+                app:layout_constraintTop_toBottomOf="@+id/tSingleBigProbability" />
 
             <Button
-                android:id="@+id/alone_reg"
+                android:id="@+id/bSingleReg"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -410,14 +410,14 @@
                 android:onClick="singleRegButton"
                 android:text="@string/alone_reg"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/aR_Probability"
-                app:layout_constraintEnd_toStartOf="@+id/cherry_reg"
+                app:layout_constraintBottom_toTopOf="@+id/tSingleRegProbability"
+                app:layout_constraintEnd_toStartOf="@+id/bCherryReg"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/aR" />
+                app:layout_constraintTop_toBottomOf="@+id/eSingleReg" />
 
             <TextView
-                android:id="@+id/aR_Probability"
+                android:id="@+id/tSingleRegProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -426,14 +426,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/ch"
-                app:layout_constraintEnd_toStartOf="@+id/cR_Probability"
+                app:layout_constraintBottom_toTopOf="@+id/eCherry"
+                app:layout_constraintEnd_toStartOf="@+id/tCherryRegProbability"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/alone_reg" />
+                app:layout_constraintTop_toBottomOf="@+id/bSingleReg" />
 
             <EditText
-                android:id="@+id/cR"
+                android:id="@+id/eCherryReg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -449,14 +449,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/cherry_reg"
-                app:layout_constraintEnd_toStartOf="@+id/RB"
+                app:layout_constraintBottom_toTopOf="@+id/bCherryReg"
+                app:layout_constraintEnd_toStartOf="@+id/eTotalReg"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/aR"
-                app:layout_constraintTop_toBottomOf="@+id/cB_Probability" />
+                app:layout_constraintStart_toEndOf="@+id/eSingleReg"
+                app:layout_constraintTop_toBottomOf="@+id/tCherryBigProbability" />
 
             <Button
-                android:id="@+id/cherry_reg"
+                android:id="@+id/bCherryReg"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -466,14 +466,14 @@
                 android:onClick="cherryRegButton"
                 android:text="@string/cherry_reg"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/cR_Probability"
-                app:layout_constraintEnd_toStartOf="@+id/reg_bonus"
+                app:layout_constraintBottom_toTopOf="@+id/tCherryRegProbability"
+                app:layout_constraintEnd_toStartOf="@+id/bTotalReg"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/alone_reg"
-                app:layout_constraintTop_toBottomOf="@+id/cR" />
+                app:layout_constraintStart_toEndOf="@+id/bSingleReg"
+                app:layout_constraintTop_toBottomOf="@+id/eCherryReg" />
 
             <TextView
-                android:id="@+id/cR_Probability"
+                android:id="@+id/tCherryRegProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -482,14 +482,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/gr"
-                app:layout_constraintEnd_toStartOf="@+id/RB_Probability"
+                app:layout_constraintBottom_toTopOf="@+id/eGrape"
+                app:layout_constraintEnd_toStartOf="@+id/tTotalRegProbability"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/aR_Probability"
-                app:layout_constraintTop_toBottomOf="@+id/cherry_reg" />
+                app:layout_constraintStart_toEndOf="@+id/tSingleRegProbability"
+                app:layout_constraintTop_toBottomOf="@+id/bCherryReg" />
 
             <EditText
-                android:id="@+id/RB"
+                android:id="@+id/eTotalReg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -503,14 +503,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/reg_bonus"
+                app:layout_constraintBottom_toTopOf="@+id/bTotalReg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cR"
-                app:layout_constraintTop_toBottomOf="@+id/BB_Probability" />
+                app:layout_constraintStart_toEndOf="@+id/eCherryReg"
+                app:layout_constraintTop_toBottomOf="@+id/tTotalBigProbability" />
 
             <Button
-                android:id="@+id/reg_bonus"
+                android:id="@+id/bTotalReg"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -519,14 +519,14 @@
                 android:enabled="false"
                 android:text="@string/reg_bonus"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/RB_Probability"
+                app:layout_constraintBottom_toTopOf="@+id/tTotalRegProbability"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cherry_reg"
-                app:layout_constraintTop_toBottomOf="@+id/RB" />
+                app:layout_constraintStart_toEndOf="@+id/bCherryReg"
+                app:layout_constraintTop_toBottomOf="@+id/eTotalReg" />
 
             <TextView
-                android:id="@+id/RB_Probability"
+                android:id="@+id/tTotalRegProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -534,14 +534,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/addition"
+                app:layout_constraintBottom_toTopOf="@+id/eTotalBonus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cR_Probability"
-                app:layout_constraintTop_toBottomOf="@+id/reg_bonus" />
+                app:layout_constraintStart_toEndOf="@+id/tCherryRegProbability"
+                app:layout_constraintTop_toBottomOf="@+id/bTotalReg" />
 
             <EditText
-                android:id="@+id/ch"
+                android:id="@+id/eCherry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -557,14 +557,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/cherry"
-                app:layout_constraintEnd_toStartOf="@+id/gr"
+                app:layout_constraintBottom_toTopOf="@+id/bCherry"
+                app:layout_constraintEnd_toStartOf="@+id/eGrape"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/aR_Probability" />
+                app:layout_constraintTop_toBottomOf="@+id/tSingleRegProbability" />
 
             <Button
-                android:id="@+id/cherry"
+                android:id="@+id/bCherry"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -574,14 +574,14 @@
                 android:onClick="cherryButton"
                 android:text="@string/cherry"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/ch_Probability"
-                app:layout_constraintEnd_toStartOf="@+id/grapes"
+                app:layout_constraintBottom_toTopOf="@+id/tCherryProbability"
+                app:layout_constraintEnd_toStartOf="@+id/bGrape"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ch" />
+                app:layout_constraintTop_toBottomOf="@+id/eCherry" />
 
             <TextView
-                android:id="@+id/ch_Probability"
+                android:id="@+id/tCherryProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -591,13 +591,13 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/gr_Probability"
+                app:layout_constraintEnd_toStartOf="@+id/tGrapeProbability"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cherry" />
+                app:layout_constraintTop_toBottomOf="@+id/bCherry" />
 
             <EditText
-                android:id="@+id/gr"
+                android:id="@+id/eGrape"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -613,14 +613,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/grapes"
-                app:layout_constraintEnd_toStartOf="@+id/addition"
+                app:layout_constraintBottom_toTopOf="@+id/bGrape"
+                app:layout_constraintEnd_toStartOf="@+id/eTotalBonus"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/ch"
-                app:layout_constraintTop_toBottomOf="@+id/cR_Probability" />
+                app:layout_constraintStart_toEndOf="@+id/eCherry"
+                app:layout_constraintTop_toBottomOf="@+id/tCherryRegProbability" />
 
             <Button
-                android:id="@+id/grapes"
+                android:id="@+id/bGrape"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -630,14 +630,14 @@
                 android:onClick="grapeButton"
                 android:text="@string/grapes"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/gr_Probability"
-                app:layout_constraintEnd_toStartOf="@+id/bonus_addition"
+                app:layout_constraintBottom_toTopOf="@+id/tGrapeProbability"
+                app:layout_constraintEnd_toStartOf="@+id/bTotalBonus"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cherry"
-                app:layout_constraintTop_toBottomOf="@+id/gr" />
+                app:layout_constraintStart_toEndOf="@+id/bCherry"
+                app:layout_constraintTop_toBottomOf="@+id/eGrape" />
 
             <TextView
-                android:id="@+id/gr_Probability"
+                android:id="@+id/tGrapeProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -647,14 +647,14 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/addition_Probability"
+                app:layout_constraintEnd_toStartOf="@+id/tTotalBonusProbability"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/ch_Probability"
-                app:layout_constraintTop_toBottomOf="@+id/grapes" />
+                app:layout_constraintStart_toEndOf="@+id/tCherryProbability"
+                app:layout_constraintTop_toBottomOf="@+id/bGrape" />
 
 
             <EditText
-                android:id="@+id/addition"
+                android:id="@+id/eTotalBonus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -668,14 +668,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/bonus_addition"
+                app:layout_constraintBottom_toTopOf="@+id/bTotalBonus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/gr"
-                app:layout_constraintTop_toBottomOf="@+id/RB_Probability" />
+                app:layout_constraintStart_toEndOf="@+id/eGrape"
+                app:layout_constraintTop_toBottomOf="@+id/tTotalRegProbability" />
 
             <Button
-                android:id="@+id/bonus_addition"
+                android:id="@+id/bTotalBonus"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="4dp"
@@ -684,15 +684,15 @@
                 android:enabled="false"
                 android:text="@string/total_bonus"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/addition_Probability"
+                app:layout_constraintBottom_toTopOf="@+id/tTotalBonusProbability"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/grapes"
-                app:layout_constraintTop_toBottomOf="@+id/addition"
+                app:layout_constraintStart_toEndOf="@+id/bGrape"
+                app:layout_constraintTop_toBottomOf="@+id/eTotalBonus"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:id="@+id/addition_Probability"
+                android:id="@+id/tTotalBonusProbability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -704,8 +704,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/gr_Probability"
-                app:layout_constraintTop_toBottomOf="@+id/bonus_addition" />
+                app:layout_constraintStart_toEndOf="@+id/tGrapeProbability"
+                app:layout_constraintTop_toBottomOf="@+id/bTotalBonus" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

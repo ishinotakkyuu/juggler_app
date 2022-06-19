@@ -91,7 +91,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
         switch (view.getId()) {
 
             //総ゲーム数の場合
-            case R.id.total_game:
+            case R.id.eTotalGames:
 
                 //無限ループを回避するために、テキストウォッチャーを解除する
                 total.removeTextChangedListener(this);
@@ -129,7 +129,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 break;
 
             //打ち始めゲーム数の場合
-            case R.id.start_game:
+            case R.id.eStartGames:
 
                 start.removeTextChangedListener(this);
 
@@ -162,7 +162,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 break;
 
             //個人ゲーム数が変更されたら各役物の確率も変更
-            case R.id.individual_game:
+            case R.id.eIndividualGames:
                 if (textString.equals("0")) {
                     setProbabilityZero();
                 } else {
@@ -182,7 +182,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
             //ここからボーナスカウンターボタン押下時及びカウンターを直接編集した時の挙動振り分け
             //--------------------------------------------------------------------------------------------------------------------
 
-            case R.id.aB: //単独ビッグ
+            case R.id.eSingleBig: //単独ビッグ
 
                 aB.removeTextChangedListener(this);
                 // 入力値を更新
@@ -200,7 +200,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 aB.addTextChangedListener(this);
                 break;
 
-            case R.id.cB: //チェリービッグ
+            case R.id.eCherryBig: //チェリービッグ
 
                 cB.removeTextChangedListener(this);
                 //入力値を更新
@@ -218,7 +218,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 cB.addTextChangedListener(this);
                 break;
 
-            case R.id.BB: //ビッグボーナス
+            case R.id.eTotalBig: //ビッグボーナス
 
                 //入力値を更新
                 strTotalBig = textString;
@@ -232,7 +232,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 }
                 break;
 
-            case R.id.aR: //単独レギュラー
+            case R.id.eSingleReg: //単独レギュラー
 
                 aR.removeTextChangedListener(this);
                 //入力値を更新
@@ -250,7 +250,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 aR.addTextChangedListener(this);
                 break;
 
-            case R.id.cR: //チェリービッグ
+            case R.id.eCherryReg: //チェリービッグ
 
                 cR.removeTextChangedListener(this);
                 //入力値を更新
@@ -268,7 +268,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 cR.addTextChangedListener(this);
                 break;
 
-            case R.id.RB: //レギュラーボーナス
+            case R.id.eTotalReg: //レギュラーボーナス
                 //入力値を更新
                 strTotalReg = textString;
                 additionCount = Integer.parseInt(strTotalBig) + Integer.parseInt(strTotalReg);
@@ -279,7 +279,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 }
                 break;
 
-            case R.id.ch: //非重複チェリー
+            case R.id.eCherry: //非重複チェリー
 
                 ch.removeTextChangedListener(this);
                 //入力値を更新
@@ -297,7 +297,7 @@ public class DateDetailCounterWatcher implements TextWatcher {
                 ch.addTextChangedListener(this);
                 break;
 
-            case R.id.gr: //ぶどう
+            case R.id.eGrape: //ぶどう
 
                 gr.removeTextChangedListener(this);
                 //入力値を更新

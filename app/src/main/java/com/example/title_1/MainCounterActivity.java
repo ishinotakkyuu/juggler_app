@@ -537,27 +537,27 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     //***************************************************************************************************************************
 
     public void setFindViewByID(){
-        eTotalGames = findViewById(R.id.total_game);
-        eStartGames = findViewById(R.id.start_game);
-        eIndividualGames = findViewById(R.id.individual_game);
-        eSingleBig = findViewById(R.id.aB); eCherryBig = findViewById(R.id.cB); eTotalBig = findViewById(R.id.BB);
-        eSingleReg = findViewById(R.id.aR); eCherryReg = findViewById(R.id.cR); eTotalReg = findViewById(R.id.RB);
-        eCherry = findViewById(R.id.ch); eGrape = findViewById(R.id.gr); eTotalBonus = findViewById(R.id.addition);
-        tSingleBigProbability = findViewById(R.id.aB_Probability);
-        tCherryBigProbability = findViewById(R.id.cB_Probability);
-        tTotalBigProbability = findViewById(R.id.BB_Probability);
-        tSingleRegProbability = findViewById(R.id.aR_Probability);
-        tCherryRegProbability = findViewById(R.id.cR_Probability);
-        tTotalRegProbability = findViewById(R.id.RB_Probability);
-        tCherryProbability = findViewById(R.id.ch_Probability);
-        tGrapeProbability = findViewById(R.id.gr_Probability);
-        tTotalBonusProbability = findViewById(R.id.addition_Probability);
+        eTotalGames = findViewById(R.id.eTotalGames);
+        eStartGames = findViewById(R.id.eStartGames);
+        eIndividualGames = findViewById(R.id.eIndividualGames);
+        eSingleBig = findViewById(R.id.eSingleBig); eCherryBig = findViewById(R.id.eCherryBig); eTotalBig = findViewById(R.id.eTotalBig);
+        eSingleReg = findViewById(R.id.eSingleReg); eCherryReg = findViewById(R.id.eCherryReg); eTotalReg = findViewById(R.id.eTotalReg);
+        eCherry = findViewById(R.id.eCherry); eGrape = findViewById(R.id.eGrape); eTotalBonus = findViewById(R.id.eTotalBonus);
+        tSingleBigProbability = findViewById(R.id.tSingleBigProbability);
+        tCherryBigProbability = findViewById(R.id.tCherryBigProbability);
+        tTotalBigProbability = findViewById(R.id.tTotalBigProbability);
+        tSingleRegProbability = findViewById(R.id.tSingleRegProbability);
+        tCherryRegProbability = findViewById(R.id.tCherryRegProbability);
+        tTotalRegProbability = findViewById(R.id.tTotalRegProbability);
+        tCherryProbability = findViewById(R.id.tCherryProbability);
+        tGrapeProbability = findViewById(R.id.tGrapeProbability);
+        tTotalBonusProbability = findViewById(R.id.tTotalBonusProbability);
         mainLayout = findViewById(R.id.counter);
         scrollLayout = findViewById(R.id.TouchCounter);
-        bTotalBig = findViewById(R.id.big_bonus);
-        bTotalReg = findViewById(R.id.reg_bonus);
-        bTotalBonus = findViewById(R.id.bonus_addition);
-        sJuggler = findViewById(R.id.juggler);
+        bTotalBig = findViewById(R.id.bTotalBig);
+        bTotalReg = findViewById(R.id.bTotalReg);
+        bTotalBonus = findViewById(R.id.bTotalBonus);
+        sJuggler = findViewById(R.id.sJuggler);
     }
 
     //ゲーム数関係とカウンター関係へCounterWatcherを設定
@@ -644,17 +644,17 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // ボタンの制御
     //***************************************************************************************************************************
 
-    public void aloneBigButton(View view) {pushButton(eSingleBig,R.id.aB,9999);
+    public void aloneBigButton(View view) {pushButton(eSingleBig,R.id.eSingleBig,9999);
         vibrator();}
-    public void cherryBigButton(View view) {pushButton(eCherryBig,R.id.cB,9999);
+    public void cherryBigButton(View view) {pushButton(eCherryBig,R.id.eCherryBig,9999);
         vibrator();}
-    public void aloneRegButton(View view){pushButton(eSingleReg,R.id.aR,9999);
+    public void aloneRegButton(View view){pushButton(eSingleReg,R.id.eSingleReg,9999);
         vibrator();}
-    public void cherryRegButton(View view){pushButton(eCherryReg,R.id.cR,9999);
+    public void cherryRegButton(View view){pushButton(eCherryReg,R.id.eCherryReg,9999);
         vibrator();}
-    public void cherryButton(View view){pushButton(eCherry,R.id.ch,99999);
+    public void cherryButton(View view){pushButton(eCherry,R.id.eCherry,99999);
         vibrator();}
-    public void grapesButton(View view){pushButton(eGrape,R.id.gr,999999);
+    public void grapesButton(View view){pushButton(eGrape,R.id.eGrape,999999);
         vibrator();}
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.counter);

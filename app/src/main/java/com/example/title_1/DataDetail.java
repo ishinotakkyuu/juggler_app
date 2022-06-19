@@ -37,7 +37,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -173,8 +172,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         if (judge) {
 
             // 「編集」ボタンの見た目を「マイナス」ボタンに、「削除」ボタンの見た目を「更新」ボタンにする
-            bEditAndBack.setText("マイナス");
-            bDeleteAndUpdate.setText("更新");
+            bEditAndBack.setText(getString(R.string.minus));
+            bDeleteAndUpdate.setText(getString(R.string.update));
             judge = false;
             judgePlusMinus = false;
 
@@ -197,13 +196,13 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
 
             if (!judgePlusMinus) {
                 // 「マイナス」ボタンの見た目を「プラス」ボタンにする
-                bEditAndBack.setText("プラス");
+                bEditAndBack.setText(getString(R.string.plus));
                 judgePlusMinus = true;
                 ViewItems.setEditTextColor(ViewItems.getDetailCounterTextItems(), Color.RED, Typeface.DEFAULT_BOLD);
                 ViewItems.setTextViewColor(ViewItems.getDetailProbabilityTextItems(), Color.RED, Typeface.DEFAULT_BOLD);
             } else {
                 // 「プラス」ボタンの見た目を「マイナス」ボタンにする
-                bEditAndBack.setText("マイナス");
+                bEditAndBack.setText(getString(R.string.minus));
                 judgePlusMinus = false;
                 ViewItems.setEditTextColor(ViewItems.getDetailCounterTextItems(), Color.WHITE, Typeface.DEFAULT);
                 ViewItems.setTextViewColor(ViewItems.getDetailProbabilityTextItems(), Color.WHITE, Typeface.DEFAULT);
@@ -217,9 +216,9 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         if (judge) {
             // 注意換気用のアラートを表示
             new AlertDialog.Builder(this)
-                    .setTitle("データ削除について")
-                    .setMessage("登録データを削除します。よろしいですか？")
-                    .setPositiveButton("削除", (dialogInterface, i) -> {
+                    .setTitle(getString(R.string.db_delete_tittle))
+                    .setMessage(getString(R.string.db_delete_message))
+                    .setPositiveButton(getString(R.string.delete), (dialogInterface, i) -> {
 
                         // 該当のDB情報を削除する
                         Context context = this;
@@ -229,11 +228,11 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                         }
 
                         Intent intent = new Intent(this, MainGradeInquiry.class);
-                        intent.putExtra("TOAST", "削除");
+                        intent.putExtra("TOAST", getString(R.string.delete));
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     })
-                    .setNegativeButton("キャンセル", null)
+                    .setNegativeButton(getString(R.string.cancel), null)
                     .show();
 
         } else { //更新ボタンを押下時の処理
@@ -242,7 +241,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
             if (checkedIndividualGames != 0) {
                 registerDialog();
             } else {
-                Toast toast = Toast.makeText(DataDetail.this, "０ゲームでの更新はできません", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(DataDetail.this, getString(R.string.db_zero_game_toast), Toast.LENGTH_LONG);
                 toast.show();
                 focusOut();
             }
@@ -436,7 +435,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                 registerDialog.dismiss();
                 focusOut();
                 Intent intent = new Intent(this, MainGradeInquiry.class);
-                intent.putExtra("TOAST", "更新");
+                intent.putExtra("TOAST", getString(R.string.update));
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
         });
@@ -450,38 +449,38 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         tKeepTime = findViewById(R.id.TextKeepTime);
         eDummy = findViewById(R.id.DummyText);
         juggler = findViewById(R.id.Juggler);
-        eTotalGames = findViewById(R.id.total_game);
-        eStartGames = findViewById(R.id.start_game);
-        eIndividualGames = findViewById(R.id.individual_game);
-        eSingleBig = findViewById(R.id.aB);
-        eCherryBig = findViewById(R.id.cB);
-        eTotalBig = findViewById(R.id.BB);
-        eSingleReg = findViewById(R.id.aR);
-        eCherryReg = findViewById(R.id.cR);
-        eTotalReg = findViewById(R.id.RB);
-        eCherry = findViewById(R.id.ch);
-        eGrape = findViewById(R.id.gr);
-        eTotalBonus = findViewById(R.id.addition);
-        tSingleBigProbability = findViewById(R.id.aB_Probability);
-        tCherryBigProbability = findViewById(R.id.cB_Probability);
-        tTotalBigProbability = findViewById(R.id.BB_Probability);
-        tSingleRegProbability = findViewById(R.id.aR_Probability);
-        tCherryRegProbability = findViewById(R.id.cR_Probability);
-        tTotalRegProbability = findViewById(R.id.RB_Probability);
-        tCherryProbability = findViewById(R.id.ch_Probability);
-        tGrapeProbability = findViewById(R.id.gr_Probability);
-        tTotalBonusProbability = findViewById(R.id.addition_Probability);
+        eTotalGames = findViewById(R.id.eTotalGames);
+        eStartGames = findViewById(R.id.eStartGames);
+        eIndividualGames = findViewById(R.id.eIndividualGames);
+        eSingleBig = findViewById(R.id.eSingleBig);
+        eCherryBig = findViewById(R.id.eCherryBig);
+        eTotalBig = findViewById(R.id.eTotalBig);
+        eSingleReg = findViewById(R.id.eSingleReg);
+        eCherryReg = findViewById(R.id.eCherryReg);
+        eTotalReg = findViewById(R.id.eTotalReg);
+        eCherry = findViewById(R.id.eCherry);
+        eGrape = findViewById(R.id.eGrape);
+        eTotalBonus = findViewById(R.id.eTotalBonus);
+        tSingleBigProbability = findViewById(R.id.tSingleBigProbability);
+        tCherryBigProbability = findViewById(R.id.tCherryBigProbability);
+        tTotalBigProbability = findViewById(R.id.tTotalBigProbability);
+        tSingleRegProbability = findViewById(R.id.tSingleRegProbability);
+        tCherryRegProbability = findViewById(R.id.tCherryRegProbability);
+        tTotalRegProbability = findViewById(R.id.tTotalRegProbability);
+        tCherryProbability = findViewById(R.id.tCherryProbability);
+        tGrapeProbability = findViewById(R.id.tGrapeProbability);
+        tTotalBonusProbability = findViewById(R.id.tTotalBonusProbability);
         bEditAndBack = findViewById(R.id.EditButton);
         bDeleteAndUpdate = findViewById(R.id.DeleteButton);
-        bSingleBig = findViewById(R.id.alone_big);
-        bCherryBig = findViewById(R.id.cherry_big);
-        bTotalBig = findViewById(R.id.big_bonus);
-        bSingleReg = findViewById(R.id.alone_reg);
-        bCherryReg = findViewById(R.id.cherry_reg);
-        bTotalReg = findViewById(R.id.reg_bonus);
-        bCherry = findViewById(R.id.cherry);
-        bGrape = findViewById(R.id.grapes);
-        bTotalBonus = findViewById(R.id.bonus_addition);
+        bSingleBig = findViewById(R.id.bSingleBig);
+        bCherryBig = findViewById(R.id.bCherryBig);
+        bTotalBig = findViewById(R.id.bTotalBig);
+        bSingleReg = findViewById(R.id.bSingleReg);
+        bCherryReg = findViewById(R.id.bCherryReg);
+        bTotalReg = findViewById(R.id.bTotalReg);
+        bCherry = findViewById(R.id.bCherry);
+        bGrape = findViewById(R.id.bGrape);
+        bTotalBonus = findViewById(R.id.bTotalBonus);
     }
 
     public void setJuggler() {
@@ -532,12 +531,12 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         mainLayout.requestFocus();
     }
 
-    public void singleBigButton(View view) {pushButton(eSingleBig, R.id.aB, 9999);}
-    public void cherryBigButton(View view) {pushButton(eCherryBig, R.id.cB, 9999);}
-    public void singleRegButton(View view) {pushButton(eSingleReg, R.id.aR, 9999);}
-    public void cherryRegButton(View view) {pushButton(eCherryReg, R.id.cR, 9999);}
-    public void cherryButton(View view) {pushButton(eCherry, R.id.ch, 99999);}
-    public void grapeButton(View view) {pushButton(eGrape, R.id.gr, 999999);}
+    public void singleBigButton(View view) {pushButton(eSingleBig, R.id.eSingleBig, 9999);}
+    public void cherryBigButton(View view) {pushButton(eCherryBig, R.id.eCherryBig, 9999);}
+    public void singleRegButton(View view) {pushButton(eSingleReg, R.id.eSingleReg, 9999);}
+    public void cherryRegButton(View view) {pushButton(eCherryReg, R.id.eCherryReg, 9999);}
+    public void cherryButton(View view) {pushButton(eCherry, R.id.eCherry, 99999);}
+    public void grapeButton(View view) {pushButton(eGrape, R.id.eGrape, 999999);}
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.EditLayout);
         ColorButton colorButton = new ColorButton();
@@ -555,7 +554,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                     colorButton.setFlash(v, id);
                     editText.setText(String.valueOf(textValue));
                 } else {
-                    Toast toast = Toast.makeText(this, "カウント回数下限に達しました", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, getString(R.string.lower_limit_count_toast), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
@@ -569,7 +568,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
                     colorButton.setFlash(v, id);
                     editText.setText(String.valueOf(textValue));
                 } else {
-                    Toast toast = Toast.makeText(this, "カウント回数上限に達しました", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, getString(R.string.upper_limit_count_toast), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } else {

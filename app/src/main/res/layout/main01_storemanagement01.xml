@@ -10,7 +10,7 @@
     tools:context=".MainManagementStore">
 
     <EditText
-        android:id="@+id/EditStoreName"
+        android:id="@+id/eStoreName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -25,27 +25,27 @@
         android:textColor="@color/white"
         android:textColorHint="#5E5E6E"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/AddButton"
+        app:layout_constraintEnd_toStartOf="@+id/bAdd"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/AddButton"
+        android:id="@+id/bAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="addStore"
         android:text="追加"
-        app:layout_constraintBaseline_toBaselineOf="@+id/EditStoreName"
+        app:layout_constraintBaseline_toBaselineOf="@+id/eStoreName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/EditStoreName"
+        app:layout_constraintStart_toEndOf="@+id/eStoreName"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/StoreCount"
+        android:id="@+id/tStoreCount"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
@@ -54,14 +54,14 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/StoreList"
+        app:layout_constraintBottom_toTopOf="@+id/lStore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditStoreName" />
+        app:layout_constraintTop_toBottomOf="@+id/eStoreName" />
 
     <ListView
-        android:id="@+id/StoreList"
+        android:id="@+id/lStore"
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:layout_marginTop="8dp"
@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StoreCount" />
+        app:layout_constraintTop_toBottomOf="@+id/tStoreCount" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

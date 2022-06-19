@@ -63,7 +63,7 @@ public class FlagGrades extends Fragment {
         judgeToast = intent.getStringExtra("TOAST");
         if(StringUtils.isNotEmpty(judgeToast)){
             Toast toast;
-            if(judgeToast.equals("削除")){
+            if(judgeToast.equals(getString(R.string.delete))){
                 toast = Toast.makeText(getActivity(), "データを削除しました", Toast.LENGTH_LONG);
             } else {
                 toast = Toast.makeText(getActivity(), "データを更新しました", Toast.LENGTH_LONG);

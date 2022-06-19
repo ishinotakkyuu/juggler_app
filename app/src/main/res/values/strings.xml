@@ -26,12 +26,14 @@
 
 
     <!--複数箇所で使用-->
-        <!--ひと言-->
-            <string name="yes">はい</string>
-            <string name="no">いいえ</string>
-            <string name="back">戻る</string>
-            <string name="release">解除</string>
-            <string name="cancel">キャンセル</string>
+        <string name="yes">はい</string>
+        <string name="no">いいえ</string>
+        <string name="back">戻る</string>
+        <string name="release">解除</string>
+        <string name="cancel">キャンセル</string>
+        <string name="delete">削除</string>
+        <string name="upper_limit_count_toast">カウント回数上限に達しました</string>
+        <string name="lower_limit_count_toast">カウント回数下限に達しました</string>
 
     <!--MainManagementStore.java 関係-->
         <!--登録店舗数-->
@@ -60,7 +62,6 @@
             <string name="rename_toast">%1$sを%2$sに変更しました</string>
             <string name="delete_store_tittle">登録店舗削除</string>
             <string name="delete_store_message">「%1$s」をリストから削除してよろしいですか？</string>
-            <string name="delete">削除</string>
             <string name="delete_toast">削除しました</string>
     <!--MainManagementStore.java 以上-->
 
@@ -95,13 +96,100 @@
             <string name="zero_game_toast">０ゲームでの登録はできません</string>
             <string name="select_date_toast">日付を選択してください</string>
             <string name="register_toast">データを登録しました</string>
-        <!--カウント回数上限/下限-->
-            <string name="upper_limit_count_toast">カウント回数上限に達しました</string>
-            <string name="lower_limit_count_toast">カウント回数下限に達しました</string>
     <!--MainCounterActivity.java 以上-->
 
+    <!--FlagStatistics.java 関係-->
+        <string name="not_selection">未選択</string>
+        <!--配列関係-->
+        <string-array name="SET_TITTLES">
+            <item>総回転数</item>
+            <item>差枚数</item>
+            <item>機械割</item>
+            <item>単独BIG</item>
+            <item>チェBIG</item>
+            <item>BIG合算</item>
+            <item>単独REG</item>
+            <item>チェREG</item>
+            <item>REG合算</item>
+            <item>ボーナス合算</item>
+            <item>ぶどう</item>
+            <item>非重複チェリー</item>
+        </string-array>
+
+        <string-array name="SET_DIGIT">
+            <item>@string/not_selection</item>
+            <item>0の付く日</item><item>1の付く日</item><item>2の付く日</item><item>3の付く日</item><item>4の付く日</item>
+            <item>5の付く日</item><item>6の付く日</item><item>7の付く日</item><item>8の付く日</item><item>9の付く日</item>
+        </string-array>
+
+        <string-array name="SET_SPECIAL_DAY">
+            <item>@string/not_selection</item>
+            <item>ゾロ目</item>
+            <item>月と日が同じ</item>
+        </string-array>
+
+        <string-array name="SET_MONTH">
+            <item>@string/not_selection</item>
+            <item>1月</item><item>2月</item><item>3月</item><item>4月</item>
+            <item>5月</item><item>6月</item><item>7月</item><item>8月</item>
+            <item>9月</item><item>10月</item><item>11月</item><item>12月</item>
+        </string-array>
+
+        <string-array name="SET_DAY">
+            <item>@string/not_selection</item>
+            <item>1日</item><item>2日</item><item>3日</item><item>4日</item><item>5日</item>
+            <item>6日</item><item>7日</item><item>8日</item><item>9日</item><item>10日</item>
+            <item>11日</item><item>12日</item><item>13日</item><item>14日</item><item>15日</item>
+            <item>16日</item><item>17日</item><item>18日</item><item>19日</item><item>20日</item>
+            <item>21日</item><item>22日</item><item>23日</item><item>24日</item><item>25日</item>
+            <item>26日</item><item>27日</item><item>28日</item><item>29日</item><item>30日</item><item>31日</item>
+        </string-array>
+
+        <string-array name="SET_WEEK_IN_MONTH">
+            <item>@string/not_selection</item>
+            <item>第1</item><item>第2</item><item>第3</item><item>第4</item><item>第5</item>
+        </string-array>
+
+        <string-array name="SET_WEEK_ID">
+            <item>@string/not_selection</item>
+            <item>日曜日</item>
+            <item>月曜日</item>
+            <item>火曜日</item>
+            <item>水曜日</item>
+            <item>木曜日</item>
+            <item>金曜日</item>
+            <item>土曜日</item>
+        </string-array>
+
+        <string-array name="SET_ATTACH_DAY">
+            <item>@string/not_selection</item>
+            <item>末尾0</item><item>末尾1</item><item>末尾2</item><item>末尾3</item><item>末尾4</item>
+            <item>末尾5</item><item>末尾6</item><item>末尾7</item><item>末尾8</item><item>末尾9</item>
+        </string-array>
 
 
+
+
+
+
+    <!--FlagStatistics.java 以上-->
+
+
+    <!--DataDetail.java 関係-->
+        <string name="plus">プラス</string>
+        <string name="minus">マイナス</string>
+        <string name="update">更新</string>
+        <!--成績照会のメニュー関係-->
+            <string name="tab_text_1">個別データ</string>
+            <string name="tab_text_2">統計データ</string>
+            <string name="tab_text_3">CSV出力</string>
+        <!--データ削除-->
+            <string name="db_delete_tittle">データ削除について</string>
+            <string name="db_delete_message">登録データを削除します。\nよろしいですか？</string>
+            <string name="db_zero_game_toast">０ゲームでの更新はできません</string>
+            <string name="db_delete_toast">データを削除しました</string>
+            <string name="db_update_toast">データを更新しました</string>
+    <!--DataDetail.java 以上-->
 
 
 
@@ -133,10 +221,6 @@
 
     <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
 
-    <!--成績照会のメニュー関係-->
-    <string name="tab_text_1">個別データ</string>
-    <string name="tab_text_2">統計データ</string>
-    <string name="tab_text_3">CSV出力</string>
 
 
 

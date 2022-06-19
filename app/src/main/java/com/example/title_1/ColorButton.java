@@ -14,27 +14,27 @@ public class ColorButton {
 
         switch (id){
 
-            case R.id.aB:
+            case R.id.eSingleBig:
                 colorFrom = Color.RED;
                 break;
 
-            case R.id.cB:
+            case R.id.eCherryBig:
                 colorFrom = Color.MAGENTA;
                 break;
 
-            case R.id.aR:
+            case R.id.eSingleReg:
                 colorFrom = Color.BLUE;
                 break;
 
-            case R.id.cR:
+            case R.id.eCherryReg:
                 colorFrom = Color.CYAN;
                 break;
 
-            case R.id.ch:
+            case R.id.eCherry:
                 colorFrom = Color.YELLOW;
                 break;
 
-            case R.id.gr:
+            case R.id.eGrape:
                 colorFrom = Color.GREEN;
                 break;
             default:

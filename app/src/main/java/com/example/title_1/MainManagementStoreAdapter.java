@@ -41,7 +41,7 @@ public class MainManagementStoreAdapter extends ArrayAdapter<String> {
         }
 
         // タイトルを設定
-        TextView title = view.findViewById(R.id.title);
+        TextView title = view.findViewById(R.id.ListItem);
         title.setText(items.get(position));
 
         return view;
