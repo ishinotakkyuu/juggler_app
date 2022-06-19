@@ -241,7 +241,7 @@
                 android:background="@drawable/c_maincounteractivity03_alonebigbottun"
                 android:enabled="false"
                 android:onClick="dSingleBigButton"
-                android:text="@string/alone_big"
+                android:text="@string/single_big"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/tSingleBigProbability"
                 app:layout_constraintEnd_toStartOf="@+id/bCherryBig"
