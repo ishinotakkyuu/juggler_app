@@ -65,13 +65,6 @@
     <!--MainManagementStore.java 以上-->
 
     <!--MainCounterActivity.java 関係-->
-        <!--メニュー関係-->
-            <string name="menu_item01">編集モード</string>
-            <string name="menu_item02">加減算モード</string>
-            <string name="menu_item03">ステルス機能</string>
-            <string name="menu_item04">バイブON/OFF</string>
-            <string name="menu_item05">カウンター初期化</string>
-            <string name="menu_item06">データ保存</string>
         <!--加減算切り替え-->
             <string name="stealth_release_tittle">ステルス機能の解除について</string>
             <string name="stealth_release_message">減算モードを利用する場合はステルス機能を解除する必要があります</string>
@@ -191,41 +184,61 @@
         <string name="grade_Inquiry">成 績 照 会</string>
         <string name="counter">小 役 カ ウ ン ター</string>
         <string name="manual">使 い 方</string>
+    <!--店舗管理画面-->
+        <string name="store_edit_hint">店舗名(最大20文字)を入力</string>
+        <string name="add_button">追加</string>
+    <!--カウンター画面のメニュー-->
+        <string name="menu_item01">編集モード</string>
+        <string name="menu_item02">加減算モード</string>
+        <string name="menu_item03">ステルス機能</string>
+        <string name="menu_item04">バイブON/OFF</string>
+        <string name="menu_item05">カウンター初期化</string>
+        <string name="menu_item06">データ保存</string>
     <!--カウンター画面(２画面分)-->
         <string name="start_game">開始ゲーム数</string>
         <string name="total_game">総ゲーム数</string>
         <string name="ind_game">個人ゲーム数</string>
         <string name="init_game">0</string>
     <!--カウンターのボタン関係(２画面分)-->
-    <string name="single_big">単独BIG</string>
-
-
-
-
-
-    <string name="cherry_big">ﾁｪﾘｰBIG</string>
-    <string name="big_bonus">BIG</string>
-    <string name="alone_reg">単独REG</string>
-    <string name="cherry_reg">ﾁｪﾘｰREG</string>
-    <string name="reg_bonus">REG</string>
-    <string name="cherry">非重複ﾁｪﾘｰ</string>
-    <string name="grapes">ぶどう</string>
-    <string name="total_bonus">合算</string>
-
-
-
-
-
-
-
-    <!-- Strings used for fragments for navigation -->
-    <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
+        <string name="single_big">単独BIG</string>
+        <string name="cherry_big">ﾁｪﾘｰBIG</string>
+        <string name="total_big">BIG</string>
+        <string name="single_reg">単独REG</string>
+        <string name="cherry_reg">ﾁｪﾘｰREG</string>
+        <string name="total_reg">REG</string>
+        <string name="cherry">非重複ﾁｪﾘｰ</string>
+        <string name="grape">ぶどう</string>
+        <string name="total_bonus">合算</string>
+    <!--カスタムダイアログ関係(２画面分)-->
+        <string name="add_date">@string/menu_item06</string>
+        <string name="update_date">データ更新</string>
+        <string name="date"> 日付</string>
+        <string name="store_name"> 店舗名</string>
+        <string name="table_number"> 台番号</string>
+        <string name="medal"> 差枚数</string>
+        <string name="register_button">登録</string>
+        <string name="update_button">更新</string>
+    <!--統計データ画面-->
+        <string name="statistics_date">日付</string>
+        <string name="statistics_store_name">店舗名</string>
+        <string name="statistics_machine_name">機種名</string>
+        <string name="statistics_table_number">台番号</string>
+        <string name="statistics_special01">特殊１</string>
+        <string name="statistics_special02">特殊２</string>
+        <string name="statistics_special03">特殊３</string>
+        <string name="statistics_special04">特殊４</string>
+        <string name="statistics_special05">特殊５</string>
+        <string name="statistics_special06">特殊６</string>
+        <string name="statistics_special07">特殊７</string>
+        <string name="statistics_show_button">表示</string>
+    <!--fragment関係(偉い人が作ったやつだから消したら終わる)-->
+        <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
+        <string name="first_fragment_label">First Fragment</string>
+        <string name="second_fragment_label">Second Fragment</string>
+        <string name="next">Next</string>
+        <string name="previous">Previous</string>
+        <string name="hello_first_fragment">Hello first fragment</string>
+        <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+<!--レイアウト関係以上-->
 
 </resources>
