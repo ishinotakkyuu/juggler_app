@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,7 +166,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 // ここにDBデータを記述
                 tTotalGames.setText(Math.round(dbTotalGamesValue) + "回転");
                 tTotalMedal.setText(Math.round(dbTotalMedalValue) + "枚");
-                tDiscount.setText(String.format("%.2f", calDiscountValue) + "%");
+                if(calDiscountValue > 0){tDiscount.setText(String.format("%.2f", calDiscountValue) + "%");}else{tDiscount.setText("0%");}
                 tTotalSingleBig.setText(dbTotalSingleBigValue + "回");
                 tTotalSingleBigProbability.setText("1/" + String.format("%.2f", calTotalSingleBigProbabilityValue));
                 tTotalCherryBig.setText(dbTotalCherryBigValue + "回");
@@ -325,61 +324,41 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         }
 
         // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,Store_Names);
-        storeAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sStore.setAdapter(storeAdapter);
+        setItems(Store_Names,sStore);
 
         // 機種名一覧リストをセット
-        ArrayAdapter<String> machineAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,Machine_Names);
-        machineAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sMachine.setAdapter(machineAdapter);
+        setItems(Machine_Names,sMachine);
 
         // 台番号をセット
-        ArrayAdapter<String> machineNumberAdapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,Table_Number);
-        machineNumberAdapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sTableNumber.setAdapter(machineNumberAdapter);
+        setItems(Table_Number,sTableNumber);
 
         // 特殊スピナー①をセット
         final List<String> spItems01 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_DIGIT)));
-        ArrayAdapter<String> adapter01 = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems01);
-        adapter01.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sDayDigit.setAdapter(adapter01);
+        setItems(spItems01,sDayDigit);
 
         // 特殊スピナー②をセット
         final List<String> spItems02 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_SPECIAL_DAY)));
-        ArrayAdapter<String> adapter02 = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems02);
-        adapter02.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sSpecialDay.setAdapter(adapter02);
+        setItems(spItems02,sSpecialDay);
 
         // 特殊スピナー③をセット
         final List<String> spItems03 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_MONTH)));
-        ArrayAdapter<String> adapter03 = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems03);
-        adapter03.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sMonth.setAdapter(adapter03);
+        setItems(spItems03,sMonth);
 
         // 特殊スピナー④をセット
         final List<String> spItems04 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_DAY)));
-        ArrayAdapter<String> adapter04 = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems04);
-        adapter04.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sDay.setAdapter(adapter04);
+        setItems(spItems04,sDay);
 
         // 特殊スピナー⑤をセット
         final List<String> spItems05 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_WEEK_IN_MONTH)));
-        ArrayAdapter<String> adapter05 = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems05);
-        adapter05.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sDayOfWeek_In_Month.setAdapter(adapter05);
+        setItems(spItems05,sDayOfWeek_In_Month);
 
         // 特殊スピナー⑥をセット
         final List<String> spItems06 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_WEEK_ID)));
-        ArrayAdapter<String> adapter06 = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems06);
-        adapter06.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sWeekId.setAdapter(adapter06);
+        setItems(spItems06,sWeekId);
 
         // 特殊スピナー⑦をセット
         final List<String> spItems07 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_ATTACH_DAY)));
-        ArrayAdapter<String> adapter07 = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems07);
-        adapter07.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
-        sAttachDay.setAdapter(adapter07);
+        setItems(spItems07,sAttachDay);
     }
 
     public void initValue() {
@@ -397,10 +376,16 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     // ダブル型で割り算するメソッド
     public double division(int numerator , int denominator){
         double result = 0;
-        if(numerator!=0 && denominator!=0) {
+        if(numerator != 0 && denominator != 0) {
             result = (double)numerator / (double)denominator;
         }
         return result;
     }
 
+    // 各種スピナーに項目をセットするメソッド
+    public void setItems(List<String> spItems, Spinner spinner){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems);
+        adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
+        spinner.setAdapter(adapter);
+    }
 }
