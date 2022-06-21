@@ -173,13 +173,12 @@
     <!--DataDetail.java 以上-->
 
 <!--レイアウト関係-->
+    <!--スプラッシュ画面-->
+        <string name="Mr.">DELSON</string>
     <!--アクションバー関係-->
         <string name="counter_name">小役カウンター</string>
-    <!--フラグメントタブ関係-->
-        <string name="tab_text_1">個別データ</string>
-        <string name="tab_text_2">統計データ</string>
-        <string name="tab_text_3">CSV出力</string>
     <!--メイン画面-->
+        <string name="image_description">ジャグラーデータ管理 高設定を掴むためのデータ管理アプリ</string>
         <string name="store_management">店 舗 管 理</string>
         <string name="grade_Inquiry">成 績 照 会</string>
         <string name="counter">小 役 カ ウ ン ター</string>
@@ -218,6 +217,10 @@
         <string name="medal"> 差枚数</string>
         <string name="register_button">登録</string>
         <string name="update_button">更新</string>
+    <!--フラグメントタブ関係-->
+        <string name="tab_text_1">個別データ</string>
+        <string name="tab_text_2">統計データ</string>
+        <string name="tab_text_3">CSV出力</string>
     <!--統計データ画面-->
         <string name="statistics_date">日付</string>
         <string name="statistics_store_name">店舗名</string>
@@ -231,6 +234,7 @@
         <string name="statistics_special06">特殊６</string>
         <string name="statistics_special07">特殊７</string>
         <string name="statistics_show_button">表示</string>
+        <string name="statistics_date_reset_button">日付クリア</string>
     <!--fragment関係(偉い人が作ったやつだから消したら終わる)-->
         <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
         <string name="first_fragment_label">First Fragment</string>

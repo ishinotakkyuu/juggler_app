@@ -45,7 +45,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     CheckBox cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay;
 
     // データを表示するためのボタン
-    Button bDisplay;
+    Button bDisplay,bClear;
 
     // タイトル表示に使用するTextView
     TextView tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig, tTittleTotalBig,
@@ -72,6 +72,11 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     double calDiscountValue,calTotalSingleBigProbabilityValue,calTotalCherryBigProbabilityValue,calTotalBigProbabilityValue,
             calTotalSingleRegProbabilityValue,calTotalCherryRegProbabilityValue,calTotalRegProbabilityValue,
             calTotalBonusProbabilityValue,calTotalCherryProbabilityValue,calTotalGrapeProbabilityValue;
+
+    final String FORMAT = "%.2f";
+    final String TIMES = "回";
+    final String NUMERATOR = "1/";
+
 
 
     @Nullable
@@ -163,31 +168,34 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 NumberFormat nfNum = NumberFormat.getNumberInstance();
                 nfNum.setMaximumFractionDigits(1);
 
-                // ここにDBデータを記述
+                // 値を各Viewにセット
                 tTotalGames.setText(Math.round(dbTotalGamesValue) + "回転");
                 tTotalMedal.setText(Math.round(dbTotalMedalValue) + "枚");
-                if(calDiscountValue > 0){tDiscount.setText(String.format("%.2f", calDiscountValue) + "%");}else{tDiscount.setText("0%");}
-                tTotalSingleBig.setText(dbTotalSingleBigValue + "回");
-                tTotalSingleBigProbability.setText("1/" + String.format("%.2f", calTotalSingleBigProbabilityValue));
-                tTotalCherryBig.setText(dbTotalCherryBigValue + "回");
-                tTotalCherryBigProbability.setText("1/" + String.format("%.2f", calTotalCherryBigProbabilityValue));
-                tTotalBig.setText(calTotalBigValue + "回");
-                tTotalBigProbability.setText("1/" + String.format("%.2f", calTotalBigProbabilityValue));
-                tTotalSingleReg.setText(dbTotalSingleRegValue + "回");
-                tTotalSingleRegProbability.setText("1/" + String.format("%.2f", calTotalSingleRegProbabilityValue));
-                tTotalCherryReg.setText(dbTotalCherryRegValue + "回");
-                tTotalCherryRegProbability.setText("1/" + String.format("%.2f", calTotalCherryRegProbabilityValue));
-                tTotalReg.setText(calTotalRegValue + "回");
-                tTotalRegProbability.setText("1/" + String.format("%.2f", calTotalRegProbabilityValue));
-                tTotalBonus.setText(calTotalBonusValue + "回");
-                tTotalBonusProbability.setText("1/" + String.format("%.2f", calTotalBonusProbabilityValue));
-                tTotalGrape.setText(dbTotalGrapeValue + "回");
-                tTotalGrapeProbability.setText("1/" + String.format("%.2f", calTotalGrapeProbabilityValue));
-                tTotalCherry.setText(dbTotalCherryValue + "回");
-                tTotalCherryProbability.setText("1/" + String.format("%.2f", calTotalCherryProbabilityValue));
-
+                if(calDiscountValue > 0){tDiscount.setText(String.format(FORMAT, calDiscountValue) + "%");}else{tDiscount.setText("0.00%");}
+                tTotalSingleBig.setText(dbTotalSingleBigValue + TIMES);
+                tTotalSingleBigProbability.setText(NUMERATOR + String.format(FORMAT, calTotalSingleBigProbabilityValue));
+                tTotalCherryBig.setText(dbTotalCherryBigValue + TIMES);
+                tTotalCherryBigProbability.setText(NUMERATOR + String.format(FORMAT, calTotalCherryBigProbabilityValue));
+                tTotalBig.setText(calTotalBigValue + TIMES);
+                tTotalBigProbability.setText(NUMERATOR + String.format(FORMAT, calTotalBigProbabilityValue));
+                tTotalSingleReg.setText(dbTotalSingleRegValue + TIMES);
+                tTotalSingleRegProbability.setText(NUMERATOR + String.format(FORMAT, calTotalSingleRegProbabilityValue));
+                tTotalCherryReg.setText(dbTotalCherryRegValue + TIMES);
+                tTotalCherryRegProbability.setText(NUMERATOR + String.format(FORMAT, calTotalCherryRegProbabilityValue));
+                tTotalReg.setText(calTotalRegValue + TIMES);
+                tTotalRegProbability.setText(NUMERATOR + String.format(FORMAT, calTotalRegProbabilityValue));
+                tTotalBonus.setText(calTotalBonusValue + TIMES);
+                tTotalBonusProbability.setText(NUMERATOR + String.format(FORMAT, calTotalBonusProbabilityValue));
+                tTotalGrape.setText(dbTotalGrapeValue + TIMES);
+                tTotalGrapeProbability.setText(NUMERATOR + String.format(FORMAT, calTotalGrapeProbabilityValue));
+                tTotalCherry.setText(dbTotalCherryValue + TIMES);
+                tTotalCherryProbability.setText(NUMERATOR + String.format(FORMAT, calTotalCherryProbabilityValue));
                 break;
 
+            case R.id.DateClear:
+                eDateStart.getEditableText().clear();
+                eDateEnd.getEditableText().clear();
+                break;
         }
     }
 
@@ -259,15 +267,16 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         tTotalCherry = mainLayout.findViewById(R.id.TotalCherry);
         tTotalCherryProbability = mainLayout.findViewById(R.id.TotalCherryProbability);
 
-        // 表示ボタン
+        // ボタン
         bDisplay = mainLayout.findViewById(R.id.DisplayButton);
-
+        bClear = mainLayout.findViewById(R.id.DateClear);
     }
 
     public void setClickListener(){
         eDateStart.setOnClickListener(this);
         eDateEnd.setOnClickListener(this);
         bDisplay.setOnClickListener(this);
+        bClear.setOnClickListener(this);
     }
 
     public void setTittle(){
@@ -294,10 +303,11 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         String storeListSql = "SELECT DISTINCT STORE_NAME FROM TEST;";
         String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST;";
-        // String machineNumberListSql =
+        String tableNumberListSql = "SELECT DISTINCT TABLE_NUMBER FROM TEST;";
 
         Log.i("SQLITE","storeListSql : " + storeListSql);
         Log.i("SQLITE","machineListSql : " + machineListSql);
+        Log.i("SQLITE","tableNumberListSql : " + tableNumberListSql);
 
         try {
 
@@ -317,13 +327,22 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 Machine_Names.add(machine);
             }
 
+            // R04.06.21実装
+            Cursor cursor3 = db.rawQuery(tableNumberListSql,null);
+
+            while(cursor3.moveToNext()){
+                int index = cursor3.getColumnIndex("TABLE_NUMBER");
+                String table = cursor3.getString(index);
+                Table_Number.add(table);
+            }
+
         }finally{
             if(db != null) {
                 db.close();
             }
         }
 
-        // 店舗名および機種名を格納するListを定義し、20店舗分の登録店舗を(nullじゃなかったら)リストにセット ⇒ 登録店舗一覧リストをセット
+        // 店舗一覧をセット
         setItems(Store_Names,sStore);
 
         // 機種名一覧リストをセット
@@ -382,7 +401,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         return result;
     }
 
-    // 各種スピナーに項目をセットするメソッド
+    // 各スピナーに項目をセットするメソッド
     public void setItems(List<String> spItems, Spinner spinner){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems);
         adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
