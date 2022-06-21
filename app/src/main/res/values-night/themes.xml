@@ -1,16 +1,61 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Title_and_animation" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Title_and_animation" parent="@style/Theme.AppCompat.Light">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <!-- ActionBarのスタイル設定 -->
+        <item name="android:actionBarStyle">@style/CustomActionBar</item>
+        <item name="actionBarStyle">@style/CustomActionBar</item>
+
+        <!-- メニューバー右側の3点アイコンを定義 -->
+        <item name="actionOverflowButtonStyle">@style/MyOverFlow</item>
+
     </style>
+
+    <!-- メニューバー右側の3点アイコンの詳細設定 -->
+    <style name="MyOverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/abc_ic_menu_overflow_material</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+
+    <!-- 背景色の設定とタイトルカラーのスタイル設定 -->
+    <style name="CustomActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/c_maincounteractivity11_actionbar</item>
+        <item name="background">@drawable/c_maincounteractivity11_actionbar</item>
+        <item name="titleTextStyle">@style/titleTextStyle</item>
+    </style>
+
+    <!-- タイトルカラーの設定 -->
+    <style name="titleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Theme.Title_and_animation.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <!-- 枠線 -->
+        <item name="colorControlNormal">@color/white</item>
+        <!-- チェック時の色 -->
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+
+
+    <style name="Theme.Title_and_animation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Title_and_animation.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
