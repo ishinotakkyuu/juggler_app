@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.KeyEvent;
@@ -176,7 +177,8 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                 // 上に移動
                 case 0:
                     if (tappedPosition > 0){
-                        moveUp(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition - 1),tappedStoreItem);
+                        moveUpItem(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition - 1),tappedStoreItem);
+                        moveUpMemo(tappedPosition);
                     } else {
                         Toast toast = Toast.makeText(this, getString(R.string.not_up_toast), Toast.LENGTH_LONG);
                         toast.show();
@@ -186,20 +188,28 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                 // 下に移動
                 case 1:
                     if (tappedPosition < Store_List_Items.size() - 1){
-                        moveDown(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition + 1),tappedStoreItem);
+                        moveDownItem(listView,tappedPosition,(String)listView.getItemAtPosition(tappedPosition + 1),tappedStoreItem);
+                        moveDownMemo(tappedPosition);
                     } else {
                         Toast toast = Toast.makeText(this, getString(R.string.not_down_toast), Toast.LENGTH_LONG);
                         toast.show();
                     }
                     break;
 
-                // 店舗名編集
+                // 店舗メモ
                 case 2:
+                    Intent intent = new Intent(getApplicationContext(),MainManagementStoreMemo.class);
+                    intent.putExtra("tappedPosition",String.valueOf(tappedPosition));
+                    startActivity(intent);
+                    break;
+
+                // 店舗名編集
+                case 3:
                     storeReName(tappedStoreItem, listView, position);
                     break;
 
                 // 削除
-                case 3:
+                case 4:
                     deleteList(tappedStoreItem, listView);
                     break;
             }
@@ -208,7 +218,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         focusOut();
     }
 
-    public void moveUp(ListView listView, int parentPosition, String upStoreName, String tappedStoreName){
+    public void moveUpItem(ListView listView, int parentPosition, String upStoreName, String tappedStoreName){
 
         // 更新前のadapterを取得
         ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
@@ -228,7 +238,17 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         toast.show();
     }
 
-    public void moveDown(ListView listView, int parentPosition, String downStoreName, String tappedStoreName){
+    public void moveUpMemo(int position){
+        ReadXML.readInfo(mainApplication);
+        String[] memos = mainApplication.getMemos();
+        String[] memoTagNames = CreateXML.getMemosTagName();
+        String parentMemo = memos[position];
+        String memo = memos[position - 1];
+        CreateXML.updateText(mainApplication,memoTagNames[position],memo);
+        CreateXML.updateText(mainApplication,memoTagNames[position - 1],parentMemo);
+    }
+
+    public void moveDownItem(ListView listView, int parentPosition, String downStoreName, String tappedStoreName){
 
         // 更新前のadapterを取得
         ArrayAdapter<String> adapter = (ArrayAdapter<String>)listView.getAdapter();
@@ -246,6 +266,16 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         // トーストの表示
         Toast toast = Toast.makeText(this, getString(R.string.down_toast), Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    public void moveDownMemo(int position){
+        ReadXML.readInfo(mainApplication);
+        String[] memos = mainApplication.getMemos();
+        String[] memoTagNames = CreateXML.getMemosTagName();
+        String parentMemo = memos[position];
+        String memo = memos[position + 1];
+        CreateXML.updateText(mainApplication,memoTagNames[position],memo);
+        CreateXML.updateText(mainApplication,memoTagNames[position + 1],parentMemo);
     }
 
 

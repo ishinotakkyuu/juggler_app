@@ -265,6 +265,146 @@ public class CreateXML {
         store020.appendChild(document.createTextNode(store020Value));
         info.appendChild(store020);
 
+        //　店舗メモ001
+        Element memo001 = document.createElement("memo001");
+        memo001.setAttribute("id", "メモ001");
+        String memo001Value = String.valueOf(mainApplication.getMemo001());
+        memo001.appendChild(document.createTextNode(memo001Value));
+        info.appendChild(memo001);
+
+        //　店舗メモ002
+        Element memo002 = document.createElement("memo002");
+        memo002.setAttribute("id", "メモ002");
+        String memo002Value = String.valueOf(mainApplication.getMemo002());
+        memo002.appendChild(document.createTextNode(memo002Value));
+        info.appendChild(memo002);
+
+        //　店舗メモ003
+        Element memo003 = document.createElement("memo003");
+        memo003.setAttribute("id", "メモ003");
+        String memo003Value = String.valueOf(mainApplication.getMemo003());
+        memo003.appendChild(document.createTextNode(memo003Value));
+        info.appendChild(memo003);
+
+        //　店舗メモ004
+        Element memo004 = document.createElement("memo004");
+        memo004.setAttribute("id", "メモ004");
+        String memo004Value = String.valueOf(mainApplication.getMemo004());
+        memo004.appendChild(document.createTextNode(memo004Value));
+        info.appendChild(memo004);
+
+        //　店舗メモ005
+        Element memo005 = document.createElement("memo005");
+        memo005.setAttribute("id", "メモ005");
+        String memo005Value = String.valueOf(mainApplication.getMemo005());
+        memo005.appendChild(document.createTextNode(memo005Value));
+        info.appendChild(memo005);
+
+        //　店舗メモ006
+        Element memo006 = document.createElement("memo006");
+        memo006.setAttribute("id", "メモ006");
+        String memo006Value = String.valueOf(mainApplication.getMemo006());
+        memo006.appendChild(document.createTextNode(memo006Value));
+        info.appendChild(memo006);
+
+        //　店舗メモ007
+        Element memo007 = document.createElement("memo007");
+        memo007.setAttribute("id", "メモ007");
+        String memo007Value = String.valueOf(mainApplication.getMemo007());
+        memo007.appendChild(document.createTextNode(memo007Value));
+        info.appendChild(memo007);
+
+        //　店舗メモ008
+        Element memo008 = document.createElement("memo008");
+        memo008.setAttribute("id", "メモ008");
+        String memo008Value = String.valueOf(mainApplication.getMemo008());
+        memo008.appendChild(document.createTextNode(memo008Value));
+        info.appendChild(memo008);
+
+        //　店舗メモ009
+        Element memo009 = document.createElement("memo009");
+        memo009.setAttribute("id", "メモ009");
+        String memo009Value = String.valueOf(mainApplication.getMemo009());
+        memo009.appendChild(document.createTextNode(memo009Value));
+        info.appendChild(memo009);
+
+        //　店舗メモ010
+        Element memo010 = document.createElement("memo010");
+        memo010.setAttribute("id", "メモ010");
+        String memo010Value = String.valueOf(mainApplication.getMemo010());
+        memo010.appendChild(document.createTextNode(memo010Value));
+        info.appendChild(memo010);
+
+        //　店舗メモ011
+        Element memo011 = document.createElement("memo011");
+        memo011.setAttribute("id", "メモ011");
+        String memo011Value = String.valueOf(mainApplication.getMemo011());
+        memo011.appendChild(document.createTextNode(memo011Value));
+        info.appendChild(memo011);
+
+        //　店舗メモ012
+        Element memo012 = document.createElement("memo012");
+        memo012.setAttribute("id", "メモ012");
+        String memo012Value = String.valueOf(mainApplication.getMemo012());
+        memo012.appendChild(document.createTextNode(memo012Value));
+        info.appendChild(memo012);
+
+        //　店舗メモ013
+        Element memo013 = document.createElement("memo013");
+        memo013.setAttribute("id", "メモ013");
+        String memo013Value = String.valueOf(mainApplication.getMemo013());
+        memo013.appendChild(document.createTextNode(memo013Value));
+        info.appendChild(memo013);
+
+        //　店舗メモ014
+        Element memo014 = document.createElement("memo014");
+        memo014.setAttribute("id", "メモ014");
+        String memo014Value = String.valueOf(mainApplication.getMemo014());
+        memo014.appendChild(document.createTextNode(memo014Value));
+        info.appendChild(memo014);
+
+        //　店舗メモ015
+        Element memo015 = document.createElement("memo015");
+        memo015.setAttribute("id", "メモ015");
+        String memo015Value = String.valueOf(mainApplication.getMemo015());
+        memo015.appendChild(document.createTextNode(memo015Value));
+        info.appendChild(memo015);
+
+        //　店舗メモ016
+        Element memo016 = document.createElement("memo016");
+        memo016.setAttribute("id", "メモ016");
+        String memo016Value = String.valueOf(mainApplication.getMemo016());
+        memo016.appendChild(document.createTextNode(memo016Value));
+        info.appendChild(memo016);
+
+        //　店舗メモ017
+        Element memo017 = document.createElement("memo017");
+        memo017.setAttribute("id", "メモ017");
+        String memo017Value = String.valueOf(mainApplication.getMemo017());
+        memo017.appendChild(document.createTextNode(memo017Value));
+        info.appendChild(memo017);
+
+        //　店舗メモ018
+        Element memo018 = document.createElement("memo018");
+        memo018.setAttribute("id", "メモ018");
+        String memo018Value = String.valueOf(mainApplication.getMemo018());
+        memo018.appendChild(document.createTextNode(memo018Value));
+        info.appendChild(memo018);
+
+        //　店舗メモ019
+        Element memo019 = document.createElement("memo019");
+        memo019.setAttribute("id", "メモ019");
+        String memo019Value = String.valueOf(mainApplication.getMemo019());
+        memo019.appendChild(document.createTextNode(memo019Value));
+        info.appendChild(memo019);
+
+        //　店舗メモ020
+        Element memo020 = document.createElement("memo020");
+        memo020.setAttribute("id", "メモ020");
+        String memo020Value = String.valueOf(mainApplication.getMemo020());
+        memo020.appendChild(document.createTextNode(memo020Value));
+        info.appendChild(memo020);
+
         // 内部ストレージに入れてる
         // 内部ストレージはアプリ固有の領域のため、アクセス権限対応は不要
         File file = new File(context.getFilesDir(), "info.xml");
@@ -319,4 +459,14 @@ public class CreateXML {
 
         }
     }
+
+    public static String[] getMemosTagName(){
+        return new String[]{
+                "memo001","memo002","memo003","memo004","memo005","memo006","memo007","memo008","memo009","memo010",
+                "memo011","memo012","memo013","memo014","memo015","memo016","memo017","memo018","memo019","memo020"};
+    }
+
+
+
+
 }

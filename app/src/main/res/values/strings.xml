@@ -2,247 +2,306 @@
 
     <string name="app_name">J-管理</string>
 
-<!--Javaソースコード-->
+    <!--Javaソースコード-->
 
     <!--機種名管理用-->
-        <!--機種名(現行機種)追加・削除はここ-->
-            <string-array name="NOW_JUGGLER">
-                <item>SアイムジャグラーEX</item>
-                <item>Sファンキージャグラー2</item>
-                <item>Sマイジャグラー5</item>
-            </string-array>
+    <!--機種名(現行機種)追加・削除はここ-->
+    <string-array name="NOW_JUGGLER">
+        <item>SアイムジャグラーEX</item>
+        <item>Sファンキージャグラー2</item>
+        <item>Sマイジャグラー5</item>
+    </string-array>
 
-        <!--機種名(全機種)-->
-            <string-array name="JUGGLER">
-                <item>SアイムジャグラーEX</item>
-                <item>Sファンキージャグラー2</item>
-                <item>Sマイジャグラー5</item>
+    <!--機種名(全機種)-->
+    <string-array name="JUGGLER">
+        <item>SアイムジャグラーEX</item>
+        <item>Sファンキージャグラー2</item>
+        <item>Sマイジャグラー5</item>
 
-                <!--新機種が登場した時はここに追加していく-->
-                <!--全機種が対象なので削除はしない-->
+        <!--新機種が登場した時はここに追加していく-->
+        <!--全機種が対象なので削除はしない-->
 
-            </string-array>
+    </string-array>
 
 
     <!--複数箇所で使用-->
-        <string name="yes">はい</string>
-        <string name="no">いいえ</string>
-        <string name="back">戻る</string>
-        <string name="release">解除</string>
-        <string name="cancel">キャンセル</string>
-        <string name="delete">削除</string>
-        <string name="upper_limit_count_toast">カウント回数上限に達しました</string>
-        <string name="lower_limit_count_toast">カウント回数下限に達しました</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="back">戻る</string>
+    <string name="release">解除</string>
+    <string name="cancel">キャンセル</string>
+    <string name="delete">削除</string>
+    <string name="upper_limit_count_toast">カウント回数上限に達しました</string>
+    <string name="lower_limit_count_toast">カウント回数下限に達しました</string>
 
     <!--MainManagementStore.java 関係-->
-        <!--登録店舗数-->
-            <string name="store_count">登録店舗数：%1$d件</string>
-        <!--登録店舗名-->
-            <string name="not_use_string">使用できない文字が含まれています</string>
-            <string name="upper_limit_store_toast">店舗数が上限に達しました</string>
-            <string name="not_blank_store_name">店舗名が空白のため登録できません</string>
-            <string name="already_store_name">すでに登録されている店舗名です</string>
-            <string name="add_store">%1$sが追加されました</string>
-        <!--ダイアログ関係-->
-            <string-array name="DIALOG_MENU">
-                <item>上に移動</item>
-                <item>下に移動</item>
-                <item>店舗名編集</item>
-                <item>削除</item>
-            </string-array>
-            <string name="not_up_toast">一番上のアイテムのため移動できません</string>
-            <string name="up_toast">上に移動しました</string>
-            <string name="not_down_toast">一番下のアイテムのため移動できません</string>
-            <string name="down_toast">下に移動しました</string>
-            <string name="hint_before_name">編集前：%1$s</string>
-            <string name="rename_tittle">店舗名編集</string>
-            <string name="rename_message">新しい店舗名を入力してください</string>
-            <string name="rename">変更</string>
-            <string name="rename_toast">%1$sを%2$sに変更しました</string>
-            <string name="delete_store_tittle">登録店舗削除</string>
-            <string name="delete_store_message">「%1$s」をリストから削除してよろしいですか？</string>
-            <string name="delete_toast">削除しました</string>
+    <!--登録店舗数-->
+    <string name="store_count">登録店舗数：%1$d件</string>
+    <!--登録店舗名-->
+    <string name="not_use_string">使用できない文字が含まれています</string>
+    <string name="upper_limit_store_toast">店舗数が上限に達しました</string>
+    <string name="not_blank_store_name">店舗名が空白のため登録できません</string>
+    <string name="already_store_name">すでに登録されている店舗名です</string>
+    <string name="add_store">%1$sが追加されました</string>
+    <!--ダイアログ関係-->
+    <string-array name="DIALOG_MENU">
+        <item>上に移動</item>
+        <item>下に移動</item>
+        <item>店舗メモ</item>
+        <item>店舗名編集</item>
+        <item>削除</item>
+    </string-array>
+    <string name="not_up_toast">一番上のアイテムのため移動できません</string>
+    <string name="up_toast">上に移動しました</string>
+    <string name="not_down_toast">一番下のアイテムのため移動できません</string>
+    <string name="down_toast">下に移動しました</string>
+    <string name="hint_before_name">編集前：%1$s</string>
+    <string name="rename_tittle">店舗名編集</string>
+    <string name="rename_message">新しい店舗名を入力してください</string>
+    <string name="rename">変更</string>
+    <string name="rename_toast">%1$sを%2$sに変更しました</string>
+    <string name="delete_store_tittle">登録店舗削除</string>
+    <string name="delete_store_message">「%1$s」をリストから削除してよろしいですか？</string>
+    <string name="delete_toast">削除しました</string>
     <!--MainManagementStore.java 以上-->
 
     <!--MainCounterActivity.java 関係-->
-        <!--加減算切り替え-->
-            <string name="stealth_release_tittle">ステルス機能の解除について</string>
-            <string name="stealth_release_message">減算モードを利用する場合はステルス機能を解除する必要があります</string>
-            <string name="stealth_toast">ステルス機能が解除されました</string>
-        <!--ステルス機能-->
-            <string name="plus_minus_release_tittle">減算状態の解除について</string>
-            <string name="plus_minus_release_message">ステルス機能を利用する場合は減算状態を解除する必要があります</string>
-            <string name="plus_minus_toast">ボタン押下時は加算されます</string>
-        <!--バイブ機能-->
-            <string name="vib_off">バイブ機能をOFFにしました</string>
-            <string name="vib_on">バイブ機能をONにしました</string>
-        <!--カウンター初期化-->
-            <string name="counter_init_tittle">カウンター初期化</string>
-            <string name="counter_init_message">カウンターを全てリセットしますか？</string>
-            <string name="counter_init_toast">リセットしました</string>
-        <!--店舗未登録状態で保存処理しようとした場合-->
-            <string name="add_store_tittle">店舗登録のお願い</string>
-            <string name="add_store_message">データ保存する場合は店舗登録を行ってください</string>
-            <string name="go_add_store">店舗登録へ</string>
-        <!--データ保存-->
-            <string name="zero_game_toast">０ゲームでの登録はできません</string>
-            <string name="select_date_toast">日付を選択してください</string>
-            <string name="register_toast">データを登録しました</string>
+    <!--加減算切り替え-->
+    <string name="stealth_release_tittle">ステルス機能の解除について</string>
+    <string name="stealth_release_message">減算モードを利用する場合はステルス機能を解除する必要があります</string>
+    <string name="stealth_toast">ステルス機能が解除されました</string>
+    <!--ステルス機能-->
+    <string name="plus_minus_release_tittle">減算状態の解除について</string>
+    <string name="plus_minus_release_message">ステルス機能を利用する場合は減算状態を解除する必要があります</string>
+    <string name="plus_minus_toast">ボタン押下時は加算されます</string>
+    <!--バイブ機能-->
+    <string name="vib_off">バイブ機能をOFFにしました</string>
+    <string name="vib_on">バイブ機能をONにしました</string>
+    <!--カウンター初期化-->
+    <string name="counter_init_tittle">カウンター初期化</string>
+    <string name="counter_init_message">カウンターを全てリセットしますか？</string>
+    <string name="counter_init_toast">リセットしました</string>
+    <!--店舗未登録状態で保存処理しようとした場合-->
+    <string name="add_store_tittle">店舗登録のお願い</string>
+    <string name="add_store_message">データ保存する場合は店舗登録を行ってください</string>
+    <string name="go_add_store">店舗登録へ</string>
+    <!--データ保存-->
+    <string name="zero_game_toast">０ゲームでの登録はできません</string>
+    <string name="select_date_toast">日付を選択してください</string>
+    <string name="register_toast">データを登録しました</string>
     <!--MainCounterActivity.java 以上-->
 
     <!--FlagStatistics.java 関係-->
-        <string name="not_selection">未選択</string>
-        <!--配列関係-->
-        <string-array name="SET_TITTLES">
-            <item>総回転数</item>
-            <item>差枚数</item>
-            <item>機械割</item>
-            <item>単独BIG</item>
-            <item>チェBIG</item>
-            <item>BIG合算</item>
-            <item>単独REG</item>
-            <item>チェREG</item>
-            <item>REG合算</item>
-            <item>ボーナス合算</item>
-            <item>ぶどう</item>
-            <item>非重複チェリー</item>
-        </string-array>
+    <string name="not_selection">未選択</string>
+    <!--配列関係-->
+    <string-array name="SET_TITTLES">
+        <item>総回転数</item>
+        <item>差枚数</item>
+        <item>機械割</item>
+        <item>単独BIG</item>
+        <item>チェBIG</item>
+        <item>BIG合算</item>
+        <item>単独REG</item>
+        <item>チェREG</item>
+        <item>REG合算</item>
+        <item>ボーナス合算</item>
+        <item>ぶどう</item>
+        <item>非重複チェリー</item>
+    </string-array>
 
-        <string-array name="SET_DIGIT">
-            <item>@string/not_selection</item>
-            <item>0の付く日</item><item>1の付く日</item><item>2の付く日</item><item>3の付く日</item><item>4の付く日</item>
-            <item>5の付く日</item><item>6の付く日</item><item>7の付く日</item><item>8の付く日</item><item>9の付く日</item>
-        </string-array>
+    <string-array name="SET_DIGIT">
+        <item>@string/not_selection</item>
+        <item>0の付く日</item>
+        <item>1の付く日</item>
+        <item>2の付く日</item>
+        <item>3の付く日</item>
+        <item>4の付く日</item>
+        <item>5の付く日</item>
+        <item>6の付く日</item>
+        <item>7の付く日</item>
+        <item>8の付く日</item>
+        <item>9の付く日</item>
+    </string-array>
 
-        <string-array name="SET_SPECIAL_DAY">
-            <item>@string/not_selection</item>
-            <item>ゾロ目</item>
-            <item>月と日が同じ</item>
-        </string-array>
+    <string-array name="SET_SPECIAL_DAY">
+        <item>@string/not_selection</item>
+        <item>ゾロ目</item>
+        <item>月と日が同じ</item>
+    </string-array>
 
-        <string-array name="SET_MONTH">
-            <item>@string/not_selection</item>
-            <item>1月</item><item>2月</item><item>3月</item><item>4月</item>
-            <item>5月</item><item>6月</item><item>7月</item><item>8月</item>
-            <item>9月</item><item>10月</item><item>11月</item><item>12月</item>
-        </string-array>
+    <string-array name="SET_MONTH">
+        <item>@string/not_selection</item>
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
 
-        <string-array name="SET_DAY">
-            <item>@string/not_selection</item>
-            <item>1日</item><item>2日</item><item>3日</item><item>4日</item><item>5日</item>
-            <item>6日</item><item>7日</item><item>8日</item><item>9日</item><item>10日</item>
-            <item>11日</item><item>12日</item><item>13日</item><item>14日</item><item>15日</item>
-            <item>16日</item><item>17日</item><item>18日</item><item>19日</item><item>20日</item>
-            <item>21日</item><item>22日</item><item>23日</item><item>24日</item><item>25日</item>
-            <item>26日</item><item>27日</item><item>28日</item><item>29日</item><item>30日</item><item>31日</item>
-        </string-array>
+    <string-array name="SET_DAY">
+        <item>@string/not_selection</item>
+        <item>1日</item>
+        <item>2日</item>
+        <item>3日</item>
+        <item>4日</item>
+        <item>5日</item>
+        <item>6日</item>
+        <item>7日</item>
+        <item>8日</item>
+        <item>9日</item>
+        <item>10日</item>
+        <item>11日</item>
+        <item>12日</item>
+        <item>13日</item>
+        <item>14日</item>
+        <item>15日</item>
+        <item>16日</item>
+        <item>17日</item>
+        <item>18日</item>
+        <item>19日</item>
+        <item>20日</item>
+        <item>21日</item>
+        <item>22日</item>
+        <item>23日</item>
+        <item>24日</item>
+        <item>25日</item>
+        <item>26日</item>
+        <item>27日</item>
+        <item>28日</item>
+        <item>29日</item>
+        <item>30日</item>
+        <item>31日</item>
+    </string-array>
 
-        <string-array name="SET_WEEK_IN_MONTH">
-            <item>@string/not_selection</item>
-            <item>第1</item><item>第2</item><item>第3</item><item>第4</item><item>第5</item>
-        </string-array>
+    <string-array name="SET_WEEK_IN_MONTH">
+        <item>@string/not_selection</item>
+        <item>第1</item>
+        <item>第2</item>
+        <item>第3</item>
+        <item>第4</item>
+        <item>第5</item>
+    </string-array>
 
-        <string-array name="SET_WEEK_ID">
-            <item>@string/not_selection</item>
-            <item>日曜日</item>
-            <item>月曜日</item>
-            <item>火曜日</item>
-            <item>水曜日</item>
-            <item>木曜日</item>
-            <item>金曜日</item>
-            <item>土曜日</item>
-        </string-array>
+    <string-array name="SET_WEEK_ID">
+        <item>@string/not_selection</item>
+        <item>日曜日</item>
+        <item>月曜日</item>
+        <item>火曜日</item>
+        <item>水曜日</item>
+        <item>木曜日</item>
+        <item>金曜日</item>
+        <item>土曜日</item>
+    </string-array>
 
-        <string-array name="SET_ATTACH_DAY">
-            <item>@string/not_selection</item>
-            <item>末尾0</item><item>末尾1</item><item>末尾2</item><item>末尾3</item><item>末尾4</item>
-            <item>末尾5</item><item>末尾6</item><item>末尾7</item><item>末尾8</item><item>末尾9</item>
-        </string-array>
+    <string-array name="SET_ATTACH_DAY">
+        <item>@string/not_selection</item>
+        <item>末尾0</item>
+        <item>末尾1</item>
+        <item>末尾2</item>
+        <item>末尾3</item>
+        <item>末尾4</item>
+        <item>末尾5</item>
+        <item>末尾6</item>
+        <item>末尾7</item>
+        <item>末尾8</item>
+        <item>末尾9</item>
+    </string-array>
     <!--FlagStatistics.java 以上-->
 
     <!--DataDetail.java 関係-->
-        <string name="plus">プラス</string>
-        <string name="minus">マイナス</string>
-        <string name="update">更新</string>
-        <!--データ削除-->
-            <string name="db_delete_tittle">データ削除について</string>
-            <string name="db_delete_message">登録データを削除します。\nよろしいですか？</string>
-            <string name="db_zero_game_toast">０ゲームでの更新はできません</string>
-            <string name="db_delete_toast">データを削除しました</string>
-            <string name="db_update_toast">データを更新しました</string>
+    <string name="plus">プラス</string>
+    <string name="minus">マイナス</string>
+    <string name="update">更新</string>
+    <!--データ削除-->
+    <string name="db_delete_tittle">データ削除について</string>
+    <string name="db_delete_message">登録データを削除します。\nよろしいですか？</string>
+    <string name="db_zero_game_toast">０ゲームでの更新はできません</string>
+    <string name="db_delete_toast">データを削除しました</string>
+    <string name="db_update_toast">データを更新しました</string>
     <!--DataDetail.java 以上-->
 
-<!--レイアウト関係-->
+    <!--レイアウト関係-->
     <!--スプラッシュ画面-->
-        <string name="Mr.">DELSON</string>
+    <string name="Mr.">DELSON</string>
     <!--アクションバー関係-->
-        <string name="counter_name">小役カウンター</string>
+    <string name="store_memo">店舗メモ</string>
+    <string name="counter_name">小役カウンター</string>
     <!--メイン画面-->
-        <string name="image_description">ジャグラーデータ管理 高設定を掴むためのデータ管理アプリ</string>
-        <string name="store_management">店 舗 管 理</string>
-        <string name="grade_Inquiry">成 績 照 会</string>
-        <string name="counter">小 役 カ ウ ン ター</string>
-        <string name="manual">使 い 方</string>
+    <string name="image_description">ジャグラーデータ管理\n高設定を掴むためのデータ管理アプリ</string>
+    <string name="store_management">店 舗 管 理</string>
+    <string name="grade_Inquiry">成 績 照 会</string>
+    <string name="counter">小 役 カ ウ ン ター</string>
+    <string name="manual">使 い 方</string>
     <!--店舗管理画面-->
-        <string name="store_edit_hint">店舗名(最大20文字)を入力</string>
-        <string name="add_button">追加</string>
+    <string name="store_edit_hint">店舗名(最大20文字)を入力</string>
+    <string name="add_button">追加</string>
+    <!--メモ画面-->
+    <string name="default_memo">〇店舗の特徴・傾向\n</string>
+    <string name="not_string">文字化けの恐れのある入力値を検出しました</string>
     <!--カウンター画面のメニュー-->
-        <string name="menu_item01">編集モード</string>
-        <string name="menu_item02">加減算モード</string>
-        <string name="menu_item03">ステルス機能</string>
-        <string name="menu_item04">バイブON/OFF</string>
-        <string name="menu_item05">カウンター初期化</string>
-        <string name="menu_item06">データ保存</string>
+    <string name="menu_item01">編集モード</string>
+    <string name="menu_item02">加減算モード</string>
+    <string name="menu_item03">ステルス機能</string>
+    <string name="menu_item04">バイブON/OFF</string>
+    <string name="menu_item05">カウンター初期化</string>
+    <string name="menu_item06">データ保存</string>
     <!--カウンター画面(２画面分)-->
-        <string name="start_game">開始ゲーム数</string>
-        <string name="total_game">総ゲーム数</string>
-        <string name="ind_game">個人ゲーム数</string>
-        <string name="init_game">0</string>
+    <string name="start_game">開始ゲーム数</string>
+    <string name="total_game">総ゲーム数</string>
+    <string name="ind_game">個人ゲーム数</string>
+    <string name="init_game">0</string>
     <!--カウンターのボタン関係(２画面分)-->
-        <string name="single_big">単独BIG</string>
-        <string name="cherry_big">ﾁｪﾘｰBIG</string>
-        <string name="total_big">BIG</string>
-        <string name="single_reg">単独REG</string>
-        <string name="cherry_reg">ﾁｪﾘｰREG</string>
-        <string name="total_reg">REG</string>
-        <string name="cherry">非重複ﾁｪﾘｰ</string>
-        <string name="grape">ぶどう</string>
-        <string name="total_bonus">合算</string>
+    <string name="single_big">単独BIG</string>
+    <string name="cherry_big">ﾁｪﾘｰBIG</string>
+    <string name="total_big">BIG</string>
+    <string name="single_reg">単独REG</string>
+    <string name="cherry_reg">ﾁｪﾘｰREG</string>
+    <string name="total_reg">REG</string>
+    <string name="cherry">非重複ﾁｪﾘｰ</string>
+    <string name="grape">ぶどう</string>
+    <string name="total_bonus">合算</string>
     <!--カスタムダイアログ関係(２画面分)-->
-        <string name="add_date">@string/menu_item06</string>
-        <string name="update_date">データ更新</string>
-        <string name="date"> 日付</string>
-        <string name="store_name"> 店舗名</string>
-        <string name="table_number"> 台番号</string>
-        <string name="medal"> 差枚数</string>
-        <string name="register_button">登録</string>
-        <string name="update_button">更新</string>
+    <string name="add_date">@string/menu_item06</string>
+    <string name="update_date">データ更新</string>
+    <string name="date"> 日付</string>
+    <string name="store_name"> 店舗名</string>
+    <string name="table_number"> 台番号</string>
+    <string name="medal"> 差枚数</string>
+    <string name="register_button">登録</string>
+    <string name="update_button">更新</string>
     <!--フラグメントタブ関係-->
-        <string name="tab_text_1">個別データ</string>
-        <string name="tab_text_2">統計データ</string>
-        <string name="tab_text_3">CSV出力</string>
+    <string name="tab_text_1">個別データ</string>
+    <string name="tab_text_2">統計データ</string>
+    <string name="tab_text_3">CSV出力</string>
     <!--統計データ画面-->
-        <string name="statistics_date">日付</string>
-        <string name="statistics_store_name">店舗名</string>
-        <string name="statistics_machine_name">機種名</string>
-        <string name="statistics_table_number">台番号</string>
-        <string name="statistics_special01">特殊１</string>
-        <string name="statistics_special02">特殊２</string>
-        <string name="statistics_special03">特殊３</string>
-        <string name="statistics_special04">特殊４</string>
-        <string name="statistics_special05">特殊５</string>
-        <string name="statistics_special06">特殊６</string>
-        <string name="statistics_special07">特殊７</string>
-        <string name="statistics_show_button">表示</string>
-        <string name="statistics_date_reset_button">日付クリア</string>
+    <string name="statistics_date">日付</string>
+    <string name="statistics_store_name">店舗名</string>
+    <string name="statistics_machine_name">機種名</string>
+    <string name="statistics_table_number">台番号</string>
+    <string name="statistics_special01">特殊１</string>
+    <string name="statistics_special02">特殊２</string>
+    <string name="statistics_special03">特殊３</string>
+    <string name="statistics_special04">特殊４</string>
+    <string name="statistics_special05">特殊５</string>
+    <string name="statistics_special06">特殊６</string>
+    <string name="statistics_special07">特殊７</string>
+    <string name="statistics_show_button">表示</string>
+    <string name="statistics_date_reset_button">日付クリア</string>
     <!--fragment関係(偉い人が作ったやつだから消したら終わる)-->
-        <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
-        <string name="first_fragment_label">First Fragment</string>
-        <string name="second_fragment_label">Second Fragment</string>
-        <string name="next">Next</string>
-        <string name="previous">Previous</string>
-        <string name="hello_first_fragment">Hello first fragment</string>
-        <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-<!--レイアウト関係以上-->
+    <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!--レイアウト関係以上-->
 
 </resources>

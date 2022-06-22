@@ -12,36 +12,12 @@ public class MainApplication extends Application {
     private Context context;
     private Document document;
 
-    private int userId;
-    private int machinePosition;
-    private String totalGames;
-    private String startGames;
-    private String singleBig;
-    private String cherryBig;
-    private String singleReg;
-    private String cherryReg;
-    private String cherry;
-    private String grape;
-    private String store001;
-    private String store002;
-    private String store003;
-    private String store004;
-    private String store005;
-    private String store006;
-    private String store007;
-    private String store008;
-    private String store009;
-    private String store010;
-    private String store011;
-    private String store012;
-    private String store013;
-    private String store014;
-    private String store015;
-    private String store016;
-    private String store017;
-    private String store018;
-    private String store019;
-    private String store020;
+    private int userId,machinePosition;
+    private String totalGames,startGames,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
+    private String store001,store002,store003,store004,store005,store006,store007,store008,store009,store010,
+                   store011,store012,store013,store014,store015,store016,store017,store018,store019,store020;
+    private String memo001,memo002,memo003,memo004,memo005,memo006,memo007,memo008,memo009,memo010,
+                   memo011,memo012,memo013,memo014,memo015,memo016,memo017,memo018,memo019,memo020;
 
     // 初期セット
     public void init() {
@@ -154,8 +130,6 @@ public class MainApplication extends Application {
     public void setGrape(String gr) {
         this.grape = gr;
     }
-
-    // 20店舗に対応
 
     public String getStore001() {
         return store001;
@@ -313,6 +287,172 @@ public class MainApplication extends Application {
 
     public void setStore020(String store020) {
         this.store020 = store020;
+    }
+
+    public String getMemo001(){
+        return memo001;
+    }
+
+    public void setMemo001(String memo001){
+        this.memo001 = memo001;
+    }
+
+    public String getMemo002() {
+        return memo002;
+    }
+
+    public void setMemo002(String memo002) {
+        this.memo002 = memo002;
+    }
+
+    public String getMemo003() {
+        return memo003;
+    }
+
+    public void setMemo003(String memo003) {
+        this.memo003 = memo003;
+    }
+
+    public String getMemo004() {
+        return memo004;
+    }
+
+    public void setMemo004(String memo004) {
+        this.memo004 = memo004;
+    }
+
+    public String getMemo005() {
+        return memo005;
+    }
+
+    public void setMemo005(String memo005) {
+        this.memo005 = memo005;
+    }
+
+    public String getMemo006() {
+        return memo006;
+    }
+
+    public void setMemo006(String memo006) {
+        this.memo006 = memo006;
+    }
+
+    public String getMemo007() {
+        return memo007;
+    }
+
+    public void setMemo007(String memo007) {
+        this.memo007 = memo007;
+    }
+
+    public String getMemo008() {
+        return memo008;
+    }
+
+    public void setMemo008(String memo008) {
+        this.memo008 = memo008;
+    }
+
+    public String getMemo009() {
+        return memo009;
+    }
+
+    public void setMemo009(String memo009) {
+        this.memo009 = memo009;
+    }
+
+    public String getMemo010() {
+        return memo010;
+    }
+
+    public void setMemo010(String memo010) {
+        this.memo010 = memo010;
+    }
+
+    public String getMemo011() {
+        return memo011;
+    }
+
+    public void setMemo011(String memo011) {
+        this.memo011 = memo011;
+    }
+
+    public String getMemo012() {
+        return memo012;
+    }
+
+    public void setMemo012(String memo012) {
+        this.memo012 = memo012;
+    }
+
+    public String getMemo013() {
+        return memo013;
+    }
+
+    public void setMemo013(String memo013) {
+        this.memo013 = memo013;
+    }
+
+    public String getMemo014() {
+        return memo014;
+    }
+
+    public void setMemo014(String memo014) {
+        this.memo014 = memo014;
+    }
+
+    public String getMemo015() {
+        return memo015;
+    }
+
+    public void setMemo015(String memo015) {
+        this.memo015 = memo015;
+    }
+
+    public String getMemo016() {
+        return memo016;
+    }
+
+    public void setMemo016(String memo016) {
+        this.memo016 = memo016;
+    }
+
+    public String getMemo017() {
+        return memo017;
+    }
+
+    public void setMemo017(String memo017) {
+        this.memo017 = memo017;
+    }
+
+    public String getMemo018() {
+        return memo018;
+    }
+
+    public void setMemo018(String memo018) {
+        this.memo018 = memo018;
+    }
+
+    public String getMemo019() {
+        return memo019;
+    }
+
+    public void setMemo019(String memo019) {
+        this.memo019 = memo019;
+    }
+
+    public String getMemo020() {
+        return memo020;
+    }
+
+    public void setMemo020(String memo020) {
+        this.memo020 = memo020;
+    }
+
+    public String[] getMemos(){
+        return new String[]{
+                memo001,memo002,memo003,memo004,memo005,memo006,memo007,memo008,memo009,memo010,
+                memo011,memo012,memo013,memo014,memo015,memo016,memo017,memo018,memo019,memo020};
     }
 
 }

@@ -114,8 +114,6 @@ class ReadXML {
                     }
                     break;
 
-                    //とりあえず20店舗のみ対応
-
                 case "store001":
                     textNode = elementNodes.getFirstChild();
                     if(textNode != null) {
@@ -272,6 +270,165 @@ class ReadXML {
                     }
                     break;
 
+                case "memo001":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo001(text);
+                    }
+                    break;
+
+                case "memo002":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo002(text);
+                    }
+                    break;
+
+                case "memo003":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo003(text);
+                    }
+                    break;
+
+                case "memo004":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo004(text);
+                    }
+                    break;
+
+                case "memo005":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo005(text);
+                    }
+                    break;
+
+                case "memo006":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo006(text);
+                    }
+                    break;
+
+                case "memo007":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo007(text);
+                    }
+                    break;
+
+                case "memo008":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo008(text);
+                    }
+                    break;
+
+                case "memo009":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo009(text);
+                    }
+                    break;
+
+                case "memo010":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo010(text);
+                    }
+                    break;
+
+                case "memo011":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo011(text);
+                    }
+                    break;
+
+                case "memo012":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo012(text);
+                    }
+                    break;
+
+                case "memo013":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo013(text);
+                    }
+                    break;
+
+                case "memo014":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo014(text);
+                    }
+                    break;
+
+                case "memo015":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo015(text);
+                    }
+                    break;
+
+                case "memo016":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo016(text);
+                    }
+                    break;
+
+                case "memo017":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo017(text);
+                    }
+                    break;
+
+                case "memo018":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo018(text);
+                    }
+                    break;
+
+                case "memo019":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo019(text);
+                    }
+                    break;
+
+                case "memo020":
+                    textNode = elementNodes.getFirstChild();
+                    if(textNode != null) {
+                        text = textNode.getNodeValue();
+                        mainApplication.setMemo020(text);
+                    }
+                    break;
             }
             elementNodes = elementNodes.getNextSibling();
         }

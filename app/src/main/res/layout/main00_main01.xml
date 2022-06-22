@@ -51,7 +51,7 @@
         android:onClick="MainCounter"
         android:text="@string/counter"
         android:textColor="@color/white"
-        android:textSize="28sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/bGrade_Inquiry"
         app:layout_constraintEnd_toEndOf="parent"
