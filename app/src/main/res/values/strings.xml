@@ -244,7 +244,9 @@
     <string name="add_button">追加</string>
     <!--メモ画面-->
     <string name="default_memo">〇店舗の特徴・傾向\n</string>
-    <string name="not_string">文字化けの恐れのある入力値を検出しました</string>
+    <string name="not_register_alert">特殊文字の検出</string>
+    <string name="not_register_alert_message">特殊文字は使用できません</string>
+    <string name="not_register_alert_button">削除</string>
     <!--カウンター画面のメニュー-->
     <string name="menu_item01">編集モード</string>
     <string name="menu_item02">加減算モード</string>

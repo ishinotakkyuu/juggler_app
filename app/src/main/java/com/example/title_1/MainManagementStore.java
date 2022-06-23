@@ -205,12 +205,12 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
                 // 店舗名編集
                 case 3:
-                    storeReName(tappedStoreItem, listView, position);
+                    storeReName(tappedStoreItem, listView, tappedPosition);
                     break;
 
                 // 削除
                 case 4:
-                    deleteList(tappedStoreItem, listView);
+                    deleteList(tappedStoreItem, listView, tappedPosition);
                     break;
             }
         });
@@ -239,9 +239,15 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     }
 
     public void moveUpMemo(int position){
+
+        // XMLの読み込み
         ReadXML.readInfo(mainApplication);
+
+        // 各メモ及びタグを取得
         String[] memos = mainApplication.getMemos();
         String[] memoTagNames = CreateXML.getMemosTagName();
+
+        //　XMLに保存されている文字列を入れ替える
         String parentMemo = memos[position];
         String memo = memos[position - 1];
         CreateXML.updateText(mainApplication,memoTagNames[position],memo);
@@ -269,9 +275,15 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     }
 
     public void moveDownMemo(int position){
+
+        // XMLの読み込み
         ReadXML.readInfo(mainApplication);
+
+        // 各メモ及びタグを取得
         String[] memos = mainApplication.getMemos();
         String[] memoTagNames = CreateXML.getMemosTagName();
+
+        //　XMLに保存されている文字列を入れ替える
         String parentMemo = memos[position];
         String memo = memos[position + 1];
         CreateXML.updateText(mainApplication,memoTagNames[position],memo);
@@ -351,13 +363,30 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                 .show();
     }
 
-    public void deleteList(String tappedStoreName, ListView listView) {
+    public void deleteList(String tappedStoreName, ListView listView, int position) {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.delete_store_tittle))
                 .setMessage(getString(R.string.delete_store_message,tappedStoreName))
                 .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+                        // XMLの読み込み
+                        ReadXML.readInfo(mainApplication);
+
+                        // 各メモ及びタグを取得
+                        String[] memos = mainApplication.getMemos();
+                        String[] memoTagNames = CreateXML.getMemosTagName();
+
+                        //　XMLに保存されている文字列を入れ替える
+                        for(int x = position; x < adapter.getCount(); x++){
+                            if(x < 19){
+                                String memo = memos[x + 1];
+                                CreateXML.updateText(mainApplication,memoTagNames[x],memo);
+                            } else {
+                                CreateXML.updateText(mainApplication,memoTagNames[x],"null");
+                            }
+                        }
 
                         // adapterから店舗名を削除＆リストからも削除 ⇒ adapterを更新
                         ArrayAdapter<String> adapter = (ArrayAdapter<String>) listView.getAdapter();
@@ -366,6 +395,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
                         // 共有データも更新
                         setMainApplication(Store_List_Items);
+
 
                         // 店舗数表示を更新してトースト表示
                         tStoreCounter.setText(getString(R.string.store_count,adapter.getCount()));
