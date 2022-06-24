@@ -4,6 +4,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -81,6 +83,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         // 登録店舗名を入力するEditTextにフォーカスを外すための機能をセット
         actionListenerFocusOut();
 
+        setFocusEvent();
     }
 
     //「追加」ボタンに設定
@@ -160,6 +163,8 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     //リストビュー内の項目をタップした時のイベント処理
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+        focusOut();
 
         //タップされたリストビューを取得 ⇒ タップされた位置をtappedPositionに保持 ⇒ タップされた店舗名を取得
         ListView listView = (ListView) parent;
@@ -396,7 +401,6 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         // 共有データも更新
                         setMainApplication(Store_List_Items);
 
-
                         // 店舗数表示を更新してトースト表示
                         tStoreCounter.setText(getString(R.string.store_count,adapter.getCount()));
                         Toast toast = Toast.makeText(MainManagementStore.this, getString(R.string.delete_toast), Toast.LENGTH_SHORT);
@@ -523,14 +527,16 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         }
     }
 
-    // onTouchEventではアクテビティにしか反応せず、リストビュー上をタッチしても意味がない
-    // そこでリストビューをタッチしてもフォーカスが外れるようにするdispatchTouchEventを使う
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
-        eStoreName.setSelection(0);
-        mainLayout.requestFocus();
-        return super.dispatchTouchEvent(event);
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void setFocusEvent(){
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                focusOut();
+                return false;
+            }
+        });
     }
 
     public void focusOut() {

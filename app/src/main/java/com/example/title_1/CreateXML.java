@@ -428,7 +428,8 @@ public class CreateXML {
 
         // Transformerの設定
         transformer.setOutputProperty("indent", "yes"); //改行指定
-        transformer.setOutputProperty("encoding", "Shift_JIS"); // エンコーディング
+        //transformer.setOutputProperty("encoding", "Shift_JIS"); // エンコーディング
+        transformer.setOutputProperty("encoding", "utf-8"); // エンコーディング
 
         // XMLファイルの作成
         try {

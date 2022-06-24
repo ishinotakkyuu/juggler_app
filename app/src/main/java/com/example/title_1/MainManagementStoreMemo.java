@@ -16,10 +16,14 @@ import org.apache.commons.lang3.StringUtils;
 
 public class MainManagementStoreMemo extends AppCompatActivity implements TextWatcher {
 
-
+    // メモ入力用
     EditText eMemo;
+
+    // 前画面から受け取った配列インデックス
     int catchTappedPosition;
-    String[] memo,memoTagNames;
+
+    // 各種メモTextやXMLを格納する配列
+    String[] memo, memoTagNames;
 
     // 共有データ
     MainApplication mainApplication = null;
@@ -29,21 +33,24 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main01_storemanagement03_memo);
 
+        // ストレージの取得
         mainApplication = (MainApplication) this.getApplication();
-        ReadXML.readInfo(mainApplication); //ここでこれをしないと更新されたtextがセットされない……のでやってます。
+        ReadXML.readInfo(mainApplication);
         memo = mainApplication.getMemos();
         memoTagNames = CreateXML.getMemosTagName();
 
+        // EditTextの設定
         eMemo = findViewById(R.id.StoreMemo);
         eMemo.addTextChangedListener(this);
 
+        // 受け取ったインデックスを使用して該当のXMLよりメモを取得、EditTextにセット
         Intent intent = getIntent();
         catchTappedPosition = Integer.parseInt(intent.getStringExtra("tappedPosition"));
         setValue(catchTappedPosition);
     }
 
-    public void setValue(int catchTappedPosition){
-        if(memo[catchTappedPosition].equals("null")){
+    public void setValue(int catchTappedPosition) {
+        if (memo[catchTappedPosition].equals("null")) {
             eMemo.setText(getString(R.string.default_memo));
         } else {
             eMemo.setText(memo[catchTappedPosition]);
@@ -53,20 +60,23 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
+
     @Override
     public void afterTextChanged(Editable s) {
 
         final String[] text = {s.toString()};
-        if(text[0].isEmpty()){
+        if (text[0].isEmpty()) {
             text[0] = "null";
         }
 
         // サロゲートペア対応
-        for(int i = 0, len = text[0].length(); i < len; i++){
+        for (int i = 0, len = text[0].length(); i < len; i++) {
             char c = text[0].charAt(i);
+            int deleteIndex = i;
             if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.not_register_alert))
@@ -76,14 +86,14 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                // 末尾のみサロゲートペア対応できてる状態
-                                // 末尾にサロゲートペアが来なかったら対応できないため、後々改善すること
+                                // サロゲートペアを検出した場合は、検出文字含む以後の文字列を全て削除する
 
                                 eMemo.removeTextChangedListener(MainManagementStoreMemo.this);
 
-                                text[0] = text[0].substring(0, text[0].length() - 2);
+                                text[0] = text[0].substring(0, deleteIndex);
                                 eMemo.setText(text[0]);
                                 eMemo.setSelection(text[0].length());
+                                CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
 
                                 eMemo.addTextChangedListener(MainManagementStoreMemo.this);
 
@@ -93,6 +103,6 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                 return;
             }
         }
-            CreateXML.updateText(mainApplication,memoTagNames[catchTappedPosition], text[0]);
+        CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
     }
 }
