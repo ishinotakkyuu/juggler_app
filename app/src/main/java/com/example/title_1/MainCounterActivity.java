@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -46,9 +47,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public final class MainCounterActivity extends AppCompatActivity implements TextWatcher {
+public final class MainCounterActivity extends AppCompatActivity implements TextWatcher, KeyboardVisibility.OnKeyboardVisibilityListener {
 
-    // フォーカス処理に使うレイアウト・ボタン
+    // フォーカス処理に使うレイアウト・ボタン等
+    Activity activity;
+    InputMethodManager inputMethodManager;
     ConstraintLayout mainLayout, scrollLayout;
     Button bTotalBig, bTotalReg, bTotalBonus;
 
@@ -106,6 +109,11 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         machines = new Machines(getResources()); //Machineクラスのインスタンス生成
         setContentView(R.layout.main02_counter01);
 
+        // 戻るボタン等でキーボードを非表示にされた時のフォーカス対応
+        activity = this;
+        KeyboardVisibility kv = new KeyboardVisibility(activity);
+        kv.setKeyboardVisibilityListener(this);
+
         // 各viewをfindViewByIdで紐づける
         setFindViewByID();
         // 機種名選択のスピナー登録
@@ -120,6 +128,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         setValue();
         // タッチイベント設定
         setTouchEvent();
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+        if(!visible){
+            //キーボードが非表示になったことを検知した時
+            mainLayout.requestFocus();
+        }
     }
 
     // オプションメニューを表示するメソッド
@@ -635,7 +651,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     public void focusOut(){
-        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(),0);
         mainLayout.requestFocus();
     }
@@ -694,5 +710,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         }
         focusOut();
     }
+
 }
 

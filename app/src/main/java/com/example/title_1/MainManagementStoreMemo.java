@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainManagementStoreMemo extends AppCompatActivity implements TextWatcher {
+public class MainManagementStoreMemo extends AppCompatActivity implements TextWatcher, KeyboardVisibility.OnKeyboardVisibilityListener {
 
     // メモ入力用
     EditText eMemo;
@@ -30,10 +32,11 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
     String[] memo, memoTagNames;
 
     // フォーカス
+    Activity activity;
     ConstraintLayout memoLayout;
     InputMethodManager inputMethodManager;
 
-    //
+    // メニュー表示判定用
     boolean menuFlag = true;
 
     // 共有データ
@@ -44,8 +47,14 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main01_storemanagement03_memo);
 
+        // フォーカス関係のセット
         memoLayout = findViewById(R.id.MemoLayout);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // 戻るボタン等でキーボードを非表示にされた時のフォーカス対応
+        activity = this;
+        KeyboardVisibility kv = new KeyboardVisibility(activity);
+        kv.setKeyboardVisibilityListener(this);
 
         // ストレージの取得
         mainApplication = (MainApplication) this.getApplication();
@@ -63,6 +72,19 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
         Intent intent = getIntent();
         catchTappedPosition = Integer.parseInt(intent.getStringExtra("tappedPosition"));
         setValue(catchTappedPosition);
+    }
+
+    // 戻るボタン等でキーボードを非表示にされた時のフォーカス対応
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+        if(!visible){
+            //キーボードが非表示になったことを検知した時
+            menuFlag = true;
+            invalidateOptionsMenu();
+            eMemo.setFocusable(false);
+            eMemo.setFocusableInTouchMode(false);
+            memoLayout.requestFocus();
+        }
     }
 
     // メニューのセット
@@ -195,4 +217,5 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
         }
         CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
     }
+
 }

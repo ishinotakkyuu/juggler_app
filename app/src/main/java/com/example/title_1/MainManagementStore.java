@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,7 +28,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 
 
-public final class MainManagementStore extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public final class MainManagementStore extends AppCompatActivity implements AdapterView.OnItemClickListener, KeyboardVisibility.OnKeyboardVisibilityListener {
 
     // 登録店舗名を入力するEditText
     EditText eStoreName;
@@ -41,6 +42,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     MainManagementStoreAdapter adapter;
 
     // フォーカス関係で使用
+    Activity activity;
     ConstraintLayout mainLayout;
     InputMethodManager inputMethodManager;
 
@@ -67,6 +69,11 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         tStoreCounter = findViewById(R.id.tStoreCount);
         lStoreName = findViewById(R.id.lStore);
         eStoreName = findViewById(R.id.eStoreName);
+
+        // 戻るボタン等でキーボードを非表示にされた時のフォーカス対応
+        activity = this;
+        KeyboardVisibility kv = new KeyboardVisibility(activity);
+        kv.setKeyboardVisibilityListener(this);
 
         // 共有データに保存している店舗名を取得 ⇒ itemsに店舗名を格納 ⇒ adapterを介してListViewにセット
         this.mainApplication = (MainApplication) this.getApplication();
@@ -556,4 +563,13 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             }
         });
     }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+        if(!visible){
+            //キーボードが非表示になったことを検知した時
+            mainLayout.requestFocus();
+        }
+    }
+
 }

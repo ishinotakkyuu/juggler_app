@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -41,13 +42,17 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-public class DataDetail extends AppCompatActivity implements TextWatcher {
+public class DataDetail extends AppCompatActivity implements TextWatcher,KeyboardVisibility.OnKeyboardVisibilityListener {
 
     // 前画面から渡されてきた情報を受け取る変数
     String catchID, catchDate, catchStore, catchMachine, catchKeepTime;
 
     // レイアウト
     ConstraintLayout mainLayout, scrollLayout;
+
+    // フォーカス
+    Activity activity;
+    InputMethodManager inputMethodManager;
 
     //ゲーム数関係
     static EditText eStartGames, eTotalGames, eIndividualGames;
@@ -123,6 +128,11 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        // 戻るボタン等でキーボードを非表示にされた時のフォーカス対応
+        activity = this;
+        KeyboardVisibility kv = new KeyboardVisibility(activity);
+        kv.setKeyboardVisibilityListener(this);
 
         // 各ViewのIDをセット
         setFindViewByID();
@@ -526,7 +536,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
     }
 
     public void focusOut() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
         mainLayout.requestFocus();
     }
@@ -625,5 +635,13 @@ public class DataDetail extends AppCompatActivity implements TextWatcher {
         eCherryReg.setText(String.valueOf(dbCherryRegValue));
         eCherry.setText(String.valueOf(dbCherryValue));
         eGrape.setText(String.valueOf(dbGrapeValue));
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+        if(!visible){
+            //キーボードが非表示になったことを検知した時
+            mainLayout.requestFocus();
+        }
     }
 }
