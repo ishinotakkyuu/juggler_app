@@ -15,6 +15,7 @@
         <activity
             android:name=".MainManagementStoreMemo"
             android:label="@string/store_memo"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".DataDetail"

@@ -23,14 +23,15 @@
 
     </string-array>
 
-
-    <!--複数箇所で使用-->
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
     <string name="back">戻る</string>
     <string name="release">解除</string>
     <string name="cancel">キャンセル</string>
     <string name="delete">削除</string>
+    <string name="init">初期化</string>
+    <string name="finish">完了</string>
+    <string name="edit">編集</string>
     <string name="upper_limit_count_toast">カウント回数上限に達しました</string>
     <string name="lower_limit_count_toast">カウント回数下限に達しました</string>
 
@@ -64,6 +65,15 @@
     <string name="delete_store_message">「%1$s」をリストから削除してよろしいですか？</string>
     <string name="delete_toast">削除しました</string>
     <!--MainManagementStore.java 以上-->
+
+    <!--MainManagementStoreMemo.java 関係-->
+    <string name="default_memo">〇店舗の特徴・傾向\n</string>
+    <string name="not_register_alert">特殊文字の検出</string>
+    <string name="not_register_alert_message">特殊文字は使用できません\n不正な文字列を削除します</string>
+    <string name="memo_delete_alert">店舗メモの初期化</string>
+    <string name="memo_delete_alert_message">入力されているメモを初期化します\nよろしいですか？</string>
+    <string name="memo_delete_toast">メモを初期化しました</string>
+    <!--MainManagementStoreMemo.java 以上-->
 
     <!--MainCounterActivity.java 関係-->
     <!--加減算切り替え-->
@@ -242,11 +252,6 @@
     <!--店舗管理画面-->
     <string name="store_edit_hint">店舗名(最大20文字)を入力</string>
     <string name="add_button">追加</string>
-    <!--メモ画面-->
-    <string name="default_memo">〇店舗の特徴・傾向\n</string>
-    <string name="not_register_alert">特殊文字の検出</string>
-    <string name="not_register_alert_message">特殊文字は使用できません\n不正な文字列を削除します</string>
-    <string name="not_register_alert_button">削除</string>
     <!--カウンター画面のメニュー-->
     <string name="menu_item01">編集モード</string>
     <string name="menu_item02">加減算モード</string>
