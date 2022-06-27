@@ -1,4 +1,5 @@
 package com.example.title_1;
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -29,12 +30,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class FlagStatistics extends Fragment implements View.OnClickListener{
+public final class FlagStatistics extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    Context context;
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -50,33 +54,33 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     CheckBox cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay;
 
     // データを表示するためのボタン
-    Button bDisplay,bClear;
+    Button bDisplay, bClear;
 
     // タイトル表示に使用するTextView
     TextView tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig, tTittleTotalBig,
-             tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry;
+            tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry;
 
     // データ表示に使用するTextView
     TextView tTotalGames, tTotalMedal, tDiscount,
-             tTotalSingleBig, tTotalSingleBigProbability,
-             tTotalCherryBig, tTotalCherryBigProbability,
-             tTotalBig, tTotalBigProbability,
-             tTotalSingleReg, tTotalSingleRegProbability,
-             tTotalCherryReg, tTotalCherryRegProbability,
-             tTotalReg, tTotalRegProbability,
-             tTotalBonus, tTotalBonusProbability,
-             tTotalGrape, tTotalGrapeProbability,
-             tTotalCherry, tTotalCherryProbability;
+            tTotalSingleBig, tTotalSingleBigProbability,
+            tTotalCherryBig, tTotalCherryBigProbability,
+            tTotalBig, tTotalBigProbability,
+            tTotalSingleReg, tTotalSingleRegProbability,
+            tTotalCherryReg, tTotalCherryRegProbability,
+            tTotalReg, tTotalRegProbability,
+            tTotalBonus, tTotalBonusProbability,
+            tTotalGrape, tTotalGrapeProbability,
+            tTotalCherry, tTotalCherryProbability;
 
     // DBから値を取得
-    static int dbTotalGamesValue,dbTotalMedalValue,dbTotalSingleBigValue,dbTotalCherryBigValue,
-               dbTotalSingleRegValue,dbTotalCherryRegValue,dbTotalCherryValue,dbTotalGrapeValue;
+    static int dbTotalGamesValue, dbTotalMedalValue, dbTotalSingleBigValue, dbTotalCherryBigValue,
+            dbTotalSingleRegValue, dbTotalCherryRegValue, dbTotalCherryValue, dbTotalGrapeValue;
 
     // DB値から算出するもの
-    int calTotalBigValue,calTotalRegValue,calTotalBonusValue;
-    double calDiscountValue,calTotalSingleBigProbabilityValue,calTotalCherryBigProbabilityValue,calTotalBigProbabilityValue,
-            calTotalSingleRegProbabilityValue,calTotalCherryRegProbabilityValue,calTotalRegProbabilityValue,
-            calTotalBonusProbabilityValue,calTotalCherryProbabilityValue,calTotalGrapeProbabilityValue;
+    int calTotalBigValue, calTotalRegValue, calTotalBonusValue;
+    double calDiscountValue, calTotalSingleBigProbabilityValue, calTotalCherryBigProbabilityValue, calTotalBigProbabilityValue,
+            calTotalSingleRegProbabilityValue, calTotalCherryRegProbabilityValue, calTotalRegProbabilityValue,
+            calTotalBonusProbabilityValue, calTotalCherryProbabilityValue, calTotalGrapeProbabilityValue;
 
     final String FORMAT = "%.2f";
     final String TIMES = "回";
@@ -92,16 +96,20 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.main04_statistics01,container,false);
+        View view = inflater.inflate(R.layout.main04_statistics01, container, false);
 
         mainApplication = (MainApplication) getActivity().getApplication();
 
+        context = getActivity().getApplicationContext();
+
         // 各種findViewByIdの設定
         setFindViewById(view);
-        // クリックリスナーの登録
-        setClickListener();
         // 各種スピナーに項目をセット
         setSpinnerData();
+        // クリックリスナーの登録
+        setClickListener();
+        // スピナーにリスナー登録
+        setItemSelectedListener();
         // 画面下部のスクロール固定
         setScrollEnable(false);
 
@@ -112,16 +120,16 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.Date_01:
                 final Calendar calender_01 = Calendar.getInstance();
                 DatePickerDialog datePickerDialog_01 = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                // 選択した日付を取得して日付表示用のEditTextにセット
-                                eDateStart.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
-                            }
-                        },
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // 選択した日付を取得して日付表示用のEditTextにセット
+                        eDateStart.setText(String.format("%d / %02d / %02d", year, month + 1, dayOfMonth));
+                    }
+                },
                         calender_01.get(Calendar.YEAR),
                         calender_01.get(Calendar.MONTH),
                         calender_01.get(Calendar.DATE)
@@ -136,7 +144,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // 選択した日付を取得して日付表示用のEditTextにセット
-                        eDateEnd.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                        eDateEnd.setText(String.format("%d / %02d / %02d", year, month + 1, dayOfMonth));
                     }
                 },
                         calender_02.get(Calendar.YEAR),
@@ -153,25 +161,24 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 setTittle();
                 setScrollEnable(true);
 
-                Context context = getActivity().getApplicationContext();
                 String sql = CreateSQL.FlagStatisticsSQL();
-                DatabaseResultSet.execution("FlagStatistics",context,sql);
+                DatabaseResultSet.execution("FlagStatistics", context, sql);
 
                 calTotalBigValue = dbTotalSingleBigValue + dbTotalCherryBigValue;
                 calTotalRegValue = dbTotalSingleRegValue + dbTotalCherryRegValue;
                 calTotalBonusValue = calTotalBigValue + calTotalRegValue;
 
-                if(dbTotalGamesValue > 0) {
-                    calDiscountValue = (division(dbTotalGamesValue * 3 + dbTotalMedalValue,dbTotalGamesValue * 3)) *100;
-                    calTotalSingleBigProbabilityValue = division(dbTotalGamesValue,dbTotalSingleBigValue);
-                    calTotalCherryBigProbabilityValue = division(dbTotalGamesValue,dbTotalSingleBigValue);
-                    calTotalBigProbabilityValue = division(dbTotalGamesValue,calTotalBigValue);
-                    calTotalSingleRegProbabilityValue = division(dbTotalGamesValue,dbTotalSingleRegValue);
-                    calTotalCherryRegProbabilityValue = division(dbTotalGamesValue,dbTotalCherryRegValue);
-                    calTotalRegProbabilityValue = division(dbTotalGamesValue,calTotalRegValue);
-                    calTotalBonusProbabilityValue = division(dbTotalGamesValue,calTotalBonusValue);
-                    calTotalCherryProbabilityValue = division(dbTotalGamesValue,dbTotalCherryValue);
-                    calTotalGrapeProbabilityValue = division(dbTotalGamesValue,dbTotalGrapeValue);
+                if (dbTotalGamesValue > 0) {
+                    calDiscountValue = (division(dbTotalGamesValue * 3 + dbTotalMedalValue, dbTotalGamesValue * 3)) * 100;
+                    calTotalSingleBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
+                    calTotalCherryBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
+                    calTotalBigProbabilityValue = division(dbTotalGamesValue, calTotalBigValue);
+                    calTotalSingleRegProbabilityValue = division(dbTotalGamesValue, dbTotalSingleRegValue);
+                    calTotalCherryRegProbabilityValue = division(dbTotalGamesValue, dbTotalCherryRegValue);
+                    calTotalRegProbabilityValue = division(dbTotalGamesValue, calTotalRegValue);
+                    calTotalBonusProbabilityValue = division(dbTotalGamesValue, calTotalBonusValue);
+                    calTotalCherryProbabilityValue = division(dbTotalGamesValue, dbTotalCherryValue);
+                    calTotalGrapeProbabilityValue = division(dbTotalGamesValue, dbTotalGrapeValue);
                 }
 
                 NumberFormat nfNum = NumberFormat.getNumberInstance();
@@ -180,7 +187,11 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 // 値を各Viewにセット
                 tTotalGames.setText(Math.round(dbTotalGamesValue) + "回転");
                 tTotalMedal.setText(Math.round(dbTotalMedalValue) + "枚");
-                if(calDiscountValue > 0){tDiscount.setText(String.format(FORMAT, calDiscountValue) + "%");}else{tDiscount.setText("0.00%");}
+                if (calDiscountValue > 0) {
+                    tDiscount.setText(String.format(FORMAT, calDiscountValue) + "%");
+                } else {
+                    tDiscount.setText("0.00%");
+                }
                 tTotalSingleBig.setText(dbTotalSingleBigValue + TIMES);
                 tTotalSingleBigProbability.setText(NUMERATOR + String.format(FORMAT, calTotalSingleBigProbabilityValue));
                 tTotalCherryBig.setText(dbTotalCherryBigValue + TIMES);
@@ -211,11 +222,11 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                             eDateStart.getEditableText().clear();
                             eDateEnd.getEditableText().clear();
                             Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay};
-                            for(Spinner s : spinner){
+                            for (Spinner s : spinner) {
                                 s.setSelection(0);
                             }
                             CheckBox[] checkBox = {cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay};
-                            for(CheckBox c : checkBox){
+                            for (CheckBox c : checkBox) {
                                 c.setChecked(false);
                             }
 
@@ -232,7 +243,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     }
 
 
-    public void setFindViewById(View view){
+    public void setFindViewById(View view) {
 
         // findViewByIdする対象のレイアウトを指定
         mainLayout = view.findViewById(R.id.StatisticsLayout);
@@ -307,25 +318,35 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         scrollView = mainLayout.findViewById(R.id.ScrollView02);
     }
 
-    public void setClickListener(){
+    public void setClickListener() {
         eDateStart.setOnClickListener(this);
         eDateEnd.setOnClickListener(this);
         bDisplay.setOnClickListener(this);
         bClear.setOnClickListener(this);
     }
 
-    public void setTittle(){
-        TextView[] textViews = {tTittleTotalGames,tTittleMedal,tTittleDiscount,tTittleSingleBig,tTittleCherryBig,tTittleTotalBig,
-                                tTittleSingleReg,tTittleCherryReg,tTittleTotalReg,tTittleTotalBonus,tTittleGrape,tTittleCherry};
+    public void setItemSelectedListener() {
+        sStore.setOnItemSelectedListener(this);
+
+//        Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay};
+//        for(Spinner s : spinner){
+//            s.setOnItemSelectedListener(this);
+//        }
+    }
+
+
+    public void setTittle() {
+        TextView[] textViews = {tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig, tTittleTotalBig,
+                tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry};
         List<String> tittles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_TITTLES)));
-        for(int i = 0,size = tittles.size(); i < size; i++){
+        for (int i = 0, size = tittles.size(); i < size; i++) {
             textViews[i].setText(tittles.get(i));
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void setScrollEnable(boolean enable){
-        if(enable){
+    public void setScrollEnable(boolean enable) {
+        if (enable) {
             scrollView.setOnTouchListener(null);
         } else {
             scrollView.setOnTouchListener(new View.OnTouchListener() {
@@ -337,7 +358,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         }
     }
 
-    public void setSpinnerData(){
+    public void setSpinnerData() {
 
         List<String> Store_Names = new ArrayList<>();
         Store_Names.add(getString(R.string.not_selection));
@@ -346,7 +367,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         List<String> Table_Number = new ArrayList<>();
         Table_Number.add(getString(R.string.not_selection));
 
-        Context context = getActivity().getApplicationContext();
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -354,79 +374,78 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST;";
         String tableNumberListSql = "SELECT DISTINCT TABLE_NUMBER FROM TEST;";
 
-        Log.i("SQLITE","storeListSql : " + storeListSql);
-        Log.i("SQLITE","machineListSql : " + machineListSql);
-        Log.i("SQLITE","tableNumberListSql : " + tableNumberListSql);
+        Log.i("SQLITE", "storeListSql : " + storeListSql);
+        Log.i("SQLITE", "machineListSql : " + machineListSql);
+        Log.i("SQLITE", "tableNumberListSql : " + tableNumberListSql);
 
         try {
 
-            Cursor cursor = db.rawQuery(storeListSql,null);
+            Cursor storeNameCursor = db.rawQuery(storeListSql, null);
 
-            while(cursor.moveToNext()){
-                int index = cursor.getColumnIndex("STORE_NAME");
-                String store = cursor.getString(index);
+            while (storeNameCursor.moveToNext()) {
+                int index = storeNameCursor.getColumnIndex("STORE_NAME");
+                String store = storeNameCursor.getString(index);
                 Store_Names.add(store);
             }
 
-            Cursor cursor2 = db.rawQuery(machineListSql,null);
+            Cursor machineNameCursor = db.rawQuery(machineListSql, null);
 
-            while(cursor2.moveToNext()){
-                int index = cursor2.getColumnIndex("MACHINE_NAME");
-                String machine = cursor2.getString(index);
+            while (machineNameCursor.moveToNext()) {
+                int index = machineNameCursor.getColumnIndex("MACHINE_NAME");
+                String machine = machineNameCursor.getString(index);
                 Machine_Names.add(machine);
             }
 
-            // R04.06.21実装
-            Cursor cursor3 = db.rawQuery(tableNumberListSql,null);
+            Cursor tableNumberCursor = db.rawQuery(tableNumberListSql, null);
 
-            while(cursor3.moveToNext()){
-                int index = cursor3.getColumnIndex("TABLE_NUMBER");
-                String table = cursor3.getString(index);
+            while (tableNumberCursor.moveToNext()) {
+                int index = tableNumberCursor.getColumnIndex("TABLE_NUMBER");
+                String table = tableNumberCursor.getString(index);
                 Table_Number.add(table);
             }
 
-        }finally{
-            if(db != null) {
+        } finally {
+            if (db != null) {
                 db.close();
             }
         }
 
         // 店舗一覧をセット
-        setItems(Store_Names,sStore);
+        setItems(Store_Names, sStore);
 
         // 機種名一覧リストをセット
-        setItems(Machine_Names,sMachine);
+        setItems(Machine_Names, sMachine);
 
         // 台番号をセット
-        setItems(Table_Number,sTableNumber);
+        setItems(Table_Number, sTableNumber);
 
         // 特殊スピナー①をセット
         final List<String> spItems01 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_DIGIT)));
-        setItems(spItems01,sDayDigit);
+        setItems(spItems01, sDayDigit);
 
         // 特殊スピナー②をセット
         final List<String> spItems02 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_SPECIAL_DAY)));
-        setItems(spItems02,sSpecialDay);
+        setItems(spItems02, sSpecialDay);
 
         // 特殊スピナー③をセット
         final List<String> spItems03 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_MONTH)));
-        setItems(spItems03,sMonth);
+        setItems(spItems03, sMonth);
 
         // 特殊スピナー④をセット
         final List<String> spItems04 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_DAY)));
-        setItems(spItems04,sDay);
+        setItems(spItems04, sDay);
 
         // 特殊スピナー⑤をセット
         final List<String> spItems05 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_WEEK_IN_MONTH)));
-        setItems(spItems05,sDayOfWeek_In_Month);
+        setItems(spItems05, sDayOfWeek_In_Month);
 
         // 特殊スピナー⑥をセット
         final List<String> spItems06 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_WEEK_ID)));
-        setItems(spItems06,sWeekId);
+        setItems(spItems06, sWeekId);
 
         // 特殊スピナー⑦をセット
         final List<String> spItems07 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_ATTACH_DAY)));
-        setItems(spItems07,sAttachDay);
+        setItems(spItems07, sAttachDay);
     }
 
     public void initValue() {
@@ -442,18 +461,56 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     }
 
     // ダブル型で割り算するメソッド
-    public double division(int numerator , int denominator){
+    public double division(int numerator, int denominator) {
         double result = 0;
-        if(numerator != 0 && denominator != 0) {
-            result = (double)numerator / (double)denominator;
+        if (numerator != 0 && denominator != 0) {
+            result = (double) numerator / (double) denominator;
         }
         return result;
     }
 
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        Spinner pSpinner = (Spinner) parent;
+        String item = pSpinner.getSelectedItem().toString();
+        int pSpinnerID = pSpinner.getId();
+        SpinnerUpgrade su = new SpinnerUpgrade();
+
+        switch (pSpinnerID) {
+            case R.id.StoreSelect:
+                if (item.equals("未選択")) {
+
+                } else {
+
+                    List<String> newMachineItems = su.machineItemsUpgrade(context, item);
+                    if (newMachineItems.size() != 1) {
+                        setItems(newMachineItems, sMachine);
+                    }
+
+                    List<String> newTableNumberItems = su.tableNumberItemsUpgrade(context, item);
+                    if (newTableNumberItems.size() != 1) {
+                        setItems(newTableNumberItems, sTableNumber);
+                    }
+
+                }
+
+
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     // 各スピナーに項目をセットするメソッド
-    public void setItems(List<String> spItems, Spinner spinner){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),R.layout.main04_statistics02_spinner,spItems);
+    public void setItems(List<String> spItems, Spinner spinner) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.main04_statistics02_spinner, spItems);
         adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         spinner.setAdapter(adapter);
     }
+
 }

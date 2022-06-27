@@ -122,6 +122,17 @@ public class CreateSQL {
         return sql;
     }
 
+    public static String upMachineNamesSQL(String item){
+        return "SELECT DISTINCT MACHINE_NAME FROM TEST WHERE STORE_NAME = " + "'" + item + "';";
+    }
+
+    public static String upTableNumberSQL(String item){
+        return "SELECT DISTINCT TABLE_NUMBER FROM TEST WHERE STORE_NAME = " + "'" + item + "';";
+    }
+
+
+
+
     public static String FlagGradesSQL() {
 
         String sql = "select * from TEST ORDER BY OPERATION_DATE desc , SAVE_DATE desc;";
