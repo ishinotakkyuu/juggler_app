@@ -482,7 +482,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:text="@string/statistics_date_reset_button"
+        android:text="@string/statistics_reset_button"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/ScrollView02"
         app:layout_constraintEnd_toEndOf="parent"

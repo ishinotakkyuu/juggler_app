@@ -98,8 +98,20 @@ public class CreateSQL {
             sql = addAnd(sql);
             String conditionValue =  String.valueOf(spinner07Position - 1);
 
-            sql = sql + "substr(TABLE_NUMBER,length(TABLE_NUMBER)) =" + "'" + conditionValue + "'";
+            sql = sql + "SUBSTR(TABLE_NUMBER,length(TABLE_NUMBER)) =" + "'" + conditionValue + "'";
         }
+
+        // 日付の範囲指定(R04.06.27 松沢記述)
+        String eDateStart = FlagStatistics.eDateStart.getText().toString();
+        if(eDateStart.isEmpty()){
+            eDateStart = "1 / 1 / 1";
+        }
+        String eDateEnd = FlagStatistics.eDateEnd.getText().toString();
+        if(eDateEnd.isEmpty()){
+            eDateEnd = "9999 / 12 / 31";
+        }
+        sql = addAnd(sql);
+        sql = sql + "OPERATION_DATE BETWEEN" + "'" +  eDateStart + "'" + "AND" + "'" +  eDateEnd + "'";
 
         if(sql.isEmpty()) {
             sql = initSql  + end;
@@ -112,7 +124,7 @@ public class CreateSQL {
 
     public static String FlagGradesSQL() {
 
-        String sql = "select * from TEST ORDER BY OPERATION_DATE desc;";
+        String sql = "select * from TEST ORDER BY OPERATION_DATE desc , SAVE_DATE desc;";
 
         return sql;
     }

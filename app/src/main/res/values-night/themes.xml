@@ -15,6 +15,7 @@
         <!-- ActionBarのスタイル設定 -->
         <item name="android:actionBarStyle">@style/CustomActionBar</item>
         <item name="actionBarStyle">@style/CustomActionBar</item>
+        <item name="actionMenuTextColor">@color/white</item>
 
         <!-- メニューバー右側の3点アイコンを定義 -->
         <item name="actionOverflowButtonStyle">@style/MyOverFlow</item>

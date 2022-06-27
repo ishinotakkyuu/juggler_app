@@ -103,6 +103,12 @@
 
     <!--FlagStatistics.java 関係-->
     <string name="not_selection">未選択</string>
+    <string name="reset_dialog_tittle">条件クリア</string>
+    <string name="reset_dialog_message">クリアする項目を選んでください</string>
+    <string name="reset_dialog_date">日付のみ</string>
+    <string name="reset_dialog_all">全てクリア</string>
+
+
     <!--配列関係-->
     <string-array name="SET_TITTLES">
         <item>総回転数</item>
@@ -300,7 +306,7 @@
     <string name="statistics_special06">特殊６</string>
     <string name="statistics_special07">特殊７</string>
     <string name="statistics_show_button">表示</string>
-    <string name="statistics_date_reset_button">日付クリア</string>
+    <string name="statistics_reset_button">クリア</string>
     <!--fragment関係(偉い人が作ったやつだから消したら終わる)-->
     <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
     <string name="first_fragment_label">First Fragment</string>

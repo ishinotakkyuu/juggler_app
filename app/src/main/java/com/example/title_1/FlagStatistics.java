@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,10 +17,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -38,7 +43,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     ConstraintLayout mainLayout;
 
     // 日付表示用のEditText
-    EditText eDateStart, eDateEnd;
+    static EditText eDateStart, eDateEnd;
 
     // 各種スピナーとそれぞれに対応するチェックボックス
     static Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay;
@@ -77,7 +82,8 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     final String TIMES = "回";
     final String NUMERATOR = "1/";
 
-
+    // 画面下部のスクロール固定処理用(ダークモード対応)
+    ScrollView scrollView;
 
     @Nullable
     @Override
@@ -96,6 +102,8 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         setClickListener();
         // 各種スピナーに項目をセット
         setSpinnerData();
+        // 画面下部のスクロール固定
+        setScrollEnable(false);
 
         return view;
     }
@@ -143,6 +151,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
                 initValue();
                 setTittle();
+                setScrollEnable(true);
 
                 Context context = getActivity().getApplicationContext();
                 String sql = CreateSQL.FlagStatisticsSQL();
@@ -193,8 +202,31 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.DateClear:
-                eDateStart.getEditableText().clear();
-                eDateEnd.getEditableText().clear();
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle(getString(R.string.reset_dialog_tittle))
+                        .setMessage(getString(R.string.reset_dialog_message))
+                        .setPositiveButton(getString(R.string.reset_dialog_all), (dialog, which) -> {
+
+                            eDateStart.getEditableText().clear();
+                            eDateEnd.getEditableText().clear();
+                            Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay};
+                            for(Spinner s : spinner){
+                                s.setSelection(0);
+                            }
+                            CheckBox[] checkBox = {cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay};
+                            for(CheckBox c : checkBox){
+                                c.setChecked(false);
+                            }
+
+                        })
+                        .setNegativeButton(getString(R.string.reset_dialog_date), (dialog, which) -> {
+
+                            eDateStart.getEditableText().clear();
+                            eDateEnd.getEditableText().clear();
+
+                        })
+                        .show();
                 break;
         }
     }
@@ -270,6 +302,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         // ボタン
         bDisplay = mainLayout.findViewById(R.id.DisplayButton);
         bClear = mainLayout.findViewById(R.id.DateClear);
+
+        // スクロールビュー
+        scrollView = mainLayout.findViewById(R.id.ScrollView02);
     }
 
     public void setClickListener(){
@@ -285,6 +320,20 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         List<String> tittles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_TITTLES)));
         for(int i = 0,size = tittles.size(); i < size; i++){
             textViews[i].setText(tittles.get(i));
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void setScrollEnable(boolean enable){
+        if(enable){
+            scrollView.setOnTouchListener(null);
+        } else {
+            scrollView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
         }
     }
 
