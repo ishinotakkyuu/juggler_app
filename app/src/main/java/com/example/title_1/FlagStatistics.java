@@ -29,6 +29,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.NumberFormat;
@@ -72,6 +73,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             tTotalGrape, tTotalGrapeProbability,
             tTotalCherry, tTotalCherryProbability;
 
+    // 画面下部のスクロール固定処理用(ダークモード対応)
+    ScrollView scrollView;
+
     // DBから値を取得
     static int dbTotalGamesValue, dbTotalMedalValue, dbTotalSingleBigValue, dbTotalCherryBigValue,
             dbTotalSingleRegValue, dbTotalCherryRegValue, dbTotalCherryValue, dbTotalGrapeValue;
@@ -82,12 +86,15 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             calTotalSingleRegProbabilityValue, calTotalCherryRegProbabilityValue, calTotalRegProbabilityValue,
             calTotalBonusProbabilityValue, calTotalCherryProbabilityValue, calTotalGrapeProbabilityValue;
 
+    // 各種スピナーにセットする配列
+    List<String> Store_Names,Machine_Names,Table_Number;
+    // 配列初期値格納用
+    static List<String> init_Store_Names,init_Machine_Names,init_Table_Number;
+
+    // 定数
     final String FORMAT = "%.2f";
     final String TIMES = "回";
     final String NUMERATOR = "1/";
-
-    // 画面下部のスクロール固定処理用(ダークモード対応)
-    ScrollView scrollView;
 
     @Nullable
     @Override
@@ -106,6 +113,8 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         setFindViewById(view);
         // 各種スピナーに項目をセット
         setSpinnerData();
+        // 初回起動時の「未選択」処理回避のためFocusableをfalseにしておく
+        setFocusable();
         // クリックリスナーの登録
         setClickListener();
         // スピナーにリスナー登録
@@ -242,7 +251,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         }
     }
 
-
     public void setFindViewById(View view) {
 
         // findViewByIdする対象のレイアウトを指定
@@ -327,11 +335,20 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
     public void setItemSelectedListener() {
         sStore.setOnItemSelectedListener(this);
+        sMachine.setOnItemSelectedListener(this);
+        sTableNumber.setOnItemSelectedListener(this);
 
 //        Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay};
 //        for(Spinner s : spinner){
 //            s.setOnItemSelectedListener(this);
 //        }
+    }
+
+    public void setFocusable(){
+        Spinner[] spinners = {sStore, sMachine, sTableNumber};
+        for(Spinner s:spinners){
+            s.setFocusable(false);
+        }
     }
 
 
@@ -360,11 +377,13 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
     public void setSpinnerData() {
 
-        List<String> Store_Names = new ArrayList<>();
+        Store_Names = new ArrayList<>();
         Store_Names.add(getString(R.string.not_selection));
-        List<String> Machine_Names = new ArrayList<>();
+
+        Machine_Names = new ArrayList<>();
         Machine_Names.add(getString(R.string.not_selection));
-        List<String> Table_Number = new ArrayList<>();
+
+        Table_Number = new ArrayList<>();
         Table_Number.add(getString(R.string.not_selection));
 
         DatabaseHelper helper = new DatabaseHelper(context);
@@ -409,6 +428,11 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 db.close();
             }
         }
+
+        // 初期値をセット
+        init_Store_Names = new ArrayList<>(Store_Names);
+        init_Machine_Names = new ArrayList<>(Machine_Names);
+        init_Table_Number = new ArrayList<>(Table_Number);
 
         // 店舗一覧をセット
         setItems(Store_Names, sStore);
@@ -473,37 +497,34 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+        // 対象のスピナーを捕獲
         Spinner pSpinner = (Spinner) parent;
-        String item = pSpinner.getSelectedItem().toString();
-        int pSpinnerID = pSpinner.getId();
-        SpinnerUpgrade su = new SpinnerUpgrade();
 
-        switch (pSpinnerID) {
-            case R.id.StoreSelect:
-                if (item.equals("未選択")) {
-
-                } else {
-
-                    List<String> newMachineItems = su.machineItemsUpgrade(context, item);
-                    if (newMachineItems.size() != 1) {
-                        setItems(newMachineItems, sMachine);
-                    }
-
-                    List<String> newTableNumberItems = su.tableNumberItemsUpgrade(context, item);
-                    if (newTableNumberItems.size() != 1) {
-                        setItems(newTableNumberItems, sTableNumber);
-                    }
-
-                }
-
-
-                break;
+        // 初回起動時の「未選択」処理回避
+        if (!pSpinner.isFocusable()) {
+            pSpinner.setFocusable(true);
+            return;
         }
+
+        // 以降は画面起動後にスピナーで項目を選択した場合に発生する処理
+
+        String item = pSpinner.getSelectedItem().toString();
+        int pId = pSpinner.getId();
+
+        Spinner[] spinners = {sStore, sMachine, sTableNumber};
+        spinners = ArrayUtils.removeElements(spinners,pSpinner);
+
+        SpinnerUpgrade su = new SpinnerUpgrade();
+        List<List<String>> newItemLists = su.getUpGradeItems(context,item,pId);
+
+        for(int i = 0; i < newItemLists.size(); i++){
+            setItems(newItemLists.get(i),spinners[i]);
+        }
+
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     // 各スピナーに項目をセットするメソッド

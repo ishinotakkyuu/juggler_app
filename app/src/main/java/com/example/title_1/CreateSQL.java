@@ -15,8 +15,6 @@ public class CreateSQL {
 
         // 店舗名
         int storePosition = FlagStatistics.sStore.getSelectedItemPosition();
-
-        // 店舗名を選択していた場合
         if(storePosition != 0) {
             String storeName = (String)FlagStatistics.sStore.getSelectedItem();
 
@@ -25,12 +23,20 @@ public class CreateSQL {
 
         // 機種名
         int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
-
         if(machinePosition != 0){
             String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
             sql = addAnd(sql);
 
             sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
+        }
+
+        // 台番号(R04.06.27 松沢記述)
+        int tableNumberPosition = FlagStatistics.sTableNumber.getSelectedItemPosition();
+        if(tableNumberPosition != 0){
+            String tableNumber = (String)FlagStatistics.sTableNumber.getSelectedItem();
+            sql = addAnd(sql);
+
+            sql = sql + "TABLE_NUMBER = " + "'" + tableNumber + "'";
         }
 
         // 特殊1
@@ -122,14 +128,24 @@ public class CreateSQL {
         return sql;
     }
 
-    public static String upMachineNamesSQL(String item){
+    // 機種名で店舗名を絞るSQL
+    public static String machine_store_SQL(String item){
+        return "SELECT DISTINCT STORE_NAME FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
+    }
+
+    // 店舗名で機種名を絞るSQL
+    public static String store_machine_SQL(String item){
         return "SELECT DISTINCT MACHINE_NAME FROM TEST WHERE STORE_NAME = " + "'" + item + "';";
     }
 
-    public static String upTableNumberSQL(String item){
+    // 店舗名で台番号を絞るSQL
+    public static String store_tableNumberSQL(String item){
         return "SELECT DISTINCT TABLE_NUMBER FROM TEST WHERE STORE_NAME = " + "'" + item + "';";
     }
-
+    // 機種名で台番号を絞るSQL
+    public static String machine_tableNumberSQL(String item){
+        return "SELECT DISTINCT TABLE_NUMBER FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
+    }
 
 
 
