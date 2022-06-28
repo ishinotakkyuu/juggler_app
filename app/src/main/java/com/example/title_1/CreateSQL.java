@@ -128,10 +128,6 @@ public class CreateSQL {
         return sql;
     }
 
-    // 機種名で店舗名を絞るSQL
-    public static String machine_store_SQL(String item){
-        return "SELECT DISTINCT STORE_NAME FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
-    }
 
     // 店舗名で機種名を絞るSQL
     public static String store_machine_SQL(String item){
@@ -142,9 +138,25 @@ public class CreateSQL {
     public static String store_tableNumberSQL(String item){
         return "SELECT DISTINCT TABLE_NUMBER FROM TEST WHERE STORE_NAME = " + "'" + item + "';";
     }
+
+    // 機種名で店舗名を絞るSQL
+    public static String machine_store_SQL(String item){
+        return "SELECT DISTINCT STORE_NAME FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
+    }
+
     // 機種名で台番号を絞るSQL
     public static String machine_tableNumberSQL(String item){
         return "SELECT DISTINCT TABLE_NUMBER FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
+    }
+
+    // 台番号で店舗名を絞るSQL
+    public static String tableNumber_storeSQL(String item){
+        return "SELECT DISTINCT STORE_NAME FROM TEST WHERE TABLE_NUMBER = " + "'" + item + "';";
+    }
+
+    // 台番号で機種名を絞るSQL
+    public static String tableNumber_machineSQL(String item){
+        return "SELECT DISTINCT MACHINE_NAME FROM TEST WHERE TABLE_NUMBER = " + "'" + item + "';";
     }
 
 

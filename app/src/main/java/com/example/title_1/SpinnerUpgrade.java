@@ -37,6 +37,8 @@ public class SpinnerUpgrade {
             switch (id) {
                 case R.id.StoreSelect:
 
+
+
                     newItemLists.add(new_Machine_Names);
                     newItemLists.add(new_Table_Number);
 
@@ -96,6 +98,38 @@ public class SpinnerUpgrade {
                         }
                     }
                     break;
+
+                case R.id.MachineNumberSelect:
+
+                    newItemLists.add(new_Store_Names);
+                    newItemLists.add(new_Machine_Names);
+
+                    storeNameSql = CreateSQL.tableNumber_storeSQL(item);
+                    machineNameSql = CreateSQL.tableNumber_machineSQL(item);
+
+                    try {
+
+                        Cursor storeNameCursor = db.rawQuery(storeNameSql, null);
+                        while (storeNameCursor.moveToNext()) {
+                            int index = storeNameCursor.getColumnIndex("STORE_NAME");
+                            String store = storeNameCursor.getString(index);
+                            newItemLists.get(0).add(store);
+                        }
+
+                        Cursor machineNameCursor = db.rawQuery(machineNameSql, null);
+                        while (machineNameCursor.moveToNext()) {
+                            int index = machineNameCursor.getColumnIndex("MACHINE_NAME");
+                            String machine = machineNameCursor.getString(index);
+                            newItemLists.get(1).add(machine);
+                        }
+
+                    } finally {
+                        if (db != null) {
+                            db.close();
+                        }
+                    }
+                    break;
+
             }
             return newItemLists;
 

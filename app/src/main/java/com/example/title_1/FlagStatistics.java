@@ -91,6 +91,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     // 配列初期値格納用
     static List<String> init_Store_Names,init_Machine_Names,init_Table_Number;
 
+    // スピナーに設定するリスナー
+    AdapterView.OnItemSelectedListener listener = this;
+
     // 定数
     final String FORMAT = "%.2f";
     final String TIMES = "回";
@@ -334,14 +337,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     }
 
     public void setItemSelectedListener() {
-        sStore.setOnItemSelectedListener(this);
-        sMachine.setOnItemSelectedListener(this);
-        sTableNumber.setOnItemSelectedListener(this);
-
-//        Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay};
-//        for(Spinner s : spinner){
-//            s.setOnItemSelectedListener(this);
-//        }
+        sStore.setOnItemSelectedListener(listener);
+        sMachine.setOnItemSelectedListener(listener);
+        sTableNumber.setOnItemSelectedListener(listener);
     }
 
     public void setFocusable(){
@@ -350,7 +348,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             s.setFocusable(false);
         }
     }
-
 
     public void setTittle() {
         TextView[] textViews = {tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig, tTittleTotalBig,
@@ -500,7 +497,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         // 対象のスピナーを捕獲
         Spinner pSpinner = (Spinner) parent;
 
-        // 初回起動時の「未選択」処理回避
+        // 初回起動時の「未選択」無限ループ回避
         if (!pSpinner.isFocusable()) {
             pSpinner.setFocusable(true);
             return;
@@ -508,18 +505,55 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         // 以降は画面起動後にスピナーで項目を選択した場合に発生する処理
 
-        String item = pSpinner.getSelectedItem().toString();
-        int pId = pSpinner.getId();
-
+        // 更新対象スピナーを格納した配列作成
         Spinner[] spinners = {sStore, sMachine, sTableNumber};
         spinners = ArrayUtils.removeElements(spinners,pSpinner);
 
+        // 該当スピナーの選択値を取得
+        String item = pSpinner.getSelectedItem().toString();
+        int pId = pSpinner.getId();
+
+        // 更新対象スピナーの選択値も保持しておく
+        String initStr_01 = "",initStr_02 = "";
+        String[] initStrings = {initStr_01,initStr_02};
+        for(int i = 0; i < spinners.length; i++){
+            initStrings[i] = spinners[i].getSelectedItem().toString();
+        }
+
+        // 更新された項目を取得
         SpinnerUpgrade su = new SpinnerUpgrade();
         List<List<String>> newItemLists = su.getUpGradeItems(context,item,pId);
 
-        for(int i = 0; i < newItemLists.size(); i++){
+        // 更新項目をアダプターを介して更新対象スピナーにセット
+        int size = newItemLists.size();
+        for(int i = 0; i < size; i++){
             setItems(newItemLists.get(i),spinners[i]);
         }
+
+        int itemPieces_01 = newItemLists.get(0).size();
+        for(int i = 0; i < itemPieces_01; i++){
+            if(newItemLists.get(0).get(i).equals(initStrings[0])){
+
+                spinners[0].setOnItemSelectedListener(null);
+                spinners[0].setSelection(i,false);
+                spinners[0].setOnItemSelectedListener(listener);
+
+            }
+        }
+
+        int itemPieces_02 = newItemLists.get(1).size();
+        for(int i = 0; i < itemPieces_02; i++){
+            if(newItemLists.get(1).get(i).equals(initStrings[1])){
+
+                spinners[1].setOnItemSelectedListener(null);
+                spinners[1].setSelection(i,false);
+                spinners[1].setOnItemSelectedListener(listener);
+
+            }
+        }
+
+
+
 
     }
 
