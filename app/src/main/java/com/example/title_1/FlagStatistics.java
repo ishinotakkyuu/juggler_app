@@ -40,6 +40,7 @@ import java.util.List;
 public final class FlagStatistics extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     Context context;
+    View view;
 
     // 共有データ
     static MainApplication mainApplication = null;
@@ -52,7 +53,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
     // 各種スピナーとそれぞれに対応するチェックボックス
     static Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay;
-    CheckBox cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay;
 
     // データを表示するためのボタン
     Button bDisplay, bClear;
@@ -87,9 +87,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             calTotalBonusProbabilityValue, calTotalCherryProbabilityValue, calTotalGrapeProbabilityValue;
 
     // 各種スピナーにセットする配列
-    List<String> Store_Names,Machine_Names,Table_Number;
+    List<String> Store_Names, Machine_Names, Table_Number;
     // 配列初期値格納用
-    static List<String> init_Store_Names,init_Machine_Names,init_Table_Number;
+    List<String> init_Store_Names, init_Machine_Names, init_Table_Number;
 
     // スピナーに設定するリスナー
     AdapterView.OnItemSelectedListener listener = this;
@@ -106,14 +106,14 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.main04_statistics01, container, false);
+        view = inflater.inflate(R.layout.main04_statistics01, container, false);
 
         mainApplication = (MainApplication) getActivity().getApplication();
 
         context = getActivity().getApplicationContext();
 
-        // 各種findViewByIdの設定
-        setFindViewById(view);
+        // パフォーマンスを考慮し、画面起動時に必要最小限ViewにIDを設定
+        setFindViewById_01(view);
         // 各種スピナーに項目をセット
         setSpinnerData();
         // 初回起動時の「未選択」処理回避のためFocusableをfalseにしておく
@@ -168,6 +168,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.DisplayButton:
+
+                // 統計表示に必要なViewのIDを設定
+                setFindViewById_02(view);
 
                 initValue();
                 setTittle();
@@ -237,11 +240,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                             for (Spinner s : spinner) {
                                 s.setSelection(0);
                             }
-                            CheckBox[] checkBox = {cDayDigit, cSpecialDay, cMonth, cDay, cDayOfWeek_In_Month, cWeekId, cAttachDay};
-                            for (CheckBox c : checkBox) {
-                                c.setChecked(false);
-                            }
-
                         })
                         .setNegativeButton(getString(R.string.reset_dialog_date), (dialog, which) -> {
 
@@ -251,124 +249,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                         })
                         .show();
                 break;
-        }
-    }
-
-    public void setFindViewById(View view) {
-
-        // findViewByIdする対象のレイアウトを指定
-        mainLayout = view.findViewById(R.id.StatisticsLayout);
-
-        // 日付表示用TextView
-        eDateStart = mainLayout.findViewById(R.id.Date_01);
-        eDateEnd = mainLayout.findViewById(R.id.Date_02);
-
-        // スピナー関係
-        sStore = mainLayout.findViewById(R.id.StoreSelect);
-        sMachine = mainLayout.findViewById(R.id.MachineSelect);
-        sTableNumber = mainLayout.findViewById(R.id.MachineNumberSelect);
-        sDayDigit = mainLayout.findViewById(R.id.SpecialSpinner_01);
-        sSpecialDay = mainLayout.findViewById(R.id.SpecialSpinner_02);
-        sMonth = mainLayout.findViewById(R.id.SpecialSpinner_03);
-        sDay = mainLayout.findViewById(R.id.SpecialSpinner_04);
-        sDayOfWeek_In_Month = mainLayout.findViewById(R.id.SpecialSpinner_05);
-        sWeekId = mainLayout.findViewById(R.id.SpecialSpinner_06);
-        sAttachDay = mainLayout.findViewById(R.id.SpecialSpinner_07);
-
-        // チェックボックス
-        cDayDigit = mainLayout.findViewById(R.id.CheckBox_01);
-        cSpecialDay = mainLayout.findViewById(R.id.CheckBox_02);
-        cMonth = mainLayout.findViewById(R.id.CheckBox_03);
-        cDay = mainLayout.findViewById(R.id.CheckBox_04);
-        cDayOfWeek_In_Month = mainLayout.findViewById(R.id.CheckBox_05);
-        cWeekId = mainLayout.findViewById(R.id.CheckBox_06);
-        cAttachDay = mainLayout.findViewById(R.id.CheckBox_07);
-
-        // タイトル表示用TextView
-        tTittleTotalGames = mainLayout.findViewById(R.id.Tittle_01);
-        tTittleMedal = mainLayout.findViewById(R.id.Tittle_02);
-        tTittleDiscount = mainLayout.findViewById(R.id.Tittle_03);
-        tTittleSingleBig = mainLayout.findViewById(R.id.Tittle_04);
-        tTittleCherryBig = mainLayout.findViewById(R.id.Tittle_05);
-        tTittleTotalBig = mainLayout.findViewById(R.id.Tittle_06);
-        tTittleSingleReg = mainLayout.findViewById(R.id.Tittle_07);
-        tTittleCherryReg = mainLayout.findViewById(R.id.Tittle_08);
-        tTittleTotalReg = mainLayout.findViewById(R.id.Tittle_09);
-        tTittleTotalBonus = mainLayout.findViewById(R.id.Tittle_10);
-        tTittleGrape = mainLayout.findViewById(R.id.Tittle_11);
-        tTittleCherry = mainLayout.findViewById(R.id.Tittle_12);
-
-        // データ表示用TextView
-        tTotalGames = mainLayout.findViewById(R.id.TotalGame);
-        tTotalMedal = mainLayout.findViewById(R.id.TotalMedal);
-        tDiscount = mainLayout.findViewById(R.id.Discount);
-        tTotalSingleBig = mainLayout.findViewById(R.id.TotalAloneBig);
-        tTotalSingleBigProbability = mainLayout.findViewById(R.id.TotalAloneBigProbability);
-        tTotalCherryBig = mainLayout.findViewById(R.id.TotalCherryBig);
-        tTotalCherryBigProbability = mainLayout.findViewById(R.id.TotalCherryBigProbability);
-        tTotalBig = mainLayout.findViewById(R.id.TotalBig);
-        tTotalBigProbability = mainLayout.findViewById(R.id.TotalBigProbability);
-        tTotalSingleReg = mainLayout.findViewById(R.id.TotalAloneReg);
-        tTotalSingleRegProbability = mainLayout.findViewById(R.id.TotalAloneRegProbability);
-        tTotalCherryReg = mainLayout.findViewById(R.id.TotalCherryReg);
-        tTotalCherryRegProbability = mainLayout.findViewById(R.id.TotalCherryRegProbability);
-        tTotalReg = mainLayout.findViewById(R.id.TotalReg);
-        tTotalRegProbability = mainLayout.findViewById(R.id.TotalRegProbability);
-        tTotalBonus = mainLayout.findViewById(R.id.TotalBonus);
-        tTotalBonusProbability = mainLayout.findViewById(R.id.TotalBonusProbability);
-        tTotalGrape = mainLayout.findViewById(R.id.TotalGrape);
-        tTotalGrapeProbability = mainLayout.findViewById(R.id.TotalGrapeProbability);
-        tTotalCherry = mainLayout.findViewById(R.id.TotalCherry);
-        tTotalCherryProbability = mainLayout.findViewById(R.id.TotalCherryProbability);
-
-        // ボタン
-        bDisplay = mainLayout.findViewById(R.id.DisplayButton);
-        bClear = mainLayout.findViewById(R.id.DateClear);
-
-        // スクロールビュー
-        scrollView = mainLayout.findViewById(R.id.ScrollView02);
-    }
-
-    public void setClickListener() {
-        eDateStart.setOnClickListener(this);
-        eDateEnd.setOnClickListener(this);
-        bDisplay.setOnClickListener(this);
-        bClear.setOnClickListener(this);
-    }
-
-    public void setItemSelectedListener() {
-        sStore.setOnItemSelectedListener(listener);
-        sMachine.setOnItemSelectedListener(listener);
-        sTableNumber.setOnItemSelectedListener(listener);
-    }
-
-    public void setFocusable(){
-        Spinner[] spinners = {sStore, sMachine, sTableNumber};
-        for(Spinner s:spinners){
-            s.setFocusable(false);
-        }
-    }
-
-    public void setTittle() {
-        TextView[] textViews = {tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig, tTittleTotalBig,
-                tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry};
-        List<String> tittles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_TITTLES)));
-        for (int i = 0, size = tittles.size(); i < size; i++) {
-            textViews[i].setText(tittles.get(i));
-        }
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void setScrollEnable(boolean enable) {
-        if (enable) {
-            scrollView.setOnTouchListener(null);
-        } else {
-            scrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
         }
     }
 
@@ -494,7 +374,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        // 対象のスピナーを捕獲
+        // 当該スピナーを捕獲
         Spinner pSpinner = (Spinner) parent;
 
         // 初回起動時の「未選択」無限ループ回避
@@ -507,53 +387,102 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         // 更新対象スピナーを格納した配列作成
         Spinner[] spinners = {sStore, sMachine, sTableNumber};
-        spinners = ArrayUtils.removeElements(spinners,pSpinner);
+        spinners = ArrayUtils.removeElements(spinners, pSpinner);
 
-        // 該当スピナーの選択値を取得
+        // 当該スピナーの選択値を取得
         String item = pSpinner.getSelectedItem().toString();
         int pId = pSpinner.getId();
 
-        // 更新対象スピナーの選択値も保持しておく
-        String initStr_01 = "",initStr_02 = "";
-        String[] initStrings = {initStr_01,initStr_02};
-        for(int i = 0; i < spinners.length; i++){
+        // 更新対象スピナーの選択値も保持
+        String initStr_01 = "", initStr_02 = "";
+        String[] initStrings = {initStr_01, initStr_02};
+        for (int i = 0; i < spinners.length; i++) {
             initStrings[i] = spinners[i].getSelectedItem().toString();
         }
 
         // 更新された項目を取得
         SpinnerUpgrade su = new SpinnerUpgrade();
-        List<List<String>> newItemLists = su.getUpGradeItems(context,item,pId);
+        List<List<String>> newItemLists = su.getUpGradeItems(context, item, pId);
 
-        // 更新項目をアダプターを介して更新対象スピナーにセット
+        // newItemListsの要素数によって処理振り分け
         int size = newItemLists.size();
-        for(int i = 0; i < size; i++){
-            setItems(newItemLists.get(i),spinners[i]);
+        switch(size){
+            case 3:
+
+
         }
 
-        int itemPieces_01 = newItemLists.get(0).size();
-        for(int i = 0; i < itemPieces_01; i++){
-            if(newItemLists.get(0).get(i).equals(initStrings[0])){
 
-                spinners[0].setOnItemSelectedListener(null);
-                spinners[0].setSelection(i,false);
-                spinners[0].setOnItemSelectedListener(listener);
+
+
+
+        // 「未選択」以外の項目が選択された場合
+        if (size == 2) {
+
+            // 変更対象スピナーを更新
+            for (int i = 0; i < size; i++) {
+                setItems(newItemLists.get(i), spinners[i]);
+            }
+
+            // １つ目の変更対象スピナーの選択値を元の値でセット
+            int itemPieces_01 = newItemLists.get(0).size();
+            for (int i = 0; i < itemPieces_01; i++) {
+                if (newItemLists.get(0).get(i).equals(initStrings[0])) {
+
+                    spinners[0].setOnItemSelectedListener(null);
+                    spinners[0].setSelection(i, false);
+                    spinners[0].setOnItemSelectedListener(listener);
+
+                }
+            }
+
+            // ２つ目の変更対象スピナーの選択値を元の値でセット
+            int itemPieces_02 = newItemLists.get(1).size();
+            for (int i = 0; i < itemPieces_02; i++) {
+                if (newItemLists.get(1).get(i).equals(initStrings[1])) {
+
+                    spinners[1].setOnItemSelectedListener(null);
+                    spinners[1].setSelection(i, false);
+                    spinners[1].setOnItemSelectedListener(listener);
+
+                }
+            }
+
+            // 「未選択」が選択された場合の処理
+        } else {
+
+            //　全てのスピナーが「未選択」状態だった場合
+            if (newItemLists.get(0).size() == 1) {
+
+                // スピナーの配列を再生成
+                Spinner[] sps = {sStore, sMachine, sTableNumber};
+
+                // 初期値をListの二次元配列にセット
+                List<List<String>> initItems = new ArrayList<>();
+                initItems.add(init_Store_Names);
+                initItems.add(init_Machine_Names);
+                initItems.add(init_Table_Number);
+
+                // 全てのスピナーから一旦リスナー解除、初期値をセット、「未選択」を選択、リスナーを元に戻す
+                notItemSelectedListener();
+                for (int i = 0, len = sps.length; i < len; i++) {
+                    setItems(initItems.get(i), sps[i]);
+                    sps[i].setSelection(0, false);
+                }
+                setItemSelectedListener();
+
+                // 当該スピナー以外のスピナーの選択値の中に「未選択」以外のものがあった場合の処理
+            } else {
+
+                // 当該スピナーのリスナーを一旦解除、他スピナーの選択値を考慮したSQLによって抽出された項目を当該スピナーにセット、「未選択」を選択してリスナーを戻す
+                pSpinner.setOnItemSelectedListener(null);
+                setItems(newItemLists.get(0), pSpinner);
+                pSpinner.setSelection(0, false);
+                pSpinner.setOnItemSelectedListener(listener);
 
             }
+
         }
-
-        int itemPieces_02 = newItemLists.get(1).size();
-        for(int i = 0; i < itemPieces_02; i++){
-            if(newItemLists.get(1).get(i).equals(initStrings[1])){
-
-                spinners[1].setOnItemSelectedListener(null);
-                spinners[1].setSelection(i,false);
-                spinners[1].setOnItemSelectedListener(listener);
-
-            }
-        }
-
-
-
 
     }
 
@@ -567,5 +496,124 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         spinner.setAdapter(adapter);
     }
+
+    public void setFindViewById_01(View view) {
+
+        // findViewByIdする対象のレイアウトを指定
+        mainLayout = view.findViewById(R.id.StatisticsLayout);
+
+        // 日付表示用TextView
+        eDateStart = mainLayout.findViewById(R.id.Date_01);
+        eDateEnd = mainLayout.findViewById(R.id.Date_02);
+
+        // スピナー関係
+        sStore = mainLayout.findViewById(R.id.StoreSelect);
+        sMachine = mainLayout.findViewById(R.id.MachineSelect);
+        sTableNumber = mainLayout.findViewById(R.id.MachineNumberSelect);
+        sDayDigit = mainLayout.findViewById(R.id.SpecialSpinner_01);
+        sSpecialDay = mainLayout.findViewById(R.id.SpecialSpinner_02);
+        sMonth = mainLayout.findViewById(R.id.SpecialSpinner_03);
+        sDay = mainLayout.findViewById(R.id.SpecialSpinner_04);
+        sDayOfWeek_In_Month = mainLayout.findViewById(R.id.SpecialSpinner_05);
+        sWeekId = mainLayout.findViewById(R.id.SpecialSpinner_06);
+        sAttachDay = mainLayout.findViewById(R.id.SpecialSpinner_07);
+
+        // ボタン
+        bDisplay = mainLayout.findViewById(R.id.DisplayButton);
+        bClear = mainLayout.findViewById(R.id.DateClear);
+
+        // スクロールビュー
+        scrollView = mainLayout.findViewById(R.id.ScrollView02);
+    }
+
+    public void setFindViewById_02(View view) {
+
+        // タイトル表示用TextView
+        tTittleTotalGames = mainLayout.findViewById(R.id.Tittle_01);
+        tTittleMedal = mainLayout.findViewById(R.id.Tittle_02);
+        tTittleDiscount = mainLayout.findViewById(R.id.Tittle_03);
+        tTittleSingleBig = mainLayout.findViewById(R.id.Tittle_04);
+        tTittleCherryBig = mainLayout.findViewById(R.id.Tittle_05);
+        tTittleTotalBig = mainLayout.findViewById(R.id.Tittle_06);
+        tTittleSingleReg = mainLayout.findViewById(R.id.Tittle_07);
+        tTittleCherryReg = mainLayout.findViewById(R.id.Tittle_08);
+        tTittleTotalReg = mainLayout.findViewById(R.id.Tittle_09);
+        tTittleTotalBonus = mainLayout.findViewById(R.id.Tittle_10);
+        tTittleGrape = mainLayout.findViewById(R.id.Tittle_11);
+        tTittleCherry = mainLayout.findViewById(R.id.Tittle_12);
+
+        // データ表示用TextView
+        tTotalGames = mainLayout.findViewById(R.id.TotalGame);
+        tTotalMedal = mainLayout.findViewById(R.id.TotalMedal);
+        tDiscount = mainLayout.findViewById(R.id.Discount);
+        tTotalSingleBig = mainLayout.findViewById(R.id.TotalAloneBig);
+        tTotalSingleBigProbability = mainLayout.findViewById(R.id.TotalAloneBigProbability);
+        tTotalCherryBig = mainLayout.findViewById(R.id.TotalCherryBig);
+        tTotalCherryBigProbability = mainLayout.findViewById(R.id.TotalCherryBigProbability);
+        tTotalBig = mainLayout.findViewById(R.id.TotalBig);
+        tTotalBigProbability = mainLayout.findViewById(R.id.TotalBigProbability);
+        tTotalSingleReg = mainLayout.findViewById(R.id.TotalAloneReg);
+        tTotalSingleRegProbability = mainLayout.findViewById(R.id.TotalAloneRegProbability);
+        tTotalCherryReg = mainLayout.findViewById(R.id.TotalCherryReg);
+        tTotalCherryRegProbability = mainLayout.findViewById(R.id.TotalCherryRegProbability);
+        tTotalReg = mainLayout.findViewById(R.id.TotalReg);
+        tTotalRegProbability = mainLayout.findViewById(R.id.TotalRegProbability);
+        tTotalBonus = mainLayout.findViewById(R.id.TotalBonus);
+        tTotalBonusProbability = mainLayout.findViewById(R.id.TotalBonusProbability);
+        tTotalGrape = mainLayout.findViewById(R.id.TotalGrape);
+        tTotalGrapeProbability = mainLayout.findViewById(R.id.TotalGrapeProbability);
+        tTotalCherry = mainLayout.findViewById(R.id.TotalCherry);
+        tTotalCherryProbability = mainLayout.findViewById(R.id.TotalCherryProbability);
+    }
+
+    public void setItemSelectedListener() {
+        sStore.setOnItemSelectedListener(listener);
+        sMachine.setOnItemSelectedListener(listener);
+        sTableNumber.setOnItemSelectedListener(listener);
+    }
+
+    public void notItemSelectedListener() {
+        sStore.setOnItemSelectedListener(null);
+        sMachine.setOnItemSelectedListener(null);
+        sTableNumber.setOnItemSelectedListener(null);
+    }
+
+    public void setClickListener() {
+        eDateStart.setOnClickListener(this);
+        eDateEnd.setOnClickListener(this);
+        bDisplay.setOnClickListener(this);
+        bClear.setOnClickListener(this);
+    }
+
+    public void setFocusable() {
+        Spinner[] spinners = {sStore, sMachine, sTableNumber};
+        for (Spinner s : spinners) {
+            s.setFocusable(false);
+        }
+    }
+
+    public void setTittle() {
+        TextView[] textViews = {tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig, tTittleTotalBig,
+                tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry};
+        List<String> tittles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_TITTLES)));
+        for (int i = 0, size = tittles.size(); i < size; i++) {
+            textViews[i].setText(tittles.get(i));
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void setScrollEnable(boolean enable) {
+        if (enable) {
+            scrollView.setOnTouchListener(null);
+        } else {
+            scrollView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
+    }
+
 
 }

@@ -140,7 +140,7 @@ public class CreateSQL {
     }
 
     // 機種名で店舗名を絞るSQL
-    public static String machine_store_SQL(String item){
+    public static String machine_storeSQL(String item){
         return "SELECT DISTINCT STORE_NAME FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
     }
 
@@ -158,6 +158,34 @@ public class CreateSQL {
     public static String tableNumber_machineSQL(String item){
         return "SELECT DISTINCT MACHINE_NAME FROM TEST WHERE TABLE_NUMBER = " + "'" + item + "';";
     }
+
+    public static String notSelect_storeSQL(){
+
+        String initSql = "SELECT DISTINCT STORE_NAME FROM TEST WHERE ";
+        String sql = "";
+
+        // 機種名
+        int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
+        if(machinePosition != 0){
+            String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
+            sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
+        }
+
+        // 台番号
+        int tableNumberPosition = FlagStatistics.sTableNumber.getSelectedItemPosition();
+        if(tableNumberPosition != 0){
+            String tableNumber = (String)FlagStatistics.sTableNumber.getSelectedItem();
+            sql = addAnd(sql);
+            sql = sql + "TABLE_NUMBER = " + "'" + tableNumber + "'";
+        }
+
+        if(sql.isEmpty()){
+            return sql;
+        } else {
+            return initSql + sql + end;
+        }
+    }
+
 
 
 

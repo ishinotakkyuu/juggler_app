@@ -5,16 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpinnerUpgrade {
 
     String storeNameSql, machineNameSql, tableNumberSql;
-
-    List<String> init_Store_Names = FlagStatistics.init_Store_Names,
-            init_Machine_Names = FlagStatistics.init_Machine_Names,
-            init_Table_Number = FlagStatistics.init_Table_Number;
 
     public List<List<String>> getUpGradeItems(Context context, String item, int id) {
 
@@ -24,20 +22,15 @@ public class SpinnerUpgrade {
         // リストの二次元配列生成
         List<List<String>> newItemLists = new ArrayList<>();
 
-        // 各種NewItemsを格納するリスト生成、初期値セット
-        List<String> new_Store_Names = new ArrayList<>();
-        new_Store_Names.add("未選択");
-        List<String> new_Machine_Names = new ArrayList<>();
-        new_Machine_Names.add("未選択");
-        List<String> new_Table_Number = new ArrayList<>();
-        new_Table_Number.add("未選択");
-
         if (!item.equals("未選択")) {
 
             switch (id) {
                 case R.id.StoreSelect:
 
-
+                    List<String> new_Machine_Names = new ArrayList<>();
+                    new_Machine_Names.add("未選択");
+                    List<String> new_Table_Number = new ArrayList<>();
+                    new_Table_Number.add("未選択");
 
                     newItemLists.add(new_Machine_Names);
                     newItemLists.add(new_Table_Number);
@@ -70,10 +63,15 @@ public class SpinnerUpgrade {
 
                 case R.id.MachineSelect:
 
+                    List<String> new_Store_Names = new ArrayList<>();
+                    new_Store_Names.add("未選択");
+                    new_Table_Number = new ArrayList<>();
+                    new_Table_Number.add("未選択");
+
                     newItemLists.add(new_Store_Names);
                     newItemLists.add(new_Table_Number);
 
-                    storeNameSql = CreateSQL.machine_store_SQL(item);
+                    storeNameSql = CreateSQL.machine_storeSQL(item);
                     tableNumberSql = CreateSQL.machine_tableNumberSQL(item);
 
                     try {
@@ -100,6 +98,11 @@ public class SpinnerUpgrade {
                     break;
 
                 case R.id.MachineNumberSelect:
+
+                    new_Store_Names = new ArrayList<>();
+                    new_Store_Names.add("未選択");
+                    new_Machine_Names = new ArrayList<>();
+                    new_Machine_Names.add("未選択");
 
                     newItemLists.add(new_Store_Names);
                     newItemLists.add(new_Machine_Names);
@@ -129,17 +132,60 @@ public class SpinnerUpgrade {
                         }
                     }
                     break;
-
             }
-            return newItemLists;
 
         } else {
 
-            // TODO ここに「未選択」が選択された時の処理を記述する
+            switch (id) {
+                case R.id.StoreSelect:
 
-            return newItemLists;
+                    List<String> UpDateSpinnerItems_01 = new ArrayList<>();
+                    UpDateSpinnerItems_01.add("未選択");
+                    List<String> UpDateSpinnerItems_02 = new ArrayList<>();
+                    UpDateSpinnerItems_02.add("未選択");
+                    List<String> UpDateSpinnerItems_03 = new ArrayList<>();
+                    UpDateSpinnerItems_03.add("未選択");
+
+                    newItemLists.add(UpDateSpinnerItems_01);
+                    newItemLists.add(UpDateSpinnerItems_02);
+                    newItemLists.add(UpDateSpinnerItems_03);
+
+
+
+                    storeNameSql = CreateSQL.notSelect_storeSQL();
+
+
+                    if(StringUtils.isNotEmpty(storeNameSql)){
+
+                        try {
+
+                            Cursor storeNameCursor = db.rawQuery(storeNameSql, null);
+                            while (storeNameCursor.moveToNext()) {
+                                int index = storeNameCursor.getColumnIndex("STORE_NAME");
+                                String store = storeNameCursor.getString(index);
+                                newItemLists.get(0).add(store);
+                            }
+
+                        } finally {
+                            if (db != null) {
+                                db.close();
+                            }
+                        }
+
+                    }
+                    break;
+
+                case R.id.MachineSelect:
+                    break;
+            }
+
+
+
+
         }
-    }
 
+        return newItemLists;
+
+    }
 }
 

@@ -41,6 +41,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "GRAPE INTEGER" +
                         ")";
 
+
+        // TODO マスタテーブルを追加する
+
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 

@@ -194,23 +194,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toStartOf="@+id/CheckBox_01"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/SpecialText_01"
                 app:layout_constraintTop_toBottomOf="@+id/MachineNumberSelect"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/CheckBox_01"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:theme="@style/MyCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SpecialSpinner_01"
-                app:layout_constraintTop_toBottomOf="@+id/MachineNumberSelect"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/SpecialText_02"
@@ -234,23 +221,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toStartOf="@+id/CheckBox_02"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/SpecialText_02"
                 app:layout_constraintTop_toBottomOf="@+id/SpecialSpinner_01"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/CheckBox_02"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:theme="@style/MyCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SpecialSpinner_02"
-                app:layout_constraintTop_toBottomOf="@+id/CheckBox_01"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/SpecialText_03"
@@ -274,23 +248,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toStartOf="@+id/CheckBox_03"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/SpecialText_03"
                 app:layout_constraintTop_toBottomOf="@+id/SpecialSpinner_02"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/CheckBox_03"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:theme="@style/MyCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SpecialSpinner_03"
-                app:layout_constraintTop_toBottomOf="@+id/CheckBox_02"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/SpecialText_04"
@@ -314,23 +275,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toStartOf="@+id/CheckBox_04"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/SpecialText_04"
                 app:layout_constraintTop_toBottomOf="@+id/SpecialSpinner_03"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/CheckBox_04"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:theme="@style/MyCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SpecialSpinner_04"
-                app:layout_constraintTop_toBottomOf="@+id/CheckBox_03"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/SpecialText_05"
@@ -354,23 +302,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toStartOf="@+id/CheckBox_05"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/SpecialText_05"
                 app:layout_constraintTop_toBottomOf="@+id/SpecialSpinner_04"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/CheckBox_05"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:theme="@style/MyCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SpecialSpinner_05"
-                app:layout_constraintTop_toBottomOf="@+id/CheckBox_04"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/SpecialText_06"
@@ -394,23 +329,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
                 android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toStartOf="@+id/CheckBox_06"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/SpecialText_06"
                 app:layout_constraintTop_toBottomOf="@+id/SpecialSpinner_05"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/CheckBox_06"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:theme="@style/MyCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SpecialSpinner_06"
-                app:layout_constraintTop_toBottomOf="@+id/CheckBox_05"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/SpecialText_07"
@@ -438,23 +360,10 @@
                 android:layout_marginBottom="8dp"
                 android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/CheckBox_07"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/SpecialText_07"
                 app:layout_constraintTop_toBottomOf="@+id/SpecialSpinner_06"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/CheckBox_07"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:theme="@style/MyCheckBox"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/SpecialSpinner_07"
-                app:layout_constraintTop_toBottomOf="@+id/CheckBox_06"
-                tools:ignore="TouchTargetSizeCheck" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
