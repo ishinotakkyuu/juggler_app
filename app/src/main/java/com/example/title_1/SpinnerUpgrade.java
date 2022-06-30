@@ -152,7 +152,7 @@ public class SpinnerUpgrade {
 
 
 
-                    storeNameSql = CreateSQL.notSelect_storeSQL();
+//                    storeNameSql = CreateSQL.notSelect_storeSQL();
 
 
                     if(StringUtils.isNotEmpty(storeNameSql)){

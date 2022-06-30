@@ -159,16 +159,28 @@ public class CreateSQL {
         return "SELECT DISTINCT MACHINE_NAME FROM TEST WHERE TABLE_NUMBER = " + "'" + item + "';";
     }
 
-    public static String notSelect_storeSQL(){
+    public static String notSelectSQL(String columnName){
 
-        String initSql = "SELECT DISTINCT STORE_NAME FROM TEST WHERE ";
+        String initSql = "SELECT DISTINCT " + columnName + " FROM TEST WHERE ";
         String sql = "";
+        int counter = 0;
+
+        // 店舗名
+        int storePosition = FlagStatistics.sStore.getSelectedItemPosition();
+        if(storePosition != 0) {
+            String storeName = (String)FlagStatistics.sStore.getSelectedItem();
+
+            sql = sql + "STORE_NAME = " + "'" + storeName + "'";
+            counter++;
+        }
 
         // 機種名
         int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
         if(machinePosition != 0){
             String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
+            sql = addAnd(sql);
             sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
+            counter++;
         }
 
         // 台番号
@@ -177,17 +189,17 @@ public class CreateSQL {
             String tableNumber = (String)FlagStatistics.sTableNumber.getSelectedItem();
             sql = addAnd(sql);
             sql = sql + "TABLE_NUMBER = " + "'" + tableNumber + "'";
+            counter++;
         }
 
-        if(sql.isEmpty()){
-            return sql;
+        if(counter == 0){
+            return "0";
+        } else if(counter == 1){
+            return "1";
         } else {
             return initSql + sql + end;
         }
     }
-
-
-
 
     public static String FlagGradesSQL() {
 

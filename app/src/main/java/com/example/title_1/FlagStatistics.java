@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -30,6 +29,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.NumberFormat;
@@ -170,7 +170,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             case R.id.DisplayButton:
 
                 // 統計表示に必要なViewのIDを設定
-                setFindViewById_02(view);
+                if (tTittleTotalGames == null) {
+                    setFindViewById_02(view);
+                }
 
                 initValue();
                 setTittle();
@@ -374,7 +376,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        // 当該スピナーを捕獲
+        // 操作スピナーを捕獲
         Spinner pSpinner = (Spinner) parent;
 
         // 初回起動時の「未選択」無限ループ回避
@@ -385,41 +387,164 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         // 以降は画面起動後にスピナーで項目を選択した場合に発生する処理
 
-        // 更新対象スピナーを格納した配列作成
+        // スピナー配列作成
         Spinner[] spinners = {sStore, sMachine, sTableNumber};
-        spinners = ArrayUtils.removeElements(spinners, pSpinner);
 
-        // 当該スピナーの選択値を取得
-        String item = pSpinner.getSelectedItem().toString();
-        int pId = pSpinner.getId();
+        // 操作スピナーのインデックスと選択値を取得
+        int itemIndex = Arrays.asList(spinners).indexOf(pSpinner);
+        String parentItem = pSpinner.getSelectedItem().toString();
 
-        // 更新対象スピナーの選択値も保持
-        String initStr_01 = "", initStr_02 = "";
-        String[] initStrings = {initStr_01, initStr_02};
-        for (int i = 0; i < spinners.length; i++) {
-            initStrings[i] = spinners[i].getSelectedItem().toString();
-        }
+        // 全てスピナーの選択値を取得した配列作成
+        String initStr_01 = spinners[0].getSelectedItem().toString();
+        String initStr_02 = spinners[1].getSelectedItem().toString();
+        String initStr_03 = spinners[2].getSelectedItem().toString();
+        String[] initStrings = {initStr_01, initStr_02, initStr_03};
 
-        // 更新された項目を取得
-        SpinnerUpgrade su = new SpinnerUpgrade();
-        List<List<String>> newItemLists = su.getUpGradeItems(context, item, pId);
+        // DB関係
+        String storeMachineSQL = CreateSQL.store_machine_SQL(parentItem);
+        String storeTableNumberSQL = CreateSQL.store_tableNumberSQL(parentItem);
+        String machineStoreSQL = CreateSQL.machine_storeSQL(parentItem);
+        String machineTableNumberSQL = CreateSQL.machine_tableNumberSQL(parentItem);
+        String tableNumberStoreSQL = CreateSQL.tableNumber_storeSQL(parentItem);
+        String tableNumberMachineSQL = CreateSQL.tableNumber_machineSQL(parentItem);
+        String[] columnName = {"STORE_NAME", "MACHINE_NAME", "TABLE_NUMBER"};
 
-        // newItemListsの要素数によって処理振り分け
-        int size = newItemLists.size();
-        switch(size){
-            case 3:
+        // 更新項目を格納するリスト作成、初期値として「未選択」追加
+        ArrayList<String> new_Store_Names = new ArrayList<>();
+        ArrayList<String> new_Machine_Names = new ArrayList<>();
+        ArrayList<String> new_Table_Number = new ArrayList<>();
+        new_Store_Names.add("未選択");
+        new_Machine_Names.add("未選択");
+        new_Table_Number.add("未選択");
+
+        // 初期値項目リストの二次元配列生成
+        ArrayList<ArrayList<String>> initItemLists = new ArrayList<>();
+        initItemLists.add((ArrayList) init_Store_Names);
+        initItemLists.add((ArrayList) init_Machine_Names);
+        initItemLists.add((ArrayList) init_Table_Number);
+
+        // リストの二次元配列生成
+        ArrayList<ArrayList<String>> newItemLists = new ArrayList<>();
+        newItemLists.add(new_Store_Names);
+        newItemLists.add(new_Machine_Names);
+        newItemLists.add(new_Table_Number);
+
+        DatabaseHelper helper = new DatabaseHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        if (parentItem.equals("未選択")) { //操作スピナーで「未選択」が選択された場合
+
+            // 全てのリスナーを一旦解除
+            notItemSelectedListener();
+
+            // 各スピナーの項目を更新するためのSQLを取得
+            String storeNameSQL = "";
+            String machineNameSQL = "";
+            String tableNumberSQL = "";
+            String[] SQL = {storeNameSQL, machineNameSQL, tableNumberSQL};
+
+            int size = SQL.length;
+            for (int i = 0; i < size; i++) {
+
+                SQL[i] = CreateSQL.notSelectSQL(columnName[i]);
+
+                if (SQL[i].equals("0")) { //全スピナーが「未選択」状態となった場合
+
+                    // 全ての項目を初期値に変更
+                    newItemLists.set(i, new ArrayList<>(initItemLists.get(i)));
+                    // 全スピナーの項目更新
+                    setItems(newItemLists.get(i), spinners[i]);
+
+                } else if (SQL[i].equals("1")) { //1つだけスピナーが「未選択」以外だった場合
 
 
-        }
 
 
 
 
 
-        // 「未選択」以外の項目が選択された場合
-        if (size == 2) {
+                } else { //複数のスピナーでまだ「未選択」以外が選択されていた場合
 
-            // 変更対象スピナーを更新
+                    Cursor cursor = db.rawQuery(SQL[i], null);
+                    while (cursor.moveToNext()) {
+                        int index = cursor.getColumnIndex(columnName[i]);
+                        String item = cursor.getString(index);
+                        newItemLists.get(i).add(item);
+                    }
+                    // 全スピナーの項目更新
+                    setItems(newItemLists.get(i), spinners[i]);
+                }
+
+            }
+
+            // 1つ目の変更対象スピナーの選択値を元の値でセット
+            int itemPieces_01 = newItemLists.get(0).size();
+            for (int i = 0; i < itemPieces_01; i++) {
+                if (newItemLists.get(0).get(i).equals(initStrings[0])) {
+                    spinners[0].setSelection(i, false);
+                }
+            }
+
+            // 2つ目の変更対象スピナーの選択値を元の値でセット
+            int itemPieces_02 = newItemLists.get(1).size();
+            for (int i = 0; i < itemPieces_02; i++) {
+                if (newItemLists.get(1).get(i).equals(initStrings[1])) {
+                    spinners[1].setSelection(i, false);
+                }
+            }
+
+            // 3つ目の変更対象スピナーの選択値を元の値でセット
+            int itemPieces_03 = newItemLists.get(2).size();
+            for (int i = 0; i < itemPieces_03; i++) {
+                if (newItemLists.get(2).get(i).equals(initStrings[2])) {
+                    spinners[2].setSelection(i, false);
+                }
+            }
+
+            // 全てのリスナーを元に戻す
+            setItemSelectedListener();
+
+        } else { //操作スピナーで「未選択」以外が選択された場合
+
+            // 各種配列の要素を操作スピナー以外のものだけにする
+            spinners = ArrayUtils.removeElements(spinners, pSpinner);
+            int size = spinners.length;
+            initStrings = ArrayUtils.removeElements(initStrings, parentItem);
+            columnName = ArrayUtils.removeElements(columnName, columnName[itemIndex]);
+            newItemLists.remove(itemIndex);
+
+            // 操作されたスピナーに応じて必要なSQLのセット
+            String[] SQL = new String[size];
+            switch (pSpinner.getId()) {
+                case R.id.StoreSelect:
+                    SQL[0] = storeMachineSQL;
+                    SQL[1] = storeTableNumberSQL;
+                    break;
+                case R.id.MachineSelect:
+                    SQL[0] = machineStoreSQL;
+                    SQL[1] = machineTableNumberSQL;
+                    break;
+                case R.id.MachineNumberSelect:
+                    SQL[0] = tableNumberStoreSQL;
+                    SQL[1] = tableNumberMachineSQL;
+            }
+
+            try {
+                for (int i = 0; i < size; i++) {
+                    Cursor cursor = db.rawQuery(SQL[i], null);
+                    while (cursor.moveToNext()) {
+                        int index = cursor.getColumnIndex(columnName[i]);
+                        String item = cursor.getString(index);
+                        newItemLists.get(i).add(item);
+                    }
+                }
+            } finally {
+                if (db != null) {
+                    db.close();
+                }
+            }
+
+            // 変更対象スピナーの項目を更新
             for (int i = 0; i < size; i++) {
                 setItems(newItemLists.get(i), spinners[i]);
             }
@@ -447,41 +572,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
                 }
             }
-
-            // 「未選択」が選択された場合の処理
-        } else {
-
-            //　全てのスピナーが「未選択」状態だった場合
-            if (newItemLists.get(0).size() == 1) {
-
-                // スピナーの配列を再生成
-                Spinner[] sps = {sStore, sMachine, sTableNumber};
-
-                // 初期値をListの二次元配列にセット
-                List<List<String>> initItems = new ArrayList<>();
-                initItems.add(init_Store_Names);
-                initItems.add(init_Machine_Names);
-                initItems.add(init_Table_Number);
-
-                // 全てのスピナーから一旦リスナー解除、初期値をセット、「未選択」を選択、リスナーを元に戻す
-                notItemSelectedListener();
-                for (int i = 0, len = sps.length; i < len; i++) {
-                    setItems(initItems.get(i), sps[i]);
-                    sps[i].setSelection(0, false);
-                }
-                setItemSelectedListener();
-
-                // 当該スピナー以外のスピナーの選択値の中に「未選択」以外のものがあった場合の処理
-            } else {
-
-                // 当該スピナーのリスナーを一旦解除、他スピナーの選択値を考慮したSQLによって抽出された項目を当該スピナーにセット、「未選択」を選択してリスナーを戻す
-                pSpinner.setOnItemSelectedListener(null);
-                setItems(newItemLists.get(0), pSpinner);
-                pSpinner.setSelection(0, false);
-                pSpinner.setOnItemSelectedListener(listener);
-
-            }
-
         }
 
     }
