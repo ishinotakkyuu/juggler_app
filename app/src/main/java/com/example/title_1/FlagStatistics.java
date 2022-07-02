@@ -389,6 +389,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         // スピナー配列作成
         Spinner[] spinners = {sStore, sMachine, sTableNumber};
+        int size = spinners.length;
 
         // 操作スピナーのインデックスと選択値を取得
         int itemIndex = Arrays.asList(spinners).indexOf(pSpinner);
@@ -401,12 +402,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         String[] initStrings = {initStr_01, initStr_02, initStr_03};
 
         // DB関係
-        String storeMachineSQL = CreateSQL.store_machine_SQL(parentItem);
-        String storeTableNumberSQL = CreateSQL.store_tableNumberSQL(parentItem);
-        String machineStoreSQL = CreateSQL.machine_storeSQL(parentItem);
-        String machineTableNumberSQL = CreateSQL.machine_tableNumberSQL(parentItem);
-        String tableNumberStoreSQL = CreateSQL.tableNumber_storeSQL(parentItem);
-        String tableNumberMachineSQL = CreateSQL.tableNumber_machineSQL(parentItem);
         String[] columnName = {"STORE_NAME", "MACHINE_NAME", "TABLE_NUMBER"};
 
         // 更新項目を格納するリスト作成、初期値として「未選択」追加
@@ -443,7 +438,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             String tableNumberSQL = "";
             String[] SQL = {storeNameSQL, machineNameSQL, tableNumberSQL};
 
-            int size = SQL.length;
             for (int i = 0; i < size; i++) {
 
                 SQL[i] = CreateSQL.notSelectSQL(columnName[i]);
@@ -452,16 +446,74 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
                     // 全ての項目を初期値に変更
                     newItemLists.set(i, new ArrayList<>(initItemLists.get(i)));
-                    // 全スピナーの項目更新
-                    setItems(newItemLists.get(i), spinners[i]);
+//                    // 全スピナーの項目更新
+//                    setItems(newItemLists.get(i), spinners[i]);
 
                 } else if (SQL[i].equals("1")) { //1つだけスピナーが「未選択」以外だった場合
 
+                    // 「未選択」ではないスピナーを特定
+                    int notSelectedSpinnerIndex = 0;
+                    for (int j = 0; j < size; j++) {
+                        if (spinners[j].getSelectedItemPosition() != 0) {
+                            notSelectedSpinnerIndex = j;
+                            break;
+                        }
+                    }
 
+                    if (i == notSelectedSpinnerIndex) {
+                        // 「未選択」状態ではないスピナーには初期項目をセット
+                        newItemLists.set(i, new ArrayList<>(initItemLists.get(i)));
+                    } else {
 
+                        String notParentItem = spinners[notSelectedSpinnerIndex].getSelectedItem().toString();
 
+                        switch(i){
+                            case 0:
+                                switch(notSelectedSpinnerIndex){
+                                    case 1:
+                                        SQL[i] = CreateSQL.machine_storeSQL(notParentItem);
+                                        break;
+                                    case 2:
+                                        SQL[i] = CreateSQL.tableNumber_storeSQL(notParentItem);
+                                        break;
+                                }
 
+                            case 1:
+                                switch(notSelectedSpinnerIndex){
+                                    case 0:
+                                        SQL[i] = CreateSQL.store_machine_SQL(notParentItem);
+                                        break;
+                                    case 2:
+                                        SQL[i] = CreateSQL.tableNumber_machineSQL(notParentItem);
+                                        break;
+                                }
 
+                            case 2:
+                                switch(notSelectedSpinnerIndex){
+                                    case 0:
+                                        SQL[i] = CreateSQL.store_tableNumberSQL(notParentItem);
+                                        break;
+                                    case 1:
+                                        SQL[i] = CreateSQL.machine_tableNumberSQL(notParentItem);
+                                        break;
+                                }
+                        }
+
+                        try {
+
+                            Cursor cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                int index = cursor.getColumnIndex(columnName[i]);
+                                String item = cursor.getString(index);
+                                newItemLists.get(i).add(item);
+                            }
+                        } finally {
+                            if (db != null) {
+                                db.close();
+                            }
+                        }
+                    }
+//                    setItems(newItemLists.get(i), spinners[i]);
 
                 } else { //複数のスピナーでまだ「未選択」以外が選択されていた場合
 
@@ -471,10 +523,15 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                         String item = cursor.getString(index);
                         newItemLists.get(i).add(item);
                     }
-                    // 全スピナーの項目更新
-                    setItems(newItemLists.get(i), spinners[i]);
+//                    // 全スピナーの項目更新
+//                    setItems(newItemLists.get(i), spinners[i]);
                 }
 
+            }
+
+            // 変更対象スピナーの項目を更新
+            for (int i = 0; i < size; i++) {
+                setItems(newItemLists.get(i), spinners[i]);
             }
 
             // 1つ目の変更対象スピナーの選択値を元の値でセット
@@ -508,10 +565,18 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
             // 各種配列の要素を操作スピナー以外のものだけにする
             spinners = ArrayUtils.removeElements(spinners, pSpinner);
-            int size = spinners.length;
+            size = spinners.length;
             initStrings = ArrayUtils.removeElements(initStrings, parentItem);
             columnName = ArrayUtils.removeElements(columnName, columnName[itemIndex]);
             newItemLists.remove(itemIndex);
+
+            // SQL取得
+            String storeMachineSQL = CreateSQL.store_machine_SQL(parentItem);
+            String storeTableNumberSQL = CreateSQL.store_tableNumberSQL(parentItem);
+            String machineStoreSQL = CreateSQL.machine_storeSQL(parentItem);
+            String machineTableNumberSQL = CreateSQL.machine_tableNumberSQL(parentItem);
+            String tableNumberStoreSQL = CreateSQL.tableNumber_storeSQL(parentItem);
+            String tableNumberMachineSQL = CreateSQL.tableNumber_machineSQL(parentItem);
 
             // 操作されたスピナーに応じて必要なSQLのセット
             String[] SQL = new String[size];
