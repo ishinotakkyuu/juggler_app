@@ -163,39 +163,38 @@ public class CreateSQL {
 
         String initSql = "SELECT DISTINCT " + columnName + " FROM TEST WHERE ";
         String sql = "";
-        int counter = 0;
 
         // 店舗名
-        int storePosition = FlagStatistics.sStore.getSelectedItemPosition();
-        if(storePosition != 0) {
-            String storeName = (String)FlagStatistics.sStore.getSelectedItem();
-
-            sql = sql + "STORE_NAME = " + "'" + storeName + "'";
-            counter++;
+        if(!columnName.equals("STORE_NAME")){
+            int storePosition = FlagStatistics.sStore.getSelectedItemPosition();
+            if(storePosition != 0) {
+                String storeName = (String)FlagStatistics.sStore.getSelectedItem();
+                sql = sql + "STORE_NAME = " + "'" + storeName + "'";
+            }
         }
 
         // 機種名
-        int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
-        if(machinePosition != 0){
-            String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
-            sql = addAnd(sql);
-            sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
-            counter++;
+        if(!columnName.equals("MACHINE_NAME")){
+            int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
+            if(machinePosition != 0){
+                String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
+                sql = addAnd(sql);
+                sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
+            }
         }
 
         // 台番号
-        int tableNumberPosition = FlagStatistics.sTableNumber.getSelectedItemPosition();
-        if(tableNumberPosition != 0){
-            String tableNumber = (String)FlagStatistics.sTableNumber.getSelectedItem();
-            sql = addAnd(sql);
-            sql = sql + "TABLE_NUMBER = " + "'" + tableNumber + "'";
-            counter++;
+        if(!columnName.equals("TABLE_NUMBER")){
+            int tableNumberPosition = FlagStatistics.sTableNumber.getSelectedItemPosition();
+            if(tableNumberPosition != 0){
+                String tableNumber = (String)FlagStatistics.sTableNumber.getSelectedItem();
+                sql = addAnd(sql);
+                sql = sql + "TABLE_NUMBER = " + "'" + tableNumber + "'";
+            }
         }
 
-        if(counter == 0){
-            return "0";
-        } else if(counter == 1){
-            return "1";
+        if(sql.isEmpty()){
+            return sql;
         } else {
             return initSql + sql + end;
         }
