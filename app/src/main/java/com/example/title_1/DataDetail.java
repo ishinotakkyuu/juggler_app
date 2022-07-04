@@ -42,7 +42,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-public class DataDetail extends AppCompatActivity implements TextWatcher,KeyboardVisibility.OnKeyboardVisibilityListener {
+public class DataDetail extends AppCompatActivity implements TextWatcher, KeyboardVisibility.OnKeyboardVisibilityListener {
 
     // 前画面から渡されてきた情報を受け取る変数
     String catchID, catchDate, catchStore, catchMachine, catchKeepTime;
@@ -62,16 +62,16 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
 
     //確率関係
     static TextView tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
-                    tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
-                    tCherryProbability, tGrapeProbability, tTotalBonusProbability;
+            tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
+            tCherryProbability, tGrapeProbability, tTotalBonusProbability;
 
     // カウンター用のボタン(操作可能状態に切り替えるためのもの)
-    static Button bSingleBig,bCherryBig,bTotalBig,bSingleReg,bCherryReg,bTotalReg,bCherry,bGrape,bTotalBonus;
+    static Button bSingleBig, bCherryBig, bTotalBig, bSingleReg, bCherryReg, bTotalReg, bCherry, bGrape, bTotalBonus;
     // 機能ボタン
     Button bEditAndBack, bDeleteAndUpdate;
 
     // 判定用
-    boolean judge = true,judgePlusMinus = true;
+    boolean judge = true, judgePlusMinus = true;
 
     //保存日時・機種名関係
     TextView tKeepTime;
@@ -91,11 +91,13 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
     String dbOperationMonth;
     String dbOperationDay;
     String dbOperationDayDigit;
+    String dbSpecialDay;
     String dbWeekId;
     String dbDayOfWeek_in_Month;
     Integer dbMedal;
     String dbMachineName = "";
     String dbTableNumber;
+    String dbSingleNumber;
     int dbStartGames, dbTotalGames, dbSingleBig, dbCherryBig, dbSingleReg, dbCherryReg, dbCherry, dbGrape;
 
     // チェックボックス
@@ -103,10 +105,10 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
 
     // DB初期値
     static String dbTableNumberValue;
-    static int dbStartValue,dbTotalValue,dbSingleBigValue,dbCherryBigValue,
-               dbSingleRegValue,dbCherryRegValue,dbCherryValue,dbGrapeValue,
-               dbMedalValue,dbOperationYearValue,dbOperationMonthValue,dbOperationDayValue,
-               dbOperationDayDigitValue,dbWeekIdValue,dbDayOfWeek_in_MonthValue;
+    static int dbStartValue, dbTotalValue, dbSingleBigValue, dbCherryBigValue,
+            dbSingleRegValue, dbCherryRegValue, dbCherryValue, dbGrapeValue,
+            dbMedalValue, dbOperationYearValue, dbOperationMonthValue, dbOperationDayValue,
+            dbOperationDayDigitValue, dbWeekIdValue, dbDayOfWeek_in_MonthValue;
 
     // DBにある全ての店舗を格納するための配列
     static List<String> DB_Store = new ArrayList<>();
@@ -333,7 +335,9 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
         // 20店舗分の登録店舗を(nullじゃなかったら)リストを配列にセット
         String[] Register_Store = CommonFeature.getStoreItems(mainApplication);
         for (String Item : Register_Store) {
-            if (!Item.equals("null")) { registerStoreItems.add(Item); }
+            if (!Item.equals("null")) {
+                registerStoreItems.add(Item);
+            }
         }
         // 登録店舗+DB内店舗の重複削除前リスト作成
         List<String> beforeStoreItems = new ArrayList<>(registerStoreItems);
@@ -358,7 +362,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
         // 0判定(登録時に差枚数が空欄だった場合の対応。０登録した場合は空欄がセットされる)
         eMedal = registerDialog.findViewById(R.id.DifferenceNumber);
         checkBox = registerDialog.findViewById(R.id.checkBox);
-        if(dbMedal != 0) {
+        if (dbMedal != 0) {
             if (dbMedal < 0) { //DBから取得した値がマイナスかチェック
                 dbMedal = dbMedal * -1;
                 checkBox.setChecked(true);
@@ -380,74 +384,98 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
 
-                // 機種名取得
-                dbMachineName = juggler.getSelectedItem().toString();
+            // 機種名取得
+            dbMachineName = juggler.getSelectedItem().toString();
 
-                // 各種カウンター値の取得
-                dbStartGames = Integer.parseInt(eStartGames.getText().toString());
-                dbTotalGames = Integer.parseInt(eTotalGames.getText().toString());
-                dbSingleBig = Integer.parseInt(eSingleBig.getText().toString());
-                dbCherryBig = Integer.parseInt(eCherryBig.getText().toString());
-                dbSingleReg = Integer.parseInt(eSingleReg.getText().toString());
-                dbCherryReg = Integer.parseInt(eCherryReg.getText().toString());
-                dbCherry = Integer.parseInt(eCherry.getText().toString());
-                dbGrape = Integer.parseInt(eGrape.getText().toString());
+            // 各種カウンター値の取得
+            dbStartGames = Integer.parseInt(eStartGames.getText().toString());
+            dbTotalGames = Integer.parseInt(eTotalGames.getText().toString());
+            dbSingleBig = Integer.parseInt(eSingleBig.getText().toString());
+            dbCherryBig = Integer.parseInt(eCherryBig.getText().toString());
+            dbSingleReg = Integer.parseInt(eSingleReg.getText().toString());
+            dbCherryReg = Integer.parseInt(eCherryReg.getText().toString());
+            dbCherry = Integer.parseInt(eCherry.getText().toString());
+            dbGrape = Integer.parseInt(eGrape.getText().toString());
 
-                // 店舗名を取得
-                dbStoreName = (String) storeSpinner.getSelectedItem();
+            // ゾロ目
+            dbSpecialDay = "";
+            if (dbOperationDay.equals("11") || dbOperationDay.equals("22")) {
+                dbSpecialDay = "1";
+            }
+            // 月と日が同じ
+            if (dbOperationMonth.equals(dbOperationDay)) {
+                dbSpecialDay = "2";
+            }
+            // 両方
+            if (dbOperationMonth.equals("11") && dbOperationDay.equals("11")) {
+                dbSpecialDay = "3";
+            }
 
-                // 台番号取得
-                dbTableNumber = eTableNumber.getText().toString();
 
-                // 差枚数取得
-                String medalStr = eMedal.getText().toString();
-                if (StringUtils.isNotEmpty(medalStr)) {
-                    dbMedal = Integer.parseInt(medalStr);
+            // 店舗名を取得
+            dbStoreName = (String) storeSpinner.getSelectedItem();
+
+            // 台番号取得
+            dbTableNumber = eTableNumber.getText().toString();
+            dbSingleNumber = "";
+            if(StringUtils.isNotEmpty(dbTableNumber)){
+                if(!Integer.valueOf(dbTableNumber).toString().equals("0")){
+                    dbSingleNumber = dbTableNumber.substring(dbTableNumber.length() - 1);
                 }
-                if (!(dbMedal == null || dbMedal == 0)) {
-                    if (checkBox.isChecked()) {
-                        dbMedal = -dbMedal;
-                    }
-                }
+            }
 
-                //更新日時を取得
-                Date now = new Date();
-                SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
-                dbSaveDate = dFormat.format(now);
-
-                // DB情報を更新する
-                Context context = this;
-                if (!catchID.isEmpty()) {
-                    String sql = "UPDATE TEST SET " +
-                            "OPERATION_DATE = '" + dbOperationDate + "', " +
-                            "SAVE_DATE = '" + dbSaveDate + "', " +
-                            "STORE_NAME = '" + dbStoreName + "', " +
-                            "OPERATION_YEAR = '" + dbOperationYear + "', " +
-                            "OPERATION_MONTH = '" + dbOperationMonth + "', " +
-                            "OPERATION_DAY = '" + dbOperationDay + "', " +
-                            "OPERATION_DAY_DIGIT = '" + dbOperationDayDigit + "', " +
-                            "WEEK_ID = '" + dbWeekId + "', " +
-                            "DAY_OF_WEEK_IN_MONTH = '" + dbDayOfWeek_in_Month + "', " +
-                            "DIFFERENCE_NUMBER = '" + dbMedal + "', " +
-                            "MACHINE_NAME = '" + dbMachineName + "', " +
-                            "TABLE_NUMBER = '" + dbTableNumber + "', " +
-                            "START_GAME = '" + dbStartGames + "', " +
-                            "TOTAL_GAME = '" + dbTotalGames + "', " +
-                            "SINGLE_BIG = '" + dbSingleBig + "', " +
-                            "CHERRY_BIG = '" + dbCherryBig + "', " +
-                            "SINGLE_REG = '" + dbSingleReg + "', " +
-                            "CHERRY_REG = '" + dbCherryReg + "', " +
-                            "CHERRY = '" + dbCherry + "', " +
-                            "GRAPE = '" + dbGrape + "' " +
-                            "WHERE ID = '" + catchID + "';";
-                    DatabaseResultSet.UpdateOrDelete(context, sql);
+            // 差枚数取得
+            dbMedal = 0;
+            String medalStr = eMedal.getText().toString();
+            if (StringUtils.isNotEmpty(medalStr)) {
+                dbMedal = Integer.parseInt(medalStr);
+            }
+            if (!(dbMedal == null || dbMedal == 0)) {
+                if (checkBox.isChecked()) {
+                    dbMedal = -dbMedal;
                 }
-                registerDialog.dismiss();
-                focusOut();
-                Intent intent = new Intent(this, MainGradeInquiry.class);
-                intent.putExtra("TOAST", getString(R.string.update));
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+            }
+
+            //更新日時を取得
+            Date now = new Date();
+            SimpleDateFormat dFormat = new SimpleDateFormat("yyyy年MM月dd日HH時mm分");
+            dbSaveDate = dFormat.format(now);
+
+            // DB情報を更新する
+            Context context = this;
+            if (!catchID.isEmpty()) {
+                String sql = "UPDATE TEST SET " +
+                        "OPERATION_DATE = '" + dbOperationDate + "', " +
+                        "SAVE_DATE = '" + dbSaveDate + "', " +
+                        "STORE_NAME = '" + dbStoreName + "', " +
+                        "OPERATION_YEAR = '" + dbOperationYear + "', " +
+                        "OPERATION_MONTH = '" + dbOperationMonth + "', " +
+                        "OPERATION_DAY = '" + dbOperationDay + "', " +
+                        "OPERATION_DAY_DIGIT = '" + dbOperationDayDigit + "', " +
+                        "SPECIAL_DAY = '" + dbSpecialDay + "', " +
+                        "WEEK_ID = '" + dbWeekId + "', " +
+                        "DAY_OF_WEEK_IN_MONTH = '" + dbDayOfWeek_in_Month + "', " +
+                        "DIFFERENCE_NUMBER = '" + dbMedal + "', " +
+                        "MACHINE_NAME = '" + dbMachineName + "', " +
+                        "TABLE_NUMBER = '" + dbTableNumber + "', " +
+                        "TAIL_NUMBER = '" + dbSingleNumber + "', " +
+                        "START_GAME = '" + dbStartGames + "', " +
+                        "TOTAL_GAME = '" + dbTotalGames + "', " +
+                        "SINGLE_BIG = '" + dbSingleBig + "', " +
+                        "CHERRY_BIG = '" + dbCherryBig + "', " +
+                        "SINGLE_REG = '" + dbSingleReg + "', " +
+                        "CHERRY_REG = '" + dbCherryReg + "', " +
+                        "CHERRY = '" + dbCherry + "', " +
+                        "GRAPE = '" + dbGrape + "' " +
+                        "WHERE ID = '" + catchID + "';";
+                DatabaseResultSet.UpdateOrDelete(context, sql);
+            }
+            registerDialog.dismiss();
+            focusOut();
+            Intent intent = new Intent(this, MainGradeInquiry.class);
+            intent.putExtra("TOAST", getString(R.string.update));
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
         // ダイアログを表示
         registerDialog.show();
@@ -515,14 +543,21 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
         juggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {focusOut();}
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                focusOut();
+            }
+
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
     }
+
     public void setImeActionDone(EditText editText) {
         editText.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_DONE) {focusOut();}
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                focusOut();
+            }
             return false;
         });
     }
@@ -541,12 +576,30 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
         mainLayout.requestFocus();
     }
 
-    public void dSingleBigButton(View view) {pushButton(eSingleBig, R.id.eSingleBig, 9999);}
-    public void dCherryBigButton(View view) {pushButton(eCherryBig, R.id.eCherryBig, 9999);}
-    public void dSingleRegButton(View view) {pushButton(eSingleReg, R.id.eSingleReg, 9999);}
-    public void dCherryRegButton(View view) {pushButton(eCherryReg, R.id.eCherryReg, 9999);}
-    public void dCherryButton(View view) {pushButton(eCherry, R.id.eCherry, 99999);}
-    public void dGrapeButton(View view) {pushButton(eGrape, R.id.eGrape, 999999);}
+    public void dSingleBigButton(View view) {
+        pushButton(eSingleBig, R.id.eSingleBig, 9999);
+    }
+
+    public void dCherryBigButton(View view) {
+        pushButton(eCherryBig, R.id.eCherryBig, 9999);
+    }
+
+    public void dSingleRegButton(View view) {
+        pushButton(eSingleReg, R.id.eSingleReg, 9999);
+    }
+
+    public void dCherryRegButton(View view) {
+        pushButton(eCherryReg, R.id.eCherryReg, 9999);
+    }
+
+    public void dCherryButton(View view) {
+        pushButton(eCherry, R.id.eCherry, 99999);
+    }
+
+    public void dGrapeButton(View view) {
+        pushButton(eGrape, R.id.eGrape, 999999);
+    }
+
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.EditLayout);
         ColorButton colorButton = new ColorButton();
@@ -639,7 +692,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher,Keyboar
 
     @Override
     public void onVisibilityChanged(boolean visible) {
-        if(!visible){
+        if (!visible) {
             //キーボードが非表示になったことを検知した時
             mainLayout.requestFocus();
         }

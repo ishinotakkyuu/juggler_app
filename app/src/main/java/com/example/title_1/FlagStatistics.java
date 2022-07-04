@@ -28,7 +28,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,7 +51,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     static EditText eDateStart, eDateEnd;
 
     // 各種スピナーとそれぞれに対応するチェックボックス
-    static Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay;
+    static Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber;
 
     // データを表示するためのボタン
     Button bDisplay, bClear;
@@ -87,9 +86,10 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             calTotalBonusProbabilityValue, calTotalCherryProbabilityValue, calTotalGrapeProbabilityValue;
 
     // 各種スピナーにセットする配列
-    List<String> Store_Names, Machine_Names, Table_Number;
+    List<String> Store_Names, Machine_Names, Table_Number, DAY_DIGIT, SPECIAL_DAY, MONTH, DAY, DayOfWeek_In_Month, WEEK_ID, TailNumber;
     // 配列初期値格納用
-    List<String> init_Store_Names, init_Machine_Names, init_Table_Number;
+    List<String> init_Store_Names, init_Machine_Names, init_Table_Number, init_DAY_DIGIT, init_SPECIAL_DAY,
+            init_MONTH, init_DAY, init_DayOfWeek_In_Month, init_WEEK_ID, init_TailNumber;
 
     // スピナーに設定するリスナー
     AdapterView.OnItemSelectedListener listener = this;
@@ -232,13 +232,16 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             case R.id.DateClear:
 
                 new AlertDialog.Builder(getContext())
+
+                        // TODO スピナー項目変更対応が必要
+
                         .setTitle(getString(R.string.reset_dialog_tittle))
                         .setMessage(getString(R.string.reset_dialog_message))
                         .setPositiveButton(getString(R.string.reset_dialog_all), (dialog, which) -> {
 
                             eDateStart.getEditableText().clear();
                             eDateEnd.getEditableText().clear();
-                            Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sAttachDay};
+                            Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
                             for (Spinner s : spinner) {
                                 s.setSelection(0);
                             }
@@ -265,41 +268,138 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         Table_Number = new ArrayList<>();
         Table_Number.add(getString(R.string.not_selection));
 
+        DAY_DIGIT = new ArrayList<>();
+        DAY_DIGIT.add(getString(R.string.not_selection));
+
+        SPECIAL_DAY = new ArrayList<>();
+        SPECIAL_DAY.add(getString(R.string.not_selection));
+
+        MONTH = new ArrayList<>();
+        MONTH.add(getString(R.string.not_selection));
+
+        DAY = new ArrayList<>();
+        DAY.add(getString(R.string.not_selection));
+
+        DayOfWeek_In_Month = new ArrayList<>();
+        DayOfWeek_In_Month.add(getString(R.string.not_selection));
+
+        WEEK_ID = new ArrayList<>();
+        WEEK_ID.add(getString(R.string.not_selection));
+
+        TailNumber = new ArrayList<>();
+        TailNumber.add(getString(R.string.not_selection));
+
+
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String storeListSql = "SELECT DISTINCT STORE_NAME FROM TEST;";
-        String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST;";
-        String tableNumberListSql = "SELECT DISTINCT TABLE_NUMBER FROM TEST;";
+        String storeListSql = "SELECT DISTINCT STORE_NAME FROM TEST ORDER BY STORE_NAME;";
+        String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST ORDER BY MACHINE_NAME;";
+        String tableNumberListSql = "SELECT DISTINCT TABLE_NUMBER FROM TEST ORDER BY TABLE_NUMBER;";
+        String dayDigitSql = "SELECT DISTINCT OPERATION_DAY_DIGIT FROM TEST ORDER BY OPERATION_DAY_DIGIT;";
+        String specialDaySql = "SELECT DISTINCT SPECIAL_DAY FROM TEST ORDER BY SPECIAL_DAY;";
+        String monthListSql = "SELECT DISTINCT OPERATION_MONTH FROM TEST ORDER BY OPERATION_MONTH;";
+        String dayListSql = "SELECT DISTINCT OPERATION_DAY FROM TEST ORDER BY OPERATION_DAY;";
+        String dayOfWeekListSql = "SELECT DISTINCT DAY_OF_WEEK_IN_MONTH FROM TEST ORDER BY DAY_OF_WEEK_IN_MONTH;";
+        String weekIDListSql = "SELECT DISTINCT WEEK_ID FROM TEST ORDER BY WEEK_ID;";
+        String tailNumberListSql = "SELECT DISTINCT TAIL_NUMBER FROM TEST ORDER BY TAIL_NUMBER;";
+
 
         Log.i("SQLITE", "storeListSql : " + storeListSql);
         Log.i("SQLITE", "machineListSql : " + machineListSql);
         Log.i("SQLITE", "tableNumberListSql : " + tableNumberListSql);
+        Log.i("SQLITE", "dayDigitSql : " + dayDigitSql);
+        Log.i("SQLITE", "specialDaySql : " + specialDaySql);
+        Log.i("SQLITE", "monthListSql : " + monthListSql);
+        Log.i("SQLITE", "dayListSql : " + dayListSql);
+        Log.i("SQLITE", "dayOfWeekListSql : " + dayOfWeekListSql);
+        Log.i("SQLITE", "weekIDListSql : " + weekIDListSql);
+        Log.i("SQLITE", "tailNumberListSql : " + tailNumberListSql);
 
         try {
+            int index = 0;
 
             Cursor storeNameCursor = db.rawQuery(storeListSql, null);
-
             while (storeNameCursor.moveToNext()) {
-                int index = storeNameCursor.getColumnIndex("STORE_NAME");
                 String store = storeNameCursor.getString(index);
                 Store_Names.add(store);
             }
 
             Cursor machineNameCursor = db.rawQuery(machineListSql, null);
-
             while (machineNameCursor.moveToNext()) {
-                int index = machineNameCursor.getColumnIndex("MACHINE_NAME");
                 String machine = machineNameCursor.getString(index);
                 Machine_Names.add(machine);
             }
 
             Cursor tableNumberCursor = db.rawQuery(tableNumberListSql, null);
-
             while (tableNumberCursor.moveToNext()) {
-                int index = tableNumberCursor.getColumnIndex("TABLE_NUMBER");
                 String table = tableNumberCursor.getString(index);
-                Table_Number.add(table);
+                // 台番号はnullがあり得るため、nullではなかったら追加
+                if (StringUtils.isNotEmpty(table)) {
+                    Table_Number.add(table);
+                }
+            }
+
+            Cursor dayDigitCursor = db.rawQuery(dayDigitSql, null);
+            while (dayDigitCursor.moveToNext()) {
+                String table = dayDigitCursor.getString(index) + "の付く日";
+                DAY_DIGIT.add(table);
+            }
+
+            Cursor specialDayCursor = db.rawQuery(specialDaySql, null);
+            while (specialDayCursor.moveToNext()) {
+                String table = specialDayCursor.getString(index);
+                if (StringUtils.isNotEmpty(table)) {
+                    switch (table) {
+                        case "1":
+                            SPECIAL_DAY.add("ゾロ目");
+                            break;
+                        case "2":
+                            SPECIAL_DAY.add("月と日が同じ");
+                            break;
+                        case "3":
+                            SPECIAL_DAY = new ArrayList<>();
+                            SPECIAL_DAY.add(getString(R.string.not_selection));
+                            SPECIAL_DAY.add("ゾロ目");
+                            SPECIAL_DAY.add("月と日が同じ");
+                            break;
+                    }
+                }
+            }
+
+            Cursor monthCursor = db.rawQuery(monthListSql, null);
+            while (monthCursor.moveToNext()) {
+                String table = monthCursor.getString(index) + "月";
+                MONTH.add(table);
+            }
+
+            Cursor dayCursor = db.rawQuery(dayListSql, null);
+            while (dayCursor.moveToNext()) {
+                String table = dayCursor.getString(index) + "日";
+                DAY.add(table);
+            }
+
+            Cursor dayOfWeekCursor = db.rawQuery(dayOfWeekListSql, null);
+            while (dayOfWeekCursor.moveToNext()) {
+                String table = "第" + dayOfWeekCursor.getString(index);
+                DayOfWeek_In_Month.add(table);
+            }
+
+            Cursor weekIDCursor = db.rawQuery(weekIDListSql, null);
+            while (weekIDCursor.moveToNext()) {
+                String table = convertWeekID(weekIDCursor.getString(index));
+                WEEK_ID.add(table);
+            }
+
+            Cursor tailNumberCursor = db.rawQuery(tailNumberListSql, null);
+            while (tailNumberCursor.moveToNext()) {
+                String table = tailNumberCursor.getString(index);
+                // nullがあり得るため、nullではなかったら末尾に加工して追加
+                if (StringUtils.isNotEmpty(table)) {
+                    // 末尾切り出し
+                    table = "末尾" + tailNumberCursor.getString(index);
+                    TailNumber.add(table);
+                }
             }
 
         } finally {
@@ -312,6 +412,13 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         init_Store_Names = new ArrayList<>(Store_Names);
         init_Machine_Names = new ArrayList<>(Machine_Names);
         init_Table_Number = new ArrayList<>(Table_Number);
+        init_DAY_DIGIT = new ArrayList<>(DAY_DIGIT);
+        init_SPECIAL_DAY = new ArrayList<>(SPECIAL_DAY);
+        init_MONTH = new ArrayList<>(MONTH);
+        init_DAY = new ArrayList<>(DAY);
+        init_DayOfWeek_In_Month = new ArrayList<>(DayOfWeek_In_Month);
+        init_WEEK_ID = new ArrayList<>(WEEK_ID);
+        init_TailNumber = new ArrayList<>(TailNumber);
 
         // 店舗一覧をセット
         setItems(Store_Names, sStore);
@@ -323,32 +430,25 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         setItems(Table_Number, sTableNumber);
 
         // 特殊スピナー①をセット
-        final List<String> spItems01 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_DIGIT)));
-        setItems(spItems01, sDayDigit);
+        setItems(DAY_DIGIT, sDayDigit);
 
         // 特殊スピナー②をセット
-        final List<String> spItems02 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_SPECIAL_DAY)));
-        setItems(spItems02, sSpecialDay);
+        setItems(SPECIAL_DAY, sSpecialDay);
 
         // 特殊スピナー③をセット
-        final List<String> spItems03 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_MONTH)));
-        setItems(spItems03, sMonth);
+        setItems(MONTH, sMonth);
 
         // 特殊スピナー④をセット
-        final List<String> spItems04 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_DAY)));
-        setItems(spItems04, sDay);
+        setItems(DAY, sDay);
 
         // 特殊スピナー⑤をセット
-        final List<String> spItems05 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_WEEK_IN_MONTH)));
-        setItems(spItems05, sDayOfWeek_In_Month);
+        setItems(DayOfWeek_In_Month, sDayOfWeek_In_Month);
 
         // 特殊スピナー⑥をセット
-        final List<String> spItems06 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_WEEK_ID)));
-        setItems(spItems06, sWeekId);
+        setItems(WEEK_ID, sWeekId);
 
         // 特殊スピナー⑦をセット
-        final List<String> spItems07 = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.SET_ATTACH_DAY)));
-        setItems(spItems07, sAttachDay);
+        setItems(TailNumber, sTailNumber);
     }
 
     public void initValue() {
@@ -388,37 +488,64 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         // 以降は画面起動後にスピナーで項目を選択した場合に発生する処理
 
         // スピナー配列作成
-        Spinner[] spinners = {sStore, sMachine, sTableNumber};
+        // TODO ここに追加
+        Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
         int size = spinners.length;
 
         // 全てスピナーの選択値を取得した配列作成
         String[] initStrings = new String[size];
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             initStrings[i] = spinners[i].getSelectedItem().toString();
         }
 
         // DBカラム配列
-        String[] columnName = {"STORE_NAME", "MACHINE_NAME", "TABLE_NUMBER"};
+        // TODO ここに追加
+        String[] columnName = {"STORE_NAME", "MACHINE_NAME", "TABLE_NUMBER", "OPERATION_DAY_DIGIT", "SPECIAL_DAY",
+                "OPERATION_MONTH", "OPERATION_DAY", "DAY_OF_WEEK_IN_MONTH", "WEEK_ID", "TAIL_NUMBER"};
 
         // 更新項目を格納するリスト作成
-        ArrayList<String> new_Store_Names = new ArrayList<>();
-        ArrayList<String> new_Machine_Names = new ArrayList<>();
-        ArrayList<String> new_Table_Number = new ArrayList<>();
+        // TODO ここに追加
+        List<String> new_Store_Names = new ArrayList<>();
+        List<String> new_Machine_Names = new ArrayList<>();
+        List<String> new_Table_Number = new ArrayList<>();
+        List<String> new_DAY_DIGIT = new ArrayList<>();
+        List<String> new_SPECIAL_DAY = new ArrayList<>();
+        List<String> new_MONTH = new ArrayList<>();
+        List<String> new_DAY = new ArrayList<>();
+        List<String> new_DAY_OF_WEEK_IN_MONTH = new ArrayList<>();
+        List<String> new_WEEK_ID = new ArrayList<>();
+        List<String> new_TailNumber = new ArrayList<>();
 
         // 更新項目を格納するリストの二次元配列生成
-        ArrayList<ArrayList<String>> newItemLists = new ArrayList<>();
+        // TODO ここに追加
+        List<List<String>> newItemLists = new ArrayList<>();
         newItemLists.add(new_Store_Names);
         newItemLists.add(new_Machine_Names);
         newItemLists.add(new_Table_Number);
+        newItemLists.add(new_DAY_DIGIT);
+        newItemLists.add(new_SPECIAL_DAY);
+        newItemLists.add(new_MONTH);
+        newItemLists.add(new_DAY);
+        newItemLists.add(new_DAY_OF_WEEK_IN_MONTH);
+        newItemLists.add(new_WEEK_ID);
+        newItemLists.add(new_TailNumber);
 
         // 初期値項目リストの二次元配列生成
-        ArrayList<ArrayList<String>> initItemLists = new ArrayList<>();
+        // TODO ここに追加
+        List<List<String>> initItemLists = new ArrayList<>();
         initItemLists.add((ArrayList) init_Store_Names);
         initItemLists.add((ArrayList) init_Machine_Names);
         initItemLists.add((ArrayList) init_Table_Number);
+        initItemLists.add((ArrayList) init_DAY_DIGIT);
+        initItemLists.add((ArrayList) init_SPECIAL_DAY);
+        initItemLists.add((ArrayList) init_MONTH);
+        initItemLists.add((ArrayList) init_DAY);
+        initItemLists.add((ArrayList) init_DayOfWeek_In_Month);
+        initItemLists.add((ArrayList) init_WEEK_ID);
+        initItemLists.add((ArrayList) init_TailNumber);
 
         // 更新項目を格納するリストに初期値「未選択」をセット
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             newItemLists.get(i).add("未選択");
         }
 
@@ -431,11 +558,12 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         // SQLの格納
         String[] SQL = new String[size];
         for (int i = 0; i < size; i++) {
-            SQL[i] = CreateSQL.notSelectSQL(columnName[i]);
+            SQL[i] = CreateSQL.selectSpinnerItemSQL(columnName[i]);
         }
 
+        Cursor cursor;
         try {
-
+            int index = 0;
             for (int i = 0; i < size; i++) {
                 // SQLが空だった場合
                 if (SQL[i].isEmpty()) {
@@ -445,13 +573,99 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
                 } else {
 
-                    Cursor cursor = db.rawQuery(SQL[i], null);
-                    while (cursor.moveToNext()) {
-                        int index = cursor.getColumnIndex(columnName[i]);
-                        String item = cursor.getString(index);
-                        newItemLists.get(i).add(item);
-                    }
+                    switch (i) {
+                        case 0:
+                        case 1:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item = cursor.getString(index);
+                                newItemLists.get(i).add(item);
+                            }
+                            break;
 
+                        case 2: //台番号はnull対応
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item = cursor.getString(index);
+                                if (StringUtils.isNotEmpty(item)) {
+                                    newItemLists.get(i).add(item);
+                                }
+                            }
+                            break;
+
+                        case 3:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item = cursor.getString(index) + "の付く日";
+                                newItemLists.get(i).add(item);
+                            }
+                            break;
+
+                        case 4:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String table = cursor.getString(index);
+                                if (StringUtils.isNotEmpty(table)) {
+                                    switch (table) {
+                                        case "1":
+                                            SPECIAL_DAY.add("ゾロ目");
+                                            break;
+                                        case "2":
+                                            SPECIAL_DAY.add("月と日が同じ");
+                                            break;
+                                        case "3":
+                                            SPECIAL_DAY = new ArrayList<>();
+                                            SPECIAL_DAY.add(getString(R.string.not_selection));
+                                            SPECIAL_DAY.add("ゾロ目");
+                                            SPECIAL_DAY.add("月と日が同じ");
+                                            break;
+                                    }
+                                }
+                            }
+                            break;
+
+                        case 5:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item = cursor.getString(index) + "月";
+                                newItemLists.get(i).add(item);
+                            }
+                            break;
+
+                        case 6:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item = cursor.getString(index) + "日";
+                                newItemLists.get(i).add(item);
+                            }
+                            break;
+
+                        case 7:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item = "第" + cursor.getString(index);
+                                newItemLists.get(i).add(item);
+                            }
+                            break;
+
+                        case 8:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item = convertWeekID(cursor.getString(index));
+                                newItemLists.get(i).add(item);
+                            }
+                            break;
+
+                        case 9:
+                            cursor = db.rawQuery(SQL[i], null);
+                            while (cursor.moveToNext()) {
+                                String item =cursor.getString(index);
+                                if (StringUtils.isNotEmpty(item)) {
+                                    newItemLists.get(i).add("末尾" + item);
+                                }
+                            }
+                            break;
+                    }
                 }
             }
 
@@ -482,18 +696,82 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         // 全てのリスナーを元に戻す
         setItemSelectedListener();
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    // 各スピナーに項目をセットするメソッド
+    public String convertWeekID(String item) {
+        String convertItem;
+        switch (item) {
+            case "1":
+                convertItem = "日曜日";
+                break;
+            case "2":
+                convertItem = "月曜日";
+                break;
+            case "3":
+                convertItem = "火曜日";
+                break;
+            case "4":
+                convertItem = "水曜日";
+                break;
+            case "5":
+                convertItem = "木曜日";
+                break;
+            case "6":
+                convertItem = "金曜日";
+                break;
+            case "7":
+                convertItem = "土曜日";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + item);
+        }
+        return convertItem;
+    }
+
     public void setItems(List<String> spItems, Spinner spinner) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.main04_statistics02_spinner, spItems);
         adapter.setDropDownViewResource(R.layout.main04_statistics03_spinner_dropdown);
         spinner.setAdapter(adapter);
+    }
+
+    // TODO ここに追加
+    public void setItemSelectedListener() {
+        sStore.setOnItemSelectedListener(listener);
+        sMachine.setOnItemSelectedListener(listener);
+        sTableNumber.setOnItemSelectedListener(listener);
+        sDayDigit.setOnItemSelectedListener(listener);
+        sSpecialDay.setOnItemSelectedListener(listener);
+        sMonth.setOnItemSelectedListener(listener);
+        sDay.setOnItemSelectedListener(listener);
+        sDayOfWeek_In_Month.setOnItemSelectedListener(listener);
+        sWeekId.setOnItemSelectedListener(listener);
+        sTailNumber.setOnItemSelectedListener(listener);
+    }
+
+    // TODO ここに追加
+    public void notItemSelectedListener() {
+        sStore.setOnItemSelectedListener(null);
+        sMachine.setOnItemSelectedListener(null);
+        sTableNumber.setOnItemSelectedListener(null);
+        sDayDigit.setOnItemSelectedListener(null);
+        sSpecialDay.setOnItemSelectedListener(null);
+        sMonth.setOnItemSelectedListener(null);
+        sDay.setOnItemSelectedListener(null);
+        sDayOfWeek_In_Month.setOnItemSelectedListener(null);
+        sWeekId.setOnItemSelectedListener(null);
+        sTailNumber.setOnItemSelectedListener(null);
+    }
+
+    // TODO ここに追加
+    public void setFocusable() {
+        Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
+        for (Spinner s : spinners) {
+            s.setFocusable(false);
+        }
     }
 
     public void setFindViewById_01(View view) {
@@ -515,7 +793,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         sDay = mainLayout.findViewById(R.id.SpecialSpinner_04);
         sDayOfWeek_In_Month = mainLayout.findViewById(R.id.SpecialSpinner_05);
         sWeekId = mainLayout.findViewById(R.id.SpecialSpinner_06);
-        sAttachDay = mainLayout.findViewById(R.id.SpecialSpinner_07);
+        sTailNumber = mainLayout.findViewById(R.id.SpecialSpinner_07);
 
         // ボタン
         bDisplay = mainLayout.findViewById(R.id.DisplayButton);
@@ -565,30 +843,11 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         tTotalCherryProbability = mainLayout.findViewById(R.id.TotalCherryProbability);
     }
 
-    public void setItemSelectedListener() {
-        sStore.setOnItemSelectedListener(listener);
-        sMachine.setOnItemSelectedListener(listener);
-        sTableNumber.setOnItemSelectedListener(listener);
-    }
-
-    public void notItemSelectedListener() {
-        sStore.setOnItemSelectedListener(null);
-        sMachine.setOnItemSelectedListener(null);
-        sTableNumber.setOnItemSelectedListener(null);
-    }
-
     public void setClickListener() {
         eDateStart.setOnClickListener(this);
         eDateEnd.setOnClickListener(this);
         bDisplay.setOnClickListener(this);
         bClear.setOnClickListener(this);
-    }
-
-    public void setFocusable() {
-        Spinner[] spinners = {sStore, sMachine, sTableNumber};
-        for (Spinner s : spinners) {
-            s.setFocusable(false);
-        }
     }
 
     public void setTittle() {

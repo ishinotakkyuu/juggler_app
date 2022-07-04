@@ -1,39 +1,47 @@
 package com.example.title_1;
 
+import android.app.Activity;
+
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CreateSQL {
 
     static final String where = " WHERE ";
     static final String end = ";";
     static final String and = " AND ";
+    static final String order = " ORDER BY ";
+    static final String asc = " ASC ";
 
-    public static String FlagStatisticsSQL(){
+    static Activity activity = MainActivity.activity;
+
+    public static String FlagStatisticsSQL() {
 
         String initSql = "select * from " + "TEST";
         String sql = "";
 
         // 店舗名
         int storePosition = FlagStatistics.sStore.getSelectedItemPosition();
-        if(storePosition != 0) {
-            String storeName = (String)FlagStatistics.sStore.getSelectedItem();
-
+        if (storePosition != 0) {
+            String storeName = (String) FlagStatistics.sStore.getSelectedItem();
             sql = sql + "STORE_NAME = " + "'" + storeName + "'";
         }
 
         // 機種名
         int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
-        if(machinePosition != 0){
-            String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
+        if (machinePosition != 0) {
+            String machineName = (String) FlagStatistics.sMachine.getSelectedItem();
             sql = addAnd(sql);
-
             sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
         }
 
-        // 台番号(R04.06.27 松沢記述)
+        // 台番号
         int tableNumberPosition = FlagStatistics.sTableNumber.getSelectedItemPosition();
-        if(tableNumberPosition != 0){
-            String tableNumber = (String)FlagStatistics.sTableNumber.getSelectedItem();
+        if (tableNumberPosition != 0) {
+            String tableNumber = (String) FlagStatistics.sTableNumber.getSelectedItem();
             sql = addAnd(sql);
 
             sql = sql + "TABLE_NUMBER = " + "'" + tableNumber + "'";
@@ -41,162 +49,270 @@ public class CreateSQL {
 
         // 特殊1
         int spinner01Position = FlagStatistics.sDayDigit.getSelectedItemPosition();
-        if(spinner01Position != 0){
+        if (spinner01Position != 0) {
             sql = addAnd(sql);
-            String conditionValue =  String.valueOf(spinner01Position - 1);
+
+            List<String> DAY_DIGIT = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_DIGIT)));
+            String searchItem = FlagStatistics.sDayDigit.getSelectedItem().toString();
+            String conditionValue = String.valueOf(DAY_DIGIT.indexOf(searchItem));
 
             sql = sql + "OPERATION_DAY_DIGIT = " + "'" + conditionValue + "'";
         }
 
         // 特殊2
-        int spinner02Position = FlagStatistics.sSpecialDay.getSelectedItemPosition();
-        if(spinner02Position == 1){
-            // ゾロ目
+        String spinner02Item = FlagStatistics.sSpecialDay.getSelectedItem().toString();
+        if(!spinner02Item.equals("未選択")){
             sql = addAnd(sql);
-            sql = sql + "SUBSTR(OPERATION_DATE,9,1) = SUBSTR(OPERATION_DATE,10,1)";
-        }else if(spinner02Position == 2){
-            // 月と日が同じ
-            sql = addAnd(sql);
-            sql = sql + "OPERATION_MONTH = OPERATION_DAY";
+            switch(spinner02Item){
+                case "ゾロ目":
+                    sql = sql + "SPECIAL_DAY = '1' OR SPECIAL_DAY = '3'";
+                    break;
+                case "月と日が同じ":
+                    sql = sql + "SPECIAL_DAY = '2' OR SPECIAL_DAY = '3'";
+                    break;
+            }
         }
 
         // 特殊3
         int spinner03Position = FlagStatistics.sMonth.getSelectedItemPosition();
-        if(spinner03Position != 0){
+        if (spinner03Position != 0) {
             sql = addAnd(sql);
-            String conditionValue =  String.valueOf(spinner03Position);
+
+            List<String> MONTH = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_MONTH)));
+            String searchItem = FlagStatistics.sMonth.getSelectedItem().toString();
+            String conditionValue = String.valueOf(MONTH.indexOf(searchItem) + 1);
 
             sql = sql + "OPERATION_MONTH = " + "'" + conditionValue + "'";
         }
 
         // 特殊4
         int spinner04Position = FlagStatistics.sDay.getSelectedItemPosition();
-        if(spinner04Position != 0){
+        if (spinner04Position != 0) {
             sql = addAnd(sql);
-            String conditionValue =  String.valueOf(spinner04Position);
+
+            List<String> DAY = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_DAY)));
+            String searchItem = FlagStatistics.sDay.getSelectedItem().toString();
+            String conditionValue = String.valueOf(DAY.indexOf(searchItem) + 1);
 
             sql = sql + "OPERATION_DAY = " + "'" + conditionValue + "'";
         }
 
         // 特殊5
-        //保留
         int spinner05Position = FlagStatistics.sDayOfWeek_In_Month.getSelectedItemPosition();
-
-        if(spinner05Position != 0){
+        if (spinner05Position != 0) {
             sql = addAnd(sql);
-            String conditionValue =  String.valueOf(spinner05Position);
+
+            List<String> DAY_OF_WEEK_IN_MONTH = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_WEEK_IN_MONTH)));
+            String searchItem = FlagStatistics.sDayOfWeek_In_Month.getSelectedItem().toString();
+            String conditionValue = String.valueOf(DAY_OF_WEEK_IN_MONTH.indexOf(searchItem) + 1);
 
             sql = sql + "DAY_OF_WEEK_IN_MONTH = " + "'" + conditionValue + "'";
         }
 
         // 特殊6
         int spinner06Position = FlagStatistics.sWeekId.getSelectedItemPosition();
-        if(spinner06Position != 0){
+        if (spinner06Position != 0) {
             sql = addAnd(sql);
-            String conditionValue =  String.valueOf(spinner06Position);
+
+            List<String> WEEK_ID = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_WEEK_ID)));
+            String searchItem = FlagStatistics.sWeekId.getSelectedItem().toString();
+            String conditionValue = String.valueOf(WEEK_ID.indexOf(searchItem) + 1);
 
             sql = sql + "WEEK_ID = " + "'" + conditionValue + "'";
         }
 
         // 特殊7
-        int spinner07Position = FlagStatistics.sAttachDay.getSelectedItemPosition();
-        if(spinner07Position != 0){
+        int spinner07Position = FlagStatistics.sTailNumber.getSelectedItemPosition();
+        if (spinner07Position != 0) {
             sql = addAnd(sql);
-            String conditionValue =  String.valueOf(spinner07Position - 1);
 
-            sql = sql + "SUBSTR(TABLE_NUMBER,length(TABLE_NUMBER)) =" + "'" + conditionValue + "'";
+            List<String> TailNumber = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_TAIL_NUMBER)));
+            String searchItem = FlagStatistics.sTailNumber.getSelectedItem().toString();
+            String conditionValue = String.valueOf(TailNumber.indexOf(searchItem));
+
+            sql = sql + "TAIL_NUMBER = " + "'" + conditionValue + "'";
         }
+
 
         // 日付の範囲指定(R04.06.27 松沢記述)
         String eDateStart = FlagStatistics.eDateStart.getText().toString();
-        if(eDateStart.isEmpty()){
+        if (eDateStart.isEmpty()) {
             eDateStart = "1 / 1 / 1";
         }
         String eDateEnd = FlagStatistics.eDateEnd.getText().toString();
-        if(eDateEnd.isEmpty()){
+        if (eDateEnd.isEmpty()) {
             eDateEnd = "9999 / 12 / 31";
         }
         sql = addAnd(sql);
-        sql = sql + "OPERATION_DATE BETWEEN" + "'" +  eDateStart + "'" + "AND" + "'" +  eDateEnd + "'";
+        sql = sql + "OPERATION_DATE BETWEEN" + "'" + eDateStart + "'" + "AND" + "'" + eDateEnd + "'";
 
-        if(sql.isEmpty()) {
-            sql = initSql  + end;
-        }else{
-            sql = initSql + where + sql  + end;
+        if (sql.isEmpty()) {
+            sql = initSql + end;
+        } else {
+            sql = initSql + where + sql + end;
         }
 
         return sql;
     }
 
-
-    // 店舗名で機種名を絞るSQL
-    public static String store_machine_SQL(String item){
-        return "SELECT DISTINCT MACHINE_NAME FROM TEST WHERE STORE_NAME = " + "'" + item + "';";
-    }
-
-    // 店舗名で台番号を絞るSQL
-    public static String store_tableNumberSQL(String item){
-        return "SELECT DISTINCT TABLE_NUMBER FROM TEST WHERE STORE_NAME = " + "'" + item + "';";
-    }
-
-    // 機種名で店舗名を絞るSQL
-    public static String machine_storeSQL(String item){
-        return "SELECT DISTINCT STORE_NAME FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
-    }
-
-    // 機種名で台番号を絞るSQL
-    public static String machine_tableNumberSQL(String item){
-        return "SELECT DISTINCT TABLE_NUMBER FROM TEST WHERE MACHINE_NAME = " + "'" + item + "';";
-    }
-
-    // 台番号で店舗名を絞るSQL
-    public static String tableNumber_storeSQL(String item){
-        return "SELECT DISTINCT STORE_NAME FROM TEST WHERE TABLE_NUMBER = " + "'" + item + "';";
-    }
-
-    // 台番号で機種名を絞るSQL
-    public static String tableNumber_machineSQL(String item){
-        return "SELECT DISTINCT MACHINE_NAME FROM TEST WHERE TABLE_NUMBER = " + "'" + item + "';";
-    }
-
-    public static String notSelectSQL(String columnName){
+    public static String selectSpinnerItemSQL(String columnName) {
 
         String initSql = "SELECT DISTINCT " + columnName + " FROM TEST WHERE ";
         String sql = "";
 
         // 店舗名
-        if(!columnName.equals("STORE_NAME")){
+        if (!columnName.equals("STORE_NAME")) {
             int storePosition = FlagStatistics.sStore.getSelectedItemPosition();
-            if(storePosition != 0) {
-                String storeName = (String)FlagStatistics.sStore.getSelectedItem();
+            if (storePosition != 0) {
+                String storeName = (String) FlagStatistics.sStore.getSelectedItem();
                 sql = sql + "STORE_NAME = " + "'" + storeName + "'";
             }
         }
 
         // 機種名
-        if(!columnName.equals("MACHINE_NAME")){
+        if (!columnName.equals("MACHINE_NAME")) {
             int machinePosition = FlagStatistics.sMachine.getSelectedItemPosition();
-            if(machinePosition != 0){
-                String machineName = (String)FlagStatistics.sMachine.getSelectedItem();
+            if (machinePosition != 0) {
+                String machineName = (String) FlagStatistics.sMachine.getSelectedItem();
                 sql = addAnd(sql);
                 sql = sql + "MACHINE_NAME = " + "'" + machineName + "'";
             }
         }
 
         // 台番号
-        if(!columnName.equals("TABLE_NUMBER")){
+        if (!columnName.equals("TABLE_NUMBER")) {
             int tableNumberPosition = FlagStatistics.sTableNumber.getSelectedItemPosition();
-            if(tableNumberPosition != 0){
-                String tableNumber = (String)FlagStatistics.sTableNumber.getSelectedItem();
+            if (tableNumberPosition != 0) {
+                String tableNumber = (String) FlagStatistics.sTableNumber.getSelectedItem();
                 sql = addAnd(sql);
                 sql = sql + "TABLE_NUMBER = " + "'" + tableNumber + "'";
             }
         }
 
-        if(sql.isEmpty()){
+        // 特殊1
+        if (!columnName.equals("OPERATION_DAY_DIGIT")) {
+            int spinner01Position = FlagStatistics.sDayDigit.getSelectedItemPosition();
+            if (spinner01Position != 0) {
+                sql = addAnd(sql);
+
+                List<String> DAY_DIGIT = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_DIGIT)));
+                String searchItem = FlagStatistics.sDayDigit.getSelectedItem().toString();
+                String conditionValue = String.valueOf(DAY_DIGIT.indexOf(searchItem));
+
+                sql = sql + "OPERATION_DAY_DIGIT = " + "'" + conditionValue + "'";
+
+            }
+        }
+
+        // 特殊2
+        if (!columnName.equals("SPECIAL_DAY")) {
+            String spinner02Item = FlagStatistics.sSpecialDay.getSelectedItem().toString();
+            if(!spinner02Item.equals("未選択")){
+                sql = addAnd(sql);
+                switch(spinner02Item){
+                    case "ゾロ目":
+                        sql = sql + "SPECIAL_DAY = '1' OR SPECIAL_DAY = '3'";
+                        break;
+                    case "月と日が同じ":
+                        sql = sql + "SPECIAL_DAY = '2' OR SPECIAL_DAY = '3'";
+                        break;
+                }
+
+            }
+        }
+
+        // 特殊3
+        if (!columnName.equals("OPERATION_MONTH")) {
+            int spinner03Position = FlagStatistics.sMonth.getSelectedItemPosition();
+            if (spinner03Position != 0) {
+                sql = addAnd(sql);
+
+                List<String> MONTH = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_MONTH)));
+                String searchItem = FlagStatistics.sMonth.getSelectedItem().toString();
+                String conditionValue = String.valueOf(MONTH.indexOf(searchItem) + 1);
+
+                sql = sql + "OPERATION_MONTH = " + "'" + conditionValue + "'";
+
+            }
+        }
+
+        // 特殊4
+        if (!columnName.equals("OPERATION_DAY")) {
+            int spinner04Position = FlagStatistics.sDay.getSelectedItemPosition();
+            if (spinner04Position != 0) {
+                sql = addAnd(sql);
+
+                List<String> DAY = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_DAY)));
+                String searchItem = FlagStatistics.sDay.getSelectedItem().toString();
+                String conditionValue = String.valueOf(DAY.indexOf(searchItem) + 1);
+
+                sql = sql + "OPERATION_DAY = " + "'" + conditionValue + "'";
+
+            }
+        }
+
+        // 特殊5
+        if (!columnName.equals("DAY_OF_WEEK_IN_MONTH")) {
+            int spinner05Position = FlagStatistics.sDayOfWeek_In_Month.getSelectedItemPosition();
+            if (spinner05Position != 0) {
+                sql = addAnd(sql);
+
+                List<String> DAY_OF_WEEK_IN_MONTH = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_WEEK_IN_MONTH)));
+                String searchItem = FlagStatistics.sDayOfWeek_In_Month.getSelectedItem().toString();
+                String conditionValue = String.valueOf(DAY_OF_WEEK_IN_MONTH.indexOf(searchItem) + 1);
+
+                sql = sql + "DAY_OF_WEEK_IN_MONTH = " + "'" + conditionValue + "'";
+
+            }
+        }
+
+        // 特殊6
+        if (!columnName.equals("WEEK_ID")) {
+            int spinner06Position = FlagStatistics.sWeekId.getSelectedItemPosition();
+            if (spinner06Position != 0) {
+                sql = addAnd(sql);
+
+                List<String> WEEK_ID = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_WEEK_ID)));
+                String searchItem = FlagStatistics.sWeekId.getSelectedItem().toString();
+                String conditionValue = String.valueOf(WEEK_ID.indexOf(searchItem) + 1);
+
+                sql = sql + "WEEK_ID = " + "'" + conditionValue + "'";
+
+            }
+        }
+
+        // 特殊7
+        if (!columnName.equals("TAIL_NUMBER")) {
+            int spinner07Position = FlagStatistics.sTailNumber.getSelectedItemPosition();
+            if (spinner07Position != 0) {
+                sql = addAnd(sql);
+
+                List<String> TailNumber = new ArrayList<>(Arrays.asList(activity.getResources().getStringArray(R.array.SET_TAIL_NUMBER)));
+                String searchItem = FlagStatistics.sTailNumber.getSelectedItem().toString();
+                String conditionValue = String.valueOf(TailNumber.indexOf(searchItem));
+
+                sql = sql + "TAIL_NUMBER = " + "'" + conditionValue + "'";
+
+            }
+        }
+
+//        // 日付
+//        String eDateStart = FlagStatistics.eDateStart.getText().toString();
+//        if (eDateStart.isEmpty()) {
+//            eDateStart = "1 / 1 / 1";
+//        }
+//        String eDateEnd = FlagStatistics.eDateEnd.getText().toString();
+//        if (eDateEnd.isEmpty()) {
+//            eDateEnd = "9999 / 12 / 31";
+//        }
+//        sql = addAnd(sql);
+//        sql = sql + "OPERATION_DATE BETWEEN" + "'" + eDateStart + "'" + "AND" + "'" + eDateEnd + "'";
+
+
+        if (sql.isEmpty()) {
             return sql;
         } else {
-            return initSql + sql + end;
+            return initSql + sql + order + columnName + asc + end;
         }
     }
 
@@ -206,6 +322,7 @@ public class CreateSQL {
 
         return sql;
     }
+
     public static String SelectStoreNameSQL() {
 
         String sql = "select STORE_NAME from TEST ;";
@@ -215,16 +332,18 @@ public class CreateSQL {
 
     public static String DataDetailSelectSQL(String id) {
 
-        String sql = "select * from TEST where ID = '" + id +"';";
+        String sql = "select * from TEST where ID = '" + id + "';";
 
         return sql;
     }
 
-    public static String addAnd(String sql){
+    public static String addAnd(String sql) {
 
-        if(StringUtils.isNotEmpty(sql)) {
+        if (StringUtils.isNotEmpty(sql)) {
             return sql + and;
         }
         return sql;
     }
+
+
 }

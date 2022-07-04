@@ -1,20 +1,28 @@
 package com.example.title_1;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "jugglerApp.db"; //TODO j_management_appに変更する
     private static final int DATABASE_VERSION = 1;
+    Activity activity;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db ) {
+    public void onCreate(SQLiteDatabase db) {
 
+        // メインテーブル
         String SQL_CREATE_ENTRIES =
                 "CREATE TABLE TEST ( " +
                         "ID INTEGER PRIMARY KEY," +
@@ -26,11 +34,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "OPERATION_MONTH INTEGER," +
                         "OPERATION_DAY INTEGER," +
                         "OPERATION_DAY_DIGIT INTEGER," +
+                        "SPECIAL_DAY INTEGER," +
                         "WEEK_ID INTEGER," +
                         "DAY_OF_WEEK_IN_MONTH INTEGER," +
                         "DIFFERENCE_NUMBER INTEGER," +
                         "MACHINE_NAME TEXT," +
                         "TABLE_NUMBER TEXT," +
+                        "TAIL_NUMBER TEXT," +
                         "START_GAME INTEGER," +
                         "TOTAL_GAME INTEGER," +
                         "SINGLE_BIG INTEGER," +
@@ -41,14 +51,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "GRAPE INTEGER" +
                         ")";
 
-
-        // TODO マスタテーブルを追加する
-
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 }

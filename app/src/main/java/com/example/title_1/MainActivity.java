@@ -3,6 +3,7 @@ package com.example.title_1;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,12 +17,14 @@ public class MainActivity extends AppCompatActivity {
     // 共有データ
     MainApplication mainApplication = null;
 
-    private SQLiteDatabase db;
+    static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main00_main01);
+
+        activity = this;
 
         // 共有データ取り込み
         mainApplication = (MainApplication) this.getApplication();

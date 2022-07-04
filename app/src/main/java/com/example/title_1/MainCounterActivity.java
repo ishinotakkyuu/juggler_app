@@ -87,11 +87,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     String dbOperationMonth;
     String dbOperationDay;
     String dbOperationDayDigit;
+    String dbSpecialDay;
     String dbWeekId;
     String dbDayOfWeek_in_Month;
     Integer dbMedal;
     String dbMachineName = "";
     String dbTableNumber;
+    String dbSingleNumber = "";
+
     int dbStartGames, dbTotalGames, dbSingleBig, dbCherryBig, dbSingleReg, dbCherryReg, dbCherry, dbGrape;
 
     // バイブ機能
@@ -389,15 +392,15 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             String medalStr = eMedal.getText().toString();
             // ここでもう1回findViewすることでクラッシュ回避(ダイアログ出現後にやらないとNULLになるらしい)
             eDate = registerDialog.findViewById(R.id.DateEditText);
-            String checkedDate = eDate.getText().toString();
 
             // 日付入力済なら登録処理
+            String checkedDate = eDate.getText().toString();
             if (StringUtils.isNotEmpty(checkedDate)){
 
+                dbMedal = 0;
                 if (StringUtils.isNotEmpty(medalStr)){
                     dbMedal = Integer.parseInt(medalStr);
                 }
-
                 if(!(dbMedal == null || dbMedal == 0)){
                     CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
                     if(checkBox.isChecked()) {
@@ -418,9 +421,29 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 dbCherry = Integer.parseInt(mainApplication.getCherry());
                 dbGrape = Integer.parseInt(mainApplication.getGrape());
 
-                // 台番号取得
+                // ゾロ目
+                dbSpecialDay = "";
+                if(dbOperationDay.equals("11") || dbOperationDay.equals("22")){
+                    dbSpecialDay = "1";
+                }
+                // 月と日が同じ
+                if(dbOperationMonth.equals(dbOperationDay)){
+                    dbSpecialDay = "2";
+                }
+                // 両方
+                if(dbOperationMonth.equals("11") && dbOperationDay.equals("11")){
+                    dbSpecialDay = "3";
+                }
+
+                // 台番号および台番号末尾取得
                 eTableNumber = registerDialog.findViewById(R.id.MachineNumber);
                 dbTableNumber = eTableNumber.getText().toString();
+                dbSingleNumber = "";
+                if(StringUtils.isNotEmpty(dbTableNumber)){
+                    if(!Integer.valueOf(dbTableNumber).toString().equals("0")){
+                        dbSingleNumber = dbTableNumber.substring(dbTableNumber.length() - 1);
+                    }
+                }
 
                 // 現在日時を取得
                 Date now = new Date();
@@ -443,11 +466,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "OPERATION_MONTH," +
                                     "OPERATION_DAY," +
                                     "OPERATION_DAY_DIGIT," +
+                                    "SPECIAL_DAY," +
                                     "WEEK_ID," +
                                     "DAY_OF_WEEK_IN_MONTH," +
                                     "DIFFERENCE_NUMBER," +
                                     "MACHINE_NAME," +
                                     "TABLE_NUMBER," +
+                                    "TAIL_NUMBER," +
                                     "START_GAME," +
                                     "TOTAL_GAME," +
                                     "SINGLE_BIG," +
@@ -466,11 +491,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                     "'" + dbOperationMonth + "'," +
                                     "'" + dbOperationDay + "'," +
                                     "'" + dbOperationDayDigit + "'," +
+                                    "'" + dbSpecialDay + "'," +
                                     "'" + dbWeekId + "'," +
                                     "'" + dbDayOfWeek_in_Month + "'," +
                                     "'" + dbMedal + "'," +
                                     "'" + dbMachineName + "'," +
                                     "'" + dbTableNumber + "'," +
+                                    "'" + dbSingleNumber + "'," +
                                     "'" + dbStartGames + "'," +
                                     "'" + dbTotalGames + "'," +
                                     "'" + dbSingleBig + "'," +

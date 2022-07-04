@@ -126,7 +126,6 @@
     </string-array>
 
     <string-array name="SET_DIGIT">
-        <item>@string/not_selection</item>
         <item>0の付く日</item>
         <item>1の付く日</item>
         <item>2の付く日</item>
@@ -140,13 +139,11 @@
     </string-array>
 
     <string-array name="SET_SPECIAL_DAY">
-        <item>@string/not_selection</item>
         <item>ゾロ目</item>
         <item>月と日が同じ</item>
     </string-array>
 
     <string-array name="SET_MONTH">
-        <item>@string/not_selection</item>
         <item>1月</item>
         <item>2月</item>
         <item>3月</item>
@@ -162,7 +159,6 @@
     </string-array>
 
     <string-array name="SET_DAY">
-        <item>@string/not_selection</item>
         <item>1日</item>
         <item>2日</item>
         <item>3日</item>
@@ -197,7 +193,6 @@
     </string-array>
 
     <string-array name="SET_WEEK_IN_MONTH">
-        <item>@string/not_selection</item>
         <item>第1</item>
         <item>第2</item>
         <item>第3</item>
@@ -206,7 +201,6 @@
     </string-array>
 
     <string-array name="SET_WEEK_ID">
-        <item>@string/not_selection</item>
         <item>日曜日</item>
         <item>月曜日</item>
         <item>火曜日</item>
@@ -216,8 +210,7 @@
         <item>土曜日</item>
     </string-array>
 
-    <string-array name="SET_ATTACH_DAY">
-        <item>@string/not_selection</item>
+    <string-array name="SET_TAIL_NUMBER">
         <item>末尾0</item>
         <item>末尾1</item>
         <item>末尾2</item>
