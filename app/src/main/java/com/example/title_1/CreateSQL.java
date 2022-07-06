@@ -65,10 +65,10 @@ public class CreateSQL {
             sql = addAnd(sql);
             switch(spinner02Item){
                 case "ゾロ目":
-                    sql = sql + "SPECIAL_DAY = '1' OR SPECIAL_DAY = '3'";
+                    sql = sql + "(SPECIAL_DAY = '1' OR SPECIAL_DAY = '3')";
                     break;
                 case "月と日が同じ":
-                    sql = sql + "SPECIAL_DAY = '2' OR SPECIAL_DAY = '3'";
+                    sql = sql + "(SPECIAL_DAY = '2' OR SPECIAL_DAY = '3')";
                     break;
             }
         }
@@ -144,7 +144,7 @@ public class CreateSQL {
             eDateEnd = "9999 / 12 / 31";
         }
         sql = addAnd(sql);
-        sql = sql + "OPERATION_DATE BETWEEN" + "'" + eDateStart + "'" + "AND" + "'" + eDateEnd + "'";
+        sql = sql + "OPERATION_DATE BETWEEN " + "'" + eDateStart + "'" + and + "'" + eDateEnd + "'";
 
         if (sql.isEmpty()) {
             sql = initSql + end;
@@ -211,10 +211,10 @@ public class CreateSQL {
                 sql = addAnd(sql);
                 switch(spinner02Item){
                     case "ゾロ目":
-                        sql = sql + "SPECIAL_DAY = '1' OR SPECIAL_DAY = '3'";
+                        sql = sql + "(SPECIAL_DAY = '1' OR SPECIAL_DAY = '3')";
                         break;
                     case "月と日が同じ":
-                        sql = sql + "SPECIAL_DAY = '2' OR SPECIAL_DAY = '3'";
+                        sql = sql + "(SPECIAL_DAY = '2' OR SPECIAL_DAY = '3')";
                         break;
                 }
 
@@ -296,17 +296,20 @@ public class CreateSQL {
             }
         }
 
-//        // 日付
-//        String eDateStart = FlagStatistics.eDateStart.getText().toString();
-//        if (eDateStart.isEmpty()) {
-//            eDateStart = "1 / 1 / 1";
-//        }
-//        String eDateEnd = FlagStatistics.eDateEnd.getText().toString();
-//        if (eDateEnd.isEmpty()) {
-//            eDateEnd = "9999 / 12 / 31";
-//        }
-//        sql = addAnd(sql);
-//        sql = sql + "OPERATION_DATE BETWEEN" + "'" + eDateStart + "'" + "AND" + "'" + eDateEnd + "'";
+        // 日付
+        String eDateStart = FlagStatistics.eDateStart.getText().toString();
+        String eDateEnd = FlagStatistics.eDateEnd.getText().toString();
+        if(StringUtils.isNotEmpty(eDateStart) || StringUtils.isNotEmpty(eDateEnd)){
+            if (eDateStart.isEmpty()) {
+                eDateStart = "1 / 1 / 1";
+            }
+            if (eDateEnd.isEmpty()) {
+                eDateEnd = "9999 / 12 / 31";
+            }
+            sql = addAnd(sql);
+            sql = sql + "OPERATION_DATE BETWEEN " + "'" + eDateStart + "'" + and + "'" + eDateEnd + "'";
+        }
+
 
 
         if (sql.isEmpty()) {

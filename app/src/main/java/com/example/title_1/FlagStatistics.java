@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,6 +30,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class FlagStatistics extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public final class FlagStatistics extends Fragment implements TextWatcher,View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     Context context;
     View view;
@@ -85,11 +88,8 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             calTotalSingleRegProbabilityValue, calTotalCherryRegProbabilityValue, calTotalRegProbabilityValue,
             calTotalBonusProbabilityValue, calTotalCherryProbabilityValue, calTotalGrapeProbabilityValue;
 
-    // 各種スピナーにセットする配列
+    // 各種スピナーにセットする配列(画面起動時の初期項目を格納した配列)
     List<String> Store_Names, Machine_Names, Table_Number, DAY_DIGIT, SPECIAL_DAY, MONTH, DAY, DayOfWeek_In_Month, WEEK_ID, TailNumber;
-    // 配列初期値格納用
-    List<String> init_Store_Names, init_Machine_Names, init_Table_Number, init_DAY_DIGIT, init_SPECIAL_DAY,
-            init_MONTH, init_DAY, init_DayOfWeek_In_Month, init_WEEK_ID, init_TailNumber;
 
     // スピナーに設定するリスナー
     AdapterView.OnItemSelectedListener listener = this;
@@ -118,7 +118,7 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         setSpinnerData();
         // 初回起動時の「未選択」処理回避のためFocusableをfalseにしておく
         setFocusable();
-        // クリックリスナーの登録
+        // 日付用EditTextにクリックリスナーの登録
         setClickListener();
         // スピナーにリスナー登録
         setItemSelectedListener();
@@ -232,19 +232,40 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             case R.id.DateClear:
 
                 new AlertDialog.Builder(getContext())
-
-                        // TODO スピナー項目変更対応が必要
-
                         .setTitle(getString(R.string.reset_dialog_tittle))
                         .setMessage(getString(R.string.reset_dialog_message))
                         .setPositiveButton(getString(R.string.reset_dialog_all), (dialog, which) -> {
 
+                            // TODO 結果表示も暗転させてスクロールも固定する
+
+                            // スピナーからリスナーを一旦解除
+                            notItemSelectedListener();
+
+                            // EditText消去
                             eDateStart.getEditableText().clear();
                             eDateEnd.getEditableText().clear();
-                            Spinner[] spinner = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
-                            for (Spinner s : spinner) {
-                                s.setSelection(0);
+
+                            // スピナーの項目を初期値に戻して「未選択」を選択
+                            Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
+                            List<List<String>> initItemLists = new ArrayList<>();
+                            initItemLists.add((ArrayList) Store_Names);
+                            initItemLists.add((ArrayList) Machine_Names);
+                            initItemLists.add((ArrayList) Table_Number);
+                            initItemLists.add((ArrayList) DAY_DIGIT);
+                            initItemLists.add((ArrayList) SPECIAL_DAY);
+                            initItemLists.add((ArrayList) MONTH);
+                            initItemLists.add((ArrayList) DAY);
+                            initItemLists.add((ArrayList) DayOfWeek_In_Month);
+                            initItemLists.add((ArrayList) WEEK_ID);
+                            initItemLists.add((ArrayList) TailNumber);
+                            for(int i = 0,len = spinners.length; i < len; i++){
+                                setItems(initItemLists.get(i), spinners[i]);
+                                spinners[i].setSelection(0,false);
                             }
+
+                            // スピナーにリスナーを再セット
+                            setItemSelectedListener();
+
                         })
                         .setNegativeButton(getString(R.string.reset_dialog_date), (dialog, which) -> {
 
@@ -408,18 +429,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
             }
         }
 
-        // 初期値をセット
-        init_Store_Names = new ArrayList<>(Store_Names);
-        init_Machine_Names = new ArrayList<>(Machine_Names);
-        init_Table_Number = new ArrayList<>(Table_Number);
-        init_DAY_DIGIT = new ArrayList<>(DAY_DIGIT);
-        init_SPECIAL_DAY = new ArrayList<>(SPECIAL_DAY);
-        init_MONTH = new ArrayList<>(MONTH);
-        init_DAY = new ArrayList<>(DAY);
-        init_DayOfWeek_In_Month = new ArrayList<>(DayOfWeek_In_Month);
-        init_WEEK_ID = new ArrayList<>(WEEK_ID);
-        init_TailNumber = new ArrayList<>(TailNumber);
-
         // 店舗一覧をセット
         setItems(Store_Names, sStore);
 
@@ -487,24 +496,24 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         // 以降は画面起動後にスピナーで項目を選択した場合に発生する処理
 
+        // 全てのリスナーを一旦解除
+        notItemSelectedListener();
+
         // スピナー配列作成
-        // TODO ここに追加
         Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
         int size = spinners.length;
 
-        // 全てスピナーの選択値を取得した配列作成
+        // 全スピナーの選択値を取得した配列作成
         String[] initStrings = new String[size];
         for (int i = 0; i < size; i++) {
             initStrings[i] = spinners[i].getSelectedItem().toString();
         }
 
         // DBカラム配列
-        // TODO ここに追加
         String[] columnName = {"STORE_NAME", "MACHINE_NAME", "TABLE_NUMBER", "OPERATION_DAY_DIGIT", "SPECIAL_DAY",
                 "OPERATION_MONTH", "OPERATION_DAY", "DAY_OF_WEEK_IN_MONTH", "WEEK_ID", "TAIL_NUMBER"};
 
         // 更新項目を格納するリスト作成
-        // TODO ここに追加
         List<String> new_Store_Names = new ArrayList<>();
         List<String> new_Machine_Names = new ArrayList<>();
         List<String> new_Table_Number = new ArrayList<>();
@@ -517,7 +526,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         List<String> new_TailNumber = new ArrayList<>();
 
         // 更新項目を格納するリストの二次元配列生成
-        // TODO ここに追加
         List<List<String>> newItemLists = new ArrayList<>();
         newItemLists.add(new_Store_Names);
         newItemLists.add(new_Machine_Names);
@@ -531,18 +539,17 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         newItemLists.add(new_TailNumber);
 
         // 初期値項目リストの二次元配列生成
-        // TODO ここに追加
         List<List<String>> initItemLists = new ArrayList<>();
-        initItemLists.add((ArrayList) init_Store_Names);
-        initItemLists.add((ArrayList) init_Machine_Names);
-        initItemLists.add((ArrayList) init_Table_Number);
-        initItemLists.add((ArrayList) init_DAY_DIGIT);
-        initItemLists.add((ArrayList) init_SPECIAL_DAY);
-        initItemLists.add((ArrayList) init_MONTH);
-        initItemLists.add((ArrayList) init_DAY);
-        initItemLists.add((ArrayList) init_DayOfWeek_In_Month);
-        initItemLists.add((ArrayList) init_WEEK_ID);
-        initItemLists.add((ArrayList) init_TailNumber);
+        initItemLists.add((ArrayList) Store_Names);
+        initItemLists.add((ArrayList) Machine_Names);
+        initItemLists.add((ArrayList) Table_Number);
+        initItemLists.add((ArrayList) DAY_DIGIT);
+        initItemLists.add((ArrayList) SPECIAL_DAY);
+        initItemLists.add((ArrayList) MONTH);
+        initItemLists.add((ArrayList) DAY);
+        initItemLists.add((ArrayList) DayOfWeek_In_Month);
+        initItemLists.add((ArrayList) WEEK_ID);
+        initItemLists.add((ArrayList) TailNumber);
 
         // 更新項目を格納するリストに初期値「未選択」をセット
         for (int i = 0; i < size; i++) {
@@ -551,9 +558,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-
-        // 全てのリスナーを一旦解除
-        notItemSelectedListener();
 
         // SQLの格納
         String[] SQL = new String[size];
@@ -604,20 +608,34 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
                         case 4:
                             cursor = db.rawQuery(SQL[i], null);
                             while (cursor.moveToNext()) {
-                                String table = cursor.getString(index);
-                                if (StringUtils.isNotEmpty(table)) {
-                                    switch (table) {
+                                String item = cursor.getString(index);
+                                if (StringUtils.isNotEmpty(item)) {
+                                    switch (item) {
                                         case "1":
-                                            SPECIAL_DAY.add("ゾロ目");
+                                            newItemLists.get(i).add("ゾロ目");
                                             break;
                                         case "2":
-                                            SPECIAL_DAY.add("月と日が同じ");
+                                            newItemLists.get(i).add("月と日が同じ");
                                             break;
                                         case "3":
-                                            SPECIAL_DAY = new ArrayList<>();
-                                            SPECIAL_DAY.add(getString(R.string.not_selection));
-                                            SPECIAL_DAY.add("ゾロ目");
-                                            SPECIAL_DAY.add("月と日が同じ");
+
+                                            // 配列のインデックスを調整するため、まずはダミーのリストを作成して配列の最後尾に追加
+//                                            List<String> dummyArray = new ArrayList<>();
+//                                            newItemLists.add(dummyArray);
+
+                                            // 既存のSPECIAL_DAYリストを削除
+                                            newItemLists.remove(i);
+
+                                            // 次に新規のSPECIAL_DAYを作成・追加
+                                            List<String> renew_SPECIAL_DAY = new ArrayList<>();
+                                            newItemLists.add(i,renew_SPECIAL_DAY);
+
+                                            // ダミーリストを削除(配列インデックス調整完了)
+//                                            newItemLists.remove(dummyArray);
+
+                                            newItemLists.get(i).add(getString(R.string.not_selection));
+                                            newItemLists.get(i).add("ゾロ目");
+                                            newItemLists.get(i).add("月と日が同じ");
                                             break;
                                     }
                                 }
@@ -738,7 +756,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         spinner.setAdapter(adapter);
     }
 
-    // TODO ここに追加
     public void setItemSelectedListener() {
         sStore.setOnItemSelectedListener(listener);
         sMachine.setOnItemSelectedListener(listener);
@@ -752,7 +769,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         sTailNumber.setOnItemSelectedListener(listener);
     }
 
-    // TODO ここに追加
     public void notItemSelectedListener() {
         sStore.setOnItemSelectedListener(null);
         sMachine.setOnItemSelectedListener(null);
@@ -766,7 +782,6 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
         sTailNumber.setOnItemSelectedListener(null);
     }
 
-    // TODO ここに追加
     public void setFocusable() {
         Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
         for (Spinner s : spinners) {
@@ -781,7 +796,9 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
 
         // 日付表示用TextView
         eDateStart = mainLayout.findViewById(R.id.Date_01);
+        eDateStart.addTextChangedListener(this);
         eDateEnd = mainLayout.findViewById(R.id.Date_02);
+        eDateEnd.addTextChangedListener(this);
 
         // スピナー関係
         sStore = mainLayout.findViewById(R.id.StoreSelect);
@@ -874,4 +891,19 @@ public final class FlagStatistics extends Fragment implements View.OnClickListen
     }
 
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+    @Override
+    public void afterTextChanged(Editable s) {
+        // 動的スピナー発動前の店舗スピナーのItemPositionを取得
+        int sStorePosition = sStore.getSelectedItemPosition();
+        // 動的スピナー発動トリガー(スピナーに格納している項目を更新するとリスナーが呼び出される仕組みになっているらしい)
+        setItems(Store_Names, sStore);
+        // わざと初期項目に更新した上で、もともと選択されていたItemPositionに選択値を戻す
+        sStore.setSelection(sStorePosition);
+    }
 }
