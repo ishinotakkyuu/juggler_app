@@ -13,8 +13,6 @@ public class DatabaseResultSet {
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        Log.i("SQLITE","sql : " + sql);
-
         try {
 
             Cursor cursor = db.rawQuery(sql,null);
@@ -38,18 +36,8 @@ public class DatabaseResultSet {
                     }
                     break;
 
-                case "DataDetailSelect2":
-                    while(cursor.moveToNext()) {
-                        DataDetailSelect2(cursor);
-                    }
-                    break;
-
-                case "DataDetailDelete":
-                    while(cursor.moveToNext()) {
-                        DataDetailDelete(cursor);
-                    }
-                    break;
             }
+
         }finally{
             if(db != null) {
                 db.close();
@@ -61,8 +49,6 @@ public class DatabaseResultSet {
 
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-
-        Log.i("SQLITE","sql : " + sql);
 
         try {
             // トランザクションの開始
@@ -85,16 +71,7 @@ public class DatabaseResultSet {
 
     protected static void FlagStatisticsSelect(Cursor cursor) {
 
-        int index = cursor.getColumnIndex("ID");
-        String id = String.valueOf(cursor.getLong(index));
-
-        index = cursor.getColumnIndex("OPERATION_DATE");
-        String operationDate = cursor.getString(index);
-
-        index = cursor.getColumnIndex("STORE_NAME");
-        String storeName = cursor.getString(index);
-
-        index = cursor.getColumnIndex("TOTAL_GAME");
+        int index = cursor.getColumnIndex("TOTAL_GAME");
         int index2 = cursor.getColumnIndex("START_GAME");
         FlagStatistics.dbTotalGamesValue = FlagStatistics.dbTotalGamesValue + (cursor.getInt(index) - cursor.getInt(index2));
 
@@ -119,23 +96,15 @@ public class DatabaseResultSet {
         index = cursor.getColumnIndex("GRAPE");
         FlagStatistics.dbTotalGrapeValue = FlagStatistics.dbTotalGrapeValue + cursor.getInt(index);
 
-        // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
-        Log.i("SQLITE", "_id : " + id + " " +
-                "OPERATION_DATE : " + operationDate + " " +
-                "STORE_NAME : " + storeName + " ");
     }
 
     protected static void DataDetailSelect(Cursor cursor) {
-
-        // ID
-        int index = cursor.getColumnIndex("ID");
-        String id = String.valueOf(cursor.getLong(index));
 
         // 稼働日(OPERATION_DATE)は前画面から渡されてきているのでそちらを利用
         // 保存日時(SAVE_DATE)は更新時に取得するので不要
         // 店舗名(STORE_NAME)は前画面から渡されてきているのでそちらを利用
 
-        index = cursor.getColumnIndex("OPERATION_YEAR");
+        int index = cursor.getColumnIndex("OPERATION_YEAR");
         DataDetail.dbOperationYearValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("OPERATION_MONTH");
@@ -185,18 +154,6 @@ public class DatabaseResultSet {
         index = cursor.getColumnIndex("GRAPE");
         DataDetail.dbGrapeValue = cursor.getInt(index);
 
-        // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
-        Log.i("SQLITE", "_id : " + id + " ");
-
-    }
-
-    protected static void DataDetailSelect2(Cursor cursor) {
-
-        int index = cursor.getColumnIndex("STORE_NAME");
-        DataDetail.DB_Store.add(cursor.getString(index));
-
-        // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
-        Log.i("SQLITE", "STORE_NAME : " + index + " ");
     }
 
     protected static void FlagGradesSelect(Cursor cursor) {
@@ -212,6 +169,10 @@ public class DatabaseResultSet {
         index = cursor.getColumnIndex("STORE_NAME");
         String storeName = cursor.getString(index);
 
+        // 台番号
+        index = cursor.getColumnIndex("TABLE_NUMBER");
+        String tableNumber = cursor.getString(index);
+
         // 稼働日
         index = cursor.getColumnIndex("OPERATION_DATE");
         String operationDate = cursor.getString(index);
@@ -220,14 +181,7 @@ public class DatabaseResultSet {
         index = cursor.getColumnIndex("SAVE_DATE");
         String saveDate = cursor.getString(index);
 
-        // ログに出力する(Android Studioの下部にあるログキャットで確認可能)
-        Log.i("SQLITE", "_id : " + id + " ");
-
-        FlagGrades.listItems.add(new FlagGradesListItems(id,machineName,storeName,operationDate,saveDate));
+        FlagGrades.listItems.add(new FlagGradesListItems(id,machineName,storeName,tableNumber,operationDate,saveDate));
     }
 
-    protected static void DataDetailDelete(Cursor cursor) {
-
-
-    }
 }

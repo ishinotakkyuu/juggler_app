@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 public class FlagGradesAdapter extends ArrayAdapter<FlagGradesListItems> {
@@ -40,13 +42,19 @@ public class FlagGradesAdapter extends ArrayAdapter<FlagGradesListItems> {
         TextView textMachineName = view.findViewById(R.id.MachineName);
         textMachineName.setText(items.getMachineName());
 
+        // 日付をセット
+        TextView textDate = view.findViewById(R.id.Date);
+        textDate.setText(items.getDate());
+
         // 店舗名をセット
         TextView textStoreName = view.findViewById(R.id.StoreName);
         textStoreName.setText(items.getStoreName());
 
-        // 日付をセット
-        TextView textDate = view.findViewById(R.id.Date);
-        textDate.setText(items.getDate());
+        // 台番号をセット
+        TextView textTableNumber  = view.findViewById(R.id.TableNumber);
+        if(StringUtils.isNotEmpty(items.getTableNumber())){
+            textTableNumber.setText(items.getTableNumber() + "番台");
+        }
 
         return view;
     }

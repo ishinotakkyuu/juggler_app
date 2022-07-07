@@ -5,15 +5,17 @@ public class FlagGradesListItems {
     private String ID = null;
     private String machineName = null;
     private String storeName = null;
+    private String tableNumber = null;
     private String date = null;
     private String keepTime = null;
 
     public FlagGradesListItems(){}
 
-    public FlagGradesListItems(String ID,String machineName,String storeName,String date,String keepTime){
+    public FlagGradesListItems(String ID,String machineName,String storeName,String tableNumber,String date,String keepTime){
         this.ID = ID;
         this.machineName = machineName;
         this.storeName = storeName;
+        this.tableNumber = tableNumber;
         this.date = date;
         this.keepTime = keepTime;
     }
@@ -28,6 +30,10 @@ public class FlagGradesListItems {
         this.storeName = storeName;
     }
 
+    public void setTableNumber(String tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
     public void setDate(String date){ this.date = date; }
 
     public void setKeepTime(String keepTime){ this.keepTime = keepTime; }
@@ -39,6 +45,10 @@ public class FlagGradesListItems {
     }
 
     public String getStoreName(){ return this.storeName; }
+
+    public String getTableNumber() {
+        return tableNumber;
+    }
 
     public String getDate(){ return this.date; }
 

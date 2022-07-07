@@ -40,10 +40,6 @@ public class FlagGrades extends Fragment {
         // リストビュー取得
         keepDataList = layout.findViewById(R.id.KeepDataList);
 
-
-        // リストビューに表示する要素の設定(仮)　⇒　ここにDBから持ってきたID・機種名・店舗名・登録日時を新しい順にセットしていく
-        // IDは降順にセットすること。
-
         listItems = new ArrayList<>();
 
         Context context = getActivity().getApplicationContext();

@@ -111,7 +111,9 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
             dbOperationDayDigitValue, dbWeekIdValue, dbDayOfWeek_in_MonthValue;
 
     // DBにある全ての店舗を格納するための配列
-    static List<String> DB_Store = new ArrayList<>();
+    // R04.07.08廃止。DB上にある店舗を使えてしまうと店舗登録を20店舗にしている意味がなくなる
+    // 登録店舗名を変更した場合にDB上にある旧店舗名も変える必要があるのか？など他に実装しなければならない等でてくることが予想できるため廃止に至った
+    //static List<String> DB_Store;
 
     static MainApplication mainApplication = null;
     Machines machines;
@@ -158,7 +160,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
         catchKeepTime = intent.getStringExtra("KeepTime");
 
         // 保存日時をTextViewにセット
-        tKeepTime.setText(catchKeepTime);
+        tKeepTime.setText("最終更新：" + catchKeepTime);
 
         // スピナーを隠すダミーのEditTextに渡されてきた機種名をセット
         eDummy.setText(catchMachine);
@@ -169,10 +171,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
         Context context = this;
         String sql = CreateSQL.DataDetailSelectSQL(catchID);
         DatabaseResultSet.execution("DataDetailSelect", context, sql);
-
-        // DBに存在するすべての店舗名を取得しリストに入れる
-        sql = CreateSQL.SelectStoreNameSQL();
-        DatabaseResultSet.execution("DataDetailSelect2", context, sql);
 
         // DB初期値で各種データを初期化
         initValue();
@@ -329,22 +327,15 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
 
         // 店舗表示用のスピナーと店舗名のリストを準備
         Spinner storeSpinner = registerDialog.findViewById(R.id.StoreSpinner);
+        List<String> newStoreItems = new ArrayList<>();
 
-        // 登録店舗を格納するためのList
-        List<String> registerStoreItems = new ArrayList<>();
-        // 20店舗分の登録店舗を(nullじゃなかったら)リストを配列にセット
+        // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
         String[] Register_Store = CommonFeature.getStoreItems(mainApplication);
         for (String Item : Register_Store) {
             if (!Item.equals("null")) {
-                registerStoreItems.add(Item);
+                newStoreItems.add(Item);
             }
         }
-        // 登録店舗+DB内店舗の重複削除前リスト作成
-        List<String> beforeStoreItems = new ArrayList<>(registerStoreItems);
-        beforeStoreItems.addAll(DB_Store);
-
-        // 登録店舗+DB内店舗の重複削除後リスト作成
-        List<String> newStoreItems = new ArrayList<>(new HashSet<>(beforeStoreItems));
 
         // アダプターを介して登録店舗+DB内店舗の重複削除後のリストをセット
         ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner, newStoreItems);

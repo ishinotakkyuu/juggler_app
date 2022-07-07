@@ -65,7 +65,7 @@
 
     <Spinner
         android:id="@+id/StoreSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="48dp"
         android:layout_marginStart="4dp"
         android:gravity="center"
@@ -95,7 +95,7 @@
         android:layout_marginStart="4dp"
         android:gravity="center"
         android:inputType="number"
-        android:maxLength="6"
+        android:maxLength="4"
         android:minHeight="48dp"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"

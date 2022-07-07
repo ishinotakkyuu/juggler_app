@@ -328,7 +328,7 @@ public class CreateSQL {
 
     public static String SelectStoreNameSQL() {
 
-        String sql = "select STORE_NAME from TEST ;";
+        String sql = "select DISTINCT STORE_NAME from TEST ;";
 
         return sql;
     }

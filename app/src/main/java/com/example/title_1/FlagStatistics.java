@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,17 +22,13 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +83,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
             calTotalSingleRegProbabilityValue, calTotalCherryRegProbabilityValue, calTotalRegProbabilityValue,
             calTotalBonusProbabilityValue, calTotalCherryProbabilityValue, calTotalGrapeProbabilityValue;
 
-    // 各種スピナーにセットする配列(画面起動時の初期項目を格納した配列)
+    // スピナーにセットする初期項目を格納した配列
     List<String> Store_Names, Machine_Names, Table_Number, DAY_DIGIT, SPECIAL_DAY, MONTH, DAY, DayOfWeek_In_Month, WEEK_ID, TailNumber;
 
     // スピナーに設定するリスナー
@@ -236,8 +231,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                         .setMessage(getString(R.string.reset_dialog_message))
                         .setPositiveButton(getString(R.string.reset_dialog_all), (dialog, which) -> {
 
-                            // TODO 結果表示も暗転させてスクロールも固定する
-
                             // スピナーからリスナーを一旦解除
                             notItemSelectedListener();
 
@@ -246,7 +239,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                             eDateEnd.getEditableText().clear();
 
                             // スピナーの項目を初期値に戻して「未選択」を選択
-                            Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
                             List<List<String>> initItemLists = new ArrayList<>();
                             initItemLists.add((ArrayList) Store_Names);
                             initItemLists.add((ArrayList) Machine_Names);
@@ -258,6 +250,8 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                             initItemLists.add((ArrayList) DayOfWeek_In_Month);
                             initItemLists.add((ArrayList) WEEK_ID);
                             initItemLists.add((ArrayList) TailNumber);
+
+                            Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
                             for(int i = 0,len = spinners.length; i < len; i++){
                                 setItems(initItemLists.get(i), spinners[i]);
                                 spinners[i].setSelection(0,false);
@@ -279,6 +273,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
     }
 
     public void setSpinnerData() {
+
 
         Store_Names = new ArrayList<>();
         Store_Names.add(getString(R.string.not_selection));
@@ -326,50 +321,40 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
         String tailNumberListSql = "SELECT DISTINCT TAIL_NUMBER FROM TEST ORDER BY TAIL_NUMBER;";
 
 
-        Log.i("SQLITE", "storeListSql : " + storeListSql);
-        Log.i("SQLITE", "machineListSql : " + machineListSql);
-        Log.i("SQLITE", "tableNumberListSql : " + tableNumberListSql);
-        Log.i("SQLITE", "dayDigitSql : " + dayDigitSql);
-        Log.i("SQLITE", "specialDaySql : " + specialDaySql);
-        Log.i("SQLITE", "monthListSql : " + monthListSql);
-        Log.i("SQLITE", "dayListSql : " + dayListSql);
-        Log.i("SQLITE", "dayOfWeekListSql : " + dayOfWeekListSql);
-        Log.i("SQLITE", "weekIDListSql : " + weekIDListSql);
-        Log.i("SQLITE", "tailNumberListSql : " + tailNumberListSql);
-
         try {
+            Cursor cursor;
             int index = 0;
 
-            Cursor storeNameCursor = db.rawQuery(storeListSql, null);
-            while (storeNameCursor.moveToNext()) {
-                String store = storeNameCursor.getString(index);
+            cursor = db.rawQuery(storeListSql, null);
+            while (cursor.moveToNext()) {
+                String store = cursor.getString(index);
                 Store_Names.add(store);
             }
 
-            Cursor machineNameCursor = db.rawQuery(machineListSql, null);
-            while (machineNameCursor.moveToNext()) {
-                String machine = machineNameCursor.getString(index);
+            cursor = db.rawQuery(machineListSql, null);
+            while (cursor.moveToNext()) {
+                String machine = cursor.getString(index);
                 Machine_Names.add(machine);
             }
 
-            Cursor tableNumberCursor = db.rawQuery(tableNumberListSql, null);
-            while (tableNumberCursor.moveToNext()) {
-                String table = tableNumberCursor.getString(index);
+            cursor = db.rawQuery(tableNumberListSql, null);
+            while (cursor.moveToNext()) {
+                String table = cursor.getString(index);
                 // 台番号はnullがあり得るため、nullではなかったら追加
                 if (StringUtils.isNotEmpty(table)) {
                     Table_Number.add(table);
                 }
             }
 
-            Cursor dayDigitCursor = db.rawQuery(dayDigitSql, null);
-            while (dayDigitCursor.moveToNext()) {
-                String table = dayDigitCursor.getString(index) + "の付く日";
+            cursor = db.rawQuery(dayDigitSql, null);
+            while (cursor.moveToNext()) {
+                String table = cursor.getString(index) + "の付く日";
                 DAY_DIGIT.add(table);
             }
 
-            Cursor specialDayCursor = db.rawQuery(specialDaySql, null);
-            while (specialDayCursor.moveToNext()) {
-                String table = specialDayCursor.getString(index);
+            cursor = db.rawQuery(specialDaySql, null);
+            while (cursor.moveToNext()) {
+                String table = cursor.getString(index);
                 if (StringUtils.isNotEmpty(table)) {
                     switch (table) {
                         case "1":
@@ -388,37 +373,37 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                 }
             }
 
-            Cursor monthCursor = db.rawQuery(monthListSql, null);
-            while (monthCursor.moveToNext()) {
-                String table = monthCursor.getString(index) + "月";
+            cursor = db.rawQuery(monthListSql, null);
+            while (cursor.moveToNext()) {
+                String table = cursor.getString(index) + "月";
                 MONTH.add(table);
             }
 
-            Cursor dayCursor = db.rawQuery(dayListSql, null);
-            while (dayCursor.moveToNext()) {
-                String table = dayCursor.getString(index) + "日";
+            cursor = db.rawQuery(dayListSql, null);
+            while (cursor.moveToNext()) {
+                String table = cursor.getString(index) + "日";
                 DAY.add(table);
             }
 
-            Cursor dayOfWeekCursor = db.rawQuery(dayOfWeekListSql, null);
-            while (dayOfWeekCursor.moveToNext()) {
-                String table = "第" + dayOfWeekCursor.getString(index);
+            cursor = db.rawQuery(dayOfWeekListSql, null);
+            while (cursor.moveToNext()) {
+                String table = "第" + cursor.getString(index);
                 DayOfWeek_In_Month.add(table);
             }
 
-            Cursor weekIDCursor = db.rawQuery(weekIDListSql, null);
-            while (weekIDCursor.moveToNext()) {
-                String table = convertWeekID(weekIDCursor.getString(index));
+            cursor = db.rawQuery(weekIDListSql, null);
+            while (cursor.moveToNext()) {
+                String table = convertWeekID(cursor.getString(index));
                 WEEK_ID.add(table);
             }
 
-            Cursor tailNumberCursor = db.rawQuery(tailNumberListSql, null);
-            while (tailNumberCursor.moveToNext()) {
-                String table = tailNumberCursor.getString(index);
+            cursor = db.rawQuery(tailNumberListSql, null);
+            while (cursor.moveToNext()) {
+                String table = cursor.getString(index);
                 // nullがあり得るため、nullではなかったら末尾に加工して追加
                 if (StringUtils.isNotEmpty(table)) {
                     // 末尾切り出し
-                    table = "末尾" + tailNumberCursor.getString(index);
+                    table = "末尾" + cursor.getString(index);
                     TailNumber.add(table);
                 }
             }
@@ -499,7 +484,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
         // 全てのリスナーを一旦解除
         notItemSelectedListener();
 
-        // スピナー配列作成
+        // 後述するループ処理回数を取得
         Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
         int size = spinners.length;
 
@@ -619,10 +604,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                                             break;
                                         case "3":
 
-                                            // 配列のインデックスを調整するため、まずはダミーのリストを作成して配列の最後尾に追加
-//                                            List<String> dummyArray = new ArrayList<>();
-//                                            newItemLists.add(dummyArray);
-
                                             // 既存のSPECIAL_DAYリストを削除
                                             newItemLists.remove(i);
 
@@ -630,9 +611,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                                             List<String> renew_SPECIAL_DAY = new ArrayList<>();
                                             newItemLists.add(i,renew_SPECIAL_DAY);
 
-                                            // ダミーリストを削除(配列インデックス調整完了)
-//                                            newItemLists.remove(dummyArray);
-
+                                            // 新たに項目を追加
                                             newItemLists.get(i).add(getString(R.string.not_selection));
                                             newItemLists.get(i).add("ゾロ目");
                                             newItemLists.get(i).add("月と日が同じ");
@@ -699,6 +678,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
         }
 
         // スピナーの選択値を元の値でセット
+        // 当初選択値がなかった場合は前処理のスピナー項目更新処理による強制「未選択」選択状態が生かされる
         for (int i = 0; i < size; i++) {
 
             // 各スピナーに格納されている要素数を取得
@@ -890,7 +870,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
         }
     }
 
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
@@ -899,11 +878,14 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
     }
     @Override
     public void afterTextChanged(Editable s) {
-        // 動的スピナー発動前の店舗スピナーのItemPositionを取得
-        int sStorePosition = sStore.getSelectedItemPosition();
-        // 動的スピナー発動トリガー(スピナーに格納している項目を更新するとリスナーが呼び出される仕組みになっているらしい)
+        // 動的スピナー発動前の店舗スピナーのItemを取得
+        String selectItem = sStore.getSelectedItem().toString();
+        // わざと初期項目に更新して動的スピナー発動(スピナーに格納している項目を更新するとリスナーが呼び出される仕様)
+        // この時点で項目更新による強制インデックス0選択がされる(つまり「未選択」が強制選択される)
         setItems(Store_Names, sStore);
-        // わざと初期項目に更新した上で、もともと選択されていたItemPositionに選択値を戻す
-        sStore.setSelection(sStorePosition);
+        // 初期項目内から先ほどまで選択していたItemのインデックスを取得
+        int itemIndex = Store_Names.indexOf(selectItem);
+        // 強制的に「未選択」にされてしまった選択値を当初選択されていたItemに戻す
+        sStore.setSelection(itemIndex);
     }
 }

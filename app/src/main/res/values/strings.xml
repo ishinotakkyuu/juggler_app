@@ -291,13 +291,13 @@
     <string name="statistics_store_name">店舗名</string>
     <string name="statistics_machine_name">機種名</string>
     <string name="statistics_table_number">台番号</string>
-    <string name="statistics_special01">特殊１</string>
-    <string name="statistics_special02">特殊２</string>
-    <string name="statistics_special03">特殊３</string>
-    <string name="statistics_special04">特殊４</string>
-    <string name="statistics_special05">特殊５</string>
-    <string name="statistics_special06">特殊６</string>
-    <string name="statistics_special07">特殊７</string>
+    <string name="statistics_special01">付く日</string>
+    <string name="statistics_special02">特別日</string>
+    <string name="statistics_special03">月</string>
+    <string name="statistics_special04">日</string>
+    <string name="statistics_special05">月内週</string>
+    <string name="statistics_special06">曜日</string>
+    <string name="statistics_special07">末尾</string>
     <string name="statistics_show_button">表示</string>
     <string name="statistics_reset_button">クリア</string>
     <!--fragment関係(偉い人が作ったやつだから消したら終わる)-->
