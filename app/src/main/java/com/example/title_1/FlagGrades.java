@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -26,6 +27,9 @@ public class FlagGrades extends Fragment {
     String judgeToast = null;
     static ArrayList<FlagGradesListItems> listItems = new ArrayList<>();
 
+    // 共有データ
+    MainApplication mainApplication = null;
+
     @Nullable
     @Override
     public View onCreateView(
@@ -34,6 +38,8 @@ public class FlagGrades extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.main03_grades01,container,false);
+
+        mainApplication = (MainApplication)this.getActivity().getApplication();
 
         // レイアウト取得
         layout = view.findViewById(R.id.FlagGradesLayout);
@@ -75,26 +81,43 @@ public class FlagGrades extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // クリックされたリストビューを取得
-                ListView listView = (ListView) parent;
+                if(!mainApplication.getStore001().equals("null")){
 
-                // データ詳細画面にデータを引き継ぐ際に使用するIntentを定義
-                Intent intent = new Intent(getActivity().getApplicationContext(),DataDetail.class);
+                    // クリックされたリストビューを取得
+                    ListView listView = (ListView) parent;
 
-                // クリックした位置の各項目(ID・機種名・店舗名・登録日時)を取得
-                FlagGradesListItems items = (FlagGradesListItems)listView.getItemAtPosition(position);
+                    // データ詳細画面にデータを引き継ぐ際に使用するIntentを定義
+                    Intent intent = new Intent(getActivity().getApplicationContext(),DataDetail.class);
 
-                // Intentに引き継ぐIDと機種名をセット
-                intent.putExtra("ID",items.getID());
-                intent.putExtra("Date",items.getDate());
-                intent.putExtra("Store",items.getStoreName());
-                intent.putExtra("Machine",items.getMachineName());
-                intent.putExtra("KeepTime",items.getKeepTime());
+                    // クリックした位置の各項目(ID・機種名・店舗名・登録日時)を取得
+                    FlagGradesListItems items = (FlagGradesListItems)listView.getItemAtPosition(position);
 
-                // DataDetail.xmlに遷移させる
-                startActivity(intent);
+                    // Intentに引き継ぐIDと機種名をセット
+                    intent.putExtra("ID",items.getID());
+                    intent.putExtra("Date",items.getDate());
+                    intent.putExtra("Store",items.getStoreName());
+                    intent.putExtra("Machine",items.getMachineName());
+                    intent.putExtra("KeepTime",items.getKeepTime());
 
+                    // DataDetail.xmlに遷移させる
+                    startActivity(intent);
+
+                } else {
+                    pleaseAddStore();
+                }
             }
         });
     }
+
+    public void pleaseAddStore(){
+        new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.add_store_tittle))
+                .setMessage("登録データを閲覧するためには登録店舗が１件以上必要です。")
+                .setPositiveButton(getString(R.string.go_add_store), (dialog, which) -> {
+                    Intent intent = new Intent(getActivity().getApplication(), MainManagementStore.class);
+                    startActivity(intent);
+                })
+                .show();
+    }
+
 }

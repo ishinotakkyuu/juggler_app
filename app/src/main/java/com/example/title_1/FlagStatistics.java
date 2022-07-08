@@ -166,7 +166,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
 
                 // 統計表示に必要なViewのIDを設定
                 if (tTittleTotalGames == null) {
-                    setFindViewById_02(view);
+                    setFindViewById_02();
                 }
 
                 initValue();
@@ -800,7 +800,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
         scrollView = mainLayout.findViewById(R.id.ScrollView02);
     }
 
-    public void setFindViewById_02(View view) {
+    public void setFindViewById_02() {
 
         // タイトル表示用TextView
         tTittleTotalGames = mainLayout.findViewById(R.id.Tittle_01);
@@ -878,13 +878,17 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
     }
     @Override
     public void afterTextChanged(Editable s) {
+
         // 動的スピナー発動前の店舗スピナーのItemを取得
         String selectItem = sStore.getSelectedItem().toString();
+
         // わざと初期項目に更新して動的スピナー発動(スピナーに格納している項目を更新するとリスナーが呼び出される仕様)
         // この時点で項目更新による強制インデックス0選択がされる(つまり「未選択」が強制選択される)
         setItems(Store_Names, sStore);
+
         // 初期項目内から先ほどまで選択していたItemのインデックスを取得
         int itemIndex = Store_Names.indexOf(selectItem);
+
         // 強制的に「未選択」にされてしまった選択値を当初選択されていたItemに戻す
         sStore.setSelection(itemIndex);
     }

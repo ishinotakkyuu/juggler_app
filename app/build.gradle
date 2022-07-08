@@ -29,6 +29,12 @@ android {
         viewBinding true
     }
     namespace 'com.example.title_1'
+
+    lintOptions {
+        disable 'NonConstantResourceId'
+    }
+
+
 }
 
 dependencies {

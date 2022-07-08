@@ -110,11 +110,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
             dbMedalValue, dbOperationYearValue, dbOperationMonthValue, dbOperationDayValue,
             dbOperationDayDigitValue, dbWeekIdValue, dbDayOfWeek_in_MonthValue;
 
-    // DBにある全ての店舗を格納するための配列
-    // R04.07.08廃止。DB上にある店舗を使えてしまうと店舗登録を20店舗にしている意味がなくなる
-    // 登録店舗名を変更した場合にDB上にある旧店舗名も変える必要があるのか？など他に実装しなければならない等でてくることが予想できるため廃止に至った
-    //static List<String> DB_Store;
-
     static MainApplication mainApplication = null;
     Machines machines;
 

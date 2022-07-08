@@ -538,7 +538,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     Intent intent = new Intent(getApplication(), MainManagementStore.class);
                     startActivity(intent);
                 })
-                .setNegativeButton(getString(R.string.back), null)
                 .show();
     }
 
