@@ -29,20 +29,22 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class FlagStatistics extends Fragment implements TextWatcher,View.OnClickListener, AdapterView.OnItemSelectedListener {
+public final class FlagStatistics extends Fragment implements TextWatcher, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     Context context;
     View view;
 
     // 共有データ
-    static MainApplication mainApplication = null;
+    MainApplication mainApplication = null;
 
     // レイアウト
     ConstraintLayout mainLayout;
@@ -78,12 +80,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
     // DBから値を取得
     static int dbTotalGamesValue, dbTotalMedalValue, dbTotalSingleBigValue, dbTotalCherryBigValue,
             dbTotalSingleRegValue, dbTotalCherryRegValue, dbTotalCherryValue, dbTotalGrapeValue;
-
-    // DB値から算出するもの
-    int calTotalBigValue, calTotalRegValue, calTotalBonusValue;
-    double calDiscountValue, calTotalSingleBigProbabilityValue, calTotalCherryBigProbabilityValue, calTotalBigProbabilityValue,
-            calTotalSingleRegProbabilityValue, calTotalCherryRegProbabilityValue, calTotalRegProbabilityValue,
-            calTotalBonusProbabilityValue, calTotalCherryProbabilityValue, calTotalGrapeProbabilityValue;
 
     // スピナーにセットする初期項目を格納した配列
     List<String> Store_Names, Machine_Names, Table_Number, DAY_DIGIT, SPECIAL_DAY, MONTH, DAY, DayOfWeek_In_Month, WEEK_ID, TailNumber;
@@ -178,22 +174,20 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                 String sql = CreateSQL.FlagStatisticsSQL();
                 DatabaseResultSet.execution("FlagStatistics", context, sql);
 
-                calTotalBigValue = dbTotalSingleBigValue + dbTotalCherryBigValue;
-                calTotalRegValue = dbTotalSingleRegValue + dbTotalCherryRegValue;
-                calTotalBonusValue = calTotalBigValue + calTotalRegValue;
+                int calTotalBigValue = dbTotalSingleBigValue + dbTotalCherryBigValue;
+                int calTotalRegValue = dbTotalSingleRegValue + dbTotalCherryRegValue;
+                int calTotalBonusValue = calTotalBigValue + calTotalRegValue;
 
-                if (dbTotalGamesValue > 0) {
-                    calDiscountValue = (division(dbTotalGamesValue * 3 + dbTotalMedalValue, dbTotalGamesValue * 3)) * 100;
-                    calTotalSingleBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
-                    calTotalCherryBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
-                    calTotalBigProbabilityValue = division(dbTotalGamesValue, calTotalBigValue);
-                    calTotalSingleRegProbabilityValue = division(dbTotalGamesValue, dbTotalSingleRegValue);
-                    calTotalCherryRegProbabilityValue = division(dbTotalGamesValue, dbTotalCherryRegValue);
-                    calTotalRegProbabilityValue = division(dbTotalGamesValue, calTotalRegValue);
-                    calTotalBonusProbabilityValue = division(dbTotalGamesValue, calTotalBonusValue);
-                    calTotalCherryProbabilityValue = division(dbTotalGamesValue, dbTotalCherryValue);
-                    calTotalGrapeProbabilityValue = division(dbTotalGamesValue, dbTotalGrapeValue);
-                }
+                double calDiscountValue = (division(dbTotalGamesValue * 3 + dbTotalMedalValue, dbTotalGamesValue * 3)) * 100;
+                double calTotalSingleBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
+                double calTotalCherryBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
+                double calTotalBigProbabilityValue = division(dbTotalGamesValue, calTotalBigValue);
+                double calTotalSingleRegProbabilityValue = division(dbTotalGamesValue, dbTotalSingleRegValue);
+                double calTotalCherryRegProbabilityValue = division(dbTotalGamesValue, dbTotalCherryRegValue);
+                double calTotalRegProbabilityValue = division(dbTotalGamesValue, calTotalRegValue);
+                double calTotalBonusProbabilityValue = division(dbTotalGamesValue, calTotalBonusValue);
+                double calTotalCherryProbabilityValue = division(dbTotalGamesValue, dbTotalCherryValue);
+                double calTotalGrapeProbabilityValue = division(dbTotalGamesValue, dbTotalGrapeValue);
 
                 NumberFormat nfNum = NumberFormat.getNumberInstance();
                 nfNum.setMaximumFractionDigits(1);
@@ -254,9 +248,9 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                             initItemLists.add((ArrayList) TailNumber);
 
                             Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
-                            for(int i = 0,len = spinners.length; i < len; i++){
+                            for (int i = 0, len = spinners.length; i < len; i++) {
                                 setItems(initItemLists.get(i), spinners[i]);
-                                spinners[i].setSelection(0,false);
+                                spinners[i].setSelection(0, false);
                             }
 
                             // スピナーにリスナーを再セット
@@ -617,7 +611,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
 
                                             // 次に新規のSPECIAL_DAYを作成・追加
                                             List<String> renew_SPECIAL_DAY = new ArrayList<>();
-                                            newItemLists.add(i,renew_SPECIAL_DAY);
+                                            newItemLists.add(i, renew_SPECIAL_DAY);
 
                                             // 新たに項目を追加
                                             newItemLists.get(i).add(getString(R.string.not_selection));
@@ -664,7 +658,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                         case 9:
                             cursor = db.rawQuery(SQL[i], null);
                             while (cursor.moveToNext()) {
-                                String item =cursor.getString(index);
+                                String item = cursor.getString(index);
                                 if (StringUtils.isNotEmpty(item)) {
                                     newItemLists.get(i).add("末尾" + item);
                                 }
@@ -881,9 +875,11 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
+
     @Override
     public void afterTextChanged(Editable s) {
 

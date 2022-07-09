@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--ここをイジると、個別データの詳細画面にも影響-->
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="?attr/spinnerDropDownItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="@drawable/abc_spinner_mtrl_am_alpha"
+    android:backgroundTint="#000000"
+    android:ellipsize="marquee"
+    android:singleLine="true"
+    android:textAlignment="center"
+    android:textColor="@color/black"
+    android:textSize="24sp"
+    android:textStyle="bold" />

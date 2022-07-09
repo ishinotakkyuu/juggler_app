@@ -33,6 +33,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_8_switch.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/b_9_actionbar_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/baseline_schedule_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/d_flaggrades01_datalist.xml" value="0.2495" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/ic_twotone_access_time_24.xml" value="0.26614583333333336" />
@@ -50,6 +51,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw480dp/main02_counter01.xml" value="0.1" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main_counter.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main_grade_inquiry.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main00_main00_splash.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main00_main01.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main01_storemanagement01.xml" value="0.4" />
@@ -67,6 +69,15 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/activity_splash.xml" value="0.1875" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/activity_store_management.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/custom_spinner.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main00_main00_splash.xml" value="0.2" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main00_main01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main01_storemanagement01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main01_storemanagement02_listitem.xml" value="0.35208333333333336" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main01_storemanagement03_memo.xml" value="0.187426786411558" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main02_counter01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main02_counter04_custom_dialog.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main03_grades02_item.xml" value="0.30178571428571427" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/main04_statistics01.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/store_list_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-xxhdpi/activity_main_counter.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/activity_main.xml" value="0.264" />
