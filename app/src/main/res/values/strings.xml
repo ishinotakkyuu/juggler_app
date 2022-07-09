@@ -32,6 +32,7 @@
     <string name="init">初期化</string>
     <string name="finish">完了</string>
     <string name="edit">編集</string>
+    <string name="advance">進む</string>
     <string name="upper_limit_count_toast">カウント回数上限に達しました</string>
     <string name="lower_limit_count_toast">カウント回数下限に達しました</string>
 
@@ -69,7 +70,7 @@
     <!--MainManagementStoreMemo.java 関係-->
     <string name="default_memo">〇店舗の特徴・傾向\n</string>
     <string name="not_register_alert">特殊文字の検出</string>
-    <string name="not_register_alert_message">特殊文字は使用できません\n不正な文字列を削除します</string>
+    <string name="not_register_alert_message">特殊文字は削除されます</string>
     <string name="memo_delete_alert">店舗メモの初期化</string>
     <string name="memo_delete_alert_message">入力されているメモを初期化します\nよろしいですか？</string>
     <string name="memo_delete_toast">メモを初期化しました</string>
@@ -107,6 +108,8 @@
     <string name="reset_dialog_message">クリアする項目を選んでください</string>
     <string name="reset_dialog_date">日付のみ</string>
     <string name="reset_dialog_all">全てクリア</string>
+    <string name="clear_date_toast">日付をクリアしました</string>
+    <string name="clear_all_toast">全てクリアしました</string>
     <!--FlagStatistics.java 以上-->
 
 

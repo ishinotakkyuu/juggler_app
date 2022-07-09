@@ -183,7 +183,10 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
     @Override
     public void afterTextChanged(Editable s) {
 
-        final String[] text = {s.toString()};
+        // TODO 前回サロゲートペアチェックした文字列はチェックしないようにして処理の高速化をはかること
+        // TODO なお、文字列の途中に文字入力されることも想定すること。また１文字消したり追加したりする処理も考慮すること
+
+        final String[] text = {s.toString(),s.toString()};
         if(text[0].isEmpty()) {
             text[0] = "null";
         }
@@ -197,18 +200,15 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                         .setTitle(getString(R.string.not_register_alert))
                         .setMessage(getString(R.string.not_register_alert_message))
                         .setCancelable(false)
-                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
-
-                            // サロゲートペアを検出した場合は、検出文字含めた以降の文字列を全て削除する
-
-                            eMemo.removeTextChangedListener(MainManagementStoreMemo.this);
+                        .setPositiveButton(getString(R.string.advance), (dialog, which) -> {
 
                             text[0] = text[0].substring(0, deleteIndex);
+                            text[1] = text[1].substring(deleteIndex + 2);
+                            text[0] = text[0] + text[1];
+
                             eMemo.setText(text[0]);
                             eMemo.setSelection(text[0].length());
                             CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
-
-                            eMemo.addTextChangedListener(MainManagementStoreMemo.this);
 
                         })
                         .show();

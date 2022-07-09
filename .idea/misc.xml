@@ -50,6 +50,18 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw480dp/main02_counter01.xml" value="0.1" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/activity_main_counter.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main00_main00_splash.xml" value="0.2" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main00_main01.xml" value="0.2" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main01_storemanagement01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main01_storemanagement02_listitem.xml" value="0.4027777777777778" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main01_storemanagement03_memo.xml" value="0.2" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main02_counter01.xml" value="0.34959941733430444" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main02_counter04_custom_dialog.xml" value="0.536" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main03_grades01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main03_grades02_item.xml" value="0.33116883116883117" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main04_statistics01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main05_datadetail01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw600dp/main05_datadetail02_custom_dialog.xml" value="0.536" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/activity_main_counter.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout-sw720dp/activity_splash.xml" value="0.1875" />
@@ -72,12 +84,12 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/flag_statistics.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/fragment_page1.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/list_layout.xml" value="0.4" />
-        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main00_main00_splash.xml" value="0.136" />
-        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main00_main01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main00_main00_splash.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main00_main01.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main01_storemanagement01.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main01_storemanagement02_listitem.xml" value="0.45968489341983315" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main01_storemanagement03_memo.xml" value="0.26375" />
-        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main02_counter01.xml" value="0.24635416666666668" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main02_counter01.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main02_counter04_custom_dialog.xml" value="0.536" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main02_counter05_store_spinner.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/layout/main02_counter06_store_spinner_dropdown.xml" value="0.25" />
@@ -107,7 +119,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.1" />
+        <option name="scale" value="0.2" />
       </ProjectState>
     </option>
   </component>

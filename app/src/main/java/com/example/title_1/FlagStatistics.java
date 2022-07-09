@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -260,11 +262,17 @@ public final class FlagStatistics extends Fragment implements TextWatcher,View.O
                             // スピナーにリスナーを再セット
                             setItemSelectedListener();
 
+                            Toast toast = Toast.makeText(getContext(), getString(R.string.clear_all_toast), Toast.LENGTH_LONG);
+                            toast.show();
+
                         })
                         .setNegativeButton(getString(R.string.reset_dialog_date), (dialog, which) -> {
 
                             eDateStart.getEditableText().clear();
                             eDateEnd.getEditableText().clear();
+
+                            Toast toast = Toast.makeText(getContext(), getString(R.string.clear_date_toast), Toast.LENGTH_LONG);
+                            toast.show();
 
                         })
                         .show();
