@@ -15,7 +15,7 @@
         android:text="@string/update_date"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         android:text="@string/date"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/DummyView03"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
 
     <EditText
         android:id="@+id/DateEditText"
-        android:layout_width="260dp"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:ems="10"
@@ -45,7 +45,7 @@
         android:hint="タップしてカレンダーを表示"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
 
@@ -57,7 +57,7 @@
         android:text="@string/store_name"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/DummyView05"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,8 +65,8 @@
 
     <Spinner
         android:id="@+id/StoreSpinner"
-        android:layout_width="260dp"
-        android:layout_height="56dp"
+        android:layout_width="360dp"
+        android:layout_height="64dp"
         android:layout_marginStart="4dp"
         android:gravity="center"
         android:spinnerMode="dropdown"
@@ -82,7 +82,7 @@
         android:text="@string/table_number"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/DummyView08"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,14 +90,14 @@
 
     <EditText
         android:id="@+id/MachineNumber"
-        android:layout_width="260dp"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:gravity="center"
         android:inputType="number"
         android:maxLength="4"
         android:minHeight="48dp"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MachineNumberTittle" />
 
@@ -109,7 +109,7 @@
         android:text="@string/medal"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/DummyView07"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,21 +117,21 @@
 
     <EditText
         android:id="@+id/DifferenceNumber"
-        android:layout_width="260dp"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:gravity="center"
         android:inputType="number"
         android:maxLength="6"
         android:minHeight="48dp"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DifferenceNumberTittle" />
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="51dp"
+        android:layout_height="53dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
         app:layout_constraintStart_toEndOf="@+id/DifferenceNumber"
@@ -143,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/update_button"
-        android:textSize="18sp"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DifferenceNumber" />

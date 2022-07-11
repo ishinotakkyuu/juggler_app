@@ -236,16 +236,16 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
                             // スピナーの項目を初期値に戻して「未選択」を選択
                             List<List<String>> initItemLists = new ArrayList<>();
-                            initItemLists.add((ArrayList) Store_Names);
-                            initItemLists.add((ArrayList) Machine_Names);
-                            initItemLists.add((ArrayList) Table_Number);
-                            initItemLists.add((ArrayList) DAY_DIGIT);
-                            initItemLists.add((ArrayList) SPECIAL_DAY);
-                            initItemLists.add((ArrayList) MONTH);
-                            initItemLists.add((ArrayList) DAY);
-                            initItemLists.add((ArrayList) DayOfWeek_In_Month);
-                            initItemLists.add((ArrayList) WEEK_ID);
-                            initItemLists.add((ArrayList) TailNumber);
+                            initItemLists.add(Store_Names);
+                            initItemLists.add(Machine_Names);
+                            initItemLists.add(Table_Number);
+                            initItemLists.add(DAY_DIGIT);
+                            initItemLists.add(SPECIAL_DAY);
+                            initItemLists.add(MONTH);
+                            initItemLists.add(DAY);
+                            initItemLists.add(DayOfWeek_In_Month);
+                            initItemLists.add(WEEK_ID);
+                            initItemLists.add(TailNumber);
 
                             Spinner[] spinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
                             for (int i = 0, len = spinners.length; i < len; i++) {
@@ -307,7 +307,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         TailNumber = new ArrayList<>();
         TailNumber.add(getString(R.string.not_selection));
 
-
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -321,7 +320,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         String dayOfWeekListSql = "SELECT DISTINCT DAY_OF_WEEK_IN_MONTH FROM TEST ORDER BY DAY_OF_WEEK_IN_MONTH;";
         String weekIDListSql = "SELECT DISTINCT WEEK_ID FROM TEST ORDER BY WEEK_ID;";
         String tailNumberListSql = "SELECT DISTINCT TAIL_NUMBER FROM TEST ORDER BY TAIL_NUMBER;";
-
 
         try {
             Cursor cursor;
@@ -527,16 +525,16 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
         // 初期値項目リストの二次元配列生成
         List<List<String>> initItemLists = new ArrayList<>();
-        initItemLists.add((ArrayList) Store_Names);
-        initItemLists.add((ArrayList) Machine_Names);
-        initItemLists.add((ArrayList) Table_Number);
-        initItemLists.add((ArrayList) DAY_DIGIT);
-        initItemLists.add((ArrayList) SPECIAL_DAY);
-        initItemLists.add((ArrayList) MONTH);
-        initItemLists.add((ArrayList) DAY);
-        initItemLists.add((ArrayList) DayOfWeek_In_Month);
-        initItemLists.add((ArrayList) WEEK_ID);
-        initItemLists.add((ArrayList) TailNumber);
+        initItemLists.add(Store_Names);
+        initItemLists.add(Machine_Names);
+        initItemLists.add(Table_Number);
+        initItemLists.add(DAY_DIGIT);
+        initItemLists.add(SPECIAL_DAY);
+        initItemLists.add(MONTH);
+        initItemLists.add(DAY);
+        initItemLists.add(DayOfWeek_In_Month);
+        initItemLists.add(WEEK_ID);
+        initItemLists.add(TailNumber);
 
         // 更新項目を格納するリストに初期値「未選択」をセット
         for (int i = 0; i < size; i++) {

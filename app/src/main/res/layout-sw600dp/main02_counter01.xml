@@ -506,7 +506,7 @@
                 android:background="@drawable/c_maincounteractivity07_cherrybottun"
                 android:onClick="mCherryButton"
                 android:text="@string/cherry"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 app:layout_constraintBottom_toTopOf="@+id/tCherryProbability"
                 app:layout_constraintEnd_toStartOf="@+id/bGrape"
                 app:layout_constraintHorizontal_bias="0.5"
