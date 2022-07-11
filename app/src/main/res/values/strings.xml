@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">J-管理</string>
+    <string name="app_name">J管理</string>
 
     <!--Javaソースコード-->
 
@@ -111,8 +111,6 @@
     <string name="clear_date_toast">日付をクリアしました</string>
     <string name="clear_all_toast">全てクリアしました</string>
     <!--FlagStatistics.java 以上-->
-
-
 
     <!--配列関係-->
     <string-array name="SET_TITTLES">
