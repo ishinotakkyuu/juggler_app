@@ -13,10 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Title_and_animation">
         <activity
+            android:name=".MainManual"
+            android:exported="false"
+             />
+        <activity
             android:name=".MainManagementStoreMemo"
+            android:exported="false"
             android:label="@string/store_memo"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DataDetail"
             android:exported="false"
