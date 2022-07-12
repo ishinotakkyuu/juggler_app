@@ -14,8 +14,7 @@
         android:theme="@style/Theme.Title_and_animation">
         <activity
             android:name=".MainManual"
-            android:exported="false"
-             />
+            android:exported="false" />
         <activity
             android:name=".MainManagementStoreMemo"
             android:exported="false"
