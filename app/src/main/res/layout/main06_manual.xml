@@ -18,7 +18,7 @@
         android:scrollbars="vertical"
         android:text="@string/manual_string"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

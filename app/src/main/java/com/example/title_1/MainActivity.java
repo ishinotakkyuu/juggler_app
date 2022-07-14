@@ -2,14 +2,11 @@ package com.example.title_1;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-
 import org.w3c.dom.Document;
 
 public class MainActivity extends AppCompatActivity {

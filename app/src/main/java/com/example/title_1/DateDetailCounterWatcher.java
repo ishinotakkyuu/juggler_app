@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import org.apache.commons.lang3.StringUtils;
 
 public class DateDetailCounterWatcher implements TextWatcher {

@@ -1,14 +1,9 @@
 package com.example.title_1;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "jugglerApp.db"; //TODO j_management_appに変更する

@@ -2,9 +2,7 @@ package com.example.title_1;
 
 import android.app.Application;
 import android.content.Context;
-
 import org.w3c.dom.Document;
-
 import java.util.Random;
 
 public class MainApplication extends Application {

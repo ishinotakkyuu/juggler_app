@@ -2,7 +2,6 @@ package com.example.title_1;
 
 import android.text.InputFilter;
 import android.widget.EditText;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

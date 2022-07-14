@@ -23,16 +23,13 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -180,7 +177,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
                 double calDiscountValue = (division(dbTotalGamesValue * 3 + dbTotalMedalValue, dbTotalGamesValue * 3)) * 100;
                 double calTotalSingleBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
-                double calTotalCherryBigProbabilityValue = division(dbTotalGamesValue, dbTotalSingleBigValue);
+                double calTotalCherryBigProbabilityValue = division(dbTotalGamesValue, dbTotalCherryBigValue);
                 double calTotalBigProbabilityValue = division(dbTotalGamesValue, calTotalBigValue);
                 double calTotalSingleRegProbabilityValue = division(dbTotalGamesValue, dbTotalSingleRegValue);
                 double calTotalCherryRegProbabilityValue = division(dbTotalGamesValue, dbTotalCherryRegValue);
