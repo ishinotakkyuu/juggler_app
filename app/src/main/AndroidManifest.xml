@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Title_and_animation">
+        android:theme="@style/Theme.j_management_app">
         <activity
             android:name=".MainManual"
             android:exported="false" />
@@ -30,7 +30,7 @@
             android:exported="false"
             android:label="@string/title_activity_main_grade_inquiry"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Title_and_animation.NoActionBar" />
+            android:theme="@style/Theme.j_management_app.NoActionBar" />
         <activity
             android:name=".MainCounterActivity"
             android:exported="false"
