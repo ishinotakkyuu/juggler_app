@@ -100,8 +100,11 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     Vibrator vibrator;
     VibrationEffect vibrationEffect; // API26以上のOSで有効
 
+    // フラッシュ機能
+    static boolean flashJudge = true;
+
     // 共有データ
-    static MainApplication mainApplication = null;
+    MainApplication mainApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,8 +127,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         setTextWatcher();
         // 画面起動時には各EditTextを操作できないようにする
         setEditTextFocusFalse();
-        // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になるメソッド
-        actionListenerFocusOut();
+        // キーボード出現状態で機種を選択した場合はキーボードを閉じてフォーカスを外す
+        itemSelectFocusOut();
         // 内部ストレージ関係
         setValue();
         // タッチイベント設定
@@ -206,7 +209,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                 .setTitle(getString(R.string.plus_minus_release_tittle))
                                 .setMessage(getString(R.string.plus_minus_release_message))
                                 .setPositiveButton(getString(R.string.release), (dialogInterface, i) -> {
-                                    int skeleton = getResources().getColor(R.color.skeleton);
+                                    int skeleton = getResources().getColor(R.color.skeleton,getTheme());
                                     ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
                                     ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
                                     judgeSkeleton = true;
@@ -217,7 +220,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                 .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> judgeSkeleton = false)
                                 .show();
                     } else {
-                        int skeleton = getResources().getColor(R.color.skeleton);
+                        int skeleton = getResources().getColor(R.color.skeleton,getTheme());
                         ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
                         ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
                         judgeSkeleton = true;
@@ -238,7 +241,19 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 }
                 break;
 
-            case R.id.item5: // カウンター初期化
+            case R.id.item5: // フラッシュON/Off
+                if(flashJudge){
+                    flashJudge = false;
+                    Toast toast = Toast.makeText(this, getString(R.string.flash_off), Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    flashJudge = true;
+                    Toast toast = Toast.makeText(this, getString(R.string.flash_on), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                break;
+
+            case R.id.item6: // カウンター初期化
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.counter_init_tittle))
                         .setMessage(getString(R.string.counter_init_message))
@@ -271,7 +286,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 focusOut();
                 return true;
 
-            case R.id.item6: // データ保存
+            case R.id.item7: // データ保存
                 // 個人ゲーム数が0ゲームの状態で登録ボタンを押した際の処理
                 int checkedIndividualGames = Integer.parseInt(eIndividualGames.getText().toString());
                 if (checkedIndividualGames != 0){
@@ -651,15 +666,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // フォーカス関係の処理
     //***************************************************************************************************************************
 
-    public void actionListenerFocusOut(){
-        // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になる
-        EditText[] eSet_Counter = {eStartGames,eTotalGames,eSingleBig,eCherryBig,eSingleReg,eCherryReg,eCherry,eGrape};
-        for(EditText e:eSet_Counter){
-            e.setOnEditorActionListener((textView, i, keyEvent) -> {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    focusOut();}
-                return false;});
-        }
+    public void itemSelectFocusOut(){
         sJuggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
             @Override

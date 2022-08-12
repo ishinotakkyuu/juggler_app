@@ -60,7 +60,8 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
             tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry;
 
     // データ表示に使用するTextView
-    TextView tTotalGames, tTotalMedal, tDiscount,
+    TextView tDataCount,
+            tTotalGames, tTotalMedal, tDiscount,
             tTotalSingleBig, tTotalSingleBigProbability,
             tTotalCherryBig, tTotalCherryBigProbability,
             tTotalBig, tTotalBigProbability,
@@ -71,12 +72,14 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
             tTotalGrape, tTotalGrapeProbability,
             tTotalCherry, tTotalCherryProbability;
 
-    // 画面下部のスクロール固定処理用(ダークモード対応)
+    // 画面下部のスクロール
     ScrollView scrollView;
+    boolean alpha = true;
 
     // DBから値を取得
     static int dbTotalGamesValue, dbTotalMedalValue, dbTotalSingleBigValue, dbTotalCherryBigValue,
             dbTotalSingleRegValue, dbTotalCherryRegValue, dbTotalCherryValue, dbTotalGrapeValue;
+    static int dataCount;
 
     // スピナーにセットする初期項目を格納した配列
     List<String> Store_Names, Machine_Names, Table_Number, DAY_DIGIT, SPECIAL_DAY, MONTH, DAY, DayOfWeek_In_Month, WEEK_ID, TailNumber;
@@ -168,6 +171,10 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                 setTittle();
                 setScrollEnable(true);
 
+                // 各種データを表示するTextViewの透過度を判定するフラグをtrueにして透過を無くす
+                alpha = true;
+                setTextAlpha();
+
                 String sql = CreateSQL.FlagStatisticsSQL();
                 DatabaseResultSet.execution("FlagStatistics", context, sql);
 
@@ -190,6 +197,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                 nfNum.setMaximumFractionDigits(1);
 
                 // 値を各Viewにセット
+                tDataCount.setText(getString(R.string.tittle_data_count,dataCount));
                 tTotalGames.setText(Math.round(dbTotalGamesValue) + "回転");
                 tTotalMedal.setText(Math.round(dbTotalMedalValue) + "枚");
                 if (calDiscountValue > 0) {
@@ -256,6 +264,9 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                             Toast toast = Toast.makeText(getContext(), getString(R.string.clear_all_toast), Toast.LENGTH_LONG);
                             toast.show();
 
+                            // テキストを非表示にしてからScrollをトップに戻して固定
+                            resetScroll();
+
                         })
                         .setNegativeButton(getString(R.string.reset_dialog_date), (dialog, which) -> {
 
@@ -265,6 +276,8 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                             Toast toast = Toast.makeText(getContext(), getString(R.string.clear_date_toast), Toast.LENGTH_LONG);
                             toast.show();
 
+                            // テキストを非表示にしてからScrollをトップに戻して固定
+                            resetScroll();
                         })
                         .show();
                 break;
@@ -272,7 +285,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
     }
 
     public void setSpinnerData() {
-
 
         Store_Names = new ArrayList<>();
         Store_Names.add(getString(R.string.not_selection));
@@ -452,6 +464,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         dbTotalCherryRegValue = 0;
         dbTotalCherryValue = 0;
         dbTotalGrapeValue = 0;
+        dataCount = 0;
     }
 
     // ダブル型で割り算するメソッド
@@ -799,6 +812,9 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
     public void setFindViewById_02() {
 
+        // 対象データ件数表示用TextView
+        tDataCount = mainLayout.findViewById(R.id.Tittle_DataCount);
+
         // タイトル表示用TextView
         tTittleTotalGames = mainLayout.findViewById(R.id.Tittle_01);
         tTittleMedal = mainLayout.findViewById(R.id.Tittle_02);
@@ -864,6 +880,33 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                     return true;
                 }
             });
+        }
+    }
+
+    public void resetScroll(){
+        // テキストを非表示にしてからScrollをトップに戻して固定
+        alpha = false;
+        setTextAlpha();
+        scrollView.fullScroll(View.FOCUS_UP);
+        setScrollEnable(false);
+    }
+
+    public void setTextAlpha(){
+        TextView[] textViews = {tDataCount,tTittleTotalGames,tTittleMedal,tTittleDiscount,tTittleSingleBig,tTittleCherryBig,
+                tTittleTotalBig,tTittleSingleReg,tTittleCherryReg,tTittleTotalReg,tTittleTotalBonus,tTittleGrape,tTittleCherry,
+                tTotalGames,tTotalMedal,tDiscount,tTotalSingleBig,tTotalSingleBigProbability,tTotalCherryBig,tTotalCherryBigProbability,
+                tTotalBig,tTotalBigProbability,tTotalSingleReg,tTotalSingleRegProbability,tTotalCherryReg,tTotalCherryRegProbability,
+                tTotalReg,tTotalRegProbability,tTotalBonus,tTotalBonusProbability,tTotalGrape,tTotalGrapeProbability,
+                tTotalCherry,tTotalCherryProbability};
+
+        if(alpha){
+            for (TextView textView : textViews) {
+                textView.setAlpha(1);
+            }
+        } else {
+            for (TextView textView : textViews) {
+                textView.setAlpha(0);
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -23,8 +24,9 @@ public class FlagGrades extends Fragment {
     ListView keepDataList;
     String judgeToast = null;
     static ArrayList<FlagGradesListItems> listItems = new ArrayList<>();
+    TextView saveDateCount;
 
-    // 共有データ
+    // 共有データ(登録データは存在するが登録店舗が０件だった場合の対応に使用)
     MainApplication mainApplication = null;
 
     @Nullable
@@ -52,6 +54,10 @@ public class FlagGrades extends Fragment {
         // 配列の要素をアダプターを使ってリストビューにセット
         FlagGradesAdapter adapter = new FlagGradesAdapter(view.getContext(),R.layout.main03_grades02_item,listItems);
         keepDataList.setAdapter(adapter);
+
+        // 登録データ件数セット
+        saveDateCount = view.findViewById(R.id.DataCount);
+        saveDateCount.setText(getString(R.string.save_data_count,adapter.getCount()));
 
         // リストビューにリスナー登録
         setItemClick();

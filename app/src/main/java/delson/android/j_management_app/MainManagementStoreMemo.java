@@ -22,6 +22,12 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
     // メモ入力用
     EditText eMemo;
 
+    // サロゲートチェックを開始する文字位置
+    int startPosition = 0;
+
+    // 編集完了後に再度編集を開始した時のカーソル位置(前回編集を終えた場所にカーソルを戻す)
+    int cursorPosition;
+
     // 前画面から受け取った配列インデックス
     int catchTappedPosition;
 
@@ -63,21 +69,32 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
         eMemo = findViewById(R.id.StoreMemo);
         eMemo.setFocusable(false);
         eMemo.setFocusableInTouchMode(false);
-        eMemo.addTextChangedListener(this);
 
         // 受け取ったインデックスを使用して該当のXMLよりメモを取得、EditTextにセット
         Intent intent = getIntent();
         catchTappedPosition = Integer.parseInt(intent.getStringExtra("tappedPosition"));
         setValue(catchTappedPosition);
+
+        // TextWatcherを設定
+        eMemo.addTextChangedListener(this);
+
+        // 文字数を取得
+        cursorPosition = eMemo.getText().length();
     }
 
     // 戻るボタン等でキーボードを非表示にされた時のフォーカス対応
     @Override
     public void onVisibilityChanged(boolean visible) {
         if(!visible){
+
             //キーボードが非表示になったことを検知した時
             menuFlag = true;
             invalidateOptionsMenu();
+
+            // カーソルの位置を保持
+            cursorPosition = eMemo.getSelectionEnd();
+
+            // 編集不可にしてフォーカスを外し、キーボードを閉じる
             eMemo.setFocusable(false);
             eMemo.setFocusableInTouchMode(false);
             memoLayout.requestFocus();
@@ -120,9 +137,8 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                 // 編集可能にしてフォーカスを文字列の末尾にセットし、キーボードを表示
                 eMemo.setFocusable(true);
                 eMemo.setFocusableInTouchMode(true);
-                String selectionText = eMemo.getText().toString();
                 eMemo.requestFocus();
-                eMemo.setSelection(selectionText.length());
+                eMemo.setSelection(cursorPosition);
                 inputMethodManager.showSoftInput(eMemo,0);
                 break;
 
@@ -134,8 +150,16 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                         .setCancelable(false)
                         .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
 
+                            // 初期化時はサロゲートチェック不要なのでTextWatcherを一旦解除
+                            eMemo.removeTextChangedListener(this);
+
                             eMemo.setText(getString(R.string.default_memo));
+                            cursorPosition = eMemo.getText().length();
+                            eMemo.setSelection(cursorPosition);
                             memoLayout.requestFocus();
+
+                            // TextWatcher再セット
+                            eMemo.addTextChangedListener(this);
 
                             Toast toast = Toast.makeText(MainManagementStoreMemo.this, getString(R.string.memo_delete_toast), Toast.LENGTH_LONG);
                             toast.show();
@@ -150,6 +174,9 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                 // フラグを変更、メニュー表示の更新
                 menuFlag = true;
                 invalidateOptionsMenu();
+
+                // カーソルの位置を保持
+                cursorPosition = eMemo.getSelectionEnd();
 
                 // 編集不可にしてフォーカスを外し、キーボードを閉じる
                 eMemo.setFocusable(false);
@@ -180,16 +207,25 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
     @Override
     public void afterTextChanged(Editable s) {
 
-        // TODO 前回サロゲートペアチェックした文字列はチェックしないようにして処理の高速化をはかること
-        // TODO なお、文字列の途中に文字入力されることも想定すること。また１文字消したり追加したりする処理も考慮すること
-
         final String[] text = {s.toString(),s.toString()};
+
+        // カーソル位置を取得
+        cursorPosition = eMemo.getSelectionEnd();
+
+        // メモが空白になった際の対応
         if(text[0].isEmpty()) {
             text[0] = "null";
+            CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
+            return;
+        }
+
+        // 文字列末尾に入力後に入力済み文字列を編集した場合の対応
+        if(startPosition > cursorPosition){
+            startPosition = 0;
         }
 
         // サロゲートペア対応
-        for (int i = 0, len = text[0].length(); i < len; i++) {
+        for (int i = startPosition,len = s.length(); i < len; i++) {
             char c = text[0].charAt(i);
             int deleteIndex = i;
             if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
@@ -204,7 +240,8 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                             text[0] = text[0] + text[1];
 
                             eMemo.setText(text[0]);
-                            eMemo.setSelection(text[0].length());
+                            eMemo.setSelection(deleteIndex);
+                            cursorPosition = deleteIndex;
                             CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
 
                         })
@@ -212,7 +249,32 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                 return;
             }
         }
+
+        // 特殊文字がなければそのまま保存
         CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
+
+        // 括弧が入力されたらカーソルを括弧内に移動
+        if(cursorPosition >= 2){
+            int bracketsPosition = innerBrackets(text[0].substring(cursorPosition - 2,cursorPosition));
+            if(bracketsPosition > 0){
+                eMemo.setSelection(bracketsPosition);
+            }
+        }
+
+        // 処理後のカーソル位置を保持(次回サロゲートチェック処理の開始位置になる)
+        startPosition = eMemo.getSelectionEnd();
+    }
+
+    public int innerBrackets(String str){
+        if(str.equals("()") || str.equals("（）") || str.equals("【】") || str.equals("『』") ||
+                str.equals("「」") || str.equals("[]") || str.equals("<>") || str.equals("＜＞") ||
+                str.equals("《》") || str.equals("≪≫") || str.equals("{}") || str.equals("｛｝") ||
+                str.equals("〔〕") || str.equals("｟｠") || str.equals("〖〗") || str.equals("〈〉") ||
+                str.equals("［］") || str.equals("〚〛") || str.equals("〘〙") || str.equals("«»") ||
+                str.equals("‹›") || str.equals("\"\"") || str.equals("””")){
+            return cursorPosition - 1;
+        }
+        return 0;
     }
 
 }

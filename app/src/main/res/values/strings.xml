@@ -88,6 +88,9 @@
     <!--バイブ機能-->
     <string name="vib_off">バイブ機能をOFFにしました</string>
     <string name="vib_on">バイブ機能をONにしました</string>
+    <!--バイブ機能-->
+    <string name="flash_off">フラッシュをOFFにしました</string>
+    <string name="flash_on">フラッシュをONにしました</string>
     <!--カウンター初期化-->
     <string name="counter_init_tittle">カウンター初期化</string>
     <string name="counter_init_message">カウンターを全てリセットしますか？</string>
@@ -102,6 +105,10 @@
     <string name="register_toast">データを登録しました</string>
     <!--MainCounterActivity.java 以上-->
 
+    <!--FlagGrades.java 関係-->
+    <string name="save_data_count">登録件数：%1$d件</string>
+    <!--FlagGrades.java 以上-->
+
     <!--FlagStatistics.java 関係-->
     <string name="not_selection">未選択</string>
     <string name="reset_dialog_tittle">条件クリア</string>
@@ -110,9 +117,16 @@
     <string name="reset_dialog_all">全てクリア</string>
     <string name="clear_date_toast">日付をクリアしました</string>
     <string name="clear_all_toast">全てクリアしました</string>
+    <string name="tittle_data_count">対象データ数：%1$d件</string>
     <!--FlagStatistics.java 以上-->
 
-    <!--manual.java 関係-->
+    <!--各種ツール 関係-->
+    <!--AllEventSurvey 関係-->
+    <string name="all_total_games">総ゲーム数\n%1$d回転</string>
+    <string name="all_total_bb">BIG\n%1$d回\n%2$s</string>
+    <string name="all_total_rb">REG\n%1$d回\n%2$s</string>
+    <string name="all_total_bonus">合算\n%1$d回\n%2$s</string>
+
     <string name="manual_string">
         \n
         ★J管理について★
@@ -363,7 +377,7 @@
     <string name="store_management">店 舗 管 理</string>
     <string name="grade_Inquiry">成 績 照 会</string>
     <string name="counter">小 役 カ ウ ン ター</string>
-    <string name="manual">使 い 方</string>
+    <string name="tool">各 種 ツ ー ル</string>
     <!--店舗管理画面-->
     <string name="store_edit_hint">店舗名(最大20文字)を入力</string>
     <string name="add_button">追加</string>
@@ -372,25 +386,26 @@
     <string name="menu_item02">加減算モード</string>
     <string name="menu_item03">ステルス機能</string>
     <string name="menu_item04">バイブON/OFF</string>
-    <string name="menu_item05">カウンター初期化</string>
-    <string name="menu_item06">データ保存</string>
+    <string name="menu_item05">フラッシュON/OFF</string>
+    <string name="menu_item06">カウンター初期化</string>
+    <string name="menu_item07">データ保存</string>
     <!--カウンター画面(２画面分)-->
     <string name="start_game">開始ゲーム数</string>
     <string name="total_game">総ゲーム数</string>
     <string name="ind_game">個人ゲーム数</string>
     <string name="init_game">0</string>
     <!--カウンターのボタン関係(２画面分)-->
-    <string name="single_big">単独BIG</string>
-    <string name="cherry_big">ﾁｪﾘｰBIG</string>
+    <string name="single_big">単独\nBIG</string>
+    <string name="cherry_big">ﾁｪﾘｰ\nBIG</string>
     <string name="total_big">BIG</string>
-    <string name="single_reg">単独REG</string>
-    <string name="cherry_reg">ﾁｪﾘｰREG</string>
+    <string name="single_reg">単独\nREG</string>
+    <string name="cherry_reg">ﾁｪﾘｰ\nREG</string>
     <string name="total_reg">REG</string>
-    <string name="cherry">非重複ﾁｪﾘｰ</string>
+    <string name="cherry">非重複\nﾁｪﾘｰ</string>
     <string name="grape">ぶどう</string>
     <string name="total_bonus">合算</string>
     <!--カスタムダイアログ関係(２画面分)-->
-    <string name="add_date">@string/menu_item06</string>
+    <string name="add_date">@string/menu_item07</string>
     <string name="update_date">データ更新</string>
     <string name="date"> 日付</string>
     <string name="store_name"> 店舗名</string>

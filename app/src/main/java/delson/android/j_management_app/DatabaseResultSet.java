@@ -21,6 +21,8 @@ public class DatabaseResultSet {
                     while(cursor.moveToNext()) {
                         FlagStatisticsSelect(cursor);
                     }
+                    // 対象データ数の取得
+                    FlagStatistics.dataCount = cursor.getCount();
                     break;
 
                 case "FlagGrades":

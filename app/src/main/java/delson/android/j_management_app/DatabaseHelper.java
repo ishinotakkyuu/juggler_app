@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "jugglerApp.db"; //TODO j_management_appに変更する
+    private static final String DATABASE_NAME = "jugglerApp.db";
     private static final int DATABASE_VERSION = 1;
     Activity activity;
 

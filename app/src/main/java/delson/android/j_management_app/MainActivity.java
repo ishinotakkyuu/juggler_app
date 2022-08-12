@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void manual(View view){
-        Intent intent = new Intent(getApplication(), MainManual.class);
+        Intent intent = new Intent(getApplication(), ToolList.class);
         startActivity(intent);
     }
 

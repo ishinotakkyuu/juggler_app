@@ -39,7 +39,11 @@ public class ColorButton {
                 break;
             default:
         }
-        flashAnimation(v,colorFrom,colorTo);
+
+        // フラッシュ機能がONだったら点滅させる
+        if(MainCounterActivity.flashJudge){
+            flashAnimation(v,colorFrom,colorTo);
+        }
     }
 
     public void flashAnimation(View v, int colorFrom, int colorTo){

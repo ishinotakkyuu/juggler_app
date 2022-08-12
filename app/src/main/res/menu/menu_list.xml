@@ -39,4 +39,10 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/item7"
+        android:title="@string/menu_item07"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
 </menu>

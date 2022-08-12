@@ -9,7 +9,7 @@
     <ScrollView
         android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="250dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/DisplayButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -437,6 +437,21 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/Tittle_DataCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/Tittle_01"
                 android:layout_width="110dp"
                 android:layout_height="40dp"
@@ -450,7 +465,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/TotalGame"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/Tittle_DataCount" />
 
             <TextView
                 android:id="@+id/TotalGame"
@@ -465,7 +480,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Tittle_01"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/Tittle_DataCount" />
 
             <TextView
                 android:id="@+id/Tittle_02"

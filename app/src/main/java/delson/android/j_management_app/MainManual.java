@@ -11,7 +11,7 @@ public class MainManual extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main06_manual);
+        setContentView(R.layout.tool99_manual);
 
         //アクションバーの非表示
         ActionBar actionBar = getSupportActionBar();
