@@ -8,15 +8,6 @@ import android.widget.TextView;
 
 public class ViewItems {
 
-    //ゲーム数関係
-    public static EditText[] getGameTextItems() {
-        return new EditText[]{
-                MainCounterActivity.eTotalGames,
-                MainCounterActivity.eStartGames,
-                MainCounterActivity.eIndividualGames
-        };
-    }
-
     //詳細画面のゲーム数関係
     public static EditText[] getDetailGameTextItems() {
         return new EditText[]{
@@ -29,15 +20,15 @@ public class ViewItems {
     //カウンター関係
     public static EditText[] getCounterTextItems() {
         return new EditText[]{
-                MainCounterActivity.eSingleBig,
-                MainCounterActivity.eCherryBig,
-                MainCounterActivity.eTotalBig,
-                MainCounterActivity.eSingleReg,
-                MainCounterActivity.eCherryReg,
-                MainCounterActivity.eTotalReg,
-                MainCounterActivity.eCherry,
-                MainCounterActivity.eGrape,
-                MainCounterActivity.eTotalBonus
+                MainCounterActivity.eCounterEditRolls.get(0),
+                MainCounterActivity.eCounterEditRolls.get(1),
+                MainCounterActivity.eCounterEditRolls.get(2),
+                MainCounterActivity.eCounterEditRolls.get(3),
+                MainCounterActivity.eCounterEditRolls.get(4),
+                MainCounterActivity.eCounterEditRolls.get(5),
+                MainCounterActivity.eCounterEditRolls.get(6),
+                MainCounterActivity.eCounterEditRolls.get(7),
+                MainCounterActivity.eCounterEditRolls.get(8)
         };
     }
 
@@ -59,12 +50,12 @@ public class ViewItems {
     //カウンター関係(編集可能なもの)
     public static EditText[] getCounterEditTextItems() {
         return new EditText[]{
-                MainCounterActivity.eSingleBig,
-                MainCounterActivity.eCherryBig,
-                MainCounterActivity.eSingleReg,
-                MainCounterActivity.eCherryReg,
-                MainCounterActivity.eCherry,
-                MainCounterActivity.eGrape
+                MainCounterActivity.eCounterEditRolls.get(0),
+                MainCounterActivity.eCounterEditRolls.get(1),
+                MainCounterActivity.eCounterEditRolls.get(3),
+                MainCounterActivity.eCounterEditRolls.get(4),
+                MainCounterActivity.eCounterEditRolls.get(6),
+                MainCounterActivity.eCounterEditRolls.get(7),
         };
     }
 
@@ -83,15 +74,15 @@ public class ViewItems {
     //確率関係
     public static TextView[] getProbabilityTextItems() {
         return new TextView[]{
-                MainCounterActivity.tSingleBigProbability,
-                MainCounterActivity.tCherryBigProbability,
-                MainCounterActivity.tTotalBigProbability,
-                MainCounterActivity.tSingleRegProbability,
-                MainCounterActivity.tCherryRegProbability,
-                MainCounterActivity.tTotalRegProbability,
-                MainCounterActivity.tCherryProbability,
-                MainCounterActivity.tGrapeProbability,
-                MainCounterActivity.tTotalBonusProbability
+                MainCounterActivity.eCounterTextProbability.get(0),
+                MainCounterActivity.eCounterTextProbability.get(1),
+                MainCounterActivity.eCounterTextProbability.get(2),
+                MainCounterActivity.eCounterTextProbability.get(3),
+                MainCounterActivity.eCounterTextProbability.get(4),
+                MainCounterActivity.eCounterTextProbability.get(5),
+                MainCounterActivity.eCounterTextProbability.get(6),
+                MainCounterActivity.eCounterTextProbability.get(7),
+                MainCounterActivity.eCounterTextProbability.get(8)
         };
     }
 
@@ -126,7 +117,7 @@ public class ViewItems {
 
 
     //配列結合
-    public static EditText[] joinEditTexts(EditText[] items01,EditText[] items02) {
+    public static EditText[] joinEditTexts(EditText[] items01, EditText[] items02) {
         EditText[] newItems = new EditText[items01.length + items02.length];
         System.arraycopy(items01, 0, newItems, 0, items01.length);
         System.arraycopy(items02, 0, newItems, items01.length, items02.length);
@@ -135,7 +126,7 @@ public class ViewItems {
 
     //カラー設定(EditText型)
     public static void setEditTextColor(EditText[] items, int textColor, Typeface typeface) {
-        for (EditText item: items){
+        for (EditText item : items) {
             item.setTextColor(textColor);
             item.setTypeface(typeface);
         }
@@ -143,7 +134,7 @@ public class ViewItems {
 
     //カラー設定(TextView型)
     public static void setTextViewColor(TextView[] items, int textColor, Typeface typeface) {
-        for (TextView item: items){
+        for (TextView item : items) {
             item.setTextColor(textColor);
             item.setTypeface(typeface);
         }
@@ -151,7 +142,7 @@ public class ViewItems {
 
     //フォーカス設定(EditText型)
     public static void setEditTextFocus(EditText[] items, boolean focusable, boolean focusableInTouchMode, Drawable background) {
-        for (EditText item: items){
+        for (EditText item : items) {
             item.setFocusable(focusable);
             item.setFocusableInTouchMode(focusableInTouchMode);
             item.setBackground(background);
@@ -160,7 +151,7 @@ public class ViewItems {
 
     //詳細画面のフォーカス設定(EditText型)
     public static void setDetailEditTextFocus(EditText[] items, boolean focusable, boolean focusableInTouchMode, Drawable background) {
-        for (EditText item: items){
+        for (EditText item : items) {
             item.setFocusable(focusable);
             item.setFocusableInTouchMode(focusableInTouchMode);
             item.setBackground(background);
@@ -169,11 +160,10 @@ public class ViewItems {
 
     //詳細画面のボタン操作設定(Button型)
     public static void setDetailButtonEnabledTrue(Button[] items, boolean enabled) {
-        for (Button item: items){
+        for (Button item : items) {
             item.setEnabled(enabled);
         }
     }
-
 
 
 }

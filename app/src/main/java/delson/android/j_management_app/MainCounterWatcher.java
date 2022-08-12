@@ -15,31 +15,31 @@ public class MainCounterWatcher implements TextWatcher {
     final String INIT_VALUE = "1/0.00";
 
     //ゲーム数関係
-    EditText eTotalGames = MainCounterActivity.eTotalGames;
-    EditText eStartGames = MainCounterActivity.eStartGames;
-    EditText eIndividualGames = MainCounterActivity.eIndividualGames;
+    EditText eStartGames = MainCounterActivity.eCounterEditGames.get(0);
+    EditText eTotalGames = MainCounterActivity.eCounterEditGames.get(1);
+    EditText eIndividualGames = MainCounterActivity.eCounterEditGames.get(2);
 
     //カウンター関係
-    EditText eSingleBig = MainCounterActivity.eSingleBig;
-    EditText eCherryBig = MainCounterActivity.eCherryBig;
-    EditText eTotalBig = MainCounterActivity.eTotalBig;
-    EditText eSingleReg = MainCounterActivity.eSingleReg;
-    EditText eCherryReg = MainCounterActivity.eCherryReg;
-    EditText eTotalReg = MainCounterActivity.eTotalReg;
-    EditText eCherry = MainCounterActivity.eCherry;
-    EditText eGrape = MainCounterActivity.eGrape;
-    EditText eTotalBonus = MainCounterActivity.eTotalBonus;
+    EditText eSingleBig = MainCounterActivity.eCounterEditRolls.get(0);
+    EditText eCherryBig = MainCounterActivity.eCounterEditRolls.get(1);
+    EditText eTotalBig = MainCounterActivity.eCounterEditRolls.get(2);
+    EditText eSingleReg = MainCounterActivity.eCounterEditRolls.get(3);
+    EditText eCherryReg = MainCounterActivity.eCounterEditRolls.get(4);
+    EditText eTotalReg = MainCounterActivity.eCounterEditRolls.get(5);
+    EditText eCherry = MainCounterActivity.eCounterEditRolls.get(6);
+    EditText eGrape = MainCounterActivity.eCounterEditRolls.get(7);
+    EditText eTotalBonus = MainCounterActivity.eCounterEditRolls.get(8);
 
     //確率関係
-    TextView tSingleBigProbability = MainCounterActivity.tSingleBigProbability;
-    TextView tCherryBigProbability = MainCounterActivity.tCherryBigProbability;
-    TextView tTotalBigProbability = MainCounterActivity.tTotalBigProbability;
-    TextView tSingleRegProbability = MainCounterActivity.tSingleRegProbability;
-    TextView tCherryRegProbability = MainCounterActivity.tCherryRegProbability;
-    TextView tTotalRegProbability = MainCounterActivity.tTotalRegProbability;
-    TextView tCherryProbability = MainCounterActivity.tCherryProbability;
-    TextView tGrapeProbability = MainCounterActivity.tGrapeProbability;
-    TextView tTotalBonusProbability = MainCounterActivity.tTotalBonusProbability;
+    TextView tSingleBigProbability = MainCounterActivity.eCounterTextProbability.get(0);
+    TextView tCherryBigProbability = MainCounterActivity.eCounterTextProbability.get(1);
+    TextView tTotalBigProbability = MainCounterActivity.eCounterTextProbability.get(2);
+    TextView tSingleRegProbability = MainCounterActivity.eCounterTextProbability.get(3);
+    TextView tCherryRegProbability = MainCounterActivity.eCounterTextProbability.get(4);
+    TextView tTotalRegProbability = MainCounterActivity.eCounterTextProbability.get(5);
+    TextView tCherryProbability = MainCounterActivity.eCounterTextProbability.get(6);
+    TextView tGrapeProbability = MainCounterActivity.eCounterTextProbability.get(7);
+    TextView tTotalBonusProbability = MainCounterActivity.eCounterTextProbability.get(8);
 
     // 共有データ
     MainApplication mainApplication;

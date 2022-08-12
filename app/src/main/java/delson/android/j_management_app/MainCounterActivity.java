@@ -1,6 +1,5 @@
 package delson.android.j_management_app;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,7 +27,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -43,6 +41,7 @@ import android.widget.Toast;
 import org.apache.commons.lang3.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -59,22 +58,25 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     Spinner sJuggler;
 
     //ゲーム数関係
-    static EditText eStartGames, eTotalGames, eIndividualGames;
+    EditText eStartGames, eTotalGames, eIndividualGames;
+    static List<EditText> eCounterEditGames;
 
     //カウンター関係
-    static EditText eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus;
+    EditText eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus;
+    static List<EditText> eCounterEditRolls;
 
     //確率関係
-    static TextView tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
+    TextView tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
                     tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
                     tCherryProbability, tGrapeProbability, tTotalBonusProbability;
+    static List<TextView> eCounterTextProbability;
 
     //各種判定用
     boolean judgePlusMinus = false, judgeSkeleton = false, judgeEditorMode = false, judgeVibrator = true;
 
     // カスタムダイアログ関係
     ConstraintLayout dialogLayout;
-    static EditText eTableNumber, eMedal;
+    EditText eTableNumber, eMedal;
     EditText eDate;
 
     //DB関係
@@ -121,6 +123,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
         // 各viewをfindViewByIdで紐づける
         setFindViewByID();
+        // static対応(メモリリーク回避のためVer2.0.0から実装)
+        setViewsArrayList();
         // 機種名選択のスピナー登録
         setJuggler();
         // ゲーム数・カウント回数を表示するEditTextにテキストウォッチャーを設定するメソッド
@@ -133,6 +137,27 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         setValue();
         // タッチイベント設定
         setTouchEvent();
+    }
+
+    public void setViewsArrayList(){
+
+        // ゲーム数関係
+        EditText[] eGames = {eStartGames, eTotalGames, eIndividualGames};
+        eCounterEditGames = new ArrayList<>();
+        eCounterEditGames.addAll(Arrays.asList(eGames));
+
+        // 小役関係
+        EditText[] eRolls = {eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus};
+        eCounterEditRolls = new ArrayList<>();
+        eCounterEditRolls.addAll(Arrays.asList(eRolls));
+
+        // 確率関係
+        TextView[] tProbability = {tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
+                tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
+                tCherryProbability, tGrapeProbability, tTotalBonusProbability};
+        eCounterTextProbability = new ArrayList<>();
+        eCounterTextProbability.addAll(Arrays.asList(tProbability));
+
     }
 
     @Override
@@ -314,59 +339,52 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         registerDialog.setContentView(R.layout.main02_counter04_custom_dialog);
         // ダイアログのレイアウトをタッチするとフォーカスが外れる
         dialogLayout = registerDialog.findViewById(R.id.RegisterLayout);
-        dialogLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
-                dialogLayout.requestFocus();
-                return false;
-            }
+        dialogLayout.setOnTouchListener((v, event) -> {
+            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+            dialogLayout.requestFocus();
+            return false;
         });
 
         // 日付表示用のEditTextにリスナーを登録
-        registerDialog.findViewById(R.id.DateEditText).setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View view) {
-                // Calendarインスタンスを取得
-                final Calendar date = Calendar.getInstance();
+        registerDialog.findViewById(R.id.DateEditText).setOnClickListener(view -> {
+            // Calendarインスタンスを取得
+            final Calendar date = Calendar.getInstance();
 
-                // DatePickerDialogインスタンスを取得
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        MainCounterActivity.this,
-                        (view1, year, month, dayOfMonth) -> {
-                            // 選択した日付を取得して日付表示用のEditTextにセット
-                            eDate = registerDialog.findViewById(R.id.DateEditText);
-                            eDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
-                            eDate.setGravity(Gravity.CENTER);
+            // DatePickerDialogインスタンスを取得
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    MainCounterActivity.this,
+                    (view1, year, month, dayOfMonth) -> {
+                        // 選択した日付を取得して日付表示用のEditTextにセット
+                        eDate = registerDialog.findViewById(R.id.DateEditText);
+                        eDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                        eDate.setGravity(Gravity.CENTER);
 
-                            //DB登録用
-                            dbOperationDate = String.format("%d / %02d / %02d", year, month+1, dayOfMonth);
-                            dbOperationYear = Integer.toString(year);
-                            dbOperationMonth = Integer.toString(month+1);
-                            dbOperationDay = Integer.toString(dayOfMonth);
-                            if(dayOfMonth > 9) {
-                                dbOperationDayDigit = dbOperationDay.substring(1);
-                            } else {
-                                dbOperationDayDigit = dbOperationDay;
-                            }
-                            date.set(year, month, dayOfMonth);
-                            dbWeekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
-                            dbDayOfWeek_in_Month = Integer.toString(date.get(Calendar.DAY_OF_WEEK_IN_MONTH));
+                        //DB登録用
+                        dbOperationDate = String.format("%d / %02d / %02d", year, month+1, dayOfMonth);
+                        dbOperationYear = Integer.toString(year);
+                        dbOperationMonth = Integer.toString(month+1);
+                        dbOperationDay = Integer.toString(dayOfMonth);
+                        if(dayOfMonth > 9) {
+                            dbOperationDayDigit = dbOperationDay.substring(1);
+                        } else {
+                            dbOperationDayDigit = dbOperationDay;
+                        }
+                        date.set(year, month, dayOfMonth);
+                        dbWeekId = Integer.toString(date.get(Calendar.DAY_OF_WEEK));
+                        dbDayOfWeek_in_Month = Integer.toString(date.get(Calendar.DAY_OF_WEEK_IN_MONTH));
 
-                        },
-                        date.get(Calendar.YEAR),
-                        date.get(Calendar.MONTH),
-                        date.get(Calendar.DATE)
-                );
-                //dialogを表示
-                datePickerDialog.show();
-                // キーボードが出ている(例えば差枚数をクリックしてキーボードを出しっぱなし)状態で日付選択をタッチした場合はキーボードを閉じる
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
-                dialogLayout.requestFocus();
-            }
+                    },
+                    date.get(Calendar.YEAR),
+                    date.get(Calendar.MONTH),
+                    date.get(Calendar.DATE)
+            );
+            //dialogを表示
+            datePickerDialog.show();
+            // キーボードが出ている(例えば差枚数をクリックしてキーボードを出しっぱなし)状態で日付選択をタッチした場合はキーボードを閉じる
+            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+            dialogLayout.requestFocus();
         });
 
         // 店舗表示用のスピナーと店舗名のリストを準備
@@ -618,9 +636,16 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     //ゲーム数関係とカウンター関係へCounterWatcherを設定
     public void setTextWatcher(){
-        EditText[] items = ViewItems.joinEditTexts(ViewItems.getGameTextItems(),ViewItems.getCounterTextItems());
-        for (EditText item: items){
-            item.addTextChangedListener(new MainCounterWatcher(item,mainApplication));
+
+        // ゲーム数関係
+        EditText[] eGames = {eStartGames, eTotalGames, eIndividualGames};
+        for (EditText e: eGames){
+            e.addTextChangedListener(new MainCounterWatcher(e,mainApplication));
+        }
+        // 役物関係
+        EditText[] eRolls = {eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus};
+        for (EditText e: eRolls){
+            e.addTextChangedListener(new MainCounterWatcher(e,mainApplication));
         }
     }
 
