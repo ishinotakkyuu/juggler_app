@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -32,9 +33,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.apache.commons.lang3.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -51,20 +55,26 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
     InputMethodManager inputMethodManager;
 
     //ゲーム数関係
-    static EditText eStartGames, eTotalGames, eIndividualGames;
+    EditText eStartGames, eTotalGames, eIndividualGames;
+    static List<EditText> eDetailEditGames;
 
     //カウンター関係
-    static EditText eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus;
+    EditText eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus;
+    static List<EditText> eDetailEditRolls;
 
     //確率関係
-    static TextView tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
+    TextView tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
             tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
             tCherryProbability, tGrapeProbability, tTotalBonusProbability;
+    static List<TextView> eDetailTextProbability;
 
-    // カウンター用のボタン(操作可能状態に切り替えるためのもの)
-    static Button bSingleBig, bCherryBig, bTotalBig, bSingleReg, bCherryReg, bTotalReg, bCherry, bGrape, bTotalBonus;
+
     // 機能ボタン
     Button bEditAndBack, bDeleteAndUpdate;
+    // カウンター用のボタン(操作可能状態に切り替えるためのもの)
+    Button bSingleBig, bCherryBig, bTotalBig, bSingleReg, bCherryReg, bTotalReg, bCherry, bGrape, bTotalBonus;
+    static List<Button> bDetailButton;
+
 
     // 判定用
     boolean judge = true, judgePlusMinus = true;
@@ -77,7 +87,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
     // カスタムダイアログ関係
     ConstraintLayout registerLayout;
     EditText eDate;
-    static EditText eTableNumber, eMedal;
+    EditText eTableNumber, eMedal;
 
     //DB関係
     String dbOperationDate = "";
@@ -106,7 +116,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
             dbMedalValue, dbOperationYearValue, dbOperationMonthValue, dbOperationDayValue,
             dbOperationDayDigitValue, dbWeekIdValue, dbDayOfWeek_in_MonthValue;
 
-    static MainApplication mainApplication = null;
+    MainApplication mainApplication;
     Machines machines;
 
     @Override
@@ -131,6 +141,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
 
         // 各ViewのIDをセット
         setFindViewByID();
+        // static対応(メモリリーク回避のためVer2.0.0から実装)
+        setViewsArrayList();
         // キーボードの確定ボタンを押すと同時にエディットテキストのフォーカスが外れ、キーボードも非表示になるメソッド
         actionListenerFocusOut();
         // タッチイベント設定
@@ -166,6 +178,33 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
         // DB初期値で各種データを初期化
         initValue();
     }
+
+    public void setViewsArrayList() {
+
+        // ゲーム数関係
+        EditText[] eGames = {eStartGames, eTotalGames, eIndividualGames};
+        eDetailEditGames = new ArrayList<>();
+        eDetailEditGames.addAll(Arrays.asList(eGames));
+
+        // 小役関係
+        EditText[] eRolls = {eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus};
+        eDetailEditRolls = new ArrayList<>();
+        eDetailEditRolls.addAll(Arrays.asList(eRolls));
+
+        // 確率関係
+        TextView[] tProbability = {tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
+                tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
+                tCherryProbability, tGrapeProbability, tTotalBonusProbability};
+        eDetailTextProbability = new ArrayList<>();
+        eDetailTextProbability.addAll(Arrays.asList(tProbability));
+
+        // カウンターボタン
+        Button[] bRollButton = {bSingleBig, bCherryBig, bTotalBig, bSingleReg, bCherryReg, bTotalReg, bCherry, bGrape, bTotalBonus};
+        bDetailButton = new ArrayList<>();
+        bDetailButton.addAll(Arrays.asList(bRollButton));
+
+    }
+
 
     public void EditORBack(View view) {
 
@@ -400,8 +439,8 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
             // 台番号取得
             dbTableNumber = eTableNumber.getText().toString();
             dbSingleNumber = "";
-            if(StringUtils.isNotEmpty(dbTableNumber)){
-                if(!Integer.valueOf(dbTableNumber).toString().equals("0")){
+            if (StringUtils.isNotEmpty(dbTableNumber)) {
+                if (!Integer.valueOf(dbTableNumber).toString().equals("0")) {
                     dbSingleNumber = dbTableNumber.substring(dbTableNumber.length() - 1);
                 }
             }

@@ -12,31 +12,31 @@ public class DateDetailCounterWatcher implements TextWatcher {
     final String INIT_VALUE = "1/0.00";
 
     //ゲーム数関係
-    EditText total = DataDetail.eTotalGames;
-    EditText start = DataDetail.eStartGames;
-    EditText individual = DataDetail.eIndividualGames;
+    EditText start = DataDetail.eDetailEditGames.get(0);
+    EditText total = DataDetail.eDetailEditGames.get(1);
+    EditText individual = DataDetail.eDetailEditGames.get(2);
 
     //カウンター関係
-    EditText aB = DataDetail.eSingleBig;
-    EditText cB = DataDetail.eCherryBig;
-    EditText BB = DataDetail.eTotalBig;
-    EditText aR = DataDetail.eSingleReg;
-    EditText cR = DataDetail.eCherryReg;
-    EditText RB = DataDetail.eTotalReg;
-    EditText ch = DataDetail.eCherry;
-    EditText gr = DataDetail.eGrape;
-    EditText addition = DataDetail.eTotalBonus;
+    EditText aB = DataDetail.eDetailEditRolls.get(0);
+    EditText cB = DataDetail.eDetailEditRolls.get(1);
+    EditText BB = DataDetail.eDetailEditRolls.get(2);
+    EditText aR = DataDetail.eDetailEditRolls.get(3);
+    EditText cR = DataDetail.eDetailEditRolls.get(4);
+    EditText RB = DataDetail.eDetailEditRolls.get(5);
+    EditText ch = DataDetail.eDetailEditRolls.get(6);
+    EditText gr = DataDetail.eDetailEditRolls.get(7);
+    EditText addition = DataDetail.eDetailEditRolls.get(8);
 
     //確率関係
-    TextView aB_Probability = DataDetail.tSingleBigProbability;
-    TextView cB_Probability = DataDetail.tCherryBigProbability;
-    TextView BB_Probability = DataDetail.tTotalBigProbability;
-    TextView aR_Probability = DataDetail.tSingleRegProbability;
-    TextView cR_Probability = DataDetail.tCherryRegProbability;
-    TextView RB_Probability = DataDetail.tTotalRegProbability;
-    TextView ch_Probability = DataDetail.tCherryProbability;
-    TextView gr_Probability = DataDetail.tGrapeProbability;
-    TextView addition_Probability = DataDetail.tTotalBonusProbability;
+    TextView aB_Probability = DataDetail.eDetailTextProbability.get(0);
+    TextView cB_Probability = DataDetail.eDetailTextProbability.get(1);
+    TextView BB_Probability = DataDetail.eDetailTextProbability.get(2);
+    TextView aR_Probability = DataDetail.eDetailTextProbability.get(3);
+    TextView cR_Probability = DataDetail.eDetailTextProbability.get(4);
+    TextView RB_Probability = DataDetail.eDetailTextProbability.get(5);
+    TextView ch_Probability = DataDetail.eDetailTextProbability.get(6);
+    TextView gr_Probability = DataDetail.eDetailTextProbability.get(7);
+    TextView addition_Probability = DataDetail.eDetailTextProbability.get(8);
 
     TextView view;
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -38,7 +39,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.apache.commons.lang3.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,8 +70,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     //確率関係
     TextView tSingleBigProbability, tCherryBigProbability, tTotalBigProbability,
-                    tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
-                    tCherryProbability, tGrapeProbability, tTotalBonusProbability;
+            tSingleRegProbability, tCherryRegProbability, tTotalRegProbability,
+            tCherryProbability, tGrapeProbability, tTotalBonusProbability;
     static List<TextView> eCounterTextProbability;
 
     //各種判定用
@@ -139,7 +142,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         setTouchEvent();
     }
 
-    public void setViewsArrayList(){
+    public void setViewsArrayList() {
 
         // ゲーム数関係
         EditText[] eGames = {eStartGames, eTotalGames, eIndividualGames};
@@ -162,7 +165,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     @Override
     public void onVisibilityChanged(boolean visible) {
-        if(!visible){
+        if (!visible) {
             //キーボードが非表示になったことを検知した時
             mainLayout.requestFocus();
         }
@@ -182,7 +185,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         switch (item.getItemId()) {
             case R.id.item1: // 編集モード
 
-                if(judgeEditorMode){
+                if (judgeEditorMode) {
                     setEditTextFocusFalse();
                     judgeEditorMode = false;
                 } else {
@@ -194,18 +197,18 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
             case R.id.item2: // 加減算切り替えモード
 
-                if(judgePlusMinus) {
-                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
-                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                if (judgePlusMinus) {
+                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), Color.WHITE, Typeface.DEFAULT);
+                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), Color.WHITE, Typeface.DEFAULT);
                     judgePlusMinus = false;
                 } else {
-                    if(judgeSkeleton) {
+                    if (judgeSkeleton) {
                         new AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.stealth_release_tittle))
                                 .setMessage(getString(R.string.stealth_release_message))
                                 .setPositiveButton(getString(R.string.release), (dialogInterface, i) -> {
-                                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
-                                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), Color.RED, Typeface.DEFAULT_BOLD);
+                                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), Color.RED, Typeface.DEFAULT_BOLD);
                                     judgeSkeleton = false;
                                     judgePlusMinus = true;
                                     Toast toast = Toast.makeText(MainCounterActivity.this, getString(R.string.stealth_toast), Toast.LENGTH_LONG);
@@ -213,9 +216,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                 })
                                 .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> judgePlusMinus = false)
                                 .show();
-                    } else{
-                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
-                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.RED,Typeface.DEFAULT_BOLD);
+                    } else {
+                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), Color.RED, Typeface.DEFAULT_BOLD);
+                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), Color.RED, Typeface.DEFAULT_BOLD);
                         judgePlusMinus = true;
                     }
                 }
@@ -224,19 +227,19 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
             case R.id.item3: // カウンター非表示モード
 
-                if(judgeSkeleton) {
-                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
-                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                if (judgeSkeleton) {
+                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), Color.WHITE, Typeface.DEFAULT);
+                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), Color.WHITE, Typeface.DEFAULT);
                     judgeSkeleton = false;
                 } else {
-                    if(judgePlusMinus) {
+                    if (judgePlusMinus) {
                         new AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.plus_minus_release_tittle))
                                 .setMessage(getString(R.string.plus_minus_release_message))
                                 .setPositiveButton(getString(R.string.release), (dialogInterface, i) -> {
-                                    int skeleton = getResources().getColor(R.color.skeleton,getTheme());
-                                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
-                                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
+                                    int skeleton = getResources().getColor(R.color.skeleton, getTheme());
+                                    ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), skeleton, Typeface.DEFAULT);
+                                    ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), skeleton, Typeface.DEFAULT);
                                     judgeSkeleton = true;
                                     judgePlusMinus = false;
                                     Toast toast = Toast.makeText(MainCounterActivity.this, getString(R.string.plus_minus_toast), Toast.LENGTH_LONG);
@@ -245,9 +248,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                 .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> judgeSkeleton = false)
                                 .show();
                     } else {
-                        int skeleton = getResources().getColor(R.color.skeleton,getTheme());
-                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),skeleton,Typeface.DEFAULT);
-                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),skeleton,Typeface.DEFAULT);
+                        int skeleton = getResources().getColor(R.color.skeleton, getTheme());
+                        ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), skeleton, Typeface.DEFAULT);
+                        ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), skeleton, Typeface.DEFAULT);
                         judgeSkeleton = true;
                     }
                 }
@@ -255,7 +258,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 return true;
 
             case R.id.item4: // バイブ機能ON/Off
-                if(judgeVibrator){
+                if (judgeVibrator) {
                     judgeVibrator = false;
                     Toast toast = Toast.makeText(this, getString(R.string.vib_off), Toast.LENGTH_SHORT);
                     toast.show();
@@ -267,7 +270,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 break;
 
             case R.id.item5: // フラッシュON/Off
-                if(flashJudge){
+                if (flashJudge) {
                     flashJudge = false;
                     Toast toast = Toast.makeText(this, getString(R.string.flash_off), Toast.LENGTH_SHORT);
                     toast.show();
@@ -285,18 +288,18 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                         .setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> {
 
                             // 各EditTextの値を初期化
-                            EditText[] eSet_Counter = {eStartGames,eTotalGames,eSingleBig,eCherryBig,eSingleReg,eCherryReg,eCherry,eGrape};
-                            for(EditText e:eSet_Counter){
+                            EditText[] eSet_Counter = {eStartGames, eTotalGames, eSingleBig, eCherryBig, eSingleReg, eCherryReg, eCherry, eGrape};
+                            for (EditText e : eSet_Counter) {
                                 e.setText("0");
                             }
 
                             // 内部ストレージの初期化
                             mainApplication.init();
-                            CreateXML.updateText(mainApplication,"total","0");
-                            CreateXML.updateText(mainApplication,"start","0");
+                            CreateXML.updateText(mainApplication, "total", "0");
+                            CreateXML.updateText(mainApplication, "start", "0");
 
-                            ViewItems.setEditTextColor(ViewItems.getCounterTextItems(),Color.WHITE,Typeface.DEFAULT);
-                            ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(),Color.WHITE,Typeface.DEFAULT);
+                            ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), Color.WHITE, Typeface.DEFAULT);
+                            ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), Color.WHITE, Typeface.DEFAULT);
                             setEditTextFocusFalse();
 
                             judgePlusMinus = false;
@@ -306,7 +309,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                             Toast toast = Toast.makeText(MainCounterActivity.this, getString(R.string.counter_init_toast), Toast.LENGTH_SHORT);
                             toast.show();
                         })
-                        .setNegativeButton(getString(R.string.no),null)
+                        .setNegativeButton(getString(R.string.no), null)
                         .show();
                 focusOut();
                 return true;
@@ -314,8 +317,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             case R.id.item7: // データ保存
                 // 個人ゲーム数が0ゲームの状態で登録ボタンを押した際の処理
                 int checkedIndividualGames = Integer.parseInt(eIndividualGames.getText().toString());
-                if (checkedIndividualGames != 0){
-                    if(!mainApplication.getStore001().equals("null")){
+                if (checkedIndividualGames != 0) {
+                    if (!mainApplication.getStore001().equals("null")) {
                         registerDialog();
                     } else {
                         pleaseAddStore();
@@ -331,7 +334,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void registerDialog(){
+    public void registerDialog() {
 
         // ダイアログを定義
         Dialog registerDialog = new Dialog(this);
@@ -340,8 +343,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // ダイアログのレイアウトをタッチするとフォーカスが外れる
         dialogLayout = registerDialog.findViewById(R.id.RegisterLayout);
         dialogLayout.setOnTouchListener((v, event) -> {
-            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(), 0);
             dialogLayout.requestFocus();
             return false;
         });
@@ -357,15 +360,15 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     (view1, year, month, dayOfMonth) -> {
                         // 選択した日付を取得して日付表示用のEditTextにセット
                         eDate = registerDialog.findViewById(R.id.DateEditText);
-                        eDate.setText(String.format("%d / %02d / %02d", year, month+1, dayOfMonth));
+                        eDate.setText(String.format("%d / %02d / %02d", year, month + 1, dayOfMonth));
                         eDate.setGravity(Gravity.CENTER);
 
                         //DB登録用
-                        dbOperationDate = String.format("%d / %02d / %02d", year, month+1, dayOfMonth);
+                        dbOperationDate = String.format("%d / %02d / %02d", year, month + 1, dayOfMonth);
                         dbOperationYear = Integer.toString(year);
-                        dbOperationMonth = Integer.toString(month+1);
+                        dbOperationMonth = Integer.toString(month + 1);
                         dbOperationDay = Integer.toString(dayOfMonth);
-                        if(dayOfMonth > 9) {
+                        if (dayOfMonth > 9) {
                             dbOperationDayDigit = dbOperationDay.substring(1);
                         } else {
                             dbOperationDayDigit = dbOperationDay;
@@ -382,8 +385,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             //dialogを表示
             datePickerDialog.show();
             // キーボードが出ている(例えば差枚数をクリックしてキーボードを出しっぱなし)状態で日付選択をタッチした場合はキーボードを閉じる
-            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(), 0);
             dialogLayout.requestFocus();
         });
 
@@ -393,10 +396,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
         // 20店舗分の登録店舗を(nullじゃなかったら)リストにセット
         String[] Storage_Store_Items = CommonFeature.getStoreItems(mainApplication);
-        for(String Item:Storage_Store_Items){if(!Item.equals("null")){sStore_Items.add(Item);}}
+        for (String Item : Storage_Store_Items) {
+            if (!Item.equals("null")) {
+                sStore_Items.add(Item);
+            }
+        }
 
         // アダプターを介して登録店舗一覧リストをセット
-        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner,sStore_Items);
+        ArrayAdapter<String> storeAdapter = new ArrayAdapter<>(this, R.layout.main02_counter05_store_spinner, sStore_Items);
         storeAdapter.setDropDownViewResource(R.layout.main02_counter06_store_spinner_dropdown);
         sStore.setAdapter(storeAdapter);
 
@@ -407,12 +414,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
         // キーボード確定ボタンを押すとフォーカスが外れる
         eMedal.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if(i== EditorInfo.IME_ACTION_DONE){
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(),0);
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(dialogLayout.getWindowToken(), 0);
                 dialogLayout.requestFocus();
             }
-            return false;});
+            return false;
+        });
 
         // 登録ボタンにリスナー登録
         registerDialog.findViewById(R.id.RegisterButton).setOnClickListener(view -> {
@@ -420,22 +428,22 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             // ユーザID
             dbUserId = mainApplication.getUserId();
             // 店舗名
-            dbStoreName = (String)sStore.getSelectedItem();
+            dbStoreName = (String) sStore.getSelectedItem();
             String medalStr = eMedal.getText().toString();
             // ここでもう1回findViewすることでクラッシュ回避(ダイアログ出現後にやらないとNULLになるらしい)
             eDate = registerDialog.findViewById(R.id.DateEditText);
 
             // 日付入力済なら登録処理
             String checkedDate = eDate.getText().toString();
-            if (StringUtils.isNotEmpty(checkedDate)){
+            if (StringUtils.isNotEmpty(checkedDate)) {
 
                 dbMedal = 0;
-                if (StringUtils.isNotEmpty(medalStr)){
+                if (StringUtils.isNotEmpty(medalStr)) {
                     dbMedal = Integer.parseInt(medalStr);
                 }
-                if(!(dbMedal == null || dbMedal == 0)){
-                    CheckBox checkBox  = registerDialog.findViewById(R.id.checkBox);
-                    if(checkBox.isChecked()) {
+                if (!(dbMedal == null || dbMedal == 0)) {
+                    CheckBox checkBox = registerDialog.findViewById(R.id.checkBox);
+                    if (checkBox.isChecked()) {
                         dbMedal = -dbMedal;
                     }
                 }
@@ -455,15 +463,15 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
                 // ゾロ目
                 dbSpecialDay = "";
-                if(dbOperationDay.equals("11") || dbOperationDay.equals("22")){
+                if (dbOperationDay.equals("11") || dbOperationDay.equals("22")) {
                     dbSpecialDay = "1";
                 }
                 // 月と日が同じ
-                if(dbOperationMonth.equals(dbOperationDay)){
+                if (dbOperationMonth.equals(dbOperationDay)) {
                     dbSpecialDay = "2";
                 }
                 // 両方
-                if(dbOperationMonth.equals("11") && dbOperationDay.equals("11")){
+                if (dbOperationMonth.equals("11") && dbOperationDay.equals("11")) {
                     dbSpecialDay = "3";
                 }
 
@@ -471,8 +479,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 eTableNumber = registerDialog.findViewById(R.id.MachineNumber);
                 dbTableNumber = eTableNumber.getText().toString();
                 dbSingleNumber = "";
-                if(StringUtils.isNotEmpty(dbTableNumber)){
-                    if(!Integer.valueOf(dbTableNumber).toString().equals("0")){
+                if (StringUtils.isNotEmpty(dbTableNumber)) {
+                    if (!Integer.valueOf(dbTableNumber).toString().equals("0")) {
                         dbSingleNumber = dbTableNumber.substring(dbTableNumber.length() - 1);
                     }
                 }
@@ -542,7 +550,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     SQLiteStatement stmt = db.compileStatement(sql);
                     stmt.executeInsert();
 
-                } catch(Exception ex) {
+                } catch (Exception ex) {
                     Log.e("MemoPad", ex.toString());
                 } finally {
                     db.close();
@@ -562,7 +570,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         registerDialog.show();
     }
 
-    public void pleaseAddStore(){
+    public void pleaseAddStore() {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.add_store_tittle))
                 .setMessage(getString(R.string.add_store_message))
@@ -573,15 +581,15 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 .show();
     }
 
-    public void vibrator(){
-        if (judgeVibrator){
+    public void vibrator() {
+        if (judgeVibrator) {
             // API26以上だったら
-            if (Build.VERSION.SDK_INT >= 26){
-                vibrationEffect = VibrationEffect.createOneShot(300,-1);
-                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= 26) {
+                vibrationEffect = VibrationEffect.createOneShot(300, -1);
+                vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(vibrationEffect);
             } else {
-                vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(300);
             }
         }
@@ -589,9 +597,13 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     // カスタムダイアログ内の差枚数入力用のEditTextにセット
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
     @Override
     public void afterTextChanged(Editable s) {
         eMedal.removeTextChangedListener(this);
@@ -610,13 +622,19 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // 何かしらの設定をセットしている処理
     //***************************************************************************************************************************
 
-    public void setFindViewByID(){
+    public void setFindViewByID() {
         eTotalGames = findViewById(R.id.eTotalGames);
         eStartGames = findViewById(R.id.eStartGames);
         eIndividualGames = findViewById(R.id.eIndividualGames);
-        eSingleBig = findViewById(R.id.eSingleBig); eCherryBig = findViewById(R.id.eCherryBig); eTotalBig = findViewById(R.id.eTotalBig);
-        eSingleReg = findViewById(R.id.eSingleReg); eCherryReg = findViewById(R.id.eCherryReg); eTotalReg = findViewById(R.id.eTotalReg);
-        eCherry = findViewById(R.id.eCherry); eGrape = findViewById(R.id.eGrape); eTotalBonus = findViewById(R.id.eTotalBonus);
+        eSingleBig = findViewById(R.id.eSingleBig);
+        eCherryBig = findViewById(R.id.eCherryBig);
+        eTotalBig = findViewById(R.id.eTotalBig);
+        eSingleReg = findViewById(R.id.eSingleReg);
+        eCherryReg = findViewById(R.id.eCherryReg);
+        eTotalReg = findViewById(R.id.eTotalReg);
+        eCherry = findViewById(R.id.eCherry);
+        eGrape = findViewById(R.id.eGrape);
+        eTotalBonus = findViewById(R.id.eTotalBonus);
         tSingleBigProbability = findViewById(R.id.tSingleBigProbability);
         tCherryBigProbability = findViewById(R.id.tCherryBigProbability);
         tTotalBigProbability = findViewById(R.id.tTotalBigProbability);
@@ -635,36 +653,36 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     //ゲーム数関係とカウンター関係へCounterWatcherを設定
-    public void setTextWatcher(){
+    public void setTextWatcher() {
 
         // ゲーム数関係
         EditText[] eGames = {eStartGames, eTotalGames, eIndividualGames};
-        for (EditText e: eGames){
-            e.addTextChangedListener(new MainCounterWatcher(e,mainApplication));
+        for (EditText e : eGames) {
+            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication));
         }
         // 役物関係
         EditText[] eRolls = {eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus};
-        for (EditText e: eRolls){
-            e.addTextChangedListener(new MainCounterWatcher(e,mainApplication));
+        for (EditText e : eRolls) {
+            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication));
         }
     }
 
-    public void setJuggler(){
+    public void setJuggler() {
         List<String> jugglerList = machines.getNowJugglerList();
-        ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this,R.layout.main02_counter02_juggler_spinner,jugglerList);
+        ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this, R.layout.main02_counter02_juggler_spinner, jugglerList);
         jugglerAdapter.setDropDownViewResource(R.layout.main02_counter03_juggler_spinner_dropdown);
         sJuggler.setAdapter(jugglerAdapter);
         sJuggler.setSelection(mainApplication.getMachinePosition());
     }
 
-    public void setEditTextFocusTrue(){
+    public void setEditTextFocusTrue() {
         Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.c_maincounteractivity01_gamesediter, null);
-        ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(),true,true,background);
+        ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(), true, true, background);
     }
 
-    public void setEditTextFocusFalse(){
+    public void setEditTextFocusFalse() {
         Drawable background = ResourcesCompat.getDrawable(getResources(), R.drawable.c_maincounteractivity02_focusfalse, null);
-        ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(),false,false,background);
+        ViewItems.setEditTextFocus(ViewItems.getCounterEditTextItems(), false, false, background);
     }
 
     private void setValue() {
@@ -680,7 +698,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void setTouchEvent(){
+    public void setTouchEvent() {
         scrollLayout.setOnClickListener(v -> focusOut());
         bTotalBig.setOnClickListener(v -> MainCounterActivity.this.focusOut());
         bTotalReg.setOnClickListener(v -> MainCounterActivity.this.focusOut());
@@ -691,25 +709,26 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // フォーカス関係の処理
     //***************************************************************************************************************************
 
-    public void itemSelectFocusOut(){
+    public void itemSelectFocusOut() {
         sJuggler.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //　アイテムが選択された時
             @Override
-            public void onItemSelected(AdapterView<?> parent,View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // 保存処理
                 mainApplication.setMachinePosition(position);
-                CreateXML.updateText(mainApplication,"machineName",String.valueOf(position));
+                CreateXML.updateText(mainApplication, "machineName", String.valueOf(position));
                 focusOut();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
     }
 
-    public void focusOut(){
-        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(),0);
+    public void focusOut() {
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
         mainLayout.requestFocus();
     }
 
@@ -717,33 +736,51 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // ボタンの制御
     //***************************************************************************************************************************
 
-    public void mSingleBigButton(View view) {pushButton(eSingleBig,R.id.eSingleBig,9999);
-        vibrator();}
-    public void mCherryBigButton(View view) {pushButton(eCherryBig,R.id.eCherryBig,9999);
-        vibrator();}
-    public void mSingleRegButton(View view){pushButton(eSingleReg,R.id.eSingleReg,9999);
-        vibrator();}
-    public void mCherryRegButton(View view){pushButton(eCherryReg,R.id.eCherryReg,9999);
-        vibrator();}
-    public void mCherryButton(View view){pushButton(eCherry,R.id.eCherry,99999);
-        vibrator();}
-    public void mGrapeButton(View view){pushButton(eGrape,R.id.eGrape,999999);
-        vibrator();}
+    public void mSingleBigButton(View view) {
+        pushButton(eSingleBig, R.id.eSingleBig, 9999);
+        vibrator();
+    }
+
+    public void mCherryBigButton(View view) {
+        pushButton(eCherryBig, R.id.eCherryBig, 9999);
+        vibrator();
+    }
+
+    public void mSingleRegButton(View view) {
+        pushButton(eSingleReg, R.id.eSingleReg, 9999);
+        vibrator();
+    }
+
+    public void mCherryRegButton(View view) {
+        pushButton(eCherryReg, R.id.eCherryReg, 9999);
+        vibrator();
+    }
+
+    public void mCherryButton(View view) {
+        pushButton(eCherry, R.id.eCherry, 99999);
+        vibrator();
+    }
+
+    public void mGrapeButton(View view) {
+        pushButton(eGrape, R.id.eGrape, 999999);
+        vibrator();
+    }
+
     public void pushButton(EditText editText, int id, int limit) {
         View v = findViewById(R.id.counter);
         ColorButton colorButton = new ColorButton();
         String text = editText.getText().toString();
         int textValue = 0;
-        if (StringUtils.isNotEmpty(text)){
+        if (StringUtils.isNotEmpty(text)) {
             textValue = Integer.parseInt(text);
-         }
+        }
 
         // プラス状態の場合
         if (judgePlusMinus) {
             if (StringUtils.isNotEmpty(text)) {
                 if (textValue > 0) {
                     textValue--;
-                    colorButton.setFlash(v,id);
+                    colorButton.setFlash(v, id);
                     editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, getString(R.string.lower_limit_count_toast), Toast.LENGTH_SHORT);
@@ -754,14 +791,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             if (StringUtils.isNotEmpty(text)) {
                 if (textValue < limit) {
                     textValue++;
-                    colorButton.setFlash(v,id);
+                    colorButton.setFlash(v, id);
                     editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, getString(R.string.upper_limit_count_toast), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } else {
-                colorButton.setFlash(v,id);
+                colorButton.setFlash(v, id);
                 editText.setText(String.valueOf(1));
             }
         }

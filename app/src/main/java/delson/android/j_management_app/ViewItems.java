@@ -11,9 +11,9 @@ public class ViewItems {
     //詳細画面のゲーム数関係
     public static EditText[] getDetailGameTextItems() {
         return new EditText[]{
-                DataDetail.eTotalGames,
-                DataDetail.eStartGames,
-                DataDetail.eIndividualGames
+                DataDetail.eDetailEditGames.get(0),
+                DataDetail.eDetailEditGames.get(1),
+                DataDetail.eDetailEditGames.get(2)
         };
     }
 
@@ -35,15 +35,15 @@ public class ViewItems {
     //詳細画面のカウンター関係
     public static EditText[] getDetailCounterTextItems() {
         return new EditText[]{
-                DataDetail.eSingleBig,
-                DataDetail.eCherryBig,
-                DataDetail.eTotalBig,
-                DataDetail.eSingleReg,
-                DataDetail.eCherryReg,
-                DataDetail.eTotalReg,
-                DataDetail.eCherry,
-                DataDetail.eGrape,
-                DataDetail.eTotalBonus
+                DataDetail.eDetailEditRolls.get(0),
+                DataDetail.eDetailEditRolls.get(1),
+                DataDetail.eDetailEditRolls.get(2),
+                DataDetail.eDetailEditRolls.get(3),
+                DataDetail.eDetailEditRolls.get(4),
+                DataDetail.eDetailEditRolls.get(5),
+                DataDetail.eDetailEditRolls.get(6),
+                DataDetail.eDetailEditRolls.get(7),
+                DataDetail.eDetailEditRolls.get(8)
         };
     }
 
@@ -62,12 +62,12 @@ public class ViewItems {
     //詳細画面のカウンター関係(編集可能なもの)
     public static EditText[] getDetailCounterEditTextItems() {
         return new EditText[]{
-                DataDetail.eSingleBig,
-                DataDetail.eCherryBig,
-                DataDetail.eSingleReg,
-                DataDetail.eCherryReg,
-                DataDetail.eCherry,
-                DataDetail.eGrape
+                DataDetail.eDetailEditRolls.get(0),
+                DataDetail.eDetailEditRolls.get(1),
+                DataDetail.eDetailEditRolls.get(3),
+                DataDetail.eDetailEditRolls.get(4),
+                DataDetail.eDetailEditRolls.get(6),
+                DataDetail.eDetailEditRolls.get(7)
         };
     }
 
@@ -88,30 +88,30 @@ public class ViewItems {
 
     public static TextView[] getDetailProbabilityTextItems() {
         return new TextView[]{
-                DataDetail.tSingleBigProbability,
-                DataDetail.tCherryBigProbability,
-                DataDetail.tTotalBigProbability,
-                DataDetail.tSingleRegProbability,
-                DataDetail.tCherryRegProbability,
-                DataDetail.tTotalRegProbability,
-                DataDetail.tCherryProbability,
-                DataDetail.tGrapeProbability,
-                DataDetail.tTotalBonusProbability
+                DataDetail.eDetailTextProbability.get(0),
+                DataDetail.eDetailTextProbability.get(1),
+                DataDetail.eDetailTextProbability.get(2),
+                DataDetail.eDetailTextProbability.get(3),
+                DataDetail.eDetailTextProbability.get(4),
+                DataDetail.eDetailTextProbability.get(5),
+                DataDetail.eDetailTextProbability.get(6),
+                DataDetail.eDetailTextProbability.get(7),
+                DataDetail.eDetailTextProbability.get(8)
         };
     }
 
     //詳細画面のボタン関係
     public static Button[] getDetailCounterButtonItems() {
         return new Button[]{
-                DataDetail.bSingleBig,
-                DataDetail.bCherryBig,
-                DataDetail.bTotalBig,
-                DataDetail.bSingleReg,
-                DataDetail.bCherryReg,
-                DataDetail.bTotalReg,
-                DataDetail.bCherry,
-                DataDetail.bGrape,
-                DataDetail.bTotalBonus
+                DataDetail.bDetailButton.get(0),
+                DataDetail.bDetailButton.get(1),
+                DataDetail.bDetailButton.get(2),
+                DataDetail.bDetailButton.get(3),
+                DataDetail.bDetailButton.get(4),
+                DataDetail.bDetailButton.get(5),
+                DataDetail.bDetailButton.get(6),
+                DataDetail.bDetailButton.get(7),
+                DataDetail.bDetailButton.get(8)
         };
     }
 
