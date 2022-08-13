@@ -41,16 +41,18 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
     View view;
 
     // 共有データ
-    MainApplication mainApplication = null;
+    MainApplication mainApplication;
 
     // レイアウト
     ConstraintLayout mainLayout;
 
     // 日付表示用のEditText
-    static EditText eDateStart, eDateEnd;
+    EditText eDateStart, eDateEnd;
+    static List<EditText> eStatisticsEditDate;
 
     // 各種スピナーとそれぞれに対応するチェックボックス
-    static Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber;
+    Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber;
+    static List<Spinner> sStatisticsSpinner;
 
     // データを表示するためのボタン
     Button bDisplay, bClear;
@@ -107,6 +109,8 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
         // パフォーマンスを考慮し、画面起動時に必要最小限ViewにIDを設定
         setFindViewById_01(view);
+        // static対応(メモリリーク回避のためVer2.0.0から実装)
+        setViewsArrayList();
         // 各種スピナーに項目をセット
         setSpinnerData();
         // 初回起動時の「未選択」処理回避のためFocusableをfalseにしておく
@@ -120,6 +124,24 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
         return view;
     }
+
+    public void setViewsArrayList() {
+
+        // 日付関係
+        EditText[] eDate = {eDateStart, eDateEnd};
+        eStatisticsEditDate = new ArrayList<>();
+        eStatisticsEditDate.addAll(Arrays.asList(eDate));
+
+        // スピナー関係
+        Spinner[] sSpinners = {sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber};
+        sStatisticsSpinner = new ArrayList<>();
+        sStatisticsSpinner.addAll(Arrays.asList(sSpinners));
+
+    }
+
+
+
+
 
     @SuppressLint({"SetTextI18n", "NonConstantResourceId", "DefaultLocale"})
     @RequiresApi(api = Build.VERSION_CODES.N)

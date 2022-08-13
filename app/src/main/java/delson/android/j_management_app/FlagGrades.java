@@ -27,7 +27,7 @@ public class FlagGrades extends Fragment {
     TextView saveDateCount;
 
     // 共有データ(登録データは存在するが登録店舗が０件だった場合の対応に使用)
-    MainApplication mainApplication = null;
+    MainApplication mainApplication;
 
     @Nullable
     @Override

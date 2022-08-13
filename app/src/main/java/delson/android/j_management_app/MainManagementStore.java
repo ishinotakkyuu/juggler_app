@@ -49,7 +49,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
     int tappedPosition = 0;
 
     // 共有データ
-    MainApplication mainApplication = null;
+    MainApplication mainApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
