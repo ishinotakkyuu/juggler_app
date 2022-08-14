@@ -13,7 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.j_management_app">
         <activity
+            android:name=".ToolAllEventApproximate"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".ToolList"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ToolAllEvent"

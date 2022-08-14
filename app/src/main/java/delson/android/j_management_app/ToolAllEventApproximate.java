@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -24,15 +25,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibility.OnKeyboardVisibilityListener {
+public class ToolAllEventApproximate extends AppCompatActivity implements KeyboardVisibility.OnKeyboardVisibilityListener  {
 
     TextView tTotalGames, tTotalBig, tTotalReg, tAllBonus;
     static List<TextView> tTextViews;
-
-    EditText eGames_001, eGames_002, eGames_003, eGames_004, eGames_005, eGames_006, eGames_007, eGames_008, eGames_009, eGames_010,
-            eGames_011, eGames_012, eGames_013, eGames_014, eGames_015, eGames_016, eGames_017, eGames_018, eGames_019, eGames_020,
-            eGames_021, eGames_022, eGames_023, eGames_024, eGames_025;
-    static List<EditText> eGames;
 
     EditText eBB_001, eBB_002, eBB_003, eBB_004, eBB_005, eBB_006, eBB_007, eBB_008, eBB_009, eBB_010,
             eBB_011, eBB_012, eBB_013, eBB_014, eBB_015, eBB_016, eBB_017, eBB_018, eBB_019, eBB_020,
@@ -43,6 +39,11 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
             eRB_011, eRB_012, eRB_013, eRB_014, eRB_015, eRB_016, eRB_017, eRB_018, eRB_019, eRB_020,
             eRB_021, eRB_022, eRB_023, eRB_024, eRB_025;
     static List<EditText> eRBs;
+
+    EditText ePro_001, ePro_002, ePro_003, ePro_004, ePro_005, ePro_006, ePro_007, ePro_008, ePro_009, ePro_010,
+            ePro_011, ePro_012, ePro_013, ePro_014, ePro_015, ePro_016, ePro_017, ePro_018, ePro_019, ePro_020,
+            ePro_021, ePro_022, ePro_023, ePro_024, ePro_025;
+    static List<EditText> ePro;
 
     // フォーカス関係
     Activity activity;
@@ -65,7 +66,7 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tool01_all_event_survey);
+        setContentView(R.layout.tool02_all_event_survey_approximate);
 
         //アクションバーの非表示
         ActionBar actionBar = getSupportActionBar();
@@ -93,10 +94,10 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
         resetTotalBig = 0;
         resetTotalReg = 0;
         resetAllData = 0;
-        AllEventSurveyWatcher.totalGames = 0;
-        AllEventSurveyWatcher.totalBig = 0;
-        AllEventSurveyWatcher.totalReg = 0;
-        AllEventSurveyWatcher.allData = 0;
+        ToolAllEventApproximate.ToolAllEventApproximateWatcher.totalGames = 0;
+        ToolAllEventApproximate.ToolAllEventApproximateWatcher.totalBig = 0;
+        ToolAllEventApproximate.ToolAllEventApproximateWatcher.totalReg = 0;
+        ToolAllEventApproximate.ToolAllEventApproximateWatcher.allData = 0;
 
         // 初期値をTextViewにセット
         tTotalGames.setText(getResources().getString(R.string.all_total_games, 0));
@@ -108,108 +109,108 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
     public void setFindViewById() {
 
         // TextView関係のID設定
-        tTotalGames = findViewById(R.id.AllGames);
-        tTotalBig = findViewById(R.id.AllBig);
-        tTotalReg = findViewById(R.id.AllReg);
-        tAllBonus = findViewById(R.id.AllData);
+        tTotalGames = findViewById(R.id.ApproximateGames);
+        tTotalBig = findViewById(R.id.ApproximateBig);
+        tTotalReg = findViewById(R.id.ApproximateReg);
+        tAllBonus = findViewById(R.id.ApproximateData);
         // static配列に格納
         tTextViews = new ArrayList<>();
         TextView[] textView = {tTotalGames, tTotalBig, tTotalReg, tAllBonus};
         tTextViews.addAll(Arrays.asList(textView));
 
-        eGames_001 = findViewById(R.id.Games_001);
-        eGames_002 = findViewById(R.id.Games_002);
-        eGames_003 = findViewById(R.id.Games_003);
-        eGames_004 = findViewById(R.id.Games_004);
-        eGames_005 = findViewById(R.id.Games_005);
-        eGames_006 = findViewById(R.id.Games_006);
-        eGames_007 = findViewById(R.id.Games_007);
-        eGames_008 = findViewById(R.id.Games_008);
-        eGames_009 = findViewById(R.id.Games_009);
-        eGames_010 = findViewById(R.id.Games_010);
-        eGames_011 = findViewById(R.id.Games_011);
-        eGames_012 = findViewById(R.id.Games_012);
-        eGames_013 = findViewById(R.id.Games_013);
-        eGames_014 = findViewById(R.id.Games_014);
-        eGames_015 = findViewById(R.id.Games_015);
-        eGames_016 = findViewById(R.id.Games_016);
-        eGames_017 = findViewById(R.id.Games_017);
-        eGames_018 = findViewById(R.id.Games_018);
-        eGames_019 = findViewById(R.id.Games_019);
-        eGames_020 = findViewById(R.id.Games_020);
-        eGames_021 = findViewById(R.id.Games_021);
-        eGames_022 = findViewById(R.id.Games_022);
-        eGames_023 = findViewById(R.id.Games_023);
-        eGames_024 = findViewById(R.id.Games_024);
-        eGames_025 = findViewById(R.id.Games_025);
+        ePro_001 = findViewById(R.id.Pro_01);
+        ePro_002 = findViewById(R.id.Pro_02);
+        ePro_003 = findViewById(R.id.Pro_03);
+        ePro_004 = findViewById(R.id.Pro_04);
+        ePro_005 = findViewById(R.id.Pro_05);
+        ePro_006 = findViewById(R.id.Pro_06);
+        ePro_007 = findViewById(R.id.Pro_07);
+        ePro_008 = findViewById(R.id.Pro_08);
+        ePro_009 = findViewById(R.id.Pro_09);
+        ePro_010 = findViewById(R.id.Pro_10);
+        ePro_011 = findViewById(R.id.Pro_11);
+        ePro_012 = findViewById(R.id.Pro_12);
+        ePro_013 = findViewById(R.id.Pro_13);
+        ePro_014 = findViewById(R.id.Pro_14);
+        ePro_015 = findViewById(R.id.Pro_15);
+        ePro_016 = findViewById(R.id.Pro_16);
+        ePro_017 = findViewById(R.id.Pro_17);
+        ePro_018 = findViewById(R.id.Pro_18);
+        ePro_019 = findViewById(R.id.Pro_19);
+        ePro_020 = findViewById(R.id.Pro_20);
+        ePro_021 = findViewById(R.id.Pro_21);
+        ePro_022 = findViewById(R.id.Pro_22);
+        ePro_023 = findViewById(R.id.Pro_23);
+        ePro_024 = findViewById(R.id.Pro_24);
+        ePro_025 = findViewById(R.id.Pro_25);
 
-        eBB_001 = findViewById(R.id.BB_001);
-        eBB_002 = findViewById(R.id.BB_002);
-        eBB_003 = findViewById(R.id.BB_003);
-        eBB_004 = findViewById(R.id.BB_004);
-        eBB_005 = findViewById(R.id.BB_005);
-        eBB_006 = findViewById(R.id.BB_006);
-        eBB_007 = findViewById(R.id.BB_007);
-        eBB_008 = findViewById(R.id.BB_008);
-        eBB_009 = findViewById(R.id.BB_009);
-        eBB_010 = findViewById(R.id.BB_010);
-        eBB_011 = findViewById(R.id.BB_011);
-        eBB_012 = findViewById(R.id.BB_012);
-        eBB_013 = findViewById(R.id.BB_013);
-        eBB_014 = findViewById(R.id.BB_014);
-        eBB_015 = findViewById(R.id.BB_015);
-        eBB_016 = findViewById(R.id.BB_016);
-        eBB_017 = findViewById(R.id.BB_017);
-        eBB_018 = findViewById(R.id.BB_018);
-        eBB_019 = findViewById(R.id.BB_019);
-        eBB_020 = findViewById(R.id.BB_020);
-        eBB_021 = findViewById(R.id.BB_021);
-        eBB_022 = findViewById(R.id.BB_022);
-        eBB_023 = findViewById(R.id.BB_023);
-        eBB_024 = findViewById(R.id.BB_024);
-        eBB_025 = findViewById(R.id.BB_025);
+        eBB_001 = findViewById(R.id.BB_01);
+        eBB_002 = findViewById(R.id.BB_02);
+        eBB_003 = findViewById(R.id.BB_03);
+        eBB_004 = findViewById(R.id.BB_04);
+        eBB_005 = findViewById(R.id.BB_05);
+        eBB_006 = findViewById(R.id.BB_06);
+        eBB_007 = findViewById(R.id.BB_07);
+        eBB_008 = findViewById(R.id.BB_08);
+        eBB_009 = findViewById(R.id.BB_09);
+        eBB_010 = findViewById(R.id.BB_10);
+        eBB_011 = findViewById(R.id.BB_11);
+        eBB_012 = findViewById(R.id.BB_12);
+        eBB_013 = findViewById(R.id.BB_13);
+        eBB_014 = findViewById(R.id.BB_14);
+        eBB_015 = findViewById(R.id.BB_15);
+        eBB_016 = findViewById(R.id.BB_16);
+        eBB_017 = findViewById(R.id.BB_17);
+        eBB_018 = findViewById(R.id.BB_18);
+        eBB_019 = findViewById(R.id.BB_19);
+        eBB_020 = findViewById(R.id.BB_20);
+        eBB_021 = findViewById(R.id.BB_21);
+        eBB_022 = findViewById(R.id.BB_22);
+        eBB_023 = findViewById(R.id.BB_23);
+        eBB_024 = findViewById(R.id.BB_24);
+        eBB_025 = findViewById(R.id.BB_25);
 
-        eRB_001 = findViewById(R.id.RB_001);
-        eRB_002 = findViewById(R.id.RB_002);
-        eRB_003 = findViewById(R.id.RB_003);
-        eRB_004 = findViewById(R.id.RB_004);
-        eRB_005 = findViewById(R.id.RB_005);
-        eRB_006 = findViewById(R.id.RB_006);
-        eRB_007 = findViewById(R.id.RB_007);
-        eRB_008 = findViewById(R.id.RB_008);
-        eRB_009 = findViewById(R.id.RB_009);
-        eRB_010 = findViewById(R.id.RB_010);
-        eRB_011 = findViewById(R.id.RB_011);
-        eRB_012 = findViewById(R.id.RB_012);
-        eRB_013 = findViewById(R.id.RB_013);
-        eRB_014 = findViewById(R.id.RB_014);
-        eRB_015 = findViewById(R.id.RB_015);
-        eRB_016 = findViewById(R.id.RB_016);
-        eRB_017 = findViewById(R.id.RB_017);
-        eRB_018 = findViewById(R.id.RB_018);
-        eRB_019 = findViewById(R.id.RB_019);
-        eRB_020 = findViewById(R.id.RB_020);
-        eRB_021 = findViewById(R.id.RB_021);
-        eRB_022 = findViewById(R.id.RB_022);
-        eRB_023 = findViewById(R.id.RB_023);
-        eRB_024 = findViewById(R.id.RB_024);
-        eRB_025 = findViewById(R.id.RB_025);
+        eRB_001 = findViewById(R.id.RB_01);
+        eRB_002 = findViewById(R.id.RB_02);
+        eRB_003 = findViewById(R.id.RB_03);
+        eRB_004 = findViewById(R.id.RB_04);
+        eRB_005 = findViewById(R.id.RB_05);
+        eRB_006 = findViewById(R.id.RB_06);
+        eRB_007 = findViewById(R.id.RB_07);
+        eRB_008 = findViewById(R.id.RB_08);
+        eRB_009 = findViewById(R.id.RB_09);
+        eRB_010 = findViewById(R.id.RB_10);
+        eRB_011 = findViewById(R.id.RB_11);
+        eRB_012 = findViewById(R.id.RB_12);
+        eRB_013 = findViewById(R.id.RB_13);
+        eRB_014 = findViewById(R.id.RB_14);
+        eRB_015 = findViewById(R.id.RB_15);
+        eRB_016 = findViewById(R.id.RB_16);
+        eRB_017 = findViewById(R.id.RB_17);
+        eRB_018 = findViewById(R.id.RB_18);
+        eRB_019 = findViewById(R.id.RB_19);
+        eRB_020 = findViewById(R.id.RB_20);
+        eRB_021 = findViewById(R.id.RB_21);
+        eRB_022 = findViewById(R.id.RB_22);
+        eRB_023 = findViewById(R.id.RB_23);
+        eRB_024 = findViewById(R.id.RB_24);
+        eRB_025 = findViewById(R.id.RB_25);
 
-        layout = findViewById(R.id.tool_AllEvent_layout);
-        scrollView = findViewById(R.id.tool_AllEvent_scroll);
+        layout = findViewById(R.id.tool_Approximate_layout);
+        scrollView = findViewById(R.id.Approximate_scroll);
 
     }
 
     public void setTextWatcher() {
 
         // ゲーム数関係
-        eGames = new ArrayList<>();
-        EditText[] edit_01 = {eGames_001, eGames_002, eGames_003, eGames_004, eGames_005, eGames_006, eGames_007, eGames_008, eGames_009, eGames_010,
-                eGames_011, eGames_012, eGames_013, eGames_014, eGames_015, eGames_016, eGames_017, eGames_018, eGames_019, eGames_020,
-                eGames_021, eGames_022, eGames_023, eGames_024, eGames_025};
+        ePro = new ArrayList<>();
+        EditText[] edit_01 = {ePro_001, ePro_002, ePro_003, ePro_004, ePro_005, ePro_006, ePro_007, ePro_008, ePro_009, ePro_010,
+                ePro_011, ePro_012, ePro_013, ePro_014, ePro_015, ePro_016, ePro_017, ePro_018, ePro_019, ePro_020,
+                ePro_021, ePro_022, ePro_023, ePro_024, ePro_025};
         for (EditText e : edit_01) {
-            e.addTextChangedListener(new AllEventSurveyWatcher(e, getResources(), getApplicationContext(), scrollView));
-            eGames.add(e);
+            e.addTextChangedListener(new ToolAllEventApproximate.ToolAllEventApproximateWatcher(e, getResources(), getApplicationContext(), scrollView));
+            ePro.add(e);
         }
 
         // Big関係
@@ -218,7 +219,7 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                 eBB_011, eBB_012, eBB_013, eBB_014, eBB_015, eBB_016, eBB_017, eBB_018, eBB_019, eBB_020,
                 eBB_021, eBB_022, eBB_023, eBB_024, eBB_025};
         for (EditText e : edit_02) {
-            e.addTextChangedListener(new AllEventSurveyWatcher(e, getResources(), getApplicationContext(), scrollView));
+            e.addTextChangedListener(new ToolAllEventApproximate.ToolAllEventApproximateWatcher(e, getResources(), getApplicationContext(), scrollView));
             eBBs.add(e);
         }
 
@@ -228,7 +229,7 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                 eRB_011, eRB_012, eRB_013, eRB_014, eRB_015, eRB_016, eRB_017, eRB_018, eRB_019, eRB_020,
                 eRB_021, eRB_022, eRB_023, eRB_024, eRB_025};
         for (EditText e : edit_03) {
-            e.addTextChangedListener(new AllEventSurveyWatcher(e, getResources(), getApplicationContext(), scrollView));
+            e.addTextChangedListener(new ToolAllEventApproximate.ToolAllEventApproximateWatcher(e, getResources(), getApplicationContext(), scrollView));
             eRBs.add(e);
         }
     }
@@ -243,13 +244,13 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                     // 保持しておいた値を移動
                     resetTotalGames = saveTotalGames;
                     // ゲーム数関係のEditTextを空にする。
-                    EditText[] edit_01 = {eGames_001, eGames_002, eGames_003, eGames_004, eGames_005, eGames_006, eGames_007, eGames_008, eGames_009, eGames_010,
-                            eGames_011, eGames_012, eGames_013, eGames_014, eGames_015, eGames_016, eGames_017, eGames_018, eGames_019, eGames_020,
-                            eGames_021, eGames_022, eGames_023, eGames_024, eGames_025};
+                    EditText[] edit_01 = {ePro_001, ePro_002, ePro_003, ePro_004, ePro_005, ePro_006, ePro_007, ePro_008, ePro_009, ePro_010,
+                            ePro_011, ePro_012, ePro_013, ePro_014, ePro_015, ePro_016, ePro_017, ePro_018, ePro_019, ePro_020,
+                            ePro_021, ePro_022, ePro_023, ePro_024, ePro_025};
                     for (EditText e : edit_01) {
                         e.removeTextChangedListener(null);
                         e.setText("");
-                        e.addTextChangedListener(new AllEventSurveyWatcher(e, getResources(), getApplicationContext(), scrollView));
+                        e.addTextChangedListener(new ToolAllEventApproximate.ToolAllEventApproximateWatcher(e, getResources(), getApplicationContext(), scrollView));
                     }
 
                     // 保持しておいた値を移動
@@ -261,7 +262,7 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                     for (EditText e : edit_02) {
                         e.removeTextChangedListener(null);
                         e.setText("");
-                        e.addTextChangedListener(new AllEventSurveyWatcher(e, getResources(), getApplicationContext(), scrollView));
+                        e.addTextChangedListener(new ToolAllEventApproximate.ToolAllEventApproximateWatcher(e, getResources(), getApplicationContext(), scrollView));
                     }
 
                     // 保持しておいた値を移動
@@ -273,7 +274,7 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                     for (EditText e : edit_03) {
                         e.removeTextChangedListener(null);
                         e.setText("");
-                        e.addTextChangedListener(new AllEventSurveyWatcher(e, getResources(), getApplicationContext(), scrollView));
+                        e.addTextChangedListener(new ToolAllEventApproximate.ToolAllEventApproximateWatcher(e, getResources(), getApplicationContext(), scrollView));
                     }
 
                     //最初に戻る
@@ -294,10 +295,8 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
         }
     }
 
-
-
     // インナークラスで複数のViewにTextWatcherを対応させる
-    private static class AllEventSurveyWatcher implements TextWatcher {
+    private static class ToolAllEventApproximateWatcher implements TextWatcher {
 
         View view;
         Resources resources;
@@ -309,7 +308,7 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
         static int totalReg;
         static int allData;
 
-        private AllEventSurveyWatcher(View view, Resources resources, Context context, ScrollView scrollView) {
+        private ToolAllEventApproximateWatcher(View view, Resources resources, Context context, ScrollView scrollView) {
             this.view = view;
             this.resources = resources;
             this.context = context;
@@ -329,249 +328,71 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
 
             switch (view.getId()) {
 
-                // ゲーム数関係
-
-                case R.id.Games_001:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(0).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_002:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(1).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_003:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(2).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_004:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(3).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_005:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(4).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_006:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(5).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_007:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(6).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_008:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(7).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_009:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(8).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_010:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(9).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_011:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(10).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_012:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(11).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_013:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(12).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_014:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(13).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_015:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(14).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_016:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(15).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_017:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(16).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_018:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(17).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_019:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(18).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_020:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(19).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_021:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(20).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_022:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(21).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_023:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(22).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_024:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(23).requestFocus();
-                    }
-                    break;
-
-                case R.id.Games_025:
-                    calTotalGames();
-                    if (s.length() == 4) {
-                        eBBs.get(24).requestFocus();
-                    }
-                    break;
-
                 // Big関係
-
-                case R.id.BB_001:
+                case R.id.BB_01:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(0).requestFocus();
                     }
                     break;
 
-                case R.id.BB_002:
+                case R.id.BB_02:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(1).requestFocus();
                     }
                     break;
 
-                case R.id.BB_003:
+                case R.id.BB_03:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(2).requestFocus();
                     }
                     break;
 
-                case R.id.BB_004:
+                case R.id.BB_04:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(3).requestFocus();
                     }
                     break;
 
-                case R.id.BB_005:
+                case R.id.BB_05:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(4).requestFocus();
                     }
                     break;
 
-                case R.id.BB_006:
+                case R.id.BB_06:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(5).requestFocus();
                     }
                     break;
 
-                case R.id.BB_007:
+                case R.id.BB_07:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(6).requestFocus();
                     }
                     break;
 
-                case R.id.BB_008:
+                case R.id.BB_08:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(7).requestFocus();
                     }
                     break;
 
-                case R.id.BB_009:
+                case R.id.BB_09:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(8).requestFocus();
                     }
                     break;
 
-                case R.id.BB_010:
+                case R.id.BB_10:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(9).requestFocus();
@@ -579,105 +400,105 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                     break;
 
 
-                case R.id.BB_011:
+                case R.id.BB_11:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(10).requestFocus();
                     }
                     break;
 
-                case R.id.BB_012:
+                case R.id.BB_12:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(11).requestFocus();
                     }
                     break;
 
-                case R.id.BB_013:
+                case R.id.BB_13:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(12).requestFocus();
                     }
                     break;
 
-                case R.id.BB_014:
+                case R.id.BB_14:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(13).requestFocus();
                     }
                     break;
 
-                case R.id.BB_015:
+                case R.id.BB_15:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(14).requestFocus();
                     }
                     break;
 
-                case R.id.BB_016:
+                case R.id.BB_16:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(15).requestFocus();
                     }
                     break;
 
-                case R.id.BB_017:
+                case R.id.BB_17:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(16).requestFocus();
                     }
                     break;
 
-                case R.id.BB_018:
+                case R.id.BB_18:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(17).requestFocus();
                     }
                     break;
 
-                case R.id.BB_019:
+                case R.id.BB_19:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(18).requestFocus();
                     }
                     break;
 
-                case R.id.BB_020:
+                case R.id.BB_20:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(19).requestFocus();
                     }
                     break;
 
-                case R.id.BB_021:
+                case R.id.BB_21:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(20).requestFocus();
                     }
                     break;
 
-                case R.id.BB_022:
+                case R.id.BB_22:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(21).requestFocus();
                     }
                     break;
 
-                case R.id.BB_023:
+                case R.id.BB_23:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(22).requestFocus();
                     }
                     break;
 
-                case R.id.BB_024:
+                case R.id.BB_24:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(23).requestFocus();
                     }
                     break;
 
-                case R.id.BB_025:
+                case R.id.BB_25:
                     calTotalBig();
                     if (s.length() == 2) {
                         eRBs.get(24).requestFocus();
@@ -685,181 +506,356 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                     break;
 
                 // Reg関係
-
-                case R.id.RB_001:
+                case R.id.RB_01:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(1).requestFocus();
+                        ePro.get(0).requestFocus();
                     }
                     break;
 
-                case R.id.RB_002:
+                case R.id.RB_02:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(2).requestFocus();
+                        ePro.get(1).requestFocus();
                     }
                     break;
 
-                case R.id.RB_003:
+                case R.id.RB_03:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(3).requestFocus();
+                        ePro.get(2).requestFocus();
                     }
                     break;
 
-                case R.id.RB_004:
+                case R.id.RB_04:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(4).requestFocus();
+                        ePro.get(3).requestFocus();
                     }
                     break;
 
-                case R.id.RB_005:
+                case R.id.RB_05:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(5).requestFocus();
+                        ePro.get(4).requestFocus();
                     }
                     break;
 
-                case R.id.RB_006:
+                case R.id.RB_06:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(6).requestFocus();
+                        ePro.get(5).requestFocus();
                     }
                     break;
 
-                case R.id.RB_007:
+                case R.id.RB_07:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(7).requestFocus();
+                        ePro.get(6).requestFocus();
                     }
                     break;
 
-                case R.id.RB_008:
+                case R.id.RB_08:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(8).requestFocus();
+                        ePro.get(7).requestFocus();
                     }
                     break;
 
-                case R.id.RB_009:
+                case R.id.RB_09:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(9).requestFocus();
+                        ePro.get(8).requestFocus();
                     }
                     break;
 
-                case R.id.RB_010:
+                case R.id.RB_10:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(10).requestFocus();
+                        ePro.get(9).requestFocus();
                     }
                     break;
 
-                case R.id.RB_011:
+                case R.id.RB_11:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(11).requestFocus();
+                        ePro.get(10).requestFocus();
                     }
                     break;
 
-                case R.id.RB_012:
+                case R.id.RB_12:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(12).requestFocus();
+                        ePro.get(11).requestFocus();
                     }
                     break;
 
-                case R.id.RB_013:
+                case R.id.RB_13:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(13).requestFocus();
+                        ePro.get(12).requestFocus();
                     }
                     break;
 
-                case R.id.RB_014:
+                case R.id.RB_14:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(14).requestFocus();
+                        ePro.get(13).requestFocus();
                     }
                     break;
 
-                case R.id.RB_015:
+                case R.id.RB_15:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(15).requestFocus();
+                        ePro.get(14).requestFocus();
                     }
                     break;
 
-                case R.id.RB_016:
+                case R.id.RB_16:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(16).requestFocus();
+                        ePro.get(15).requestFocus();
                     }
                     break;
 
-                case R.id.RB_017:
+                case R.id.RB_17:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(17).requestFocus();
+                        ePro.get(16).requestFocus();
                     }
                     break;
 
-                case R.id.RB_018:
+                case R.id.RB_18:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(18).requestFocus();
+                        ePro.get(17).requestFocus();
                     }
                     break;
 
-                case R.id.RB_019:
+                case R.id.RB_19:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(19).requestFocus();
+                        ePro.get(18).requestFocus();
                     }
                     break;
 
-                case R.id.RB_020:
+                case R.id.RB_20:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(20).requestFocus();
+                        ePro.get(19).requestFocus();
                     }
                     break;
 
-                case R.id.RB_021:
+                case R.id.RB_21:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(21).requestFocus();
+                        ePro.get(20).requestFocus();
                     }
                     break;
 
-                case R.id.RB_022:
+                case R.id.RB_22:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(22).requestFocus();
+                        ePro.get(21).requestFocus();
                     }
                     break;
 
-                case R.id.RB_023:
+                case R.id.RB_23:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(23).requestFocus();
+                        ePro.get(22).requestFocus();
                     }
                     break;
 
-                case R.id.RB_024:
+                case R.id.RB_24:
                     calTotalReg();
                     if (s.length() == 2) {
-                        eGames.get(24).requestFocus();
+                        ePro.get(23).requestFocus();
                     }
                     break;
 
-                case R.id.RB_025:
+                case R.id.RB_25:
                     calTotalReg();
                     if (s.length() == 2) {
+                        ePro.get(24).requestFocus();
+                    }
+                    break;
+
+                // 確率関係
+                case R.id.Pro_01:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(1).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_02:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(2).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_03:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(3).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_04:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(4).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_05:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(5).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_06:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(6).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_07:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(7).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_08:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(8).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_09:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(9).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_10:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(10).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_11:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(11).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_12:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(12).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_13:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(13).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_14:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(14).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_15:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(15).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_16:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(16).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_17:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(17).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_18:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(18).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_19:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(19).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_20:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(20).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_21:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(21).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_22:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(22).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_23:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(23).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_24:
+                    calTotalGames();
+                    if (s.length() == 3) {
+                        eBBs.get(24).requestFocus();
+                    }
+                    break;
+
+                case R.id.Pro_25:
+                    calTotalGames();
+                    if (s.length() == 3) {
                         //最初に戻る
                         scrollView.fullScroll(View.FOCUS_UP);
-                        eGames.get(0).requestFocus();
+                        eBBs.get(0).requestFocus();
                     }
                     break;
 
@@ -869,59 +865,6 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
         @SuppressLint("DefaultLocale")
         private String setFormat(double probability) {
             return "1/" + String.format("%.2f", probability);
-        }
-
-        public void calTotalGames() {
-            // 総ゲーム数の計算
-            totalGames = 0;
-            for (int i = 0, size = eGames.size(); i < size; i++) {
-                if (StringUtils.isNotEmpty(eGames.get(i).getText())) {
-                    totalGames += Integer.parseInt(eGames.get(i).getText().toString());
-                }
-            }
-            // 保持した値を加える
-            totalGames += resetTotalGames;
-            // 値の保持
-            saveTotalGames = totalGames;
-
-            // トータル関係のTextViewに計算結果をセット
-            if (totalGames <= 100_000_000) { //上限は100,000,000回転
-                // 総ゲーム数をセット
-                tTextViews.get(0).setText(resources.getString(R.string.all_total_games, totalGames));
-                // 各種確率計算
-                calPro();
-            } else {
-                totalGames = 100_000_000;
-                tTextViews.get(0).setText(resources.getString(R.string.all_total_games, 100_000_000));
-                calPro();
-                Toast toast = Toast.makeText(context, "ゲーム数が上限に達しました", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        }
-
-        public void calPro() {
-            // Bigの確率をセット
-            if (totalBig > 0) {
-                double bb_Probability = (double) totalGames / (double) totalBig;
-                tTextViews.get(1).setText(resources.getString(R.string.all_total_bb, totalBig, setFormat(bb_Probability)));
-            } else {
-                tTextViews.get(1).setText(resources.getString(R.string.all_total_bb, totalBig, "1/0.00"));
-            }
-            // Regの確率をセット
-            if (totalReg > 0) {
-                double rb_Probability = (double) totalGames / (double) totalReg;
-                tTextViews.get(2).setText(resources.getString(R.string.all_total_rb, totalReg, setFormat(rb_Probability)));
-            } else {
-                tTextViews.get(2).setText(resources.getString(R.string.all_total_rb, totalReg, "1/0.00"));
-            }
-            // 合算確率をセット
-            allData = totalBig + totalReg;
-            if (allData > 0) {
-                double bonus_Probability = (double) totalGames / (double) allData;
-                tTextViews.get(3).setText(resources.getString(R.string.all_total_bonus, allData, setFormat(bonus_Probability)));
-            } else {
-                tTextViews.get(3).setText(resources.getString(R.string.all_total_bonus, allData, "1/0.00"));
-            }
         }
 
         public void calTotalBig() {
@@ -1009,6 +952,88 @@ public class ToolAllEvent extends AppCompatActivity implements KeyboardVisibilit
                 tTextViews.get(3).setText(resources.getString(R.string.all_total_bonus, allData, "1/0.00"));
             }
         }
+
+        public void calTotalGames() {
+
+            // 総ゲーム数の計算
+            totalGames = 0;
+            for (int i = 0, size = ePro.size(); i < size; i++) {
+
+                int BB = 0;
+                int RB = 0;
+
+                if (StringUtils.isNotEmpty(ePro.get(i).getText())) {
+
+                    //　誤差をなるべく無くすために使用する変数
+                    int error;
+
+                    // BB回数取得
+                    if (StringUtils.isNotEmpty(eBBs.get(i).getText())){
+                        BB += Integer.parseInt(eBBs.get(i).getText().toString());
+                    }
+
+                    // RB回数取得
+                    if (StringUtils.isNotEmpty(eRBs.get(i).getText())){
+                        RB += Integer.parseInt(eRBs.get(i).getText().toString());
+                    }
+
+                    // ボーナス数/2の数値を使って誤差を吸収する
+                    error = (int)Math.ceil((BB + RB) / 2.0);
+
+                    // ゲーム数を算出
+                    totalGames = totalGames + error + (BB + RB) * (Integer.parseInt(ePro.get(i).getText().toString()));
+                }
+            }
+
+            // 保持した値を加える
+            totalGames += resetTotalGames;
+            // 値の保持
+            saveTotalGames = totalGames;
+
+            // トータル関係のTextViewに計算結果をセット
+            if (totalGames <= 100_000_000) { //上限は100,000,000回転
+                // 総ゲーム数をセット
+                tTextViews.get(0).setText(resources.getString(R.string.all_total_games, totalGames));
+                // 各種確率計算
+                calPro();
+            } else {
+                totalGames = 100_000_000;
+                tTextViews.get(0).setText(resources.getString(R.string.all_total_games, 100_000_000));
+                calPro();
+                Toast toast = Toast.makeText(context, "ゲーム数が上限に達しました", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+
+        public void calPro() {
+            // Bigの確率をセット
+            if (totalBig > 0) {
+                double bb_Probability = (double) totalGames / (double) totalBig;
+                tTextViews.get(1).setText(resources.getString(R.string.all_total_bb, totalBig, setFormat(bb_Probability)));
+            } else {
+                tTextViews.get(1).setText(resources.getString(R.string.all_total_bb, totalBig, "1/0.00"));
+            }
+            // Regの確率をセット
+            if (totalReg > 0) {
+                double rb_Probability = (double) totalGames / (double) totalReg;
+                tTextViews.get(2).setText(resources.getString(R.string.all_total_rb, totalReg, setFormat(rb_Probability)));
+            } else {
+                tTextViews.get(2).setText(resources.getString(R.string.all_total_rb, totalReg, "1/0.00"));
+            }
+            // 合算確率をセット
+            allData = totalBig + totalReg;
+            if (allData > 0) {
+                double bonus_Probability = (double) totalGames / (double) allData;
+                tTextViews.get(3).setText(resources.getString(R.string.all_total_bonus, allData, setFormat(bonus_Probability)));
+            } else {
+                tTextViews.get(3).setText(resources.getString(R.string.all_total_bonus, allData, "1/0.00"));
+            }
+        }
+
+
+
+
+
 
     }
 }

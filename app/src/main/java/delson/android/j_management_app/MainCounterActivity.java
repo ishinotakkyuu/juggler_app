@@ -583,15 +583,9 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     public void vibrator() {
         if (judgeVibrator) {
-            // API26以上だったら
-            if (Build.VERSION.SDK_INT >= 26) {
-                vibrationEffect = VibrationEffect.createOneShot(300, -1);
-                vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vibrator.vibrate(vibrationEffect);
-            } else {
-                vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vibrator.vibrate(300);
-            }
+            vibrationEffect = VibrationEffect.createOneShot(300, -1);
+            vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(vibrationEffect);
         }
     }
 

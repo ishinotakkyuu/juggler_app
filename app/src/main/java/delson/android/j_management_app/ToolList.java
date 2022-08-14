@@ -32,7 +32,8 @@ public class ToolList extends AppCompatActivity {
 
         // ツールリストに表示する項目をセット
         listItem = new ArrayList<>();
-        listItem.add("全台合算ツール");
+        listItem.add("全台合算");
+        listItem.add("全台合算(概算版)");
 
         /*
          * リストに項目を加えた際はsetItemClick()でページ遷移を振り分けているインデックスも同時に変更すること
@@ -48,48 +49,32 @@ public class ToolList extends AppCompatActivity {
         setItemClick();
     }
 
-    public void setItemClick(){
+    public void setItemClick() {
 
         toolList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                switch(position){
+                switch (position) {
 
-                    case 0:
-                        Intent intent = new Intent(getApplicationContext(),ToolAllEvent.class);
+                    case 0: //全台合算
+                        Intent intent = new Intent(getApplicationContext(), ToolAllEvent.class);
                         startActivity(intent);
                         break;
 
-                    case 1:
-                        intent = new Intent(getApplicationContext(),MainManual.class);
+                    case 1: //全台合算(概算版)
+                        intent = new Intent(getApplicationContext(), ToolAllEventApproximate.class);
                         startActivity(intent);
                         break;
+
+                    case 2: //アプリの使い方
+                        intent = new Intent(getApplicationContext(), MainManual.class);
+                        startActivity(intent);
+                        break;
+
 
                 }
-
-
-
-
             }
         });
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
+}
