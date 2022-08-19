@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Machines{
 
-    private List<String> nowJugglerList; //★新機種追加・撤去が発生した場合はString.xmlの「R.array.NOW_JUGGLER」を修正すること
-    private List<String> jugglerList; //★新機種追加が発生した場合はString.xmlの「R.array.JUGGLER」を修正すること
+    private final List<String> nowJugglerList; //★新機種追加・撤去が発生した場合はString.xmlの「R.array.NOW_JUGGLER」を修正すること
+    private final List<String> jugglerList; //★新機種追加が発生した場合はString.xmlの「R.array.JUGGLER」を修正すること
 
     // コンストラクタ
     public Machines(@NonNull Resources resources){
