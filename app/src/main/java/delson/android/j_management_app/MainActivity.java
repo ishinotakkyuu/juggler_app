@@ -12,16 +12,12 @@ import org.w3c.dom.Document;
 public class MainActivity extends AppCompatActivity {
 
     // 共有データ
-    MainApplication mainApplication = null;
-
-    static Activity activity;
+    MainApplication mainApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main00_main01);
-
-        activity = this;
 
         // 共有データ取り込み
         mainApplication = (MainApplication) this.getApplication();

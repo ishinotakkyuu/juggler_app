@@ -197,7 +197,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                 alpha = true;
                 setTextAlpha();
 
-                String sql = CreateSQL.FlagStatisticsSQL();
+                String sql = CreateSQL.FlagStatisticsSQL(getActivity());
                 DatabaseResultSet.execution("FlagStatistics", context, sql);
 
                 int calTotalBigValue = dbTotalSingleBigValue + dbTotalCherryBigValue;
@@ -579,7 +579,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         // SQLの格納
         String[] SQL = new String[size];
         for (int i = 0; i < size; i++) {
-            SQL[i] = CreateSQL.selectSpinnerItemSQL(columnName[i]);
+            SQL[i] = CreateSQL.selectSpinnerItemSQL(columnName[i],getActivity());
         }
 
         Cursor cursor;

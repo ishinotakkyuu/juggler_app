@@ -15,9 +15,7 @@ public class CreateSQL {
     static final String order = " ORDER BY ";
     static final String asc = " ASC ";
 
-    static Activity activity = MainActivity.activity;
-
-    public static String FlagStatisticsSQL() {
+    public static String FlagStatisticsSQL(Activity activity) {
 
         String initSql = "select * from " + "TEST";
         String sql = "";
@@ -154,7 +152,7 @@ public class CreateSQL {
         return sql;
     }
 
-    public static String selectSpinnerItemSQL(String columnName) {
+    public static String selectSpinnerItemSQL(String columnName,Activity activity) {
 
         String initSql = "SELECT DISTINCT " + columnName + " FROM TEST WHERE ";
         String sql = "";
