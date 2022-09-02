@@ -34,6 +34,7 @@ public class ToolList extends AppCompatActivity {
         listItem = new ArrayList<>();
         listItem.add("全台合算");
         listItem.add("全台合算(概算版)");
+        listItem.add("出目保存");
 
         /*
          * リストに項目を加えた際はsetItemClick()でページ遷移を振り分けているインデックスも同時に変更すること
@@ -67,7 +68,12 @@ public class ToolList extends AppCompatActivity {
                         startActivity(intent);
                         break;
 
-                    case 2: //アプリの使い方
+                    case 2: //出目保存
+                        intent = new Intent(getApplicationContext(), ToolDesign.class);
+                        startActivity(intent);
+                        break;
+
+                    case 3: //アプリの使い方
                         intent = new Intent(getApplicationContext(), MainManual.class);
                         startActivity(intent);
                         break;

@@ -110,12 +110,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
     // 共有データ
     MainApplication mainApplication;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mainApplication = (MainApplication) this.getApplication();
+        context = getApplicationContext();
         machines = new Machines(getResources()); //Machineクラスのインスタンス生成
         setContentView(R.layout.main02_counter01);
 
@@ -182,6 +184,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // オプションメニューのアイテムが選択されたときに呼び出されるメソッド
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+
         switch (item.getItemId()) {
             case R.id.item1: // 編集モード
 
@@ -295,8 +299,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
 
                             // 内部ストレージの初期化
                             mainApplication.init();
-                            CreateXML.updateText(mainApplication, "total", "0");
-                            CreateXML.updateText(mainApplication, "start", "0");
+                            CreateXML.updateText(mainApplication, "total", "0", context);
+                            CreateXML.updateText(mainApplication, "start", "0", context);
 
                             ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), Color.WHITE, Typeface.DEFAULT);
                             ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), Color.WHITE, Typeface.DEFAULT);
@@ -652,12 +656,12 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // ゲーム数関係
         EditText[] eGames = {eStartGames, eTotalGames, eIndividualGames};
         for (EditText e : eGames) {
-            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication));
+            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication, context));
         }
         // 役物関係
         EditText[] eRolls = {eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus};
         for (EditText e : eRolls) {
-            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication));
+            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication, context));
         }
     }
 
@@ -710,7 +714,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // 保存処理
                 mainApplication.setMachinePosition(position);
-                CreateXML.updateText(mainApplication, "machineName", String.valueOf(position));
+                CreateXML.updateText(mainApplication, "machineName", String.valueOf(position), context);
                 focusOut();
             }
 

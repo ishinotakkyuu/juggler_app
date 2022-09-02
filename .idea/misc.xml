@@ -31,6 +31,7 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main01_storemanagement01.xml" value="0.48748841519925856" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main01_storemanagement02_listitem.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main02_counter01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main02_counter04_custom_dialog.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main03_grades01.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main03_grades02_item.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main04_statistics01.xml" value="0.4" />
@@ -38,6 +39,11 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool00_tool_list.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool01_all_event_survey.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool02_all_event_survey_approximate.xml" value="0.536" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design02_custom_dialog.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/menu/design_menu.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/menu/memo_bar.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/menu/menu_list.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/title_1/app/src/main/res/drawable/a_1_select_button.xml" value="0.264" />

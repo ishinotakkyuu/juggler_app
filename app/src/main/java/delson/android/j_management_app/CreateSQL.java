@@ -307,8 +307,6 @@ public class CreateSQL {
             sql = sql + "OPERATION_DATE BETWEEN " + "'" + eDateStart + "'" + and + "'" + eDateEnd + "'";
         }
 
-
-
         if (sql.isEmpty()) {
             return sql;
         } else {

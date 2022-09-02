@@ -2,7 +2,9 @@ package delson.android.j_management_app;
 
 import android.app.Application;
 import android.content.Context;
+
 import org.w3c.dom.Document;
+
 import java.util.Random;
 
 public class MainApplication extends Application {
@@ -10,19 +12,19 @@ public class MainApplication extends Application {
     private Context context;
     private Document document;
 
-    private int userId,machinePosition;
-    private String totalGames,startGames,singleBig,cherryBig,singleReg,cherryReg,cherry,grape;
-    private String store001,store002,store003,store004,store005,store006,store007,store008,store009,store010,
-                   store011,store012,store013,store014,store015,store016,store017,store018,store019,store020;
-    private String memo001,memo002,memo003,memo004,memo005,memo006,memo007,memo008,memo009,memo010,
-                   memo011,memo012,memo013,memo014,memo015,memo016,memo017,memo018,memo019,memo020;
+    private int userId, machinePosition;
+    private String totalGames, startGames, singleBig, cherryBig, singleReg, cherryReg, cherry, grape;
+    private String store001, store002, store003, store004, store005, store006, store007, store008, store009, store010,
+            store011, store012, store013, store014, store015, store016, store017, store018, store019, store020;
+    private String memo001, memo002, memo003, memo004, memo005, memo006, memo007, memo008, memo009, memo010,
+            memo011, memo012, memo013, memo014, memo015, memo016, memo017, memo018, memo019, memo020;
 
     // 初期セット
     public void init() {
         Random rnd = new Random();
         //乱数を取得する
-        if(userId == 0){
-            setUserId(rnd.nextInt(2147483646)+1);
+        if (userId == 0) {
+            setUserId(rnd.nextInt(2147483646) + 1);
         }
         setTotalGames("0");
         setStartGames("0");
@@ -34,10 +36,10 @@ public class MainApplication extends Application {
         setGrape("0");
     }
 
-
     public Context getContext() {
         return context;
     }
+
     public void setContext(Context context) {
         this.context = context;
     }
@@ -45,6 +47,7 @@ public class MainApplication extends Application {
     public Document getDocument() {
         return document;
     }
+
     public void setDocument(Document document) {
         this.document = document;
     }
@@ -241,7 +244,9 @@ public class MainApplication extends Application {
         this.store014 = store014;
     }
 
-    public String getStore015() { return store015; }
+    public String getStore015() {
+        return store015;
+    }
 
     public void setStore015(String store015) {
         this.store015 = store015;
@@ -287,11 +292,11 @@ public class MainApplication extends Application {
         this.store020 = store020;
     }
 
-    public String getMemo001(){
+    public String getMemo001() {
         return memo001;
     }
 
-    public void setMemo001(String memo001){
+    public void setMemo001(String memo001) {
         this.memo001 = memo001;
     }
 
@@ -447,10 +452,10 @@ public class MainApplication extends Application {
         this.memo020 = memo020;
     }
 
-    public String[] getMemos(){
+    public String[] getMemos() {
         return new String[]{
-                memo001,memo002,memo003,memo004,memo005,memo006,memo007,memo008,memo009,memo010,
-                memo011,memo012,memo013,memo014,memo015,memo016,memo017,memo018,memo019,memo020};
+                memo001, memo002, memo003, memo004, memo005, memo006, memo007, memo008, memo009, memo010,
+                memo011, memo012, memo013, memo014, memo015, memo016, memo017, memo018, memo019, memo020};
     }
 
 }

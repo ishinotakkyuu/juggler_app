@@ -13,13 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.j_management_app">
         <activity
+            android:name=".ToolDesign"
+            android:exported="false"
+            android:label="出目保存"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ToolAllEventApproximate"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ToolList"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ToolAllEvent"
             android:exported="false"

@@ -105,6 +105,8 @@
     <string name="zero_game_toast">０ゲームでの登録はできません</string>
     <string name="select_date_toast">日付を選択してください</string>
     <string name="register_toast">データを登録しました</string>
+    <!--エラーメッセージ-->
+    <string name="error_message">カウンター値を正常に保持できません。一度アプリを再起動してください。</string>
     <!--MainCounterActivity.java 以上-->
 
     <!--FlagGrades.java 関係-->
@@ -130,6 +132,9 @@
     <string name="all_total_bonus">合算\n%1$d回\n%2$s</string>
     <!--AllEventApproximate 関係-->
     <string name="all_total_attention">算出結果は概算であることに\n留意してください</string>
+    <!--design 関係-->
+    <string name="save_count">%1$d件/50件</string>
+
     <!--使い方 関係-->
     <string name="manual_string">
         \n
@@ -451,6 +456,8 @@
     <string name="statistics_special07">末尾</string>
     <string name="statistics_show_button">表示</string>
     <string name="statistics_reset_button">クリア</string>
+    <!--出目保存のカスタムダイアログ画面-->
+    <string name="design_manual">台番号の自動加算または自動減算時に\n抜かしたい末尾を登録できます</string>
     <!--fragment関係(偉い人が作ったやつだから消したら終わる)-->
     <string name="title_activity_main_grade_inquiry">MainGradeInquiry</string>
     <string name="first_fragment_label">First Fragment</string>

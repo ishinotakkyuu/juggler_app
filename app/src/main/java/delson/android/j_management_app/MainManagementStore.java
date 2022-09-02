@@ -50,6 +50,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
     // 共有データ
     MainApplication mainApplication;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
 
         // 共有データに保存している店舗名を取得 ⇒ itemsに店舗名を格納 ⇒ adapterを介してListViewにセット
         this.mainApplication = (MainApplication) this.getApplication();
+        context = getApplicationContext();
         setStorageListItem();
         adapter = new MainManagementStoreAdapter(this, R.layout.main01_storemanagement02_listitem, Store_List_Items);
         lStoreName.setAdapter(adapter);
@@ -261,8 +263,8 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         //　XMLに保存されている文字列を入れ替える
         String parentMemo = memos[position];
         String memo = memos[position - 1];
-        CreateXML.updateText(mainApplication,memoTagNames[position],memo);
-        CreateXML.updateText(mainApplication,memoTagNames[position - 1],parentMemo);
+        CreateXML.updateText(mainApplication,memoTagNames[position],memo,context);
+        CreateXML.updateText(mainApplication,memoTagNames[position - 1],parentMemo,context);
     }
 
     public void moveDownItem(ListView listView, int parentPosition, String downStoreName, String tappedStoreName){
@@ -297,8 +299,8 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
         //　XMLに保存されている文字列を入れ替える
         String parentMemo = memos[position];
         String memo = memos[position + 1];
-        CreateXML.updateText(mainApplication,memoTagNames[position],memo);
-        CreateXML.updateText(mainApplication,memoTagNames[position + 1],parentMemo);
+        CreateXML.updateText(mainApplication,memoTagNames[position],memo,context);
+        CreateXML.updateText(mainApplication,memoTagNames[position + 1],parentMemo,context);
     }
 
 
@@ -393,9 +395,9 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                         for(int x = position; x < adapter.getCount(); x++){
                             if(x < 19){
                                 String memo = memos[x + 1];
-                                CreateXML.updateText(mainApplication,memoTagNames[x],memo);
+                                CreateXML.updateText(mainApplication,memoTagNames[x],memo,context);
                             } else {
-                                CreateXML.updateText(mainApplication,memoTagNames[x],"null");
+                                CreateXML.updateText(mainApplication,memoTagNames[x],"null",context);
                             }
                         }
 
@@ -451,83 +453,83 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             switch (i) {
                 case 0:
                     mainApplication.setStore001(storeName);
-                    CreateXML.updateText(mainApplication, "store001", storeName);
+                    CreateXML.updateText(mainApplication, "store001", storeName,context);
                     break;
                 case 1:
                     mainApplication.setStore002(storeName);
-                    CreateXML.updateText(mainApplication, "store002", storeName);
+                    CreateXML.updateText(mainApplication, "store002", storeName,context);
                     break;
                 case 2:
                     mainApplication.setStore003(storeName);
-                    CreateXML.updateText(mainApplication, "store003", storeName);
+                    CreateXML.updateText(mainApplication, "store003", storeName,context);
                     break;
                 case 3:
                     mainApplication.setStore004(storeName);
-                    CreateXML.updateText(mainApplication, "store004", storeName);
+                    CreateXML.updateText(mainApplication, "store004", storeName,context);
                     break;
                 case 4:
                     mainApplication.setStore005(storeName);
-                    CreateXML.updateText(mainApplication, "store005", storeName);
+                    CreateXML.updateText(mainApplication, "store005", storeName,context);
                     break;
                 case 5:
                     mainApplication.setStore006(storeName);
-                    CreateXML.updateText(mainApplication, "store006", storeName);
+                    CreateXML.updateText(mainApplication, "store006", storeName,context);
                     break;
                 case 6:
                     mainApplication.setStore007(storeName);
-                    CreateXML.updateText(mainApplication, "store007", storeName);
+                    CreateXML.updateText(mainApplication, "store007", storeName,context);
                     break;
                 case 7:
                     mainApplication.setStore008(storeName);
-                    CreateXML.updateText(mainApplication, "store008", storeName);
+                    CreateXML.updateText(mainApplication, "store008", storeName,context);
                     break;
                 case 8:
                     mainApplication.setStore009(storeName);
-                    CreateXML.updateText(mainApplication, "store009", storeName);
+                    CreateXML.updateText(mainApplication, "store009", storeName,context);
                     break;
                 case 9:
                     mainApplication.setStore010(storeName);
-                    CreateXML.updateText(mainApplication, "store010", storeName);
+                    CreateXML.updateText(mainApplication, "store010", storeName,context);
                     break;
                 case 10:
                     mainApplication.setStore011(storeName);
-                    CreateXML.updateText(mainApplication, "store011", storeName);
+                    CreateXML.updateText(mainApplication, "store011", storeName,context);
                     break;
                 case 11:
                     mainApplication.setStore012(storeName);
-                    CreateXML.updateText(mainApplication, "store012", storeName);
+                    CreateXML.updateText(mainApplication, "store012", storeName,context);
                     break;
                 case 12:
                     mainApplication.setStore013(storeName);
-                    CreateXML.updateText(mainApplication, "store013", storeName);
+                    CreateXML.updateText(mainApplication, "store013", storeName,context);
                     break;
                 case 13:
                     mainApplication.setStore014(storeName);
-                    CreateXML.updateText(mainApplication, "store014", storeName);
+                    CreateXML.updateText(mainApplication, "store014", storeName,context);
                     break;
                 case 14:
                     mainApplication.setStore015(storeName);
-                    CreateXML.updateText(mainApplication, "store015", storeName);
+                    CreateXML.updateText(mainApplication, "store015", storeName,context);
                     break;
                 case 15:
                     mainApplication.setStore016(storeName);
-                    CreateXML.updateText(mainApplication, "store016", storeName);
+                    CreateXML.updateText(mainApplication, "store016", storeName,context);
                     break;
                 case 16:
                     mainApplication.setStore017(storeName);
-                    CreateXML.updateText(mainApplication, "store017", storeName);
+                    CreateXML.updateText(mainApplication, "store017", storeName,context);
                     break;
                 case 17:
                     mainApplication.setStore018(storeName);
-                    CreateXML.updateText(mainApplication, "store018", storeName);
+                    CreateXML.updateText(mainApplication, "store018", storeName,context);
                     break;
                 case 18:
                     mainApplication.setStore019(storeName);
-                    CreateXML.updateText(mainApplication, "store019", storeName);
+                    CreateXML.updateText(mainApplication, "store019", storeName,context);
                     break;
                 case 19:
                     mainApplication.setStore020(storeName);
-                    CreateXML.updateText(mainApplication, "store020", storeName);
+                    CreateXML.updateText(mainApplication, "store020", storeName,context);
                     break;
             }
         }

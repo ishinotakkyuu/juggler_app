@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/design_list"
+        android:title="確認"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/vh"
+        android:title="移動方向の変更"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/down_line"
+        android:title="保存領域の変更"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/number_change"
+        android:title="加減算切り替え"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/number_skip"
+        android:title="飛び番登録"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+
+</menu>

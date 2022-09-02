@@ -1,10 +1,13 @@
 package delson.android.j_management_app;
 
 import android.content.Context;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
 import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +20,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class CreateXML {
 
-    static Document execution(MainApplication mainApplication , Context context) {
+    static Document execution(MainApplication mainApplication, Context context) {
 
         // Documentインスタンスの生成
         DocumentBuilder documentBuilder = null;
@@ -41,19 +44,19 @@ public class CreateXML {
         document.appendChild(info);
 
         // 以下は、XML文書のtext要素追加コード。Activityで例えるなら、「TextView」とか「Button」とかにあたる。
-            // text要素はroot要素の子ノード
-                // ①createElementメソッドは、text要素をセットするもの
-                // ②setAttributeメソッドは、属性をセットしてするもの
-                // ③appendChildメソッドは、text要素(子ノード)を親要素の末尾に追加するもの
-                // ④createTextNodeメソッドは、指定した文字列でtextノードを作成するもの。XML文書内の表記でいうと、＞＜で挟まれたやつがtextノード
-                    // これらを踏まえて、以下のコードは次の流れを示している。
-                        //①指定したタグ名で開始タグを作成　⇒　<userId
-                        //②作成した開始タグの後ろに属性をセット　⇒　<userId id="ユーザID">
-                        //③textノード名をmainApplicationから取得　⇒　int型なので初期値だと0が入る
-                        //④取得したtextノード名を①と②で作った要素列の末尾にセット　⇒　<userId id="ユーザID">int型なので初期値だと0が入る
-                        //⑤最後に①と同じタグ名を使って終了タグを末尾にセット　⇒　<userId id="ユーザID">int型なので初期値だと0が入る</userId>　これにて完成
-                            //なお、String.valueOfの引数にnullが入ると、文字列の"null"が入るという、ちょっと変わった仕様になってる模様(String.valueOf null で検索すると色々情報が出てきた)
-                            //ただし、nullが来ると色々と面倒なので、文字列"null"のままで進める
+        // text要素はroot要素の子ノード
+        // ①createElementメソッドは、text要素をセットするもの
+        // ②setAttributeメソッドは、属性をセットしてするもの
+        // ③appendChildメソッドは、text要素(子ノード)を親要素の末尾に追加するもの
+        // ④createTextNodeメソッドは、指定した文字列でtextノードを作成するもの。XML文書内の表記でいうと、＞＜で挟まれたやつがtextノード
+        // これらを踏まえて、以下のコードは次の流れを示している。
+        //①指定したタグ名で開始タグを作成　⇒　<userId
+        //②作成した開始タグの後ろに属性をセット　⇒　<userId id="ユーザID">
+        //③textノード名をmainApplicationから取得　⇒　int型なので初期値だと0が入る
+        //④取得したtextノード名を①と②で作った要素列の末尾にセット　⇒　<userId id="ユーザID">int型なので初期値だと0が入る
+        //⑤最後に①と同じタグ名を使って終了タグを末尾にセット　⇒　<userId id="ユーザID">int型なので初期値だと0が入る</userId>　これにて完成
+        //なお、String.valueOfの引数にnullが入ると、文字列の"null"が入るという、ちょっと変わった仕様になってる模様(String.valueOf null で検索すると色々情報が出てきた)
+        //ただし、nullが来ると色々と面倒なので、文字列"null"のままで進める
 
         // ユーザID
         Element userId = document.createElement("userId");
@@ -428,7 +431,6 @@ public class CreateXML {
 
         // Transformerの設定
         transformer.setOutputProperty("indent", "yes"); //改行指定
-        //transformer.setOutputProperty("encoding", "Shift_JIS"); // エンコーディング
         transformer.setOutputProperty("encoding", "utf-8"); // エンコーディング
 
         // XMLファイルの作成
@@ -442,32 +444,35 @@ public class CreateXML {
         return true;
     }
 
-    public static void updateText(MainApplication mainApplication, String id,String text) {
+    public static void updateText(MainApplication mainApplication, String id, String text, Context context) {
+
+        // 謎のDocument「null問題」回避策
+        if (mainApplication.getDocument() == null) {
+            mainApplication.setDocument(ReadXML.readXML(context));
+        }
 
         Node node = mainApplication.getDocument().getElementsByTagName(id).item(0);
 
-        if(node != null) {
+        if (node != null) {
             Node nodeValue = node.getFirstChild();
-            if(nodeValue==null){
+            if (nodeValue == null) {
                 // 子ノードを新規作成
                 node.appendChild(mainApplication.getDocument().createTextNode(text));
-            }else{
+            } else {
                 // 子ノードに更新
                 nodeValue.setTextContent(text);
             }
             File file = new File(mainApplication.getContext().getFilesDir(), "info.xml");
             CreateXML.write(file, mainApplication.getDocument());
-
         }
+
     }
 
-    public static String[] getMemosTagName(){
+    public static String[] getMemosTagName() {
         return new String[]{
-                "memo001","memo002","memo003","memo004","memo005","memo006","memo007","memo008","memo009","memo010",
-                "memo011","memo012","memo013","memo014","memo015","memo016","memo017","memo018","memo019","memo020"};
+                "memo001", "memo002", "memo003", "memo004", "memo005", "memo006", "memo007", "memo008", "memo009", "memo010",
+                "memo011", "memo012", "memo013", "memo014", "memo015", "memo016", "memo017", "memo018", "memo019", "memo020"};
     }
-
-
 
 
 }

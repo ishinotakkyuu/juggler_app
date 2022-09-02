@@ -2,11 +2,13 @@ package delson.android.j_management_app;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import org.w3c.dom.Document;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,32 +42,30 @@ public class MainActivity extends AppCompatActivity {
             // 初期セット
             mainApplication.init();
             // XML生成
-            document = CreateXML.execution(mainApplication,context);
+            document = CreateXML.execution(mainApplication, context);
         }
         mainApplication.setDocument(document);
         ReadXML.readInfo(mainApplication);
     }
 
-    public void MainManagementStore(View view){
+    public void MainManagementStore(View view) {
         Intent intent = new Intent(getApplication(), MainManagementStore.class);
         startActivity(intent);
     }
 
-    public void MainCounter(View view){
+    public void MainCounter(View view) {
         Intent intent = new Intent(getApplication(), MainCounterActivity.class);
         startActivity(intent);
     }
 
-    public void gradeInquiry(View view){
+    public void gradeInquiry(View view) {
         Intent intent = new Intent(getApplication(), MainGradeInquiry.class);
         startActivity(intent);
     }
 
-    public void manual(View view){
+    public void manual(View view) {
         Intent intent = new Intent(getApplication(), ToolList.class);
         startActivity(intent);
     }
-
-
 
 }

@@ -1,10 +1,12 @@
 package delson.android.j_management_app;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import org.apache.commons.lang3.StringUtils;
 
 //-----------------------------------------------------------------------------------------------
@@ -43,12 +45,14 @@ public class MainCounterWatcher implements TextWatcher {
 
     // 共有データ
     MainApplication mainApplication;
+    Context context;
 
     TextView view;
 
-    public MainCounterWatcher(TextView view, MainApplication mainApplication) {
+    public MainCounterWatcher(TextView view, MainApplication mainApplication, Context context) {
         this.view = view;
         this.mainApplication = mainApplication;
+        this.context = context;
     }
 
     //以下３つのメソッドはTextWatcherを実装するためにオーバーライド必須
@@ -66,7 +70,7 @@ public class MainCounterWatcher implements TextWatcher {
 
         //空が入ってきたら0に置き換える
         String textString = s.toString();
-        if(textString.isEmpty()){
+        if (textString.isEmpty()) {
             textString = "0";
         }
 
@@ -111,7 +115,7 @@ public class MainCounterWatcher implements TextWatcher {
                 // MainCounterActivity.javaのsetValue()で「総ゲーム数」から内部ストレージの値を
                 // セットしている関係でまずtotal_gameのテキストウォッチャーが発動する
                 // そのため、必ず「開始ゲーム数」は空白となる。以下のif文はその空白対応のためにある
-                if(strStart.equals("")){
+                if (strStart.equals("")) {
                     strStart = "0";
                 }
                 startGame = Integer.parseInt(strStart);
@@ -131,7 +135,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setTotalGames(strTotal);
-                CreateXML.updateText(mainApplication, "total", strTotal);
+                CreateXML.updateText(mainApplication, "total", strTotal, context);
 
                 // テキストウォッチャーを元に戻す
                 eTotalGames.addTextChangedListener(this);
@@ -168,7 +172,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setStartGames(strStart);
-                CreateXML.updateText(mainApplication, "start", strStart);
+                CreateXML.updateText(mainApplication, "start", strStart, context);
 
                 eStartGames.addTextChangedListener(this);
                 break;
@@ -211,7 +215,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setSingleBig(strAloneBig);
-                CreateXML.updateText(mainApplication, "aB", strAloneBig);
+                CreateXML.updateText(mainApplication, "aB", strAloneBig, context);
 
                 eSingleBig.addTextChangedListener(this);
                 break;
@@ -233,7 +237,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setCherryBig(strCherryBig);
-                CreateXML.updateText(mainApplication, "cB", strCherryBig);
+                CreateXML.updateText(mainApplication, "cB", strCherryBig, context);
 
                 eCherryBig.addTextChangedListener(this);
                 break;
@@ -269,7 +273,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setSingleReg(strAloneReg);
-                CreateXML.updateText(mainApplication, "aR", strAloneReg);
+                CreateXML.updateText(mainApplication, "aR", strAloneReg, context);
 
                 eSingleReg.addTextChangedListener(this);
                 break;
@@ -291,7 +295,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setCherryReg(strCherryReg);
-                CreateXML.updateText(mainApplication, "cR", strCherryReg);
+                CreateXML.updateText(mainApplication, "cR", strCherryReg, context);
 
                 eCherryReg.addTextChangedListener(this);
                 break;
@@ -325,7 +329,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setCherry(strCherry);
-                CreateXML.updateText(mainApplication, "ch", strCherry);
+                CreateXML.updateText(mainApplication, "ch", strCherry, context);
 
                 eCherry.addTextChangedListener(this);
                 break;
@@ -347,7 +351,7 @@ public class MainCounterWatcher implements TextWatcher {
 
                 // 保存処理
                 mainApplication.setGrape(strGr);
-                CreateXML.updateText(mainApplication, "gr", strGr);
+                CreateXML.updateText(mainApplication, "gr", strGr, context);
 
                 eGrape.addTextChangedListener(this);
                 break;

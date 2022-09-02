@@ -43,7 +43,8 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
     boolean menuFlag = true;
 
     // 共有データ
-    MainApplication mainApplication = null;
+    MainApplication mainApplication;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
 
         // ストレージの取得
         mainApplication = (MainApplication) this.getApplication();
+        context = getApplicationContext();
         ReadXML.readInfo(mainApplication);
         memo = mainApplication.getMemos();
         memoTagNames = CreateXML.getMemosTagName();
@@ -215,7 +217,7 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
         // メモが空白になった際の対応
         if(text[0].isEmpty()) {
             text[0] = "null";
-            CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
+            CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0],context);
             return;
         }
 
@@ -242,7 +244,7 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
                             eMemo.setText(text[0]);
                             eMemo.setSelection(deleteIndex);
                             cursorPosition = deleteIndex;
-                            CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
+                            CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0],context);
 
                         })
                         .show();
@@ -251,7 +253,7 @@ public class MainManagementStoreMemo extends AppCompatActivity implements TextWa
         }
 
         // 特殊文字がなければそのまま保存
-        CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0]);
+        CreateXML.updateText(mainApplication, memoTagNames[catchTappedPosition], text[0],context);
 
         // 括弧が入力されたらカーソルを括弧内に移動
         if(cursorPosition >= 2){
