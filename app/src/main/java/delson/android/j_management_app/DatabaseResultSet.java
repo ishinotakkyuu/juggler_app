@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class DatabaseResultSet {
 
     protected static void execution(String flg, Context context, String sql) {
@@ -14,11 +16,11 @@ public class DatabaseResultSet {
 
         try {
 
-            Cursor cursor = db.rawQuery(sql,null);
+            Cursor cursor = db.rawQuery(sql, null);
 
             switch (flg) {
                 case "FlagStatistics":
-                    while(cursor.moveToNext()) {
+                    while (cursor.moveToNext()) {
                         FlagStatisticsSelect(cursor);
                     }
                     // 対象データ数の取得
@@ -26,21 +28,28 @@ public class DatabaseResultSet {
                     break;
 
                 case "FlagGrades":
-                    while(cursor.moveToNext()) {
+                    while (cursor.moveToNext()) {
                         FlagGradesSelect(cursor);
                     }
                     break;
 
                 case "DataDetailSelect":
-                    while(cursor.moveToNext()) {
+                    while (cursor.moveToNext()) {
                         DataDetailSelect(cursor);
                     }
                     break;
 
+                case "ToolDesignList":
+                    int No = 1;
+                    while (cursor.moveToNext()) {
+                        ToolDesignListSelect(cursor, No);
+                        No++;
+                    }
+                    break;
             }
 
-        }finally{
-            if(db != null) {
+        } finally {
+            if (db != null) {
                 db.close();
             }
         }
@@ -62,8 +71,8 @@ public class DatabaseResultSet {
             // コミット
             db.setTransactionSuccessful();
 
-        }finally{
-            if(db != null) {
+        } finally {
+            if (db != null) {
                 db.endTransaction();
                 db.close();
             }
@@ -182,7 +191,32 @@ public class DatabaseResultSet {
         index = cursor.getColumnIndex("SAVE_DATE");
         String saveDate = cursor.getString(index);
 
-        FlagGrades.listItems.add(new FlagGradesListItems(id,machineName,storeName,tableNumber,operationDate,saveDate));
+        FlagGrades.listItems.add(new FlagGradesListItems(id, machineName, storeName, tableNumber, operationDate, saveDate));
     }
 
+    protected static void ToolDesignListSelect(Cursor cursor, int No) {
+
+        // ID
+        int index = cursor.getColumnIndex("ID");
+        String id = String.valueOf(cursor.getLong(index));
+
+        // 登録日時
+        index = cursor.getColumnIndex("SAVE_DATE");
+        String saveDate = cursor.getString(index);
+
+        // 台番号
+        index = cursor.getColumnIndex("TABLE_NUMBER");
+        String tableNumber = "";
+        if (StringUtils.isNotEmpty(cursor.getString(index))) {
+            tableNumber = cursor.getString(index) + "番台";
+        }
+
+        // 表示する文字列作成
+        String designText = " No." + No + "  " + saveDate + "  " + tableNumber;
+
+        // ナンバリング取得
+        String no = String.valueOf(No);
+
+        ToolDesignList.designs.add(new ToolDesignListItems(id, no, designText));
+    }
 }

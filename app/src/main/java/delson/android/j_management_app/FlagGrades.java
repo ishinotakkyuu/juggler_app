@@ -23,7 +23,7 @@ public class FlagGrades extends Fragment {
     ConstraintLayout layout;
     ListView keepDataList;
     String judgeToast = null;
-    static ArrayList<FlagGradesListItems> listItems = new ArrayList<>();
+    static ArrayList<FlagGradesListItems> listItems;
     TextView saveDateCount;
 
     // 共有データ(登録データは存在するが登録店舗が０件だった場合の対応に使用)

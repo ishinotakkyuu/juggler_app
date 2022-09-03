@@ -78,7 +78,6 @@ public class ToolList extends AppCompatActivity {
                         startActivity(intent);
                         break;
 
-
                 }
             }
         });

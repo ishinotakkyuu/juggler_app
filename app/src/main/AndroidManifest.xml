@@ -13,6 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.j_management_app">
         <activity
+            android:name=".ToolDesignDetail"
+            android:exported="false"
+            android:label="出目詳細"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ToolDesignList"
+            android:exported="false"
+            android:label="出目一覧"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ToolDesign"
             android:exported="false"
             android:label="出目保存"

@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -36,7 +37,7 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
 
     // 件数関係
     TextView tCount;
-    final String SQL = "select * from DESIGN ORDER BY STORE_NAME;";
+    final String SQL = "select DESIGN_09 from DESIGN;";
     int designCount = 0;
 
     // 台番号関係
@@ -118,6 +119,12 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            // 確認画面へ遷移
+            case R.id.design_list:
+                Intent intent = new Intent(getApplicationContext(), ToolDesignList.class);
+                startActivity(intent);
+                break;
 
             // カーソル移動先変更
             case R.id.vh:
