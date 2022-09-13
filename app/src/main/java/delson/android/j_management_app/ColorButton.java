@@ -10,7 +10,7 @@ public class ColorButton {
     int colorFrom = Color.BLACK;
     int colorTo = Color.BLACK;
 
-    public void setFlash(View v,int id){
+    public void setFlash(View v,int id,boolean flashJudge){
 
         switch (id){
 
@@ -41,7 +41,7 @@ public class ColorButton {
         }
 
         // フラッシュ機能がONだったら点滅させる
-        if(MainCounterActivity.flashJudge){
+        if(flashJudge){
             flashAnimation(v,colorFrom,colorTo);
         }
     }

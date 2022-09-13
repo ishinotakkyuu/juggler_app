@@ -3,6 +3,7 @@ package delson.android.j_management_app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -26,7 +27,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.apache.commons.lang3.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,6 +86,11 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
 
         // IDセット
         setFindViewById();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         // 残り記録件数の表示(現時点で最大５０件)
         Context context = getApplicationContext();
@@ -96,7 +104,7 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
         }
         // 現時点での件数を格納
         designCount = count.size();
-        tCount.setText(getString(R.string.save_count, count.size()));
+        tCount.setText(getString(R.string.save_count, designCount));
     }
 
     @Override
@@ -132,6 +140,14 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
                         .setTitle("カーソル移動方向の変更")
                         .setMessage("縦方向または横方向に変更します。\n現在セットされている出目はリセットされます。")
                         .setPositiveButton("変更", (dialog, which) -> {
+
+                            focusOut();
+
+                            // 台番号入力を可能にする
+                            eNumber.setFocusableInTouchMode(true);
+                            // 台番号入力不可のトーストが表示されないようにする
+                            notNumberToast();
+
                             // フラグ反転
                             horizon = !horizon;
                             // 出目領域を初期化
@@ -157,6 +173,14 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
                         .setTitle("保存領域の変更")
                         .setMessage("保存する領域を９つまたは下段の３つのみに変更します。\n現在セットされている出目はリセットされます。")
                         .setPositiveButton("変更", (dialog, which) -> {
+
+                            focusOut();
+
+                            // 台番号入力を可能にする
+                            eNumber.setFocusableInTouchMode(true);
+                            // 台番号入力不可のトーストが表示されないようにする
+                            notNumberToast();
+
                             // フラグ反転
                             nineBox = !nineBox;
                             // 出目領域を初期化
@@ -178,9 +202,12 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
 
             // 台番号の自動加減算
             case R.id.number_change:
+
+                focusOut();
+
                 new AlertDialog.Builder(this)
                         .setTitle("台番号の加減算変更")
-                        .setMessage("台番号入力時の自動加算または自動減算を変更します。")
+                        .setMessage("台番号入力時の自動加算または自動減算を変更します")
                         .setPositiveButton("変更", (dialog, which) -> {
                             // フラグ反転
                             plus = !plus;
@@ -255,7 +282,7 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
 
             // 現在時刻を取得
             Date now = new Date();
-            SimpleDateFormat dFormat = new SimpleDateFormat("MM月dd日HH時mm分");
+            SimpleDateFormat dFormat = new SimpleDateFormat("HH時mm分ss秒");
             String saveDate = dFormat.format(now);
 
             // 出目を取得
@@ -319,7 +346,7 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
                 }
                 // 上限値の更新
                 designCount = count.size();
-                tCount.setText(getString(R.string.save_count, count.size()));
+                tCount.setText(getString(R.string.save_count, designCount));
                 db.close();
             }
 
@@ -362,6 +389,8 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
 
     public void setDesignText(String design) {
 
+        focusOut();
+        
         // 保存領域が９つか下段のみの３つかを判定
         if (nineBox) {
             // 横移動か縦移動かを判定
@@ -511,6 +540,7 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
 
     public void barButton(View view) {
         if (designCount < 50) {
+
             setDesignText("BAR");
             vibrator();
         } else {
@@ -619,5 +649,12 @@ public class ToolDesign extends AppCompatActivity implements TextWatcher, Keyboa
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(vibrationEffect);
     }
+
+    public void focusOut() {
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+        mainLayout.requestFocus();
+    }
+
 
 }

@@ -635,7 +635,7 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
             if (StringUtils.isNotEmpty(text)) {
                 if (textValue > 0) {
                     textValue--;
-                    colorButton.setFlash(v, id);
+                    colorButton.setFlash(v, id, true);
                     editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, getString(R.string.lower_limit_count_toast), Toast.LENGTH_SHORT);
@@ -649,14 +649,14 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
 
                 if (textValue < limit) {
                     textValue++;
-                    colorButton.setFlash(v, id);
+                    colorButton.setFlash(v, id, true);
                     editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, getString(R.string.upper_limit_count_toast), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } else {
-                colorButton.setFlash(v, id);
+                colorButton.setFlash(v, id, true);
                 editText.setText(String.valueOf(1));
             }
         }

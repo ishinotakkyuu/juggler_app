@@ -3,12 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/selection"
+        android:id="@+id/selection_delete"
         android:title="選択削除"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/design_all_delete"
+        android:id="@+id/selection_cancel"
+        android:title="キャンセル"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/selection_delete_execution"
+        android:title="削除"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/design_all_delete_execution"
         android:title="全消去"
         app:showAsAction="always"/>
 

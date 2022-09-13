@@ -16,36 +16,55 @@
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/drawable/c_maincounteractivity01_gamesediter.xml" value="0.2555" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/drawable/d_flaggrades01_datalist.xml" value="0.121" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/drawable/e_tool_list_item.xml" value="0.212" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/main02_counter05_store_spinner.xml" value="0.46875" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/main03_grades01.xml" value="0.536" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/main03_grades02_item.xml" value="0.6846689895470384" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/main04_statistics01.xml" value="0.625" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool00_main_tool_list01.xml" value="0.6" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool00_main_tool_list_item02.xml" value="0.705" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool01_all_event_survey.xml" value="0.72" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool02_all_event_survey_approximate.xml" value="0.72" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool03_design01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool03_design02_custom_dialog.xml" value="0.72" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool03_design03_list.xml" value="0.1875" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool03_design04_list_item.xml" value="0.31875" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw600dp/tool03_design05_detail.xml" value="0.6" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/main02_counter04_custom_dialog.xml" value="0.6" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/main03_grades01.xml" value="0.2" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/main03_grades02_item.xml" value="0.2807142857142857" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/main04_statistics01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/main05_datadetail02_custom_dialog.xml" value="0.6" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool00_main_tool_list_item02.xml" value="0.2604166666666667" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool01_all_event_survey.xml" value="0.176" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool02_all_event_survey_approximate.xml" value="0.2" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool03_design01.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool03_design02_custom_dialog.xml" value="0.72" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool03_design03_list.xml" value="0.1875" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool03_design04_list_item.xml" value="0.31875" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout-sw720dp/tool03_design05_detail.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main00_main01.xml" value="0.2" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main01_storemanagement01.xml" value="0.48748841519925856" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main01_storemanagement02_listitem.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main02_counter01.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main02_counter04_custom_dialog.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main02_counter05_store_spinner.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main02_counter06_store_spinner_dropdown.xml" value="0.25" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main03_grades01.xml" value="0.264" />
-        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main03_grades02_item.xml" value="0.25" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main03_grades02_item.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main04_statistics01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/main05_datadetail02_custom_dialog.xml" value="0.536" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool00_main_tool_list01.xml" value="0.536" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool00_main_tool_list_item02.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool00_tool_list.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool01_all_event_survey.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool02_all_event_survey_approximate.xml" value="0.536" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design.xml" value="0.264" />
-        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design01.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design01.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design02_custom_dialog.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design03_list.xml" value="0.264" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design04_list_item.xml" value="0.4" />
-        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design05_detail.xml" value="0.264" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/layout/tool03_design05_detail.xml" value="0.4" />
+        <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/menu/design_detail_menu.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/menu/design_list_menu.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/menu/design_menu.xml" value="0.4" />
         <entry key="..\:/Users/saske/AndroidStudioProjects/j_management_app/app/src/main/res/menu/memo_bar.xml" value="0.4" />

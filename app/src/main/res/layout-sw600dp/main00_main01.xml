@@ -85,7 +85,7 @@
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/a_mainactivity02_selectbutton"
-        android:onClick="manual"
+        android:onClick="tools"
         android:text="@string/tool"
         android:textColor="@color/white"
         android:textSize="35sp"

@@ -46,6 +46,18 @@ public class DatabaseResultSet {
                         No++;
                     }
                     break;
+
+                case "ToolDesignDetail":
+                    while (cursor.moveToNext()) {
+                        ToolDesignDetail(cursor);
+                    }
+                    break;
+
+                case "DesignTableCount":
+                    while (cursor.moveToNext()) {
+                        DesignTableCount(cursor);
+                    }
+                    break;
             }
 
         } finally {
@@ -219,4 +231,55 @@ public class DatabaseResultSet {
 
         ToolDesignList.designs.add(new ToolDesignListItems(id, no, designText));
     }
+
+    protected static void ToolDesignDetail(Cursor cursor) {
+
+        // 台番号
+        int index = cursor.getColumnIndex("TABLE_NUMBER");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_01
+        index = cursor.getColumnIndex("DESIGN_01");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_02
+        index = cursor.getColumnIndex("DESIGN_02");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_03
+        index = cursor.getColumnIndex("DESIGN_03");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_04
+        index = cursor.getColumnIndex("DESIGN_04");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_05
+        index = cursor.getColumnIndex("DESIGN_05");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_06
+        index = cursor.getColumnIndex("DESIGN_06");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_07
+        index = cursor.getColumnIndex("DESIGN_07");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_08
+        index = cursor.getColumnIndex("DESIGN_08");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+
+        // design_09
+        index = cursor.getColumnIndex("DESIGN_09");
+        ToolDesignDetail.strDesigns.add(cursor.getString(index));
+    }
+
+    protected static void DesignTableCount(Cursor cursor) {
+        // ID
+        int index = cursor.getColumnIndex("ID");
+        ToolDesignDetail.primaryKeys.add(String.valueOf(cursor.getLong(index)));
+    }
+
+
 }

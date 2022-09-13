@@ -6,10 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 
 import org.w3c.dom.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Context context = getApplicationContext();
 
         // XMLよみこみ
         Document document = ReadXML.readXML(context);
@@ -63,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void manual(View view) {
+    public void tools(View view) {
         Intent intent = new Intent(getApplication(), ToolList.class);
         startActivity(intent);
     }

@@ -8,5 +8,6 @@
     android:backgroundTint="#FFFFFF"
     android:ellipsize="marquee"
     android:singleLine="true"
+    android:textAlignment="center"
     android:textColor="@color/black"
     android:textSize="24sp" />

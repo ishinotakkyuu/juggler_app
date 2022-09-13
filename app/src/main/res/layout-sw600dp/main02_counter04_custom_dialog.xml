@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RegisterLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="350dp"
+    android:layout_height="450dp"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
@@ -12,6 +12,7 @@
         android:id="@+id/DialogTittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/add_date"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -24,27 +25,28 @@
         android:id="@+id/DateTittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/date"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView03"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
 
     <EditText
         android:id="@+id/DateEditText"
-        android:layout_width="260dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:focusable="false"
         android:hint="タップしてカレンダーを表示"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DateTittle" />
 
@@ -52,23 +54,24 @@
         android:id="@+id/StoreSelectTittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/store_name"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView05"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DateEditText" />
 
     <Spinner
         android:id="@+id/StoreSpinner"
-        android:layout_width="260dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
         android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/StoreSelectTittle"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -77,26 +80,27 @@
         android:id="@+id/MachineNumberTittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/table_number"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView08"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/StoreSpinner" />
 
     <EditText
         android:id="@+id/MachineNumber"
-        android:layout_width="260dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
         android:inputType="number"
         android:maxLength="4"
         android:minHeight="48dp"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MachineNumberTittle" />
 
@@ -104,26 +108,26 @@
         android:id="@+id/DifferenceNumberTittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/medal"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView07"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MachineNumber" />
 
     <EditText
         android:id="@+id/DifferenceNumber"
-        android:layout_width="260dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:gravity="center"
         android:inputType="number"
         android:maxLength="6"
         android:minHeight="48dp"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DifferenceNumberTittle" />
 
@@ -131,8 +135,10 @@
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/DifferenceNumber"
         app:layout_constraintTop_toBottomOf="@+id/DifferenceNumberTittle" />
 
@@ -142,89 +148,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/register_button"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DifferenceNumber" />
-
-    <TextView
-        android:id="@+id/DummyView03"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView04"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DateTittle"
-        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
-
-    <TextView
-        android:id="@+id/DummyView04"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DummyView03"
-        app:layout_constraintTop_toBottomOf="@+id/DialogTittle" />
-
-    <TextView
-        android:id="@+id/DummyView05"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView06"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/StoreSelectTittle"
-        app:layout_constraintTop_toBottomOf="@+id/DateEditText" />
-
-    <TextView
-        android:id="@+id/DummyView06"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DummyView05"
-        app:layout_constraintTop_toBottomOf="@+id/DateEditText" />
-
-    <TextView
-        android:id="@+id/DummyView07"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView10"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DifferenceNumberTittle"
-        app:layout_constraintTop_toBottomOf="@+id/MachineNumber" />
-
-    <TextView
-        android:id="@+id/DummyView08"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/DummyView09"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/MachineNumberTittle"
-        app:layout_constraintTop_toBottomOf="@+id/StoreSpinner" />
-
-    <TextView
-        android:id="@+id/DummyView09"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DummyView08"
-        app:layout_constraintTop_toBottomOf="@+id/StoreSpinner" />
-
-    <TextView
-        android:id="@+id/DummyView10"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DummyView07"
-        app:layout_constraintTop_toBottomOf="@+id/MachineNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -114,6 +114,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
             if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
                 Toast toast = Toast.makeText(this, getString(R.string.not_use_string), Toast.LENGTH_LONG);
                 toast.show();
+                focusOut();
                 return;
             }
         }
@@ -129,6 +130,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                 //トーストを表示
                 Toast toast = Toast.makeText(this, getString(R.string.upper_limit_store_toast), Toast.LENGTH_SHORT);
                 toast.show();
+                focusOut();
                 return;
             }
 
@@ -401,7 +403,7 @@ public final class MainManagementStore extends AppCompatActivity implements Adap
                             }
                         }
 
-                        // adapterから店舗名を削除＆リストからも削除 ⇒ adapterを更新
+                        // adapterから店舗名＆リストから削除 ⇒ adapterを更新
                         ArrayAdapter<String> adapter = (ArrayAdapter<String>) listView.getAdapter();
                         adapter.remove(tappedStoreName);
                         Store_List_Items.remove(tappedStoreName);

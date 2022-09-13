@@ -106,7 +106,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     VibrationEffect vibrationEffect; // API26以上のOSで有効
 
     // フラッシュ機能
-    static boolean flashJudge = true;
+    boolean flashJudge = true;
 
     // 共有データ
     MainApplication mainApplication;
@@ -778,7 +778,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             if (StringUtils.isNotEmpty(text)) {
                 if (textValue > 0) {
                     textValue--;
-                    colorButton.setFlash(v, id);
+                    colorButton.setFlash(v, id, flashJudge);
                     editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, getString(R.string.lower_limit_count_toast), Toast.LENGTH_SHORT);
@@ -789,14 +789,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             if (StringUtils.isNotEmpty(text)) {
                 if (textValue < limit) {
                     textValue++;
-                    colorButton.setFlash(v, id);
+                    colorButton.setFlash(v, id, flashJudge);
                     editText.setText(String.valueOf(textValue));
                 } else {
                     Toast toast = Toast.makeText(this, getString(R.string.upper_limit_count_toast), Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } else {
-                colorButton.setFlash(v, id);
+                colorButton.setFlash(v, id, flashJudge);
                 editText.setText(String.valueOf(1));
             }
         }

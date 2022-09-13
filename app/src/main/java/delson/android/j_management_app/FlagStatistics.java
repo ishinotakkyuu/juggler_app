@@ -50,7 +50,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
     EditText eDateStart, eDateEnd;
     static List<EditText> eStatisticsEditDate;
 
-    // 各種スピナーとそれぞれに対応するチェックボックス
+    // 各種スピナー
     Spinner sStore, sMachine, sTableNumber, sDayDigit, sSpecialDay, sMonth, sDay, sDayOfWeek_In_Month, sWeekId, sTailNumber;
     static List<Spinner> sStatisticsSpinner;
 
@@ -84,7 +84,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
     static int dataCount;
 
     // スピナーにセットする初期項目を格納した配列
-    List<String> Store_Names, Machine_Names, Table_Number, DAY_DIGIT, SPECIAL_DAY, MONTH, DAY, DayOfWeek_In_Month, WEEK_ID, TailNumber;
+    static List<String> Store_Names, Machine_Names, Table_Number, DAY_DIGIT, SPECIAL_DAY, MONTH, DAY, DayOfWeek_In_Month, WEEK_ID, TailNumber;
 
     // スピナーに設定するリスナー
     AdapterView.OnItemSelectedListener listener = this;
@@ -93,6 +93,17 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
     final String FORMAT = "%.2f";
     final String TIMES = "回";
     final String NUMERATOR = "1/";
+
+    static final String storeListSql = "SELECT DISTINCT STORE_NAME FROM TEST ORDER BY STORE_NAME;";
+    static final String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST ORDER BY MACHINE_NAME;";
+    static final String tableNumberListSql = "SELECT DISTINCT TABLE_NUMBER FROM TEST ORDER BY TABLE_NUMBER;";
+    static final String dayDigitSql = "SELECT DISTINCT OPERATION_DAY_DIGIT FROM TEST ORDER BY OPERATION_DAY_DIGIT;";
+    static final String specialDaySql = "SELECT DISTINCT SPECIAL_DAY FROM TEST ORDER BY SPECIAL_DAY;";
+    static final String monthListSql = "SELECT DISTINCT OPERATION_MONTH FROM TEST ORDER BY OPERATION_MONTH;";
+    static final String dayListSql = "SELECT DISTINCT OPERATION_DAY FROM TEST ORDER BY OPERATION_DAY;";
+    static final String dayOfWeekListSql = "SELECT DISTINCT DAY_OF_WEEK_IN_MONTH FROM TEST ORDER BY DAY_OF_WEEK_IN_MONTH;";
+    static final String weekIDListSql = "SELECT DISTINCT WEEK_ID FROM TEST ORDER BY WEEK_ID;";
+    static final String tailNumberListSql = "SELECT DISTINCT TAIL_NUMBER FROM TEST ORDER BY TAIL_NUMBER;";
 
     @Nullable
     @Override
@@ -138,10 +149,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         sStatisticsSpinner.addAll(Arrays.asList(sSpinners));
 
     }
-
-
-
-
 
     @SuppressLint({"SetTextI18n", "NonConstantResourceId", "DefaultLocale"})
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -249,6 +256,10 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
             case R.id.DateClear:
 
+                if (tTittleTotalGames == null) {
+                    setFindViewById_02();
+                }
+
                 new AlertDialog.Builder(getContext())
                         .setTitle(getString(R.string.reset_dialog_tittle))
                         .setMessage(getString(R.string.reset_dialog_message))
@@ -340,17 +351,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
         DatabaseHelper helper = new DatabaseHelper(context);
         SQLiteDatabase db = helper.getWritableDatabase();
-
-        String storeListSql = "SELECT DISTINCT STORE_NAME FROM TEST ORDER BY STORE_NAME;";
-        String machineListSql = "SELECT DISTINCT MACHINE_NAME FROM TEST ORDER BY MACHINE_NAME;";
-        String tableNumberListSql = "SELECT DISTINCT TABLE_NUMBER FROM TEST ORDER BY TABLE_NUMBER;";
-        String dayDigitSql = "SELECT DISTINCT OPERATION_DAY_DIGIT FROM TEST ORDER BY OPERATION_DAY_DIGIT;";
-        String specialDaySql = "SELECT DISTINCT SPECIAL_DAY FROM TEST ORDER BY SPECIAL_DAY;";
-        String monthListSql = "SELECT DISTINCT OPERATION_MONTH FROM TEST ORDER BY OPERATION_MONTH;";
-        String dayListSql = "SELECT DISTINCT OPERATION_DAY FROM TEST ORDER BY OPERATION_DAY;";
-        String dayOfWeekListSql = "SELECT DISTINCT DAY_OF_WEEK_IN_MONTH FROM TEST ORDER BY DAY_OF_WEEK_IN_MONTH;";
-        String weekIDListSql = "SELECT DISTINCT WEEK_ID FROM TEST ORDER BY WEEK_ID;";
-        String tailNumberListSql = "SELECT DISTINCT TAIL_NUMBER FROM TEST ORDER BY TAIL_NUMBER;";
 
         try {
             Cursor cursor;
@@ -497,7 +497,6 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         }
         return result;
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
