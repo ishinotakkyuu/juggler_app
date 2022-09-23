@@ -162,13 +162,13 @@ public class DatabaseResultSet {
         DataDetail.dbSingleBigValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY_BIG");
-        DataDetail.dbCherryRegValue = cursor.getInt(index);
+        DataDetail.dbCherryBigValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("SINGLE_REG");
         DataDetail.dbSingleRegValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY_REG");
-        DataDetail.dbCherryBigValue = cursor.getInt(index);
+        DataDetail.dbCherryRegValue = cursor.getInt(index);
 
         index = cursor.getColumnIndex("CHERRY");
         DataDetail.dbCherryValue = cursor.getInt(index);

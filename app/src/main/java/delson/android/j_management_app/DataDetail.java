@@ -205,7 +205,6 @@ public class DataDetail extends AppCompatActivity implements TextWatcher, Keyboa
 
     }
 
-
     public void EditORBack(View view) {
 
         // 「編集」ボタンを押した処理

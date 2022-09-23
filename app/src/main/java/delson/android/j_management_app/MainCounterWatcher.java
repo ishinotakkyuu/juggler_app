@@ -2,6 +2,7 @@ package delson.android.j_management_app;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
@@ -44,15 +45,16 @@ public class MainCounterWatcher implements TextWatcher {
     TextView tTotalBonusProbability = MainCounterActivity.eCounterTextProbability.get(8);
 
     // 共有データ
-    MainApplication mainApplication;
-    Context context;
+//    MainApplication mainApplication;
+//    Context context;
+
+    SharedPreferences.Editor editor;
 
     TextView view;
 
-    public MainCounterWatcher(TextView view, MainApplication mainApplication, Context context) {
+    public MainCounterWatcher(TextView view, SharedPreferences.Editor editor) {
         this.view = view;
-        this.mainApplication = mainApplication;
-        this.context = context;
+        this.editor = editor;
     }
 
     //以下３つのメソッドはTextWatcherを実装するためにオーバーライド必須
@@ -134,8 +136,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eIndividualGames.setText(individualValue);
 
                 // 保存処理
-                mainApplication.setTotalGames(strTotal);
-                CreateXML.updateText(mainApplication, "total", strTotal, context);
+                saveDate("TotalGames",strTotal);
 
                 // テキストウォッチャーを元に戻す
                 eTotalGames.addTextChangedListener(this);
@@ -171,8 +172,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eIndividualGames.setText(individualValue);
 
                 // 保存処理
-                mainApplication.setStartGames(strStart);
-                CreateXML.updateText(mainApplication, "start", strStart, context);
+                saveDate("StartGames",strStart);
 
                 eStartGames.addTextChangedListener(this);
                 break;
@@ -214,8 +214,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eSingleBig.setSelection(strAloneBig.length());
 
                 // 保存処理
-                mainApplication.setSingleBig(strAloneBig);
-                CreateXML.updateText(mainApplication, "aB", strAloneBig, context);
+                saveDate("SingleBig",strAloneBig);
 
                 eSingleBig.addTextChangedListener(this);
                 break;
@@ -236,8 +235,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eCherryBig.setSelection(strCherryBig.length());
 
                 // 保存処理
-                mainApplication.setCherryBig(strCherryBig);
-                CreateXML.updateText(mainApplication, "cB", strCherryBig, context);
+                saveDate("CherryBig",strCherryBig);
 
                 eCherryBig.addTextChangedListener(this);
                 break;
@@ -272,13 +270,12 @@ public class MainCounterWatcher implements TextWatcher {
                 eSingleReg.setSelection(strAloneReg.length());
 
                 // 保存処理
-                mainApplication.setSingleReg(strAloneReg);
-                CreateXML.updateText(mainApplication, "aR", strAloneReg, context);
+                saveDate("SingleReg",strAloneReg);
 
                 eSingleReg.addTextChangedListener(this);
                 break;
 
-            case R.id.eCherryReg: //チェリービッグ
+            case R.id.eCherryReg: //チェリーレギュラー
 
                 eCherryReg.removeTextChangedListener(this);
                 //入力値を更新
@@ -294,8 +291,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eCherryReg.setSelection(strCherryReg.length());
 
                 // 保存処理
-                mainApplication.setCherryReg(strCherryReg);
-                CreateXML.updateText(mainApplication, "cR", strCherryReg, context);
+                saveDate("CherryReg",strCherryReg);
 
                 eCherryReg.addTextChangedListener(this);
                 break;
@@ -328,8 +324,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eCherry.setSelection(strCherry.length());
 
                 // 保存処理
-                mainApplication.setCherry(strCherry);
-                CreateXML.updateText(mainApplication, "ch", strCherry, context);
+                saveDate("Cherry",strCherry);
 
                 eCherry.addTextChangedListener(this);
                 break;
@@ -350,8 +345,7 @@ public class MainCounterWatcher implements TextWatcher {
                 eGrape.setSelection(strGr.length());
 
                 // 保存処理
-                mainApplication.setGrape(strGr);
-                CreateXML.updateText(mainApplication, "gr", strGr, context);
+                saveDate("Grape",strGr);
 
                 eGrape.addTextChangedListener(this);
                 break;
@@ -476,5 +470,10 @@ public class MainCounterWatcher implements TextWatcher {
     @SuppressLint("DefaultLocale")
     private String setFormat(double probability) {
         return "1/" + String.format("%.2f", probability);
+    }
+
+    private void saveDate(String key, String date){
+        editor.putString(key,date);
+        editor.apply();
     }
 }

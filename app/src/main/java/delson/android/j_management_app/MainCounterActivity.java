@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.icu.util.Calendar;
@@ -108,18 +109,27 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     // フラッシュ機能
     boolean flashJudge = true;
 
-    // 共有データ
+    // 共有データ(店舗用)
     MainApplication mainApplication;
-    Context context;
+
+    // 共有データ(ゲーム数および小役数用)
+    SharedPreferences counterDate;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mainApplication = (MainApplication) this.getApplication();
-        context = getApplicationContext();
-        machines = new Machines(getResources()); //Machineクラスのインスタンス生成
         setContentView(R.layout.main02_counter01);
+
+        // R04.09.23 登録店舗の絡みもあるので一旦残しておく。それ以外の部分は全てSharedPreferencesに変更。
+        mainApplication = (MainApplication) this.getApplication();
+
+        // R04.09.23 追加。SharedPreferencesの準備
+        counterDate = getSharedPreferences("CounterDate", MODE_PRIVATE);
+        editor = counterDate.edit();
+
+        // Machineクラスのインスタンス生成
+        machines = new Machines(getResources());
 
         // 戻るボタン等でキーボードを非表示にされた時のフォーカス対応
         activity = this;
@@ -297,10 +307,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                                 e.setText("0");
                             }
 
-                            // 内部ストレージの初期化
-                            mainApplication.init();
-                            CreateXML.updateText(mainApplication, "total", "0", context);
-                            CreateXML.updateText(mainApplication, "start", "0", context);
+                            // ストレージの初期化
+                            initSharedPreferences();
 
                             ViewItems.setEditTextColor(ViewItems.getCounterTextItems(), Color.WHITE, Typeface.DEFAULT);
                             ViewItems.setTextViewColor(ViewItems.getProbabilityTextItems(), Color.WHITE, Typeface.DEFAULT);
@@ -453,17 +461,17 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 }
 
                 // 機種名取得
-                dbMachineName = machines.getNowMachineName(mainApplication.getMachinePosition());
+                dbMachineName = machines.getNowMachineName(counterDate.getInt("MachinePosition", 0));
 
                 // 各種カウンター値を取得
-                dbStartGames = Integer.parseInt(mainApplication.getStartGames());
-                dbTotalGames = Integer.parseInt(mainApplication.getTotalGames());
-                dbSingleBig = Integer.parseInt(mainApplication.getSingleBig());
-                dbCherryBig = Integer.parseInt(mainApplication.getCherryBig());
-                dbSingleReg = Integer.parseInt(mainApplication.getSingleReg());
-                dbCherryReg = Integer.parseInt(mainApplication.getCherryReg());
-                dbCherry = Integer.parseInt(mainApplication.getCherry());
-                dbGrape = Integer.parseInt(mainApplication.getGrape());
+                dbStartGames = Integer.parseInt(counterDate.getString("StartGames", "0"));
+                dbTotalGames = Integer.parseInt(counterDate.getString("TotalGames", "0"));
+                dbSingleBig = Integer.parseInt(counterDate.getString("SingleBig", "0"));
+                dbCherryBig = Integer.parseInt(counterDate.getString("CherryBig", "0"));
+                dbSingleReg = Integer.parseInt(counterDate.getString("SingleReg", "0"));
+                dbCherryReg = Integer.parseInt(counterDate.getString("CherryReg", "0"));
+                dbCherry = Integer.parseInt(counterDate.getString("Cherry", "0"));
+                dbGrape = Integer.parseInt(counterDate.getString("Grape", "0"));
 
                 // ゾロ目
                 dbSpecialDay = "";
@@ -574,6 +582,18 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         registerDialog.show();
     }
 
+    public void initSharedPreferences() {
+        editor.putString("TotalGames", "0");
+        editor.putString("StartGames", "0");
+        editor.putString("SingleBig", "0");
+        editor.putString("CherryBig", "0");
+        editor.putString("SingleReg", "0");
+        editor.putString("CherryReg", "0");
+        editor.putString("Cherry", "0");
+        editor.putString("Grape", "0");
+        editor.apply();
+    }
+
     public void pleaseAddStore() {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.add_store_tittle))
@@ -656,12 +676,12 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         // ゲーム数関係
         EditText[] eGames = {eStartGames, eTotalGames, eIndividualGames};
         for (EditText e : eGames) {
-            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication, context));
+            e.addTextChangedListener(new MainCounterWatcher(e, editor));
         }
         // 役物関係
         EditText[] eRolls = {eSingleBig, eCherryBig, eTotalBig, eSingleReg, eCherryReg, eTotalReg, eCherry, eGrape, eTotalBonus};
         for (EditText e : eRolls) {
-            e.addTextChangedListener(new MainCounterWatcher(e, mainApplication, context));
+            e.addTextChangedListener(new MainCounterWatcher(e, editor));
         }
     }
 
@@ -670,7 +690,7 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         ArrayAdapter<String> jugglerAdapter = new ArrayAdapter<>(this, R.layout.main02_counter02_juggler_spinner, jugglerList);
         jugglerAdapter.setDropDownViewResource(R.layout.main02_counter03_juggler_spinner_dropdown);
         sJuggler.setAdapter(jugglerAdapter);
-        sJuggler.setSelection(mainApplication.getMachinePosition());
+        sJuggler.setSelection(counterDate.getInt("MachinePosition", 0));
     }
 
     public void setEditTextFocusTrue() {
@@ -684,15 +704,17 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
     }
 
     private void setValue() {
-        // 共有データから値をセット
-        eTotalGames.setText(mainApplication.getTotalGames());
-        eStartGames.setText(mainApplication.getStartGames());
-        eSingleBig.setText(mainApplication.getSingleBig());
-        eCherryBig.setText(mainApplication.getCherryBig());
-        eSingleReg.setText(mainApplication.getSingleReg());
-        eCherryReg.setText(mainApplication.getCherryReg());
-        eCherry.setText(mainApplication.getCherry());
-        eGrape.setText(mainApplication.getGrape());
+
+        // SharedPreferencesから値を取得してセット
+        // R04.09.23変更
+        eTotalGames.setText(counterDate.getString("TotalGames", "0"));
+        eStartGames.setText(counterDate.getString("StartGames", "0"));
+        eSingleBig.setText(counterDate.getString("SingleBig", "0"));
+        eCherryBig.setText(counterDate.getString("CherryBig", "0"));
+        eSingleReg.setText(counterDate.getString("SingleReg", "0"));
+        eCherryReg.setText(counterDate.getString("CherryReg", "0"));
+        eCherry.setText(counterDate.getString("Cherry", "0"));
+        eGrape.setText(counterDate.getString("Grape", "0"));
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -713,8 +735,8 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // 保存処理
-                mainApplication.setMachinePosition(position);
-                CreateXML.updateText(mainApplication, "machineName", String.valueOf(position), context);
+                editor.putInt("MachinePosition", position);
+                editor.apply();
                 focusOut();
             }
 
