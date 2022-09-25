@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -18,7 +17,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -40,9 +38,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import org.apache.commons.lang3.StringUtils;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -568,13 +569,14 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                     db.close();
                 }
 
-                Toast toast = Toast.makeText(MainCounterActivity.this, getString(R.string.register_toast), Toast.LENGTH_LONG);
-                toast.show();
                 registerDialog.dismiss();
                 focusOut();
+
+                // アプリ内レビュー
+                startReviewInfo();
+
             } else {
-                Toast toast = Toast.makeText(MainCounterActivity.this, getString(R.string.select_date_toast), Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(MainCounterActivity.this, getString(R.string.select_date_toast), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -825,5 +827,34 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
         focusOut();
     }
 
+    private void startReviewInfo() {
+        ReviewManager reviewManager = ReviewManagerFactory.create(getApplicationContext());
+        Task<ReviewInfo> manager = reviewManager.requestReviewFlow();
+        manager.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                ReviewInfo reviewInfo = task.getResult();
+                if (reviewInfo != null) {
+                    Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
+                    flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(Task<Void> task) {
+                            Toast.makeText(MainCounterActivity.this, getString(R.string.register_toast), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } else {
+                Toast.makeText(MainCounterActivity.this, getString(R.string.register_toast), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+
+
 }
+
+
+
 

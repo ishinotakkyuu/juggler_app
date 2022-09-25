@@ -76,11 +76,46 @@
             android:name=".SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
+
+
+
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <!--Intent メール関係-->
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.SENDTO" />
+                <data android:scheme="mailto" />
+                <category android:name="android.intent.category.DEFAULT" />
+
             </intent-filter>
+
+
+
+
         </activity>
+
+
+
+
+        <!--providerは、メールに添付ファイルを付けるために必要なやつ-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="delson.android.management_app.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+
+
+
+
     </application>
 
 </manifest>

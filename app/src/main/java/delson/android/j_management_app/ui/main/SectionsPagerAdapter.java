@@ -1,16 +1,15 @@
 package delson.android.j_management_app.ui.main;
 
 import android.content.Context;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
 import delson.android.j_management_app.FlagGrades;
 import delson.android.j_management_app.FlagStatistics;
 import delson.android.j_management_app.R;
+import delson.android.j_management_app.FlagExportCSV;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -19,7 +18,7 @@ import delson.android.j_management_app.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2,R.string.tab_text_3};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -41,11 +40,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 fragment = new FlagStatistics();
                 break;
-            /*
             case 2:
-                //fragment = new Z_FlagExportCSV();
+                fragment = new FlagExportCSV();
 
-             */
         }
         return fragment;
     }
@@ -59,6 +56,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     // ここでタブの数を管理
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }
