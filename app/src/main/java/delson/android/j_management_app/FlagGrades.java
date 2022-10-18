@@ -160,6 +160,18 @@ public class FlagGrades extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
+                // Tab1で選択削除状態にしてからTab3に移動するとTab1の画面表示がリセットされる
+                // この時static変数「selectJudge」がfalse状態のままになっているのでtrueに戻してやる必要がある
+                if(!selectJudge){
+                    // 表示されている文字列の最初の４文字が「登録件数」ならフラグを初期化する
+                    String judgeText = saveDateCount.getText().toString();
+                    judgeText = judgeText.substring(0,4);
+                    if (judgeText.equals("登録件数")){
+                        selectJudge = true;
+                        deleteCheck = false;
+                    }
+                }
+
                 if (selectJudge) {
                     // selectListをセット
                     String[] Select_List = {"選択削除", "全削除"};
@@ -177,7 +189,7 @@ public class FlagGrades extends Fragment {
 
                                 // チェックボックス表示
                                 int a = 0;
-                                while (keepDataList.getChildAt(a) != null){
+                                while (keepDataList.getChildAt(a) != null) {
                                     CheckBox checkBox = keepDataList.getChildAt(a).findViewById(R.id.grades_select_box);
                                     checkBox.setVisibility(View.VISIBLE);
                                     a++;
@@ -188,7 +200,7 @@ public class FlagGrades extends Fragment {
                                 saveDateCount.setText("削除/キャンセル");
                                 break;
 
-                                // 全消去
+                            // 全消去
                             case 1:
                                 new AlertDialog.Builder(getContext())
                                         .setTitle("登録データ全削除")
@@ -245,7 +257,7 @@ public class FlagGrades extends Fragment {
                                 int count = adapter.getBoolList().size();
                                 Context context = getContext();
                                 for (int i = 0; i < count; i++) {
-                                    if (adapter.getBoolList().get(i)){
+                                    if (adapter.getBoolList().get(i)) {
                                         String sql = "DELETE FROM TEST WHERE ID = '" + listItems.get(i).getID() + "';";
                                         DatabaseResultSet.UpdateOrDelete(context, sql);
                                     }
@@ -290,7 +302,7 @@ public class FlagGrades extends Fragment {
 
                                 // チェックボックス非表示
                                 int b = 0;
-                                while (keepDataList.getChildAt(b) != null){
+                                while (keepDataList.getChildAt(b) != null) {
                                     CheckBox checkBox = keepDataList.getChildAt(b).findViewById(R.id.grades_select_box);
                                     // チェックが付いていたら外してからViewを消す
                                     if (checkBox.isChecked()) {
@@ -325,7 +337,6 @@ public class FlagGrades extends Fragment {
                 })
                 .show();
     }
-
 
 
     // 統計画面更新-----------------------------------------------------------------

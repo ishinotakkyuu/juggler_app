@@ -9,8 +9,8 @@ android {
         applicationId "delson.android.j_management_app"
         minSdk 26
         targetSdk 32
-        versionCode 17
-        versionName "4.0.0"
+        versionCode 20
+        versionName "4.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

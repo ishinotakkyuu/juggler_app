@@ -23,13 +23,22 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -226,7 +235,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                 nfNum.setMaximumFractionDigits(1);
 
                 // 値を各Viewにセット
-                tDataCount.setText(getString(R.string.tittle_data_count,dataCount));
+                tDataCount.setText(getString(R.string.tittle_data_count, dataCount));
                 tTotalGames.setText(Math.round(dbTotalGamesValue) + "回転");
                 tTotalMedal.setText(Math.round(dbTotalMedalValue) + "枚");
                 if (calDiscountValue > 0) {
@@ -293,12 +302,10 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
 
                             // スピナーにリスナーを再セット
                             setItemSelectedListener();
-
-                            Toast toast = Toast.makeText(getContext(), getString(R.string.clear_all_toast), Toast.LENGTH_LONG);
-                            toast.show();
-
                             // テキストを非表示にしてからScrollをトップに戻して固定
                             resetScroll();
+                            // アプリ内レビュー
+                            startReviewInfo();
 
                         })
                         .setNegativeButton(getString(R.string.reset_dialog_date), (dialog, which) -> {
@@ -306,11 +313,10 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
                             eDateStart.getEditableText().clear();
                             eDateEnd.getEditableText().clear();
 
-                            Toast toast = Toast.makeText(getContext(), getString(R.string.clear_date_toast), Toast.LENGTH_LONG);
-                            toast.show();
-
                             // テキストを非表示にしてからScrollをトップに戻して固定
                             resetScroll();
+                            // アプリ内レビュー
+                            startReviewInfo();
                         })
                         .show();
                 break;
@@ -578,7 +584,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         // SQLの格納
         String[] SQL = new String[size];
         for (int i = 0; i < size; i++) {
-            SQL[i] = CreateSQL.selectSpinnerItemSQL(columnName[i],getActivity());
+            SQL[i] = CreateSQL.selectSpinnerItemSQL(columnName[i], getActivity());
         }
 
         Cursor cursor;
@@ -904,7 +910,7 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         }
     }
 
-    public void resetScroll(){
+    public void resetScroll() {
         // テキストを非表示にしてからScrollをトップに戻して固定
         alpha = false;
         setTextAlpha();
@@ -912,15 +918,15 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         setScrollEnable(false);
     }
 
-    public void setTextAlpha(){
-        TextView[] textViews = {tDataCount,tTittleTotalGames,tTittleMedal,tTittleDiscount,tTittleSingleBig,tTittleCherryBig,
-                tTittleTotalBig,tTittleSingleReg,tTittleCherryReg,tTittleTotalReg,tTittleTotalBonus,tTittleGrape,tTittleCherry,
-                tTotalGames,tTotalMedal,tDiscount,tTotalSingleBig,tTotalSingleBigProbability,tTotalCherryBig,tTotalCherryBigProbability,
-                tTotalBig,tTotalBigProbability,tTotalSingleReg,tTotalSingleRegProbability,tTotalCherryReg,tTotalCherryRegProbability,
-                tTotalReg,tTotalRegProbability,tTotalBonus,tTotalBonusProbability,tTotalGrape,tTotalGrapeProbability,
-                tTotalCherry,tTotalCherryProbability};
+    public void setTextAlpha() {
+        TextView[] textViews = {tDataCount, tTittleTotalGames, tTittleMedal, tTittleDiscount, tTittleSingleBig, tTittleCherryBig,
+                tTittleTotalBig, tTittleSingleReg, tTittleCherryReg, tTittleTotalReg, tTittleTotalBonus, tTittleGrape, tTittleCherry,
+                tTotalGames, tTotalMedal, tDiscount, tTotalSingleBig, tTotalSingleBigProbability, tTotalCherryBig, tTotalCherryBigProbability,
+                tTotalBig, tTotalBigProbability, tTotalSingleReg, tTotalSingleRegProbability, tTotalCherryReg, tTotalCherryRegProbability,
+                tTotalReg, tTotalRegProbability, tTotalBonus, tTotalBonusProbability, tTotalGrape, tTotalGrapeProbability,
+                tTotalCherry, tTotalCherryProbability};
 
-        if(alpha){
+        if (alpha) {
             for (TextView textView : textViews) {
                 textView.setAlpha(1);
             }
@@ -955,4 +961,23 @@ public final class FlagStatistics extends Fragment implements TextWatcher, View.
         // 強制的に「未選択」にされてしまった選択値を当初選択されていたItemに戻す
         sStore.setSelection(itemIndex);
     }
+
+    private void startReviewInfo() {
+        ReviewManager reviewManager = ReviewManagerFactory.create(getContext());
+        Task<ReviewInfo> manager = reviewManager.requestReviewFlow();
+        manager.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                ReviewInfo reviewInfo = task.getResult();
+                if (reviewInfo != null) {
+                    Task<Void> flow = reviewManager.launchReviewFlow(getActivity(), reviewInfo);
+                    flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(Task<Void> task) {
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 }
