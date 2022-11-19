@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "delson.android.j_management_app"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 20
         versionName "4.1.0"
 

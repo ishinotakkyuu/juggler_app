@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -38,12 +39,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
+
 import org.apache.commons.lang3.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -331,7 +335,11 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
                 // 個人ゲーム数が0ゲームの状態で登録ボタンを押した際の処理
                 int checkedIndividualGames = Integer.parseInt(eIndividualGames.getText().toString());
                 if (checkedIndividualGames != 0) {
-                    if (!mainApplication.getStore001().equals("null")) {
+
+                    // R04.11.19 下記コードでヌルポ発生確認。valueOfで変換することで強制的に文字列nullに変換してやる
+                    // if (!mainApplication.getStore001().equals("null")) {
+
+                    if (!String.valueOf(mainApplication.getStore001()).equals("null")) {
                         registerDialog();
                     } else {
                         pleaseAddStore();
@@ -847,10 +855,6 @@ public final class MainCounterActivity extends AppCompatActivity implements Text
             }
         });
     }
-
-
-
-
 
 
 }
